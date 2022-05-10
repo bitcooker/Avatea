@@ -2,6 +2,7 @@ import styles from '../styles/Home.module.css'
 import axios from 'axios';
 import {useWallet} from "use-wallet";
 import {useState, useEffect} from "react";
+import {getVaults, getMarketMakingPools} from '../src/helpers';
 
 export default function Home() {
 
@@ -13,27 +14,25 @@ export default function Home() {
   const [savedMarketMakingPool, setSavedMarketMakingPool] = useState({});
 
   useEffect(() => {
-    getData()
+
+    if (wallet.status === "connected") {
+      getVaults({invested: wallet?.account, callback: setInvestedVaults});
+      getVaults({saved: wallet?.account, callback: setSavedVaults});
+      getMarketMakingPools({invested: wallet?.account, callback: setInvestedMarketMakingPool});
+      getMarketMakingPools({saved: wallet?.account, callback: setSavedMarketMakingPool});
+    } else {
+      setInvestedVaults();
+      setSavedVaults();
+      setInvestedMarketMakingPool();
+      setSavedMarketMakingPool();
+    }
+
   }, [wallet])
 
   const connectWallet = () => {
     wallet.connect('injected');
   }
 
-
-  const getData = async () => {
-    const invested_vaults_response = await axios.get(`http://127.0.0.1:8000/Vault/?invested=` + wallet?.account, {});
-    setInvestedVaults(invested_vaults_response.data);
-
-    const saved_vaults_response = await axios.get(`http://127.0.0.1:8000/Vault/?saved=` + wallet?.account, {});
-    setSavedVaults(saved_vaults_response.data);
-
-    const invested_market_making_response = await axios.get(`http://127.0.0.1:8000/MarketMakingPool/?invested=` + wallet?.account, {});
-    setInvestedMarketMakingPool(invested_market_making_response.data);
-
-    const saved_market_making_response = await axios.get(`http://127.0.0.1:8000/MarketMakingPool/?saved=` + wallet?.account, {});
-    setSavedMarketMakingPool(saved_market_making_response.data);
-  }
 
   return (
       <div className={styles.container}>
@@ -62,9 +61,10 @@ export default function Home() {
 
           <h3>Invested vaults</h3>
           <pre>
-          {JSON.stringify({investedVaults}, null, 2)}
 
-        </pre>
+            {JSON.stringify({investedVaults}, null, 2)}
+
+          </pre>
 
           <h3>Saved vaults</h3>
           <pre>
