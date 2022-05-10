@@ -2,6 +2,7 @@ import styles from '../styles/Home.module.css'
 import axios from 'axios';
 import {useWallet} from "use-wallet";
 import {useState, useEffect} from "react";
+import { fetchTotalSupply } from '../src/helpers';
 
 export default function Home() {
 
@@ -10,13 +11,18 @@ export default function Home() {
   const [user,setUser] = useState({})
   const [result, setResult] = useState({});
   const [name, setName] = useState('')
-  const [fetchedData, setFetchedData] = useState(null)
+  const [fetchedData, setFetchedData] = useState(null);
+  const [totalSupply, setTotalSupply] = useState(0);
 
 
   useEffect(() => {
-     alert('Message to Uri: Don\'t fuck up the code 😂');
-     console.log('Fire')
-  },[])
+    if (wallet.status === "connected") {
+      const initUseEffect = async () => {
+        await fetchTotalSupply(wallet,setTotalSupply);
+      }
+      initUseEffect().catch(console.error);
+    }
+  },[wallet])
 
   const connectWallet = () => {
     wallet.connect('injected');
@@ -88,7 +94,7 @@ export default function Home() {
         <br/>
         {/*Submit form for the user*/}
         <form onSubmit={postUser}>
-          <input type="text" name='wallet' value={wallet?.account || 'null'} />
+          <input type="text" name='wallet' />
           <button type='submit'>Submit</button>
         </form>
 
@@ -104,6 +110,11 @@ export default function Home() {
         <button onClick={() => getData()}>Run GetData</button>
         <pre>
           {JSON.stringify(fetchedData, null, 2) }
+        </pre>
+
+        <h3>Total supply</h3>
+        <pre>
+          {JSON.stringify(totalSupply, null, 2) }
         </pre>
 
         {
