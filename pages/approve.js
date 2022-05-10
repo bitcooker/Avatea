@@ -17,10 +17,11 @@ export default function Home() {
 
     const approve = async (e) => {
         e.preventDefault();
-
-        wallet.status === "connected" ?
-            approveToken(wallet, e.target.amount.value, e.target.address.value, setApprovedAmount)
-            : alert('not connected');
+        try {
+            await approveToken(wallet, e.target.address.value, e.target.amount.value, setApprovedAmount);
+        } catch(e) {
+            console.log(e)
+        }
     }
 
 
