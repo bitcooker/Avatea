@@ -40,9 +40,14 @@ export default function Home() {
                     wallet.status === "connected" ?
                         <button className={'w-50'} onClick={() => wallet.reset()} color={'secondary'}>
                             Disconnect
-                        </button> : <button className={'w-50'} onClick={() => connectWallet()} color={'secondary'}>
-                            Connect with wallet
-                        </button>
+                        </button> : <div>
+                            <button className={'w-50'} onClick={() => connectWallet()} color={'secondary'}>
+                                Connect with wallet
+                            </button>
+                            <button className={'w-50'} onClick={() => wallet.connect('walletconnect')} color={'secondary'}>
+                                Connect with walletconnect
+                            </button>
+                        </div>
                 }
 
                 {

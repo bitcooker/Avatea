@@ -22,12 +22,13 @@ export default function Layout({ children }) {
                         chainId: [1, 4, 56],
                     },
                     walletconnect: {
-                        chainId: 56,
+                        chainId: [1,4,56],
                         rpc: {
-                            56: 'https://bsc-dataseed.binance.org/',
-                            4: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161'
+                            1: 'https://rpc.ankr.com/eth',
+                            4: 'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+                            56: 'https://bsc-dataseed.binance.org/'
                         },
-                    }
+                    },
                 }}
                 pollBlockNumberInterval={3000}
                 pollBalanceInterval={3000}
