@@ -1,11 +1,11 @@
 import {ethers} from 'ethers';
-import Vault from '../abi/Vault.json';
+import vault from '../abi/Vault.json';
 
 
-const stake = async (wallet, vault, amount, callback) => {
+const stake = async (wallet, vaultAddress, amount, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const vaultContract = await new ethers.Contract(vault, Vault.abi, signer);
+    const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
 
     try {
         const allowanceTx = await vaultContract.stake(amount);
@@ -17,10 +17,10 @@ const stake = async (wallet, vault, amount, callback) => {
     }
 }
 
-const withdraw = async (wallet, vault, amount, callback) => {
+const withdraw = async (wallet, vaultAddress, amount, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const vaultContract = await new ethers.Contract(vault, Vault.abi, signer);
+    const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
 
     try {
         const allowanceTx = await vaultContract.withdraw(amount);
@@ -32,10 +32,10 @@ const withdraw = async (wallet, vault, amount, callback) => {
     }
 }
 
-const getReward = async (wallet, vault, callback) => {
+const getReward = async (wallet, vaultAddress, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const vaultContract = await new ethers.Contract(vault, Vault.abi, signer);
+    const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
 
     try {
         const allowanceTx = await vaultContract.getReward();
@@ -47,10 +47,10 @@ const getReward = async (wallet, vault, callback) => {
     }
 }
 
-const exit = async (wallet, vault, callback) => {
+const exit = async (wallet, vaultAddress, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const vaultContract = await new ethers.Contract(vault, Vault.abi, signer);
+    const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
 
     try {
         const allowanceTx = await vaultContract.exit();
@@ -62,10 +62,10 @@ const exit = async (wallet, vault, callback) => {
     }
 }
 
-const balanceOf = async (wallet, vault, address, callback) => {
+const balanceOf = async (wallet, vaultAddress, address, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const vaultContract = await new ethers.Contract(vault, Vault.abi, signer);
+    const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
     try {
         const result = await vaultContract.balanceOf(address);
         callback(result)

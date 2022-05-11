@@ -4,15 +4,13 @@ import TokenContract from '../abi/Token.json';
 
 
 const getVaults = async ({invested, saved, live, network , callback} = {}) => {
-
     let parameters = "?";
     if (invested) parameters += `invested=${invested}&`;
     if (saved) parameters += `saved=${saved}&`;
     if (live) parameters += `live=${live}&`;
     if (network) parameters += `network=${network}&`;
-
     try {
-        const {data} = await axios.get(`http://127.0.0.1:8000/Vault/${parameters}`, {});
+        const {data} = await axios.get(`http://127.0.0.1:8000/Vault/${parameters}`);
         callback(data)
     } catch (e) {
         console.log('getVault error:', e);
@@ -28,7 +26,7 @@ const getMarketMakingPools = async ({invested, saved, live, network , callback} 
     if (network) parameters += `network=${network}&`
 
     try {
-        const {data} = await axios.get(`http://127.0.0.1:8000/MarketMakingPool/${parameters}`, {});
+        const {data} = await axios.get(`http://127.0.0.1:8000/MarketMakingPool/${parameters}`);
         callback(data)
     } catch (e) {
         console.log('getMarketMakingPools error:', e);

@@ -2,10 +2,11 @@ import {ethers} from 'ethers';
 import marketMaker from '../abi/MarketMaker.json';
 
 
-const stake = async (wallet, marketMaker, amount, callback) => {
+
+const stake = async (wallet, marketMakerAddress, amount, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMaker, MarketMaker.abi, signer);
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
     try {
         const allowanceTx = await marketMakerContract.stake(amount);
@@ -17,10 +18,10 @@ const stake = async (wallet, marketMaker, amount, callback) => {
     }
 }
 
-const stakePairedToken = async (wallet, marketMaker, amount, callback) => {
+const stakePairedToken = async (wallet, marketMakerAddres, amount, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMaker, MarketMaker.abi, signer);
+    const marketMakerContract = await new ethers.Contract(marketMakerAddres, marketMaker.abi, signer);
 
     try {
         const allowanceTx = await marketMakerContract.stakePairedToken(amount);
@@ -32,10 +33,10 @@ const stakePairedToken = async (wallet, marketMaker, amount, callback) => {
     }
 }
 
-const stakePairedTokenInETH = async (wallet, marketMaker, amount, callback) => {
+const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMaker, MarketMaker.abi, signer);
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
     try {
         const allowanceTx = await marketMakerContract.stakePairedTokenInETH({value: amount});
@@ -47,10 +48,10 @@ const stakePairedTokenInETH = async (wallet, marketMaker, amount, callback) => {
     }
 }
 
-const withdrawBaseToken = async (wallet, marketMaker, amount, callback) => {
+const withdrawBaseToken = async (wallet, marketMakerAddress, amount, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMaker, marketMaker.abi, signer);
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
     try {
         const allowanceTx = await marketMakerContract.withdrawBaseToken(amount);
@@ -62,10 +63,10 @@ const withdrawBaseToken = async (wallet, marketMaker, amount, callback) => {
     }
 }
 
-const withdrawPairedToken = async (wallet, marketMaker, amount, callback) => {
+const withdrawPairedToken = async (wallet, marketMakerAddress, amount, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMaker, marketMaker.abi, signer);
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
     try {
         const allowanceTx = await marketMakerContract.withdrawPairedToken(amount);
@@ -78,10 +79,10 @@ const withdrawPairedToken = async (wallet, marketMaker, amount, callback) => {
 }
 
 
-const release = async (wallet, marketMaker, amount, callback) => {
+const release = async (wallet, marketMakerAddress, amount, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMaker, marketMaker.abi, signer);
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
     try {
         const allowanceTx = await marketMakerContract.release(amount);
@@ -94,10 +95,10 @@ const release = async (wallet, marketMaker, amount, callback) => {
 }
 
 
-const computeReleasableAmount = async (wallet, marketMaker, address, callback) => {
+const computeReleasableAmount = async (wallet, marketMakerAddress, address, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMaker, marketMaker.abi, signer);
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
     try {
         const result = await marketMakerContract.computeReleasableAmount(address);
         callback(result)
@@ -108,10 +109,10 @@ const computeReleasableAmount = async (wallet, marketMaker, address, callback) =
     }
 }
 
-const getWithdrawablePairedTokens = async (wallet, marketMaker, address, callback) => {
+const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMaker, marketMaker.abi, signer);
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
     try {
         const result = await marketMakerContract.getWithdrawablePairedTokens(address);
         callback(result)
@@ -121,10 +122,10 @@ const getWithdrawablePairedTokens = async (wallet, marketMaker, address, callbac
         console.log('getWithdrawablePairedTokens error', e);
     }
 }
-const available = async (wallet, marketMaker, address, callback) => {
+const available = async (wallet, marketMakerAddress, address, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMaker, marketMaker.abi, signer);
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
     try {
         const result = await marketMakerContract.available(address);
         callback(result)

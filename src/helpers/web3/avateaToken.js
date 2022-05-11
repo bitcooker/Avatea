@@ -20,7 +20,7 @@ const claim = async (wallet, callback) => {
 const getClaimableAmount = async (wallet, address, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const avateaToken = await new ethers.Contract(AvateaToken.address.testnet, AvateaToken.abi, signer);
+    const avateaToken = await new ethers.Contract(AVATEA_TOKEN_ADDRESS, AvateaToken.abi, signer);
     try {
         const result = await avateaToken.getClaimableAmount(address);
         callback(result)
