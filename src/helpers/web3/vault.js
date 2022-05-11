@@ -76,7 +76,7 @@ const balanceOf = async (wallet, vault, address, callback) => {
     }
 }
 
-export {
+export default {
     stake,
     withdraw,
     balanceOf,

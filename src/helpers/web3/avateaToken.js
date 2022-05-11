@@ -31,7 +31,7 @@ const getClaimableAmount = async (wallet, address, callback) => {
     }
 }
 
-export {
+export default {
     claim,
     getClaimableAmount,
 }

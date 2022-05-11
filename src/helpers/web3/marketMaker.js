@@ -135,12 +135,11 @@ const available = async (wallet, marketMaker, address, callback) => {
     }
 }
 
-export {
+export default {
     stake,
     stakePairedToken,
     stakePairedTokenInETH,
     withdrawBaseToken,
-    withdrawPairedToken,
     withdrawPairedToken,
     release,
     computeReleasableAmount,
