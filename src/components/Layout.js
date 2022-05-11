@@ -2,6 +2,7 @@ import React from "react";
 import { UseWalletProvider } from 'use-wallet';
 import {Slide, ToastContainer} from "react-toastify";
 import Head from 'next/head'
+import Header from "./Header";
 
 export default function Layout({ children }) {
 
@@ -33,6 +34,7 @@ export default function Layout({ children }) {
                 pollBlockNumberInterval={3000}
                 pollBalanceInterval={3000}
             >
+                <Header/>
                 <main className={'bg-light-gray'}>{children}</main>
                 <ToastContainer
                     transition={Slide}

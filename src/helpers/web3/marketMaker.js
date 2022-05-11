@@ -52,7 +52,6 @@ const withdrawBaseToken = async (wallet, marketMakerAddress, amount, callback) =
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
-
     try {
         const allowanceTx = await marketMakerContract.withdrawBaseToken(amount);
         await allowanceTx.wait();
@@ -63,7 +62,7 @@ const withdrawBaseToken = async (wallet, marketMakerAddress, amount, callback) =
     }
 }
 
-const withdrawPairedToken = async (wallet, marketMakerAddress, amount, callback) => {
+const withdrawPairToken = async (wallet, marketMakerAddress, amount, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
@@ -114,22 +113,18 @@ const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, 
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
     try {
-        const result = await marketMakerContract.getWithdrawablePairedTokens(address);
-        callback(result)
-        console.log('getWithdrawablePairedTokens success')
+        return await marketMakerContract.getWithdrawablePairedTokens(address);
     } catch (e) {
         alert(e)
         console.log('getWithdrawablePairedTokens error', e);
     }
 }
-const available = async (wallet, marketMakerAddress, address, callback) => {
+const available = async (wallet, marketMakerAddress, address) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
     try {
-        const result = await marketMakerContract.available(address);
-        callback(result)
-        console.log('available success')
+        return await marketMakerContract.available(address);
     } catch (e) {
         alert(e)
         console.log('available error', e);
@@ -141,7 +136,7 @@ export default {
     stakePairedToken,
     stakePairedTokenInETH,
     withdrawBaseToken,
-    withdrawPairedToken,
+    withdrawPairToken,
     release,
     computeReleasableAmount,
     getWithdrawablePairedTokens,
