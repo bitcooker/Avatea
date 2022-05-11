@@ -1,11 +1,11 @@
 import {ethers} from 'ethers';
 import AvateaToken from '../abi/AvateaToken.json';
-
+import { AVATEA_TOKEN_ADDRESS } from '../constants';
 
 const claim = async (wallet, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const avateaToken = await new ethers.Contract(AvateaToken.address.testnet, AvateaToken.abi, signer);
+    const avateaToken = await new ethers.Contract(AVATEA_TOKEN_ADDRESS, AvateaToken.abi, signer);
 
     try {
         const allowanceTx = await avateaToken.claim(wallet.account);
