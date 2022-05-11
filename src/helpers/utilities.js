@@ -34,6 +34,20 @@ const getMarketMakingPools = async ({invested, saved, live, network , callback} 
     }
 }
 
+const getProjects = async ({live, callback} = {}) => {
+
+    let parameters = "?";
+    if (live) parameters += `live=${live}&`
+    if (network) parameters += `network=${network}&`
+
+    try {
+        const {data} = await axios.get(`${API_URL}Project/${parameters}`);
+        callback(data)
+    } catch (e) {
+        console.log('getProjects error:', e);
+    }
+}
+
 const fetchTotalSupply = async (wallet, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
