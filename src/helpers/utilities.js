@@ -1,10 +1,10 @@
 import axios from 'axios';
 import {ethers} from 'ethers';
 import TokenContract from '../abi/Token.json';
-import { API_URL } from "./constants";
+import {API_URL} from "./constants";
 
 
-const getVaults = async ({invested, saved, live, network , callback} = {}) => {
+const getVaults = async ({invested, saved, live, network, callback} = {}) => {
     let parameters = "?";
     if (invested) parameters += `invested=${invested}&`;
     if (saved) parameters += `saved=${saved}&`;
@@ -18,7 +18,7 @@ const getVaults = async ({invested, saved, live, network , callback} = {}) => {
     }
 }
 
-const getMarketMakingPools = async ({invested, saved, live, network , callback} = {}) => {
+const getMarketMakingPools = async ({invested, saved, live, network, callback} = {}) => {
 
     let parameters = "?";
     if (invested) parameters += `invested=${invested}&`
@@ -34,7 +34,7 @@ const getMarketMakingPools = async ({invested, saved, live, network , callback} 
     }
 }
 
-const getProjects = async ({live, callback} = {}) => {
+const getProjects = async ({live, network, callback} = {}) => {
 
     let parameters = "?";
     if (live) parameters += `live=${live}&`
