@@ -18,11 +18,7 @@ export default function Home() {
     const approve = async (e) => {
         e.preventDefault();
         const { address, amount } = e.target;
-        try {
-            await approveToken(wallet, address.value, amount.value, setApprovedAmount);
-        } catch(e) {
-            console.log(e)
-        }
+        await approveToken(wallet, address.value, amount.value, setApprovedAmount);
     }
 
 
