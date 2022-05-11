@@ -1,5 +1,5 @@
 import {ethers} from 'ethers';
-import AvateaToken from '../abi/AvateaToken.json';
+import AvateaToken from '../../abi/AvateaToken.json';
 import { AVATEA_TOKEN_ADDRESS } from '../constants';
 
 const claim = async (wallet, callback) => {

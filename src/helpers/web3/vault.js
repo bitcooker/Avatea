@@ -1,5 +1,5 @@
 import {ethers} from 'ethers';
-import vault from '../abi/Vault.json';
+import vault from '../../abi/Vault.json';
 
 
 const stake = async (wallet, vaultAddress, amount, callback) => {

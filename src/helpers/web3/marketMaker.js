@@ -1,5 +1,5 @@
 import {ethers} from 'ethers';
-import marketMaker from '../abi/MarketMaker.json';
+import marketMaker from '../../abi/MarketMaker.json';
 
 
 
