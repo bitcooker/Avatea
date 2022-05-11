@@ -1,23 +1,15 @@
 import axios from 'axios';
 import {ethers} from 'ethers';
-import TokenContract from '../abi/token.json';
+import TokenContract from '../abi/Token.json';
 
 
-const getVaults = async ({invested = "", saved = "", live = "", network = "", callback} = {}) => {
+const getVaults = async ({invested, saved, live, network , callback} = {}) => {
 
     let parameters = "?";
-    if (invested) {
-        parameters += `invested=${invested}&`
-    }
-    if (saved) {
-        parameters += `saved=${saved}&`
-    }
-    if (live) {
-        parameters += `live=${live}&`
-    }
-    if (network) {
-        parameters += `network=${network}&`
-    }
+    if (invested) parameters += `invested=${invested}&`;
+    if (saved) parameters += `saved=${saved}&`;
+    if (live) parameters += `live=${live}&`;
+    if (network) parameters += `network=${network}&`;
 
     try {
         const {data} = await axios.get(`http://127.0.0.1:8000/Vault/${parameters}`, {});
@@ -27,21 +19,13 @@ const getVaults = async ({invested = "", saved = "", live = "", network = "", ca
     }
 }
 
-const getMarketMakingPools = async ({invested = "", saved = "", live = "", network = "", callback} = {}) => {
+const getMarketMakingPools = async ({invested, saved, live, network , callback} = {}) => {
 
     let parameters = "?";
-    if (invested) {
-        parameters += `invested=${invested}&`
-    }
-    if (saved) {
-        parameters += `saved=${saved}&`
-    }
-    if (live) {
-        parameters += `live=${live}&`
-    }
-    if (network) {
-        parameters += `network=${network}&`
-    }
+    if (invested) parameters += `invested=${invested}&`
+    if (saved) parameters += `saved=${saved}&`
+    if (live) parameters += `live=${live}&`
+    if (network) parameters += `network=${network}&`
 
     try {
         const {data} = await axios.get(`http://127.0.0.1:8000/MarketMakingPool/${parameters}`, {});
@@ -76,7 +60,7 @@ const approveToken = async (wallet, addressToApprove, supplyToApprove, callback)
         callback(supplyToApprove)
         console.log('approveToken success')
     } catch (e) {
-        alert(e)
+        alert(e.message)
         console.log('approveToken error', e);
     }
 }
