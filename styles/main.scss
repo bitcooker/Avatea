@@ -1,0 +1,22 @@
+//@import "./animate.css";
+// 1-main components
+@import "./components/1-main/variables.scss";
+@import "./components/1-main/mixin.scss";
+@import "./components/1-main/nulifier.scss";
+// 2-layout components
+@import "./components/2-layout/components.scss";
+@import "./components/2-layout/footer.scss";
+@import "./components/2-layout/header.scss";
+@import "./components/2-layout/nav.scss";
+@import "./components/2-layout/sidebar.scss";
+@import "./components/2-layout/search.scss";
+@import "./components/2-layout/bell.scss";
+@import "./components/2-layout/progress.scss";
+@import "./components/2-layout/plan.scss";
+
+// 3-pages components
+@import "./components/3-pages/index.scss";
+@import "./components/3-pages/activity.scss";
+
+// responsive
+@import "./components/2-layout/responsive.scss";

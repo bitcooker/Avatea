@@ -1,0 +1,32 @@
+.progress {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  svg {
+    width: 88px;
+    height: 88px;
+  }
+  &__bg {
+    stroke: #c4c4c4;
+  }
+  &__fill {
+    stroke: $main;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: 0.6s ease-in-out 0.4s;
+  }
+  &__bg,
+  &__fill {
+    fill: none;
+  }
+  &__text {
+    font-size: 18px !important;
+    font-weight: bold;
+    display: flex;
+    fill: $main;
+    position: absolute;
+    top: 50%;
+    left: 53%;
+    @include transform;
+  }
+}

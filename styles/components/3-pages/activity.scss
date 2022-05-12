@@ -1,0 +1,331 @@
+.activity {
+  padding-bottom: 30px;
+  &__inner {
+    &-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 0 -15px;
+      .chart {
+        width: calc(66.6% - 30px);
+        margin: 15px;
+      }
+      .act {
+        width: calc(33.3% - 30px);
+        margin: 15px;
+      }
+    }
+  }
+}
+.info {
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 -15px;
+  }
+  &Item {
+    width: calc(33.3% - 30px);
+    margin: 15px;
+    padding: 20px;
+    box-sizing: border-box;
+    background: $white;
+    border-radius: 20px;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    &__info {
+      width: calc(100% - 100px);
+      margin-right: 12px;
+      &-type {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        &-title {
+          font-weight: 600;
+          font-size: 20px;
+          line-height: 30px;
+        }
+        &-icon {
+          width: 50px;
+          height: 50px;
+          border-radius: 10px;
+          position: relative;
+          z-index: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 15px;
+          svg {
+            color: $white;
+            max-width: 25px;
+            max-height: 25px;
+          }
+          &::before {
+            position: absolute;
+            content: "";
+            width: 95%;
+            height: 60%;
+            top: 26px;
+            left: 8px;
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(18px);
+            border-radius: 10px;
+          }
+          &.usd {
+            background: #548aed;
+            &::before {
+              background: #548aed;
+            }
+          }
+          &.token {
+            background: #37ce56;
+            &::before {
+              background: #37ce56;
+            }
+          }
+          &.project {
+            background: #f17141;
+            &::before {
+              background: #f17141;
+            }
+          }
+        }
+      }
+      &-number {
+        &-price {
+          font-weight: 600;
+          font-size: 18px;
+          line-height: 26px;
+          margin-bottom: 5px;
+        }
+        &-time {
+          font-weight: 500;
+          font-size: 14px;
+          line-height: 21px;
+          color: rgba($color: $black, $alpha: 0.6);
+        }
+      }
+    }
+    &__more {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 12px;
+      height: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      img {
+        height: 100%;
+      }
+    }
+  }
+}
+.act {
+  padding: 20px;
+  border-radius: 20px;
+  background: $white;
+  box-sizing: border-box;
+  max-height: 630px;
+  overflow-y: auto;
+  &::-webkit-scrollbar-thumb {
+    background: rgba($color: #000, $alpha: 0.2);
+    border-top: 10px solid #fff;
+    border-bottom: 10px solid #fff;
+  }
+  &Item {
+    display: flex;
+    &__image {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+    &__content {
+      width: calc(100% - 80px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      &-info {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 27px;
+        letter-spacing: 0.2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        small {
+          display: block;
+          font-size: 12px;
+          line-height: 18px;
+          margin-top: 5px;
+        }
+      }
+      &-number {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 27px;
+        letter-spacing: 0.2px;
+        color: #f12424;
+        text-align: right;
+      }
+    }
+  }
+}
+.chart {
+  border-radius: 20px;
+  padding: 20px;
+  background: $white;
+  box-sizing: border-box;
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 70px;
+    &-nav {
+      display: flex;
+      border-bottom: 2px solid rgba($color: $main, $alpha: 0.1);
+      button {
+        background: none;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: 0.2px;
+        color: rgba($color: #00204c, $alpha: 0.7);
+        font-family: $font-main;
+        margin: 0 10px;
+        position: relative;
+        cursor: pointer;
+        &.active {
+          color: $black;
+          &::after {
+            width: 100%;
+          }
+        }
+        &::after {
+          position: absolute;
+          content: "";
+          bottom: -2px;
+          left: 0;
+          width: 0;
+          height: 3px;
+          border-radius: 5px;
+          background: $main;
+        }
+      }
+    }
+  }
+  &__body {
+    height: 480px;
+  }
+}
+@mixin activity-xxlg-xxxlg {
+  .activity {
+    &__inner {
+      &-row {
+        margin: 0 -10px;
+        .chart {
+          width: calc(66.6% - 20px);
+          margin: 10px;
+        }
+        .act {
+          margin: 10px;
+          width: calc(33.3% - 20px);
+        }
+      }
+    }
+  }
+  .info {
+    &Item {
+      padding: 15px;
+      margin: 10px;
+      border-radius: 15px;
+      width: calc(33.3% - 20px);
+    }
+  }
+  .chart {
+    padding: 15px;
+    border-radius: 15px;
+    &__body {
+      height: 360px;
+    }
+  }
+  .act {
+    padding: 15px;
+    max-height: 500px;
+    border-radius: 15px;
+  }
+}
+@mixin activity-lg-xlg {
+  .activity {
+    &__inner {
+      &-row {
+        flex-direction: column;
+        margin: 0;
+        .chart {
+          width: 100%;
+          margin: 15px 0;
+        }
+        .act {
+          max-height: unset;
+          width: 100%;
+          margin: 15px 0;
+        }
+      }
+    }
+  }
+  .info {
+    &Item {
+      margin: 15px 0;
+      width: 100%;
+    }
+    &__row {
+      margin: 0;
+      flex-direction: column;
+    }
+  }
+}
+@mixin activity-sm-md {
+  .activity {
+    &__inner {
+      &-row {
+        .chart {
+          margin: 0 0 15px 0;
+          &__body {
+            height: 260px;
+          }
+        }
+        .act {
+          margin: 0 0 15px 0;
+        }
+      }
+    }
+  }
+  .info {
+    &Item {
+      margin: 0 0 10px 0;
+    }
+  }
+  .chart {
+    &__header {
+      margin-bottom: 30px;
+      &-nav {
+        button {
+          margin: 0 2.5px;
+          font-size: 10px;
+          line-height: 12px;
+        }
+      }
+    }
+    h2 {
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+}

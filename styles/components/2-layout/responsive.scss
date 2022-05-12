@@ -1,0 +1,65 @@
+// 1750px
+@include xxxlg-xxxxlg {
+  // index page start
+  @include index-xxxlg-xxxxlg;
+  // index page end
+}
+// 1360px
+@include xxlg-xxxlg {
+  // base start
+  .auto__container {
+    padding: 0 20px 0 220px;
+  }
+  @include sidebar-xxlg-xxxlg;
+  // base end
+  // activity page start
+  @include activity-xxlg-xxxlg;
+  // activity page end
+}
+// 1240px
+@include xlg-xxlg {
+  // base start
+  .auto__container {
+    padding: 0 20px;
+  }
+  @include sidebar-xlg-xxlg;
+  @include header-xlg-xxlg;
+  // base end
+  // index page start
+  @include index-xlg-xxlg;
+  // index page end
+}
+// 1024px
+@include lg-xlg {
+  // activity page start
+  @include activity-lg-xlg;
+  // activity page end
+}
+// 840px
+@include md-lg {
+  // base start
+  .auto__container {
+    padding: 0 15px;
+  }
+  // base end
+  // index page start
+  @include index-lg-xlg;
+  // index page end
+}
+// 700px
+@include sm-md {
+  // base start
+  @include header-sm-md;
+  // base end
+  // index page start
+  @include index-sm-md;
+  // index page end
+  // activity page start
+  @include activity-sm-md;
+  // activity page end
+}
+@include xsm-sm {
+  // index page start
+  @include index-xsm-sm;
+  // index page end
+}

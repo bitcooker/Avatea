@@ -3,6 +3,7 @@ import {useWallet} from "use-wallet";
 import {useState, useEffect} from "react";
 import helper from '../../src/helpers';
 import Link from 'next/link'
+import Card from "./../../src/components/pages/projects/Card/Card";
 
 
 export default function Projects({projects}) {
@@ -26,17 +27,9 @@ export default function Projects({projects}) {
 
     return (
         <div>
-            <h1>Project List Page</h1>
-            {
-                projects ? (
-                    <ul>
-                        {mapProjects()}
-                    </ul>
-                ) : (
-                    <p>Loading projects...</p>
-                )
-            }
-
+            <div className="index">
+                <Card projectsProps={projects} />
+            </div>
         </div>
     )
 }
