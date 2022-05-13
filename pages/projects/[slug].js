@@ -87,8 +87,7 @@ export default function ProjectDetail({projectDetail}) {
     }
 
     const withdrawVault = async () => {
-        const wei = ethers.utils.parseEther(vaultBalance);
-        await helper.vault.withdraw(wallet,vault.address,wei);
+        await helper.vault.withdraw(wallet,vault.address,vaultBalance);
     }
 
 
