@@ -103,6 +103,19 @@ const approveToken = async (wallet, addressToApprove, supplyToApprove) => {
     }
 }
 
+const approveCustomToken = async (wallet, addressToApprove, supplyToApprove, tokenAddress) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const tokenContract = await new ethers.Contract(tokenAddress, TokenContract.abi, signer);
+    try {
+        const allowanceTx = await tokenContract.approve(addressToApprove, supplyToApprove);
+        await allowanceTx.wait();
+    } catch (e) {
+        alert(e.message)
+        console.log('approveToken error', e);
+    }
+}
+
 export default {
     fetchTotalSupply,
     approveToken,
@@ -111,5 +124,6 @@ export default {
     getProject,
     getMarketMakingPools,
     getVault,
-    getMarketMakingPool
+    getMarketMakingPool,
+    approveCustomToken
 }

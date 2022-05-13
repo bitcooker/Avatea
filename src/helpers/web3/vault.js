@@ -17,7 +17,7 @@ const stake = async (wallet, vaultAddress, amount, callback) => {
     }
 }
 
-const withdraw = async (wallet, vaultAddress, amount, callback) => {
+const withdraw = async (wallet, vaultAddress, amount) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
@@ -62,13 +62,12 @@ const exit = async (wallet, vaultAddress, callback) => {
     }
 }
 
-const balanceOf = async (wallet, vaultAddress, address, callback) => {
+const balanceOf = async (wallet, vaultAddress, address) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
     try {
-        const result = await vaultContract.balanceOf(address);
-        callback(result)
+        return await vaultContract.balanceOf(address);
         console.log('balanceOf success')
     } catch (e) {
         alert(e)

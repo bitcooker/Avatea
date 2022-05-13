@@ -4,6 +4,7 @@ import {useState, useEffect} from "react";
 import { useRouter } from 'next/router'
 import helper from "../../src/helpers";
 import {ethers} from 'ethers';
+import {AVATEA_TOKEN_ADDRESS, CLOUD_2_TOKEN_ADDRESS} from "../../src/helpers/constants";
 
 
 export default function ProjectDetail({projectDetail}) {
@@ -17,6 +18,9 @@ export default function ProjectDetail({projectDetail}) {
     const [amountToStake, setAmountToStake] = useState(0);
     const [amountBaseToken,setAmountBaseToken] = useState(0);
     const [amountPairToken,setAmountPairToken] = useState(0);
+    const [amountToVaultStake, setAmountToVaultStake] = useState(0);
+    const [vaultBalance, setVaultBalance] = useState(0);
+
 
     useEffect(() => {
         if (projectDetail) setProject(projectDetail);
@@ -50,20 +54,22 @@ export default function ProjectDetail({projectDetail}) {
             const fetchWithdrawableTokens = async () => {
                 setAmountBaseToken((await helper.marketMaker.available(wallet,marketMakingPool.address,wallet.account)).toString())
                 setAmountPairToken((await helper.marketMaker.getWithdrawablePairedTokens(wallet,marketMakingPool.address,wallet.account)).toString())
+                setVaultBalance((await helper.vault.balanceOf(wallet,vault.address,wallet.account)).toString());
             }
             fetchWithdrawableTokens();
         }
     },[wallet])
 
-    const stake = async () => {
+    const stakeMarketMaker = async () => {
         const wei = ethers.utils.parseEther(amountToStake);
         await helper.marketMaker.stake(wallet,marketMakingPool.address,wei);
     }
 
-    const approve = async () => {
+    const approve = async (address,tokenAddress) => {
+        console.log(address)
         const totalSupply = await helper.utilities.fetchTotalSupply(wallet);
         console.log(totalSupply);
-        await helper.utilities.approveToken(wallet,marketMakingPool.address,totalSupply);
+        await helper.utilities.approveCustomToken(wallet,address,totalSupply,tokenAddress);
     }
 
     const withdrawBaseToken = async () => {
@@ -74,15 +80,26 @@ export default function ProjectDetail({projectDetail}) {
         await helper.marketMaker.withdrawPairToken(wallet,marketMakingPool.address,amountPairToken);
     }
 
+    const stakeVault = async () => {
+        console.log(amountToVaultStake)
+        const wei = ethers.utils.parseEther(amountToVaultStake);
+        await helper.vault.stake(wallet,vault.address,wei);
+    }
+
+    const withdrawVault = async () => {
+        const wei = ethers.utils.parseEther(vaultBalance);
+        await helper.vault.withdraw(wallet,vault.address,wei);
+    }
+
 
     return (
         <div>
             <h1>Project Detail page {project.name}</h1>
             <p>{project.slug}</p>
-            <button onClick={() => approve()}>Approve</button>
+            <button onClick={() => approve(marketMakingPool.address,CLOUD_2_TOKEN_ADDRESS)}>Approve</button>
             <div style={{border: "2px solid black"}}>
                 <input type="number" onChange={(e) => setAmountToStake(e.target.value)}/>
-                <button onClick={() => stake()}>Stake</button>
+                <button onClick={() => stakeMarketMaker()}>Stake</button>
             </div>
             <p>Available base tokens {ethers.utils.formatEther(amountBaseToken)}</p>
             <button onClick={() => withdrawBaseToken()}>Withdraw base token</button>
@@ -96,6 +113,15 @@ export default function ProjectDetail({projectDetail}) {
                 <small>Vault </small>
             {JSON.stringify(vault, null, 2) }
             </pre>
+            <button onClick={() => approve(vault.address,AVATEA_TOKEN_ADDRESS)}>Approve</button>
+            <div style={{border: "2px solid black"}}>
+                <input type="number" onChange={(e) => setAmountToVaultStake(e.target.value)}/>
+                <button onClick={() => stakeVault()}>Stake</button>
+            </div>
+            <p>Balance of vault: {ethers.utils.formatEther(vaultBalance)} </p>
+            <div style={{border: "2px solid black"}}>
+                <button onClick={() => withdrawVault()}>Withdraw Vault</button>
+            </div>
         </div>
     )
 }

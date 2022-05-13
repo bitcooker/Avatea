@@ -1,9 +1,7 @@
 import helper from '../src/helpers';
 import Card from "../src/components/pages/projects/Card/Card";
 
-
 export default function Home({projects}) {
-
 
   return (
       <div>
