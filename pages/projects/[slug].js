@@ -38,14 +38,13 @@ export default function ProjectDetail({projectDetail}) {
     useEffect(() => {
         //@TODO Error handling if empty market making pool or vault
         if (Object.keys(project).length !== 0) {
-            const fetchMarketMakingPool = async () => {
-                setMarketMakingPool(await helper.utilities.getMarketMakingPool(project?.project_MarketMakingPool[0]))
+            const fetchProject = async () => {
+                const result = await helper.utilities.getProject(project.slug);
+
+                setMarketMakingPool(result?.marketMakingPool);
+                setVault(result?.vault);
             }
-            const fetchVault = async () => {
-                setVault(await helper.utilities.getVault(project?.project_Vault[0]))
-            }
-            fetchMarketMakingPool();
-            fetchVault();
+            fetchProject();
         }
     }, [project])
 

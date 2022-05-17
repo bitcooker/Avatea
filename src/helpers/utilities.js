@@ -49,7 +49,7 @@ const getProjects = async ({live, network} = {}) => {
 }
 
 //@TODO CHECK DEFAULT NETWORK
-const getProject = async (slug, network = "RTN") => {
+const getProject = async (slug, network = "4") => {
     try {
         const { data } = await axios.get(`${API_URL}ProjectWithNetwork/${slug}/?network=${network}`);
         const { project, vault, marketMakingPool } = data;
