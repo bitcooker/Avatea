@@ -1,10 +1,10 @@
 import axios from 'axios';
 import {ethers} from 'ethers';
 import TokenContract from '../abi/Token.json';
-import {API_URL, CLOUD_2_TOKEN_ADDRESS} from "./constants";
+import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
 
 
-const getVaults = async ({invested, saved, live, network, callback} = {}) => {
+const getVaults = async ({invested, saved, live, network = DEFAULT_CHAIN_ID, callback} = {}) => {
     let parameters = "?";
     if (invested) parameters += `invested=${invested}&`;
     if (saved) parameters += `saved=${saved}&`;
@@ -18,7 +18,7 @@ const getVaults = async ({invested, saved, live, network, callback} = {}) => {
     }
 }
 
-const getMarketMakingPools = async ({invested, saved, live, network, callback} = {}) => {
+const getMarketMakingPools = async ({invested, saved, live, network = DEFAULT_CHAIN_ID, callback} = {}) => {
 
     let parameters = "?";
     if (invested) parameters += `invested=${invested}&`
@@ -34,7 +34,7 @@ const getMarketMakingPools = async ({invested, saved, live, network, callback} =
     }
 }
 
-const getProjects = async ({live, network} = {}) => {
+const getProjects = async ({live, network = DEFAULT_CHAIN_ID} = {}) => {
 
     let parameters = "?";
     if (live) parameters += `live=${live}&`
@@ -49,7 +49,7 @@ const getProjects = async ({live, network} = {}) => {
 }
 
 //@TODO CHECK DEFAULT NETWORK
-const getProject = async (slug, network = "4") => {
+const getProject = async (slug, network = DEFAULT_CHAIN_ID) => {
     try {
         const { data } = await axios.get(`${API_URL}ProjectWithNetwork/${slug}/?network=${network}`);
         const { project, vault, marketMakingPool } = data;
