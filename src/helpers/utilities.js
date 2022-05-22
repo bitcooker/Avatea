@@ -48,7 +48,7 @@ const getProjects = async ({live, network = DEFAULT_CHAIN_ID} = {}) => {
     }
 }
 
-//@TODO CHECK DEFAULT NETWORK
+//@TODO Handle error for market maker settings if no wallet is available
 const getProject = async (slug, network = DEFAULT_CHAIN_ID, user_address = "none") => {
     try {
         const {data} = await axios.get(`${API_URL}ProjectWithNetwork/${slug}/?network=${network}&user_address=${user_address}`);
@@ -58,6 +58,42 @@ const getProject = async (slug, network = DEFAULT_CHAIN_ID, user_address = "none
         console.log('getProject error:', e);
     }
 }
+
+const getMarketMakingSettings = async ({slug, network = DEFAULT_CHAIN_ID, user_address = "none"}) => {
+    try {
+        const {data} = await axios.get(`${API_URL}ProjectWithNetwork/${slug}/?network=${network}&user_address=${user_address}`);
+        return data.MarketMakingPoolUserSettings;
+    } catch (e) {
+        console.log('getMarketMakingSettings error:', e);
+    }
+}
+
+//@Todo check api to allow API method and how to fix authentication
+const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMakingSettings, wallet, fresh}) => {
+    try {
+        const { marketMakingType, amount, pressure, volume, marketMakingPoolId } = marketMakingSettings;
+        const { data } = await axios(
+            {
+                method: fresh ? 'post' : 'put',
+                url: `${API_URL}MarketMakingPoolUserSettings/?network=${network}`,
+                data:  {
+                    market_making_type: marketMakingType,
+                    amount,
+                    buy_sell_pressure: pressure,
+                    volume,
+                    market_making_pool: marketMakingPoolId,
+                    user_address: wallet.account
+                }
+            }
+        )
+
+    } catch (e) {
+
+        console.log('updateMarketMakingSettings error:', e);
+    }
+}
+
+
 
 const getVault = async (id) => {
     try {
@@ -116,6 +152,21 @@ const approveCustomToken = async (wallet, addressToApprove, supplyToApprove, tok
     }
 }
 
+//@Todo check register method, temp done with extra fields because of error
+const registerUser = async(wallet) => {
+    try {
+        await axios.post(`${API_URL}UserAddress/`, {
+            address: wallet.account,
+            "MarketMakingPool_of_invested": [],
+            "MarketMakingPool_of_saved": [],
+            "Vault_of_invested": [],
+            "Vault_of_saved": []
+        });
+    } catch (e) {
+        console.log('registerUser error:', e);
+    }
+}
+
 export default {
     fetchTotalSupply,
     approveToken,
@@ -125,5 +176,8 @@ export default {
     getMarketMakingPools,
     getVault,
     getMarketMakingPool,
-    approveCustomToken
+    approveCustomToken,
+    updateMarketMakingSettings,
+    getMarketMakingSettings,
+    registerUser
 }

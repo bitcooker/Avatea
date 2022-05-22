@@ -1,10 +1,22 @@
 import {useWallet} from "use-wallet";
 import Link from 'next/link';
 import { bell, search } from "./SVG";
+import helpers from '../helpers';
+import {useEffect} from "react";
 
 export default function Header({ menu, setMenu, title }) {
 
     const wallet = useWallet();
+
+    //@TODO Optimize Register not to fire every time
+    useEffect(() => {
+        if (wallet.isConnected()) {
+            const initWallet = async () => {
+                await helpers.utilities.registerUser(wallet)
+            };
+            initWallet()
+        }
+    },[wallet])
 
     return (
         <header className="header">

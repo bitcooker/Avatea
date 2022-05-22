@@ -20,6 +20,11 @@ export default function ProjectDetail({projectDetail}) {
     const [amountPairToken,setAmountPairToken] = useState(0);
     const [amountToVaultStake, setAmountToVaultStake] = useState(0);
     const [vaultBalance, setVaultBalance] = useState(0);
+    const [marketMakingType,setMarketMakingType] = useState(null);
+    const [amountSettings,setAmountSetting] = useState(null);
+    const [pressure,setPressure] = useState(null);
+    const [volume,setVolume] = useState(null);
+    const [fresh,setFresh] = useState(true);
 
 
     useEffect(() => {
@@ -50,12 +55,25 @@ export default function ProjectDetail({projectDetail}) {
 
     useEffect(() => {
         if(wallet.isConnected()) {
-            const fetchWithdrawableTokens = async () => {
+            const initWalletConnected = async () => {
+                //@TODO Wire Chain ID for production
+                const marketMakingSettings = await helper.utilities.getMarketMakingSettings({
+                    slug: project.slug,
+                    user_address: wallet.account
+                });
+                if (marketMakingSettings) {
+                    const { market_making_type, amount, buy_sell_pressure, volume } = marketMakingSettings;
+                    if (!market_making_type) setFresh(true);
+                    setMarketMakingType(market_making_type);
+                    setAmountSetting(amount);
+                    setPressure(buy_sell_pressure);
+                    setVolume(volume);
+                }
                 setAmountBaseToken((await helper.marketMaker.available(wallet,marketMakingPool.address,wallet.account)).toString())
                 setAmountPairToken((await helper.marketMaker.getWithdrawablePairedTokens(wallet,marketMakingPool.address,wallet.account)).toString())
                 setVaultBalance((await helper.vault.balanceOf(wallet,vault.address,wallet.account)).toString());
             }
-            fetchWithdrawableTokens();
+            initWalletConnected();
         }
     },[wallet])
 
@@ -89,6 +107,26 @@ export default function ProjectDetail({projectDetail}) {
         await helper.vault.withdraw(wallet,vault.address,vaultBalance);
     }
 
+    const updateSettings = async () => {
+        const marketMakingSettings = {
+            marketMakingType,
+            amountSettings,
+            pressure,
+            volume,
+            marketMakingPoolId: marketMakingPool.id
+        }
+        // Expecting the settings to not exist of the marketMakingType is null
+        if (!marketMakingType) {
+           fresh = true;
+        } else {
+            await helper.utilities.updateMarketMakingSettings({
+                marketMakingSettings,
+                wallet,
+                fresh
+            });
+        }
+    }
+
 
     return (
         <div>
@@ -120,6 +158,36 @@ export default function ProjectDetail({projectDetail}) {
             <div style={{border: "2px solid black"}}>
                 <button onClick={() => withdrawVault()}>Withdraw Vault</button>
             </div>
+
+            <hr/>
+            {
+                wallet.isConnected() ? (<>
+                        <h2>Settings</h2>
+                            <div>
+                                <label htmlFor="pressure">Pressure</label>
+                                <input type="text" name="pressure" placeholder={'Pressure'} value={pressure ? pressure : "Empty Pressure"} onChange={e => setPressure(e.target.value)}/>
+                            </div>
+                        <div>
+                            <label htmlFor="marketmakingtype">MM Type</label>
+                            <input type="text" name="marketmakingtype" placeholder={'Market Making Type'} value={marketMakingType ? marketMakingType : "Empty MM Type"} onChange={e => setMarketMakingType(e.target.value)}/>
+                        </div>
+
+                    <div>
+                    <label htmlFor="volume">Volume</label>
+                    <input type="text" name="volume" placeholder={'Volume'} value={volume ? volume : "Empty Volume"} onChange={e => setVolume(e.target.value)}/>
+                    </div>
+
+                    <div>
+                    <label htmlFor="amount">Amount</label>
+                    <input type="text" name="amount" placeholder={'Amount'} value={amountSettings ? amountSettings : "Empty amount"} onChange={e => setAmountSetting(e.target.value)}/>
+                    </div>
+
+                    <button onClick={() => updateSettings()}>Change Settings</button>
+                    </>
+                ) : ""
+            }
+
+
         </div>
     )
 }
@@ -133,13 +201,19 @@ export default function ProjectDetail({projectDetail}) {
 
 export async function getServerSideProps(context) {
     const { slug } = context.query;
-    const projectDetails = await helper.utilities.getProject(slug);
-    console.log(projectDetails)
+    let projectDetails;
+    try {
+        projectDetails = await helper.utilities.getProject(slug);
+        console.log(projectDetails)
+    } catch (e) {
+        console.log(e);
+        projectDetails = {}
+    }
     return {
         props: {
-            projectDetail: projectDetails.project,
-            marketMakingPool: projectDetails.marketMakingPool,
-            vault: projectDetails.vault
+            projectDetail: projectDetails?.project,
+            marketMakingPool: projectDetails?.marketMakingPool,
+            vault: projectDetails?.vault
         }
     }
 }
