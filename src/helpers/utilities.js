@@ -78,7 +78,7 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
                 url: `${API_URL}MarketMakingPoolUserSettings/?network=${network}`,
                 data:  {
                     market_making_type: marketMakingType,
-                    amountSettings,
+                    amount: amountSettings,
                     buy_sell_pressure: pressure,
                     volume,
                     market_making_pool: marketMakingPoolId,
