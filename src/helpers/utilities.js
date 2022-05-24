@@ -51,7 +51,7 @@ const getProjects = async ({live, network = DEFAULT_CHAIN_ID} = {}) => {
 //@TODO Handle error for market maker settings if no wallet is available
 const getProject = async (slug, network = DEFAULT_CHAIN_ID, user_address = "none") => {
     try {
-        const {data} = await axios.get(`${API_URL}ProjectWithNetwork/${slug}/?network=${network}&user_address=${user_address}`);
+        const {data} = await axios.get(`${API_URL}Project/${slug}/?network=${network}&user_address=${user_address}`);
         const {project, vault, marketMakingPool, MarketMakingPoolUserSettings} = data;
         return {project, vault, marketMakingPool, MarketMakingPoolUserSettings};
     } catch (e) {
@@ -61,7 +61,7 @@ const getProject = async (slug, network = DEFAULT_CHAIN_ID, user_address = "none
 
 const getMarketMakingSettings = async ({slug, network = DEFAULT_CHAIN_ID, user_address = "none"}) => {
     try {
-        const {data} = await axios.get(`${API_URL}ProjectWithNetwork/${slug}/?network=${network}&user_address=${user_address}`);
+        const {data} = await axios.get(`${API_URL}Project/${slug}/?network=${network}&user_address=${user_address}`);
         return data.MarketMakingPoolUserSettings;
     } catch (e) {
         console.log('getMarketMakingSettings error:', e);
