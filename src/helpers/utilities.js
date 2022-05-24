@@ -71,14 +71,14 @@ const getMarketMakingSettings = async ({slug, network = DEFAULT_CHAIN_ID, user_a
 //@Todo check api to allow API method and how to fix authentication
 const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMakingSettings, wallet, fresh}) => {
     try {
-        const { marketMakingType, amount, pressure, volume, marketMakingPoolId } = marketMakingSettings;
+        const { marketMakingType, amountSettings, pressure, volume, marketMakingPoolId } = marketMakingSettings;
         const { data } = await axios(
             {
                 method: fresh ? 'post' : 'put',
                 url: `${API_URL}MarketMakingPoolUserSettings/?network=${network}`,
                 data:  {
                     market_making_type: marketMakingType,
-                    amount,
+                    amountSettings,
                     buy_sell_pressure: pressure,
                     volume,
                     market_making_pool: marketMakingPoolId,
