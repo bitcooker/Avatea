@@ -71,21 +71,41 @@ const getMarketMakingSettings = async ({slug, network = DEFAULT_CHAIN_ID, user_a
 //@Todo check api to allow API method and how to fix authentication
 const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMakingSettings, wallet, fresh}) => {
     try {
-        const { marketMakingType, amountSettings, pressure, volume, marketMakingPoolId } = marketMakingSettings;
-        const { data } = await axios(
-            {
-                method: fresh ? 'post' : 'put',
-                url: `${API_URL}MarketMakingPoolUserSettings/?network=${network}`,
-                data:  {
-                    market_making_type: marketMakingType,
-                    amount: amountSettings,
-                    buy_sell_pressure: pressure,
-                    volume,
-                    market_making_pool: marketMakingPoolId,
-                    user_address: wallet.account
+        const { marketMakingType, amountSettings, pressure, volume, marketMakingPoolId, id } = marketMakingSettings;
+        if (fresh) {
+            //Consider it as a new post
+            await axios(
+                {
+                    method: 'post',
+                    url: `${API_URL}MarketMakingPoolUserSettings/?network=${network}`,
+                    data:  {
+                        market_making_type: marketMakingType,
+                        amount: amountSettings,
+                        buy_sell_pressure: pressure,
+                        volume,
+                        market_making_pool: marketMakingPoolId,
+                        user_address: wallet.account
+                    }
                 }
-            }
-        )
+            )
+        } else {
+            await axios(
+                {
+                    method: 'put',
+                    url: `${API_URL}MarketMakingPoolUserSettings/${id}/?network=${network}`,
+                    data:  {
+                        market_making_type: marketMakingType,
+                        amount: amountSettings,
+                        buy_sell_pressure: pressure,
+                        volume,
+                        market_making_pool: marketMakingPoolId,
+                        user_address: wallet.account
+                    }
+                }
+            )
+        }
+
+
 
     } catch (e) {
 

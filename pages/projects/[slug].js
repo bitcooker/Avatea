@@ -24,7 +24,8 @@ export default function ProjectDetail({projectDetail}) {
     const [amountSettings,setAmountSetting] = useState(null);
     const [pressure,setPressure] = useState(null);
     const [volume,setVolume] = useState(null);
-    const [fresh,setFresh] = useState(true);
+    const [fresh,setFresh] = useState(false);
+    const [marketMakingSettingsId, setMarketMakingSettingsId]  = useState(null);
 
 
     useEffect(() => {
@@ -62,8 +63,10 @@ export default function ProjectDetail({projectDetail}) {
                     user_address: wallet.account
                 });
                 if (marketMakingSettings) {
-                    const { market_making_type, amount, buy_sell_pressure, volume } = marketMakingSettings;
+
+                    const { market_making_type, amount, buy_sell_pressure, volume, id } = marketMakingSettings;
                     if (!market_making_type) setFresh(true);
+                    setMarketMakingSettingsId(id)
                     setMarketMakingType(market_making_type);
                     setAmountSetting(amount);
                     setPressure(buy_sell_pressure);
@@ -108,23 +111,21 @@ export default function ProjectDetail({projectDetail}) {
     }
 
     const updateSettings = async () => {
+        console.log(fresh)
         const marketMakingSettings = {
             marketMakingType,
             amountSettings,
             pressure,
             volume,
-            marketMakingPoolId: marketMakingPool.id
+            marketMakingPoolId: marketMakingPool.id,
+            id: marketMakingSettingsId ? marketMakingSettingsId : ""
         }
-        // Expecting the settings to not exist of the marketMakingType is null
-        if (!marketMakingType) {
-           fresh = true;
-        } else {
             await helper.utilities.updateMarketMakingSettings({
                 marketMakingSettings,
                 wallet,
                 fresh
             });
-        }
+
     }
 
 
