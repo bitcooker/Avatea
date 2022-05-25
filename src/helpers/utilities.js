@@ -71,20 +71,22 @@ const getMarketMakingSettings = async ({slug, network = DEFAULT_CHAIN_ID, user_a
 //@Todo check api to allow API method and how to fix authentication
 const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMakingSettings, wallet, fresh}) => {
     try {
-        const { marketMakingType, amountSettings, pressure, volume, marketMakingPoolId, id } = marketMakingSettings;
+        const {marketMakingType, amountSettings, pressure, volume, marketMakingPoolId, id } = marketMakingSettings;
+        let signature = await get_signature(wallet)
         if (fresh) {
             //Consider it as a new post
             await axios(
                 {
                     method: 'post',
                     url: `${API_URL}MarketMakingPoolUserSettings/?network=${network}`,
-                    data:  {
+                    data: {
                         market_making_type: marketMakingType,
                         amount: amountSettings,
                         buy_sell_pressure: pressure,
                         volume,
                         market_making_pool: marketMakingPoolId,
-                        user_address: wallet.account
+                        user_address: wallet.account,
+                        signature:signature
                     }
                 }
             )
@@ -93,18 +95,18 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
                 {
                     method: 'put',
                     url: `${API_URL}MarketMakingPoolUserSettings/${id}/?network=${network}`,
-                    data:  {
+                    data: {
                         market_making_type: marketMakingType,
                         amount: amountSettings,
                         buy_sell_pressure: pressure,
                         volume,
                         market_making_pool: marketMakingPoolId,
-                        user_address: wallet.account
+                        user_address: wallet.account,
+                        signature:signature
                     }
                 }
             )
         }
-
 
 
     } catch (e) {
@@ -185,6 +187,21 @@ const registerUser = async(wallet) => {
     } catch (e) {
         console.log('registerUser error:', e);
     }
+}
+
+
+async function get_nonce(wallet) {
+    const {data} = await axios.get(`${API_URL}UserAddress/${wallet}/`);
+    return data.nonce
+}
+
+async function get_signature(wallet) {
+    let nonce = await get_nonce(wallet.account)
+    let msg = "Signature in order to authenticate:  " + nonce
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    let signature = await signer.signMessage(msg)
+    return signature
 }
 
 export default {
