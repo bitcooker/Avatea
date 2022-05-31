@@ -7,6 +7,7 @@ import project from "./project";
 import token from "./token";
 import user from './user';
 import vaultRest from './vault';
+import callback from "./callback";
 
 
 // @TODO Cleanup all to Web3 object for now keep it as it is without breaking the current code
@@ -24,5 +25,6 @@ export default {
     project,
     token,
     user,
-    vaultRest
+    vaultRest,
+    callback
 }

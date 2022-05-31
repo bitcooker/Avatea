@@ -1,4 +1,5 @@
 import '../styles/main.scss'
+import 'react-toastify/dist/ReactToastify.css';
 import Layout from "../src/components/Layout";
 
 function MyApp({ Component, pageProps }) {
