@@ -22,8 +22,8 @@ const getProjects = async ({live, network = DEFAULT_CHAIN_ID} = {}) => {
 const getProject = async (slug, network = DEFAULT_CHAIN_ID, user_address = "none") => {
     try {
         const {data} = await axios.get(`${API_URL}Project/${slug}/?network=${network}&user_address=${user_address}`);
-        const {project, vault, marketMakingPool, MarketMakingPoolUserSettings} = data;
-        return {project, vault, marketMakingPool, MarketMakingPoolUserSettings};
+        const {project, vault, marketMakingPool, UserSettings} = data;
+        return {project, vault, marketMakingPool, UserSettings};
     } catch (e) {
         console.log('getProject error:', e);
     }

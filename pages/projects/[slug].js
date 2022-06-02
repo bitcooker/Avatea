@@ -23,7 +23,7 @@ export default function ProjectDetail({projectDetail}) {
     const [marketMakingType,setMarketMakingType] = useState(null);
     const [amountSettings,setAmountSetting] = useState(null);
     const [pressure,setPressure] = useState(null);
-    const [volume,setVolume] = useState(null);
+    const [priceLimit,setPriceLimit] = useState(null);
     const [fresh,setFresh] = useState(false);
     const [marketMakingSettingsId, setMarketMakingSettingsId]  = useState(null);
 
@@ -64,13 +64,13 @@ export default function ProjectDetail({projectDetail}) {
                 });
                 if (marketMakingSettings) {
 
-                    const { market_making_type, amount, buy_sell_pressure, volume, id } = marketMakingSettings;
+                    const { market_making_type, amount, buy_sell_pressure, priceLimit, id } = marketMakingSettings;
                     if (!market_making_type) setFresh(true);
                     setMarketMakingSettingsId(id)
                     setMarketMakingType(market_making_type);
                     setAmountSetting(amount);
                     setPressure(buy_sell_pressure);
-                    setVolume(volume);
+                    setPriceLimit(priceLimit);
                 }
                 setAmountBaseToken((await helper.marketMaker.available(wallet,marketMakingPool.address,wallet.account)).toString())
                 setAmountPairToken((await helper.marketMaker.getWithdrawablePairedTokens(wallet,marketMakingPool.address,wallet.account)).toString())
@@ -116,7 +116,7 @@ export default function ProjectDetail({projectDetail}) {
             marketMakingType,
             amountSettings,
             pressure,
-            volume,
+            priceLimit,
             marketMakingPoolId: marketMakingPool.id,
             id: marketMakingSettingsId ? marketMakingSettingsId : ""
         }
@@ -174,8 +174,8 @@ export default function ProjectDetail({projectDetail}) {
                         </div>
 
                     <div>
-                    <label htmlFor="volume">Volume</label>
-                    <input type="text" name="volume" placeholder={'Volume'} value={volume ? volume : "Empty Volume"} onChange={e => setVolume(e.target.value)}/>
+                    <label htmlFor="priceLimit">price Limit</label>
+                    <input type="text" name="priceLimit" placeholder={'PriceLimit'} value={priceLimit ? priceLimit : "Empty PriceLimit"} onChange={e => setPriceLimit(e.target.value)}/>
                     </div>
 
                     <div>
