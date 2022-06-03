@@ -8,10 +8,6 @@ const registerUser = async(wallet) => {
     try {
         await axios.post(`${API_URL}UserAddress/`, {
             address: wallet.account,
-            "MarketMakingPool_of_invested": [],
-            "MarketMakingPool_of_saved": [],
-            "Vault_of_invested": [],
-            "Vault_of_saved": []
         });
     } catch (e) {
         console.log('registerUser error:', e);

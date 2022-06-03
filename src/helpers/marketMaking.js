@@ -24,7 +24,7 @@ const getMarketMakingPools = async ({invested, saved, live, network = DEFAULT_CH
 const getMarketMakingSettings = async ({slug, network = DEFAULT_CHAIN_ID, user_address = "none"}) => {
     try {
         const {data} = await axios.get(`${API_URL}Project/${slug}/?network=${network}&user_address=${user_address}`);
-        return data.MarketMakingPoolUserSettings;
+        return data.UserSettings;
     } catch (e) {
         console.log('getMarketMakingSettings error:', e);
     }
@@ -33,18 +33,20 @@ const getMarketMakingSettings = async ({slug, network = DEFAULT_CHAIN_ID, user_a
 //@Todo check api to allow API method and how to fix authentication
 const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMakingSettings, wallet, fresh}) => {
     try {
-        const { marketMakingType, amountSettings, pressure, volume, marketMakingPoolId, id } = marketMakingSettings;
+        const { marketMakingType, amountSettings, pressure,priceLimit, marketMakingPoolId, id } = marketMakingSettings;
         if (fresh) {
             //Consider it as a new post
+            console.log(pressure)
+            console.log(priceLimit)
             await axios(
                 {
                     method: 'post',
-                    url: `${API_URL}MarketMakingPoolUserSettings/?network=${network}`,
+                    url: `${API_URL}UserSettings/?network=${network}`,
                     data:  {
                         market_making_type: marketMakingType,
                         amount: amountSettings,
                         buy_sell_pressure: pressure,
-                        volume,
+                        price_limit: priceLimit,
                         market_making_pool: marketMakingPoolId,
                         user_address: wallet.account
                     }
@@ -54,12 +56,12 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
             await axios(
                 {
                     method: 'put',
-                    url: `${API_URL}MarketMakingPoolUserSettings/${id}/?network=${network}`,
+                    url: `${API_URL}UserSettings/${id}/?network=${network}`,
                     data:  {
                         market_making_type: marketMakingType,
                         amount: amountSettings,
                         buy_sell_pressure: pressure,
-                        volume,
+                        price_limit: priceLimit,
                         market_making_pool: marketMakingPoolId,
                         user_address: wallet.account
                     }

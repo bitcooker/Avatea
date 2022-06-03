@@ -52,8 +52,8 @@ const getProjects = async ({live, network = DEFAULT_CHAIN_ID} = {}) => {
 const getProject = async (slug, network = DEFAULT_CHAIN_ID, user_address = "none") => {
     try {
         const {data} = await axios.get(`${API_URL}Project/${slug}/?network=${network}&user_address=${user_address}`);
-        const {project, vault, marketMakingPool, MarketMakingPoolUserSettings} = data;
-        return {project, vault, marketMakingPool, MarketMakingPoolUserSettings};
+        const {project, vault, marketMakingPool, UserSettings} = data;
+        return {project, vault, marketMakingPool, UserSettings};
     } catch (e) {
         console.log('getProject error:', e);
     }
@@ -62,7 +62,7 @@ const getProject = async (slug, network = DEFAULT_CHAIN_ID, user_address = "none
 const getMarketMakingSettings = async ({slug, network = DEFAULT_CHAIN_ID, user_address = "none"}) => {
     try {
         const {data} = await axios.get(`${API_URL}Project/${slug}/?network=${network}&user_address=${user_address}`);
-        return data.MarketMakingPoolUserSettings;
+        return data.UserSettings;
     } catch (e) {
         console.log('getMarketMakingSettings error:', e);
     }
@@ -78,7 +78,7 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
             await axios(
                 {
                     method: 'post',
-                    url: `${API_URL}MarketMakingPoolUserSettings/?network=${network}`,
+                    url: `${API_URL}UserSettings/?network=${network}`,
                     data: {
                         market_making_type: marketMakingType,
                         amount: amountSettings,
@@ -94,7 +94,7 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
             await axios(
                 {
                     method: 'put',
-                    url: `${API_URL}MarketMakingPoolUserSettings/${id}/?network=${network}`,
+                    url: `${API_URL}UserSettings/${id}/?network=${network}`,
                     data: {
                         market_making_type: marketMakingType,
                         amount: amountSettings,
