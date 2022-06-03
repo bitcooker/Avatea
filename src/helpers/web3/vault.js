@@ -1,5 +1,7 @@
 import {ethers} from 'ethers';
 import vault from '../../abi/Vault.json';
+import {toast} from "react-toastify";
+import helpers from "../index";
 
 
 const stake = async (wallet, vaultAddress, amount, callback) => {
@@ -8,8 +10,34 @@ const stake = async (wallet, vaultAddress, amount, callback) => {
     const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
 
     try {
-        const allowanceTx = await vaultContract.stake(amount);
-        await allowanceTx.wait();
+        const tx = await vaultContract.stake(amount);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            },
+            {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: true,
+            }
+        )
+        const receipt = await tx.wait();
+        console.log(receipt);
+        await helpers.callback.hook({
+            type: "DEPOSIT",
+            data: {
+                receipt,
+                wallet,
+                currency: "VAULT"
+            }
+        })
         console.log('stake success')
     } catch (e) {
         alert(e)
@@ -23,8 +51,34 @@ const withdraw = async (wallet, vaultAddress, amount) => {
     const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
 
     try {
-        const allowanceTx = await vaultContract.withdraw(amount);
-        await allowanceTx.wait();
+        const tx = await vaultContract.withdraw(amount);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            },
+            {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: true,
+            }
+        )
+        const receipt = await tx.wait();
+        console.log(receipt);
+        await helpers.callback.hook({
+            type: "WITHDRAW",
+            data: {
+                receipt,
+                wallet,
+                currency: "VAULT"
+            }
+        })
         console.log('withdraw success')
     } catch (e) {
         alert(e)
@@ -53,8 +107,34 @@ const exit = async (wallet, vaultAddress, callback) => {
     const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
 
     try {
-        const allowanceTx = await vaultContract.exit();
-        await allowanceTx.wait();
+        const tx = await vaultContract.exit();
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            },
+            {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: true,
+            }
+        )
+        const receipt = await tx.wait();
+        console.log(receipt);
+        await helpers.callback.hook({
+            type: "WITHDRAW",
+            data: {
+                receipt,
+                wallet,
+                currency: "VAULT"
+            }
+        })
         console.log('exit success')
     } catch (e) {
         alert(e)
