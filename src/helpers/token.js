@@ -2,6 +2,8 @@ import axios from 'axios';
 import {ethers} from 'ethers';
 import TokenContract from '../abi/Token.json';
 import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
+import {toast} from "react-toastify";
+import helpers from "./index";
 
 const fetchTotalSupply = async (wallet, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
@@ -21,8 +23,24 @@ const approveToken = async (wallet, addressToApprove, supplyToApprove) => {
     const signer = provider.getSigner();
     const tokenContract = await new ethers.Contract(CLOUD_2_TOKEN_ADDRESS, TokenContract.abi, signer);
     try {
-        const allowanceTx = await tokenContract.approve(addressToApprove, supplyToApprove);
-        await allowanceTx.wait();
+        const tx = await tokenContract.approve(addressToApprove, supplyToApprove);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            },
+            {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: true,
+            }
+        )
     } catch (e) {
         alert(e.message)
         console.log('approveToken error', e);
@@ -34,8 +52,24 @@ const approveCustomToken = async (wallet, addressToApprove, supplyToApprove, tok
     const signer = provider.getSigner();
     const tokenContract = await new ethers.Contract(tokenAddress, TokenContract.abi, signer);
     try {
-        const allowanceTx = await tokenContract.approve(addressToApprove, supplyToApprove);
-        await allowanceTx.wait();
+        const tx = await tokenContract.approve(addressToApprove, supplyToApprove);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            },
+            {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: true,
+            }
+        )
     } catch (e) {
         alert(e.message)
         console.log('approveToken error', e);
