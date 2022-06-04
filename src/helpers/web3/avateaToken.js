@@ -16,15 +16,6 @@ const claim = async (wallet) => {
                 pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
-            },
-            {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
             }
         )
         const receipt = await tx.wait();

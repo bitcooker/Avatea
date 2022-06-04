@@ -19,15 +19,6 @@ const stake = async (wallet, marketMakerAddress, amount, callback) => {
                 pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
-            },
-            {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
             }
         )
         const receipt = await tx.wait();
@@ -60,15 +51,6 @@ const stakePairedToken = async (wallet, marketMakerAddres, amount, callback) => 
                 pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
-            },
-            {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
             }
         )
         const receipt = await tx.wait();
@@ -101,15 +83,6 @@ const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount, callbac
                 pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
-            },
-            {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
             }
         )
         const receipt = await tx.wait();
@@ -140,15 +113,6 @@ const withdrawBaseToken = async (wallet, marketMakerAddress, amount, callback) =
                 pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
-            },
-            {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
             }
         )
         const receipt = await tx.wait();
@@ -181,15 +145,6 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, callback) =
                 pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
-            },
-            {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
             }
         )
         const receipt = await tx.wait();
@@ -223,15 +178,6 @@ const release = async (wallet, marketMakerAddress, amount, callback) => {
                 pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
-            },
-            {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
             }
         )
         const receipt = await tx.wait();

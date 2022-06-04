@@ -36,9 +36,9 @@ const approveToken = async (wallet, addressToApprove, supplyToApprove) => {
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
             }
         )
     } catch (e) {
@@ -61,13 +61,12 @@ const approveCustomToken = async (wallet, addressToApprove, supplyToApprove, tok
                 error: 'Transaction failed!'
             },
             {
-                position: "bottom-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
             }
         )
     } catch (e) {

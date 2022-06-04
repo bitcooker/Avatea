@@ -17,15 +17,6 @@ const stake = async (wallet, vaultAddress, amount, callback) => {
                 pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
-            },
-            {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
             }
         )
         const receipt = await tx.wait();
@@ -58,15 +49,6 @@ const withdraw = async (wallet, vaultAddress, amount) => {
                 pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
-            },
-            {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
             }
         )
         const receipt = await tx.wait();
@@ -114,15 +96,6 @@ const exit = async (wallet, vaultAddress, callback) => {
                 pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
-            },
-            {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: false,
-                draggable: false,
-                progress: true,
             }
         )
         const receipt = await tx.wait();
