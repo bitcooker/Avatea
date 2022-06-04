@@ -8,7 +8,7 @@ export default function Card({projectProps}) {
 
   useEffect(() => {
     const initProjects = async () => {
-      if (!projectProps) setProjects(await helper.utilities.getProjects())
+      if (!projectProps) setProjects(await helper.project.getProjects())
     }
     initProjects();
   },[])
