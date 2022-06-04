@@ -13,7 +13,7 @@ export default function Home({projects}) {
 }
 
 export async function getServerSideProps(context) {
-  const projects = await helper.utilities.getProjects();
+  const projects = await helper.project.getProjects();
   return {
     props: {
       projects

@@ -32,7 +32,7 @@ export default function ProjectDetail({projectDetail}) {
         if (projectDetail) setProject(projectDetail);
         else {
             const fetchProject = async () => {
-                const result = await helper.utilities.getProject(slug);
+                const result = await helper.project.getProject(slug);
                 setProject(result?.project);
                 setMarketMakingPool(result?.marketMakingPool);
                 setVault(result?.vault);
@@ -45,7 +45,7 @@ export default function ProjectDetail({projectDetail}) {
         //@TODO Error handling if empty market making pool or vault
         if (Object.keys(project).length !== 0) {
             const fetchProject = async () => {
-                const result = await helper.utilities.getProject(project.slug);
+                const result = await helper.project.getProject(project.slug);
 
                 setMarketMakingPool(result?.marketMakingPool);
                 setVault(result?.vault);
@@ -58,7 +58,7 @@ export default function ProjectDetail({projectDetail}) {
         if(wallet.isConnected()) {
             const initWalletConnected = async () => {
                 //@TODO Wire Chain ID for production
-                const marketMakingSettings = await helper.utilities.getMarketMakingSettings({
+                const marketMakingSettings = await helper.marketMaking.getMarketMakingSettings({
                     slug: project.slug,
                     user_address: wallet.account
                 });
@@ -87,9 +87,9 @@ export default function ProjectDetail({projectDetail}) {
 
     const approve = async (address,tokenAddress) => {
         console.log(address)
-        const totalSupply = await helper.utilities.fetchTotalSupply(wallet);
+        const totalSupply = await helper.token.fetchTotalSupply(wallet);
         console.log(totalSupply);
-        await helper.utilities.approveCustomToken(wallet,address,totalSupply,tokenAddress);
+        await helper.token.approveCustomToken(wallet,address,totalSupply,tokenAddress);
     }
 
     const withdrawBaseToken = async () => {
@@ -120,7 +120,7 @@ export default function ProjectDetail({projectDetail}) {
             marketMakingPoolId: marketMakingPool.id,
             id: marketMakingSettingsId ? marketMakingSettingsId : ""
         }
-            await helper.utilities.updateMarketMakingSettings({
+            await helper.marketMaking.updateMarketMakingSettings({
                 marketMakingSettings,
                 wallet,
                 fresh
@@ -204,7 +204,7 @@ export async function getServerSideProps(context) {
     const { slug } = context.query;
     let projectDetails;
     try {
-        projectDetails = await helper.utilities.getProject(slug);
+        projectDetails = await helper.project.getProject(slug);
         console.log(projectDetails)
     } catch (e) {
         console.log(e);
