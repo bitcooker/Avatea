@@ -5,8 +5,6 @@ import Head from 'next/head'
 import Header from "./Header";
 import dynamic from 'next/dynamic'
 import { useState } from "react";
-// import Sidebar from "./Sidebar";
-
 const SidebarWithNoSSR = dynamic(
     () => import('./Sidebar'),
     { ssr: false }
@@ -35,7 +33,7 @@ export default function Layout({ children }) {
             </Head>
             <UseWalletProvider
                 chainId={56}
-                autoConnect={false}
+                autoConnect={true}
                 connectors={{
                     injected: {
                         chainId: [1, 4, 56],

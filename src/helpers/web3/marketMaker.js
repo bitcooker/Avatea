@@ -166,11 +166,11 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, callback) =
 
 
 const release = async (wallet, marketMakerAddress, amount, callback) => {
-    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-    const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
-
     try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
+
         const tx = await marketMakerContract.release(amount);
         toast.promise(
             tx.wait(),
@@ -199,39 +199,39 @@ const release = async (wallet, marketMakerAddress, amount, callback) => {
 
 
 const computeReleasableAmount = async (wallet, marketMakerAddress, address, callback) => {
-    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-    const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
     try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
         const result = await marketMakerContract.computeReleasableAmount(address);
         callback(result)
         console.log('computeReleasableAmount success')
     } catch (e) {
-        alert(e)
         console.log('computeReleasableAmount error', e);
+        return 0;
     }
 }
 
 const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, callback) => {
-    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-    const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
     try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
         return await marketMakerContract.getWithdrawablePairedTokens(address);
     } catch (e) {
-        alert(e)
         console.log('getWithdrawablePairedTokens error', e);
+        return 0;
     }
 }
 const available = async (wallet, marketMakerAddress, address) => {
-    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-    const signer = provider.getSigner();
-    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
     try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
         return await marketMakerContract.available(address);
     } catch (e) {
-        alert(e)
         console.log('available error', e);
+        return 0;
     }
 }
 

@@ -78,7 +78,7 @@ export default function ProjectDetail({projectDetail}) {
             }
             initWalletConnected();
         }
-    },[wallet])
+    },[wallet,marketMakingPool])
 
     const stakeMarketMaker = async () => {
         const wei = ethers.utils.parseEther(amountToStake);

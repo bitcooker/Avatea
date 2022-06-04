@@ -116,15 +116,15 @@ const exit = async (wallet, vaultAddress, callback) => {
 }
 
 const balanceOf = async (wallet, vaultAddress, address) => {
-    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-    const signer = provider.getSigner();
-    const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
     try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
         return await vaultContract.balanceOf(address);
         console.log('balanceOf success')
     } catch (e) {
-        alert(e)
         console.log('balanceOf error', e);
+        return 0;
     }
 }
 

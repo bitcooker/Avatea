@@ -12,7 +12,7 @@ export default function Header({ menu, setMenu, title }) {
     useEffect(() => {
         if (wallet.isConnected()) {
             const initWallet = async () => {
-                await helpers.utilities.registerUser(wallet)
+                await helpers.user.registerUser(wallet)
             };
             initWallet()
         }

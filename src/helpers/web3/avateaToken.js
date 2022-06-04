@@ -46,14 +46,14 @@ const claim = async (wallet) => {
 }
 
 const getClaimableAmount = async (wallet, address) => {
-    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-    const signer = provider.getSigner();
-    const avateaToken = await new ethers.Contract(AVATEA_TOKEN_ADDRESS, AvateaToken.abi, signer);
     try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const avateaToken = await new ethers.Contract(AVATEA_TOKEN_ADDRESS, AvateaToken.abi, signer);
         return await avateaToken.getClaimableAmount(address);
     } catch (e) {
-        alert(e)
         console.log('fetchTotalSupply error', e);
+        return 0;
     }
 }
 
