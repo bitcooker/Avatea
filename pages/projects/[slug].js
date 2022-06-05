@@ -10,6 +10,7 @@ import {AVATEA_TOKEN_ADDRESS, CLOUD_2_TOKEN_ADDRESS} from "../../src/helpers/con
 export default function ProjectDetail({projectDetail}) {
 
     //@Todo add min buy limit and max buy limit fields (stop-loss)
+    //@Todo implement estimation with moment.js - calculate estimation for timeframe to buy or sell the amount of tokens
     const wallet = useWallet();
     const router = useRouter()
     const { slug } = router.query;
