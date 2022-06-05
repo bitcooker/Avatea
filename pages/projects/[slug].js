@@ -9,6 +9,7 @@ import {AVATEA_TOKEN_ADDRESS, CLOUD_2_TOKEN_ADDRESS} from "../../src/helpers/con
 
 export default function ProjectDetail({projectDetail}) {
 
+    //@Todo add min buy limit and max buy limit fields (stop-loss)
     const wallet = useWallet();
     const router = useRouter()
     const { slug } = router.query;
