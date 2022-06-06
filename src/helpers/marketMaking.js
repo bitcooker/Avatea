@@ -50,7 +50,7 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
                         price_limit: priceLimit,
                         market_making_pool: marketMakingPoolId,
                         user_address: wallet.account,
-                        signature: signature
+                        signature
                     }
                 }
             )
@@ -66,7 +66,7 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
                         price_limit: priceLimit,
                         market_making_pool: marketMakingPoolId,
                         user_address: wallet.account,
-                        signature: signature
+                        signature
                     }
                 }
             )
