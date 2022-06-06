@@ -2,6 +2,7 @@ import axios from 'axios';
 import {ethers} from 'ethers';
 import TokenContract from '../abi/Token.json';
 import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
+import helpers from '../helpers';
 
 
 
@@ -34,6 +35,7 @@ const getMarketMakingSettings = async ({slug, network = DEFAULT_CHAIN_ID, user_a
 const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMakingSettings, wallet, fresh}) => {
     try {
         const { marketMakingType, amountSettings, pressure,priceLimit, marketMakingPoolId, id } = marketMakingSettings;
+        const signature = await helpers.web3.authentication.getSignature(wallet);
         if (fresh) {
             //Consider it as a new post
             console.log(pressure)
@@ -48,7 +50,8 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
                         buy_sell_pressure: pressure,
                         price_limit: priceLimit,
                         market_making_pool: marketMakingPoolId,
-                        user_address: wallet.account
+                        user_address: wallet.account,
+                        signature
                     }
                 }
             )
