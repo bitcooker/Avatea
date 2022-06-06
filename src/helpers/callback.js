@@ -5,7 +5,7 @@ import { API_URL } from "./constants";
 const hook = async({type, data, callback = () => {}}) => {
     try {
         switch(type) {
-            case 'TRANSACTION':
+            case 'WITHDRAWAL':
                 await axios.post(`${API_URL}Transaction/`, {
                     hash: data.receipt.transactionHash,
                     from: data.receipt.from,
@@ -18,7 +18,44 @@ const hook = async({type, data, callback = () => {}}) => {
                 })
                 callback()
                 break;
-            case 'NONE':
+            case 'DEPOSIT':
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    from: data.receipt.from,
+                    type: 'deposit',
+                    contract: data.receipt.to,
+                    amount:0,
+                    currency: data.currency,
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId
+                })
+                callback()
+                break;
+            case 'TRANSACTION':
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    from: data.receipt.from,
+                    type: 'transaction',
+                    contract: data.receipt.to,
+                    amount:0,
+                    currency: data.currency,
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId
+                })
+                callback()
+                break;
+            case 'RELEASE':
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    from: data.receipt.from,
+                    type: 'release',
+                    contract: data.receipt.to,
+                    amount:0,
+                    currency: data.currency,
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId
+                })
+                callback()
                 break;
             default:
                 return
