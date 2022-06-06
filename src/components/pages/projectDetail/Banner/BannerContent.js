@@ -3,14 +3,14 @@ import BannerSocialButton from "./BannerSocialButton";
 export default function PreviewContent(props) {
   return (
     <div
-      className="absolute flex flex-col space-y-5 md:space-y-0 md:flex-row w-full h-full bottom-0 px-5 pb-5 pt-7.5 md:h-[233px] md:px-7.5 md:pb-7.5 md:pt-11 rounded-2.5xl md:justify-between"
+      className="absolute flex flex-col space-y-5 md-lg:space-y-0 md-lg:flex-row w-full h-full bottom-0 px-5 pb-5 pt-7.5 md-lg:h-[233px] md-lg:px-7.5 md-lg:pb-7.5 md-lg:pt-11 rounded-2.5xl md-lg:justify-between"
       style={{
         background:
           "linear-gradient(180deg, rgba(0, 32, 76, 0) 0%, #00204C 100%)",
       }}
     >
-      <div className="flex flex-col space-y-5 w-full md:w-1/2 md:h-full">
-        <div className="flex md:w-full md:h-1/2 md:space-x-3.5">
+      <div className="flex flex-col space-y-5 w-full md-lg:w-1/2 md-lg:h-full">
+        <div className="flex md-lg:w-full md-lg:h-1/2 md-lg:space-x-3.5">
           <div className="flex-none w-[67px] h-[67px] px-5 py-2.5 bg-white/10 rounded-0.5xl">
             <svg
               width="26"
@@ -58,16 +58,16 @@ export default function PreviewContent(props) {
             </div>
           </div>
         </div>
-        <div className="md:w-full md:h-1/2 text-white leading-6 font-poppins opacity-80">
+        <div className="md-lg:w-full md-lg:h-1/2 text-white leading-6 font-poppins opacity-80">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum nam
           blandit praesent tellus mauris quam ut. Pulvinar nunc, posuere tellus
           odio enim, posuere. Enim tincidunt arcu.
         </div>
       </div>
-      <div className="relative w-48 md:h-full">
-        <div className="absolute flex flex-col w-full md:h-1/2 md:bottom-0 md:right-0 space-y-5">
+      <div className="relative w-48 md-lg:h-full">
+        <div className="absolute flex flex-col w-full md-lg:h-1/2 md-lg:bottom-0 md-lg:right-0 space-y-5">
           <div className="">
-            <div className="flex text-white/80 text-md font-poppins leading-normal justify-between">
+            <div className="flex text-white/80 text-md-lg font-poppins leading-normal justify-between">
               <span>Document :</span>
               <span className="text-white text-indigo-500 font-semibold">
                 Whitepaper
