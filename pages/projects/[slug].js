@@ -66,13 +66,13 @@ export default function ProjectDetail({projectDetail}) {
                 });
                 if (marketMakingSettings) {
 
-                    const { market_making_type, amount, buy_sell_pressure, priceLimit, id } = marketMakingSettings;
+                    const { market_making_type, amount, buy_sell_pressure, price_limit, id } = marketMakingSettings;
                     if (!market_making_type) setFresh(true);
                     setMarketMakingSettingsId(id)
                     setMarketMakingType(market_making_type);
                     setAmountSetting(amount);
                     setPressure(buy_sell_pressure);
-                    setPriceLimit(priceLimit);
+                    setPriceLimit(price_limit);
                 }
                 setAmountBaseToken((await helper.marketMaker.available(wallet,marketMakingPool.address,wallet.account)).toString())
                 setAmountPairToken((await helper.marketMaker.getWithdrawablePairedTokens(wallet,marketMakingPool.address,wallet.account)).toString())
