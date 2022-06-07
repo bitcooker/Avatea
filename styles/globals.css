@@ -13,3 +13,10 @@
 .auto__container {
   padding-bottom: 20px;
 }
+
+input[type="range"]::-webkit-slider-runnable-track {
+  @apply w-full rounded-full cursor-pointer;
+}
+input[type="range"]::-webkit-slider-thumb {
+  @apply w-4 h-4 bg-indigo-500 rounded-full cursor-pointer appearance-none hover:ring hover:ring-indigo-500/30 transition;
+}
