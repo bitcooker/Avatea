@@ -7,4 +7,5 @@ export const MARKET_MAKER_ADDRESS = "0x1E76536955A504605F2FB6BDC5C988B1079317b5"
 export const CLOUD_2_TOKEN_ADDRESS = "0xB991Da4310CdeE737DE53E1C700c363c9aF69631";
 export const API_URL = "https://avatea-rest-development.herokuapp.com/";
 export const DEFAULT_CHAIN_ID = 4;
+export const MARKET_MAKER_DEPLOYER_ADDRESS = "0xf0BDf62D36EfCc4cE0e8E504E62f4b9dEa6Eefd8"
 // export const API_URL = "https://8bca-79-179-245-244.ngrok.io/";
