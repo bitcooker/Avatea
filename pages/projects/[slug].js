@@ -11,6 +11,8 @@ import {
 
 // core components
 import Input from "../../src/components/core/Input/Input";
+import InputWithIcon from "../../src/components/core/Input/InputWithIcon";
+import ButtonOutline from "../../src/components/core/Button/ButtonOutline";
 
 // project detail components
 import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
@@ -259,7 +261,92 @@ export default function ProjectDetail({ projectDetail }) {
 
       {/* Activity & Settings */}
       <div className="grid md-lg:grid-cols-2 gap-7.5">
-        <Card title="Activity" />
+        <Card title="Activity">
+          {/* Card Header */}
+          <div className="card-header">
+            <h1 className="text-2xl">Activity</h1>
+
+            <div className="py-5.5 space-y-4.5">
+              <div className="flex justify-between">
+                <span className="text-sm">Sold</span>
+                <span className="flex text-base font-medium">
+                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
+                  100.00
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm">Bought</span>
+                <span className="flex text-base font-medium">
+                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
+                  100.00
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="card-content space-y-5">
+            <div className="grid md-lg:grid-cols-2 gap-3.75">
+              <ButtonOutline name="Bought" />
+              <ButtonOutline name="Amount Bought" />
+            </div>
+            <div className="space-y-3.75">
+              <div className="space-y-2.5">
+                <span className="text-base">Cash: 100.000</span>
+                <InputWithIcon
+                  id="withdrawCash"
+                  name="withdrawCash"
+                  type="number"
+                  placeholder="Input amount to withdraw"
+                  submitName="Withdraw"
+                />
+              </div>
+              <div className="space-y-2.5">
+                <span className="text-base">Tokens: 100.000</span>
+                <InputWithIcon
+                  id="withdrawToken"
+                  name="withdrawToken"
+                  type="number"
+                  placeholder="Input amount to withdraw"
+                  submitName="Withdraw"
+                />
+              </div>
+            </div>
+
+            <div className="vesting-content !mt-7.5">
+              <div className="vesting-header">
+                <h1 className="text-2xl">Vesting</h1>
+
+                <div className="py-5.5 space-y-4.5">
+                  <div className="flex justify-between">
+                    <span className="text-sm">Total Vested</span>
+                    <span className="flex text-base font-medium">
+                      <img
+                        src="/coins/maticIcon.png"
+                        className="w-6 h-6 mr-2.5"
+                      />
+                      100.00
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm">Releasable</span>
+                    <span className="flex text-base font-medium">
+                      <img
+                        src="/coins/maticIcon.png"
+                        className="w-6 h-6 mr-2.5"
+                      />
+                      100.00
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid md-lg:grid-cols-2 gap-3.75">
+                <ButtonOutline name="Total Amount(1000.00)" />
+                <ButtonOutline name="Amount of Tokens" />
+              </div>
+            </div>
+          </div>
+        </Card>
         <Card title="Settings" />
       </div>
     </div>
