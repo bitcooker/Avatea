@@ -12,7 +12,11 @@ import {
 // core components
 import Input from "../../src/components/core/Input/Input";
 import InputWithIcon from "../../src/components/core/Input/InputWithIcon";
+import Button from "../../src/components/core/Button/Button";
 import ButtonOutline from "../../src/components/core/Button/ButtonOutline";
+import RangeSlider from "../../src/components/core/RangeSlider/RangeSlider";
+import Select from "../../src/components/core/Select/Select";
+import Radio from "../../src/components/core/Radio/Radio";
 
 // project detail components
 import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
@@ -48,7 +52,7 @@ export default function ProjectDetail({ projectDetail }) {
         setMarketMakingPool(result?.marketMakingPool);
         setVault(result?.vault);
       };
-      fetchProject();
+      // fetchProject();
     }
   }, []);
 
@@ -253,7 +257,7 @@ export default function ProjectDetail({ projectDetail }) {
             <h1 className="text-2xl">News Feed</h1>
           </div>
 
-          <div className="pt-5.5">
+          <div className="card-content pt-5.5">
             <Feed />
           </div>
         </Card>
@@ -344,10 +348,67 @@ export default function ProjectDetail({ projectDetail }) {
                 <ButtonOutline name="Total Amount(1000.00)" />
                 <ButtonOutline name="Amount of Tokens" />
               </div>
+
+              <div className="pt-9">
+                <Button name="Release Tokens" />
+              </div>
             </div>
           </div>
         </Card>
-        <Card title="Settings" />
+        <Card title="Settings">
+          {/* Card Header */}
+          <div className="card-header">
+            <h1 className="text-2xl">Settings</h1>
+          </div>
+
+          <div className="card-content pt-5.5 space-y-5">
+            <div className=" grid md-lg:grid-cols-2 gap-5">
+              <div className="flex flex-col space-y-10">
+                <span className="text-sm">Pressure Slider</span>
+                <RangeSlider percent="10" />
+              </div>
+              <div className="space-y-2.5">
+                <span className="text-sm">Estimation</span>
+                <Select />
+              </div>
+            </div>
+
+            <div className="space-y-2.5">
+              <span className="text-sm">Mode</span>
+              <div className="grid grid-cols-2 md-lg:grid-cols-3 gap-x-4 gap-y-2.5">
+                <Radio name="mode" label="Buy" />
+                <Radio name="mode" label="Hold" />
+                <Radio name="mode" label="Sell" />
+              </div>
+            </div>
+
+            <Button name="Save Settings" />
+
+            <div className="card-content pt-1 space-y-3.75">
+              <div className="space-y-2.5">
+                <span className="text-base">Cash</span>
+                <Input
+                  id="cash"
+                  name="cash"
+                  type="number"
+                  value="2324"
+                  submitName="Deposit"
+                />
+              </div>
+
+              <div className="space-y-2.5">
+                <span className="text-base">Token</span>
+                <Input
+                  id="token"
+                  name="token"
+                  type="number"
+                  value="2324"
+                  submitName="Deposit"
+                />
+              </div>
+            </div>
+          </div>
+        </Card>
       </div>
     </div>
   );
