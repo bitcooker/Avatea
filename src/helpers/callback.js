@@ -31,6 +31,19 @@ const hook = async({type, data, callback = () => {}}) => {
                 })
                 callback()
                 break;
+            case 'INVESTMENT':
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    from: data.receipt.from,
+                    type: 'investment',
+                    contract: data.receipt.to,
+                    amount:0,
+                    currency: data.currency,
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId
+                })
+                callback()
+                break;
             case 'TRANSACTION':
                 await axios.post(`${API_URL}Transaction/`, {
                     hash: data.receipt.transactionHash,
@@ -49,6 +62,19 @@ const hook = async({type, data, callback = () => {}}) => {
                     hash: data.receipt.transactionHash,
                     from: data.receipt.from,
                     type: 'release',
+                    contract: data.receipt.to,
+                    amount:0,
+                    currency: data.currency,
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId
+                })
+                callback()
+                break;
+            case 'VESTING':
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    from: data.receipt.from,
+                    type: 'vesting',
                     contract: data.receipt.to,
                     amount:0,
                     currency: data.currency,
