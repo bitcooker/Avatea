@@ -83,6 +83,19 @@ const hook = async({type, data, callback = () => {}}) => {
                 })
                 callback()
                 break;
+            case 'DEPLOYMENT':
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    from: data.receipt.from,
+                    type: 'deployment',
+                    contract: data.receipt.to,
+                    amount:0,
+                    currency: data.currency,
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId
+                })
+                callback()
+                break;
             default:
                 return
         }

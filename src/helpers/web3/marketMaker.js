@@ -2,8 +2,56 @@ import {ethers} from 'ethers';
 import marketMaker from '../../abi/MarketMaker.json';
 import {toast} from "react-toastify";
 import helpers from "../index";
+import {API_URL, MARKET_MAKER_DEPLOYER_ADDRESS} from "../constants";
+import MarketMakerDeployer from "../../abi/MarketMakerDeployer.json";
+import axios from "axios";
 
+const deploy = async (wallet, baseToken, pairedToken, revocable, project) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const MarketMakerDeployerContract = await new ethers.Contract(MARKET_MAKER_DEPLOYER_ADDRESS, MarketMakerDeployer.abi, signer);
 
+    try {
+        const tx = await MarketMakerDeployerContract.createMarketMaker(baseToken, pairedToken, revocable);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        const receipt = await tx.wait();
+
+        const { _controllerWallet, _marketMaker } = receipt.events.CreatedMarketMakingContract.returnValues;
+
+        await axios(
+            {
+                method: 'post',
+                url: `${API_URL}MarketMakingPool`,
+                data: {
+                    address: _marketMaker,
+                    controller_wallet: _controllerWallet,
+                    paired_token: pairedToken,
+                    project: project,
+                }
+            }
+        )
+        await helpers.callback.hook({
+            type: "DEPLOYMENT",
+            data: {
+                receipt,
+                wallet,
+                currency: "POOL"
+            }
+        })
+
+        console.log('stake success')
+    } catch (e) {
+        alert(e)
+        console.log('stake error', e);
+    }
+}
 
 //@Todo Specify types for registration
 const stake = async (wallet, marketMakerAddress, amount, callback) => {
@@ -245,4 +293,5 @@ export default {
     computeReleasableAmount,
     getWithdrawablePairedTokens,
     available,
+    deploy
 }
