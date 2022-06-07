@@ -9,8 +9,13 @@ import {
   CLOUD_2_TOKEN_ADDRESS,
 } from "../../src/helpers/constants";
 
+// core components
+import Input from "../../src/components/core/Input/Input";
+
 // project detail components
 import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
+import Card from "../../src/components/pages/projectDetail/Card/Card";
+import Feed from "../../src/components/pages/projectDetail/Feed/Feed";
 
 export default function ProjectDetail({ projectDetail }) {
   //@Todo add min buy limit and max buy limit fields (stop-loss)
@@ -171,8 +176,92 @@ export default function ProjectDetail({ projectDetail }) {
   };
 
   return (
-    <div>
+    <div className="space-y-7.5">
       <Banner />
+
+      {/* Staked Avatea in vaults & News Feed */}
+      <div className="grid md-lg:grid-cols-2 gap-7.5">
+        <Card>
+          <div className="divide-y">
+            {/* Card Header */}
+            <div className="card-header">
+              <h1 className="text-2xl">Staked Avatea in vaults</h1>
+
+              <div className="py-5.5 space-y-4.5">
+                <div className="flex justify-between">
+                  <span className="text-sm">Total Transaction</span>
+                  <span className="text-base font-medium">2,345.56</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm">Expected APY</span>
+                  <span className="text-base font-medium">1234</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="card-content pt-5 space-y-3.75">
+              <div className="space-y-2.5">
+                <span className="text-base">Amount</span>
+                <Input
+                  id="max"
+                  name="max"
+                  type="number"
+                  value="15"
+                  submitName="Max"
+                />
+              </div>
+              <div className="grid md-lg:grid-cols-2 gap-3.75">
+                <div>
+                  <span className="text-base">Withdraw Rewards</span>
+                  <Input
+                    id="withdrawRewards"
+                    name="withdrawRewards"
+                    type="number"
+                    value="0"
+                    submitName="Withdraw"
+                  />
+                </div>
+                <div>
+                  <span className="text-base">Withdraw Avatea</span>
+                  <Input
+                    id="withdrawAvatea"
+                    name="withdrawAvatea"
+                    type="number"
+                    value="0"
+                    submitName="Withdraw"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2.5">
+                <span className="text-base">Withdraw Both</span>
+                <Input
+                  id="withdrawBoth"
+                  name="withdrawBoth"
+                  type="number"
+                  value="0"
+                  submitName="Withdraw"
+                />
+              </div>
+            </div>
+          </div>
+        </Card>
+        <Card title="News Feed">
+          {/* Card Header */}
+          <div className="card-header">
+            <h1 className="text-2xl">News Feed</h1>
+          </div>
+
+          <div className="pt-5.5">
+            <Feed />
+          </div>
+        </Card>
+      </div>
+
+      {/* Activity & Settings */}
+      <div className="grid md-lg:grid-cols-2 gap-7.5">
+        <Card title="Activity" />
+        <Card title="Settings" />
+      </div>
     </div>
   );
 }
