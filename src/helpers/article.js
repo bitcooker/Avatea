@@ -6,7 +6,7 @@ import helpers from "./index";
 const getArticles = async ({project, callback} = {}) => {
 
     let parameters = "?";
-    if (project) parameters += `project=${project}&`
+    if (project) parameters += `project=${project}&`;
 
 
     try {
@@ -44,6 +44,26 @@ const updateArticle = async ({id, title, description, image, link, project, wall
 }
 
 
+const deleteArticle = async ({id, wallet}) => {
+    try {
+        const signature = await helpers.web3.authentication.getSignature(wallet);
+
+        await axios(
+            {
+                method: 'delete',
+                url: `${API_URL}Article/${id}/`,
+                data: {
+                    signature
+                }
+            }
+        )
+
+    } catch (e) {
+        console.log('deleteArticle error:', e);
+    }
+}
+
+
 const createArticle = async ({title, description, image, link, project, wallet}) => {
     try {
         const signature = await helpers.web3.authentication.getSignature(wallet);
@@ -72,5 +92,6 @@ const createArticle = async ({title, description, image, link, project, wallet})
 export default {
     getArticles,
     updateArticle,
-    createArticle
+    createArticle,
+    deleteArticle
 }
