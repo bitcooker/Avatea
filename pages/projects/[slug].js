@@ -207,7 +207,9 @@ export default function ProjectDetail({ projectDetail }) {
 
             <div className="card-content pt-5 space-y-3.75">
               <div className="space-y-2.5">
-                <span className="text-base">Amount</span>
+                <span className="text-base">
+                  <i className="fa-regular fa-sack-dollar mr-1"></i>Amount
+                </span>
                 <Input
                   id="max"
                   name="max"
@@ -218,7 +220,10 @@ export default function ProjectDetail({ projectDetail }) {
               </div>
               <div className="grid md-lg:grid-cols-2 gap-3.75">
                 <div>
-                  <span className="text-base">Withdraw Rewards</span>
+                  <span className="text-base">
+                    <i className="fa-regular fa-circle-minus mr-1"></i>Withdraw
+                    Rewards
+                  </span>
                   <Input
                     id="withdrawRewards"
                     name="withdrawRewards"
@@ -228,7 +233,10 @@ export default function ProjectDetail({ projectDetail }) {
                   />
                 </div>
                 <div>
-                  <span className="text-base">Withdraw Avatea</span>
+                  <span className="text-base">
+                    <i className="fa-regular fa-circle-minus mr-1"></i>Withdraw
+                    Avatea
+                  </span>
                   <Input
                     id="withdrawAvatea"
                     name="withdrawAvatea"
@@ -239,7 +247,10 @@ export default function ProjectDetail({ projectDetail }) {
                 </div>
               </div>
               <div className="space-y-2.5">
-                <span className="text-base">Withdraw Both</span>
+                <span className="text-base">
+                  <i className="fa-regular fa-circle-minus mr-1"></i>Withdraw
+                  Both
+                </span>
                 <Input
                   id="withdrawBoth"
                   name="withdrawBoth"
@@ -295,7 +306,10 @@ export default function ProjectDetail({ projectDetail }) {
             </div>
             <div className="space-y-3.75">
               <div className="space-y-2.5">
-                <span className="text-base">Cash: 100.000</span>
+                <span className="text-base">
+                  <i className="fa-regular fa-money-bills-simple mr-1"></i>Cash:
+                  100.000
+                </span>
                 <InputWithIcon
                   id="withdrawCash"
                   name="withdrawCash"
@@ -305,7 +319,10 @@ export default function ProjectDetail({ projectDetail }) {
                 />
               </div>
               <div className="space-y-2.5">
-                <span className="text-base">Tokens: 100.000</span>
+                <span className="text-base">
+                  <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
+                  Tokens: 100.000
+                </span>
                 <InputWithIcon
                   id="withdrawToken"
                   name="withdrawToken"
@@ -386,7 +403,9 @@ export default function ProjectDetail({ projectDetail }) {
 
             <div className="card-content pt-1 space-y-3.75">
               <div className="space-y-2.5">
-                <span className="text-base">Cash</span>
+                <span className="text-base">
+                  <i className="fa-regular fa-money-bills-simple mr-1"></i>Cash
+                </span>
                 <Input
                   id="cash"
                   name="cash"
@@ -397,7 +416,10 @@ export default function ProjectDetail({ projectDetail }) {
               </div>
 
               <div className="space-y-2.5">
-                <span className="text-base">Token</span>
+                <span className="text-base">
+                  <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
+                  Token
+                </span>
                 <Input
                   id="token"
                   name="token"
