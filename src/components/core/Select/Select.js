@@ -8,7 +8,6 @@ export default function Select(props) {
         placeholder="7 Days"
         readOnly
       />
-      <SelectIcon />
     </div>
   );
 }
