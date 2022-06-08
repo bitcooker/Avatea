@@ -210,7 +210,7 @@ export default function ProjectDetail({ projectDetail }) {
                 <span className="text-base">
                   <i className="fa-regular fa-sack-dollar mr-1"></i>Amount
                 </span>
-                <Input
+                <InputWithIcon
                   id="max"
                   name="max"
                   type="number"
@@ -224,7 +224,7 @@ export default function ProjectDetail({ projectDetail }) {
                     <i className="fa-regular fa-circle-minus mr-1"></i>Withdraw
                     Rewards
                   </span>
-                  <Input
+                  <InputWithIcon
                     id="withdrawRewards"
                     name="withdrawRewards"
                     type="number"
@@ -237,7 +237,7 @@ export default function ProjectDetail({ projectDetail }) {
                     <i className="fa-regular fa-circle-minus mr-1"></i>Withdraw
                     Avatea
                   </span>
-                  <Input
+                  <InputWithIcon
                     id="withdrawAvatea"
                     name="withdrawAvatea"
                     type="number"
@@ -251,7 +251,7 @@ export default function ProjectDetail({ projectDetail }) {
                   <i className="fa-regular fa-circle-minus mr-1"></i>Withdraw
                   Both
                 </span>
-                <Input
+                <InputWithIcon
                   id="withdrawBoth"
                   name="withdrawBoth"
                   type="number"
@@ -402,7 +402,7 @@ export default function ProjectDetail({ projectDetail }) {
                 <span className="text-base">
                   <i className="fa-regular fa-money-bills-simple mr-1"></i>Cash
                 </span>
-                <Input
+                <InputWithIcon
                   id="cash"
                   name="cash"
                   type="number"
@@ -416,7 +416,7 @@ export default function ProjectDetail({ projectDetail }) {
                   <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
                   Token
                 </span>
-                <Input
+                <InputWithIcon
                   id="token"
                   name="token"
                   type="number"
