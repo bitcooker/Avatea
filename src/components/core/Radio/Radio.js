@@ -4,9 +4,13 @@ export default function Radio(props) {
   const radioRef = React.useRef(null);
   const [isSelected, setIsSelected] = React.useState(props.isSelected || false);
 
-  const handleClick = React.useCallback((e) => {
-    radioRef.current.checked = true;
-  }, []);
+  const handleClick = React.useCallback(
+    (e) => {
+      radioRef.current.checked = true;
+      props.handleSetMode(radioRef.current.value);
+    },
+    [props]
+  );
 
   return (
     <div
@@ -16,8 +20,10 @@ export default function Radio(props) {
       <input
         className="w-5 h-5 bg-purple-500"
         name={props.name}
+        value={props.value}
         type="radio"
         ref={radioRef}
+        defaultChecked={props.value == 1}
       />
       <span className="text-sm">{props.label}</span>
     </div>

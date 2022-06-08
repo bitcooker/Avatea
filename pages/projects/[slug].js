@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useWallet } from "use-wallet";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import helper from "../../src/helpers";
 import { ethers } from "ethers";
@@ -42,6 +42,7 @@ export default function ProjectDetail({ projectDetail }) {
   const [priceLimit, setPriceLimit] = useState(null);
   const [fresh, setFresh] = useState(false);
   const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
+  const [mode, setMode] = useState(1); // 0 - buy, 1 - hold, 2 - sell
 
   useEffect(() => {
     if (projectDetail) setProject(projectDetail);
@@ -180,6 +181,10 @@ export default function ProjectDetail({ projectDetail }) {
       fresh,
     });
   };
+
+  const handleSetMode = useCallback((mode) => {
+    setMode(mode);
+  }, []);
 
   return (
     <div className="space-y-7.5">
@@ -389,41 +394,61 @@ export default function ProjectDetail({ projectDetail }) {
             <div className="space-y-2.5">
               <span className="text-sm">Mode</span>
               <div className="grid grid-cols-2 md-lg:grid-cols-3 gap-x-4 gap-y-2.5">
-                <Radio name="mode" label="Buy" />
-                <Radio name="mode" label="Hold" />
-                <Radio name="mode" label="Sell" />
+                <Radio
+                  name="mode"
+                  label="Buy"
+                  value={0}
+                  handleSetMode={handleSetMode}
+                />
+                <Radio
+                  name="mode"
+                  label="Hold"
+                  value={1}
+                  handleSetMode={handleSetMode}
+                />
+                <Radio
+                  name="mode"
+                  label="Sell"
+                  value={2}
+                  handleSetMode={handleSetMode}
+                />
               </div>
             </div>
 
             <Button name="Save Settings" />
 
             <div className="card-content pt-1 space-y-3.75">
-              <div className="space-y-2.5">
-                <span className="text-base">
-                  <i className="fa-regular fa-money-bills-simple mr-1"></i>Cash
-                </span>
-                <InputWithIcon
-                  id="cash"
-                  name="cash"
-                  type="number"
-                  value="2324"
-                  submitName="Deposit"
-                />
-              </div>
+              {mode == 0 && (
+                <div className="space-y-2.5">
+                  <span className="text-base">
+                    <i className="fa-regular fa-money-bills-simple mr-1"></i>
+                    Cash
+                  </span>
+                  <InputWithIcon
+                    id="cash"
+                    name="cash"
+                    type="number"
+                    value="2324"
+                    submitName="Deposit"
+                  />
+                </div>
+              )}
 
-              <div className="space-y-2.5">
-                <span className="text-base">
-                  <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
-                  Token
-                </span>
-                <InputWithIcon
-                  id="token"
-                  name="token"
-                  type="number"
-                  value="2324"
-                  submitName="Deposit"
-                />
-              </div>
+              {mode == 2 && (
+                <div className="space-y-2.5">
+                  <span className="text-base">
+                    <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
+                    Token
+                  </span>
+                  <InputWithIcon
+                    id="token"
+                    name="token"
+                    type="number"
+                    value="2324"
+                    submitName="Deposit"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </Card>
