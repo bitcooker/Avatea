@@ -1,7 +1,5 @@
 import axios from 'axios';
-import {ethers} from 'ethers';
-import TokenContract from '../abi/Token.json';
-import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
+import {API_URL} from "./constants";
 import helpers from "./index";
 
 
@@ -69,6 +67,8 @@ const createArticle = async ({title, description, image, link, project, wallet})
         console.log('createArticle error:', e);
     }
 }
+
+
 export default {
     getArticles,
     updateArticle,
