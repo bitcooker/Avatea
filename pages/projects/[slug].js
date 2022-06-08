@@ -300,10 +300,6 @@ export default function ProjectDetail({ projectDetail }) {
           </div>
 
           <div className="card-content space-y-5">
-            <div className="grid md-lg:grid-cols-2 gap-3.75">
-              <ButtonOutline name="Bought" />
-              <ButtonOutline name="Amount Bought" />
-            </div>
             <div className="space-y-3.75">
               <div className="space-y-2.5">
                 <span className="text-base">
