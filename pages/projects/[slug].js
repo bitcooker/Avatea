@@ -17,11 +17,14 @@ import ButtonOutline from "../../src/components/core/Button/ButtonOutline";
 import RangeSlider from "../../src/components/core/RangeSlider/RangeSlider";
 import Select from "../../src/components/core/Select/Select";
 import Radio from "../../src/components/core/Radio/Radio";
+import Tab from "../../src/components/core/Tab/Tab";
 
 // project detail components
 import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
 import Card from "../../src/components/pages/projectDetail/Card/Card";
 import Feed from "../../src/components/pages/projectDetail/Feed/Feed";
+
+const tabItems = ["Vault(News)", "Market Making", "Vesting"];
 
 export default function ProjectDetail({ projectDetail }) {
   //@Todo add min buy limit and max buy limit fields (stop-loss)
@@ -43,6 +46,7 @@ export default function ProjectDetail({ projectDetail }) {
   const [fresh, setFresh] = useState(false);
   const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
   const [mode, setMode] = useState(1); // 0 - buy, 1 - hold, 2 - sell
+  const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
 
   useEffect(() => {
     if (projectDetail) setProject(projectDetail);
@@ -189,270 +193,279 @@ export default function ProjectDetail({ projectDetail }) {
   return (
     <div className="space-y-7.5">
       <Banner />
-
-      {/* Staked Avatea in vaults & News Feed */}
-      <div className="grid md-lg:grid-cols-2 gap-7.5">
-        <Card>
-          <div className="divide-y">
-            {/* Card Header */}
-            <div className="card-header">
-              <h1 className="text-2xl">Staked Avatea in vaults</h1>
-
-              <div className="py-5.5 space-y-4.5">
-                <div className="flex justify-between">
-                  <span className="text-sm">Total Transaction</span>
-                  <span className="text-base font-medium">2,345.56</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-sm">Expected APY</span>
-                  <span className="text-base font-medium">1234</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="card-content pt-5 space-y-3.75">
-              <div className="space-y-2.5">
-                <span className="text-base">
-                  <i className="fa-regular fa-sack-dollar mr-1"></i>Amount
-                </span>
-                <InputWithIcon
-                  id="max"
-                  name="max"
-                  type="number"
-                  value="15"
-                  submitName="Max"
-                />
-              </div>
-              <div className="grid md-lg:grid-cols-2 gap-3.75">
-                <div>
-                  <span className="text-base">
-                    <i className="fa-regular fa-circle-minus mr-1"></i>Withdraw
-                    Rewards
-                  </span>
-                  <InputWithIcon
-                    id="withdrawRewards"
-                    name="withdrawRewards"
-                    type="number"
-                    value="0"
-                    submitName="Withdraw"
-                  />
-                </div>
-                <div>
-                  <span className="text-base">
-                    <i className="fa-regular fa-circle-minus mr-1"></i>Withdraw
-                    Avatea
-                  </span>
-                  <InputWithIcon
-                    id="withdrawAvatea"
-                    name="withdrawAvatea"
-                    type="number"
-                    value="0"
-                    submitName="Withdraw"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2.5">
-                <span className="text-base">
-                  <i className="fa-regular fa-circle-minus mr-1"></i>Withdraw
-                  Both
-                </span>
-                <InputWithIcon
-                  id="withdrawBoth"
-                  name="withdrawBoth"
-                  type="number"
-                  value="0"
-                  submitName="Withdraw"
-                />
-              </div>
-            </div>
-          </div>
-        </Card>
-        <Card title="News Feed">
-          {/* Card Header */}
-          <div className="card-header">
-            <h1 className="text-2xl">News Feed</h1>
-          </div>
-
-          <div className="card-content pt-5.5">
-            <Feed />
-          </div>
-        </Card>
+      {/* Tab menu */}
+      <div className="flex justify-center">
+        <Tab items={tabItems} tab={tab} setTab={setTab} />
       </div>
-
-      {/* Activity & Settings */}
-      <div className="grid md-lg:grid-cols-2 gap-7.5">
-        <Card title="Activity">
-          {/* Card Header */}
-          <div className="card-header">
-            <h1 className="text-2xl">Activity</h1>
-
-            <div className="py-5.5 space-y-4.5">
-              <div className="flex justify-between">
-                <span className="text-sm">Sold</span>
-                <span className="flex text-base font-medium">
-                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
-                  100.00
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-sm">Bought</span>
-                <span className="flex text-base font-medium">
-                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
-                  100.00
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="card-content space-y-5">
-            <div className="space-y-3.75">
-              <div className="space-y-2.5">
-                <span className="text-base">
-                  <i className="fa-regular fa-money-bills-simple mr-1"></i>Cash:
-                  100.000
-                </span>
-                <InputWithIcon
-                  id="withdrawCash"
-                  name="withdrawCash"
-                  type="number"
-                  placeholder="Input amount to withdraw"
-                  submitName="Withdraw"
-                />
-              </div>
-              <div className="space-y-2.5">
-                <span className="text-base">
-                  <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
-                  Tokens: 100.000
-                </span>
-                <InputWithIcon
-                  id="withdrawToken"
-                  name="withdrawToken"
-                  type="number"
-                  placeholder="Input amount to withdraw"
-                  submitName="Withdraw"
-                />
-              </div>
-            </div>
-
-            <div className="vesting-content !mt-7.5">
-              <div className="vesting-header">
-                <h1 className="text-2xl">Vesting</h1>
+      {/* Staked Avatea in vaults & News Feed */}
+      {tab == 0 && (
+        <div className="grid md-lg:grid-cols-2 gap-7.5">
+          <Card>
+            <div className="divide-y">
+              {/* Card Header */}
+              <div className="card-header">
+                <h1 className="text-2xl">Staked Avatea in vaults</h1>
 
                 <div className="py-5.5 space-y-4.5">
                   <div className="flex justify-between">
-                    <span className="text-sm">Total Vested</span>
-                    <span className="flex text-base font-medium">
-                      <img
-                        src="/coins/maticIcon.png"
-                        className="w-6 h-6 mr-2.5"
-                      />
-                      100.00
-                    </span>
+                    <span className="text-sm">Total Transaction</span>
+                    <span className="text-base font-medium">2,345.56</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm">Releasable</span>
-                    <span className="flex text-base font-medium">
-                      <img
-                        src="/coins/maticIcon.png"
-                        className="w-6 h-6 mr-2.5"
-                      />
-                      100.00
-                    </span>
+                    <span className="text-sm">Expected APY</span>
+                    <span className="text-base font-medium">1234</span>
                   </div>
                 </div>
               </div>
 
-              <div className="grid md-lg:grid-cols-2 gap-3.75">
-                <ButtonOutline name="Total Amount(1000.00)" />
-                <ButtonOutline name="Amount of Tokens" />
-              </div>
-
-              <div className="pt-9">
-                <Button name="Release Tokens" />
+              <div className="card-content pt-5 space-y-3.75">
+                <div className="space-y-2.5">
+                  <span className="text-base">
+                    <i className="fa-regular fa-sack-dollar mr-1"></i>Amount
+                  </span>
+                  <InputWithIcon
+                    id="max"
+                    name="max"
+                    type="number"
+                    value="15"
+                    submitName="Max"
+                  />
+                </div>
+                <div className="grid md-lg:grid-cols-2 gap-3.75">
+                  <div>
+                    <span className="text-base">
+                      <i className="fa-regular fa-circle-minus mr-1"></i>
+                      Withdraw Rewards
+                    </span>
+                    <InputWithIcon
+                      id="withdrawRewards"
+                      name="withdrawRewards"
+                      type="number"
+                      value="0"
+                      submitName="Withdraw"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-base">
+                      <i className="fa-regular fa-circle-minus mr-1"></i>
+                      Withdraw Avatea
+                    </span>
+                    <InputWithIcon
+                      id="withdrawAvatea"
+                      name="withdrawAvatea"
+                      type="number"
+                      value="0"
+                      submitName="Withdraw"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2.5">
+                  <span className="text-base">
+                    <i className="fa-regular fa-circle-minus mr-1"></i>Withdraw
+                    Both
+                  </span>
+                  <InputWithIcon
+                    id="withdrawBoth"
+                    name="withdrawBoth"
+                    type="number"
+                    value="0"
+                    submitName="Withdraw"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        </Card>
-        <Card title="Settings">
-          {/* Card Header */}
-          <div className="card-header">
-            <h1 className="text-2xl">Settings</h1>
-          </div>
+          </Card>
+          <Card title="News Feed">
+            {/* Card Header */}
+            <div className="card-header">
+              <h1 className="text-2xl">News Feed</h1>
+            </div>
 
-          <div className="card-content pt-5.5 space-y-5">
-            <div className=" grid md-lg:grid-cols-2 gap-5">
-              <div className="flex flex-col space-y-10">
-                <span className="text-sm">Pressure Slider</span>
-                <RangeSlider percent="10" />
-              </div>
-              <div className="space-y-2.5">
-                <span className="text-sm">Estimation</span>
-                <Select />
+            <div className="card-content pt-5.5">
+              <Feed />
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {/* Activity & Settings */}
+      {tab == 1 && (
+        <div className="grid md-lg:grid-cols-2 gap-7.5">
+          <Card title="Activity">
+            {/* Card Header */}
+            <div className="card-header">
+              <h1 className="text-2xl">Activity</h1>
+
+              <div className="py-5.5 space-y-4.5">
+                <div className="flex justify-between">
+                  <span className="text-sm">Sold</span>
+                  <span className="flex text-base font-medium">
+                    <img
+                      src="/coins/maticIcon.png"
+                      className="w-6 h-6 mr-2.5"
+                    />
+                    100.00
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-sm">Bought</span>
+                  <span className="flex text-base font-medium">
+                    <img
+                      src="/coins/maticIcon.png"
+                      className="w-6 h-6 mr-2.5"
+                    />
+                    100.00
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="space-y-2.5">
-              <span className="text-sm">Mode</span>
-              <div className="grid grid-cols-2 md-lg:grid-cols-3 gap-x-4 gap-y-2.5">
-                <Radio
-                  name="mode"
-                  label="Buy"
-                  value={0}
-                  handleSetMode={handleSetMode}
-                />
-                <Radio
-                  name="mode"
-                  label="Hold"
-                  value={1}
-                  handleSetMode={handleSetMode}
-                />
-                <Radio
-                  name="mode"
-                  label="Sell"
-                  value={2}
-                  handleSetMode={handleSetMode}
-                />
-              </div>
-            </div>
-
-            <Button name="Save Settings" />
-
-            <div className="card-content pt-1 space-y-3.75">
-              {mode == 0 && (
+            <div className="card-content space-y-5">
+              <div className="space-y-3.75">
                 <div className="space-y-2.5">
                   <span className="text-base">
                     <i className="fa-regular fa-money-bills-simple mr-1"></i>
-                    Cash
+                    Cash: 100.000
                   </span>
                   <InputWithIcon
-                    id="cash"
-                    name="cash"
+                    id="withdrawCash"
+                    name="withdrawCash"
                     type="number"
-                    value="2324"
-                    submitName="Deposit"
+                    placeholder="Input amount to withdraw"
+                    submitName="Withdraw"
                   />
                 </div>
-              )}
-
-              {mode == 2 && (
                 <div className="space-y-2.5">
                   <span className="text-base">
                     <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
-                    Token
+                    Tokens: 100.000
                   </span>
                   <InputWithIcon
-                    id="token"
-                    name="token"
+                    id="withdrawToken"
+                    name="withdrawToken"
                     type="number"
-                    value="2324"
-                    submitName="Deposit"
+                    placeholder="Input amount to withdraw"
+                    submitName="Withdraw"
                   />
                 </div>
-              )}
+              </div>
+            </div>
+          </Card>
+          <Card title="Settings">
+            {/* Card Header */}
+            <div className="card-header">
+              <h1 className="text-2xl">Settings</h1>
+            </div>
+
+            <div className="card-content pt-5.5 space-y-5">
+              <div className=" grid md-lg:grid-cols-2 gap-5">
+                <div className="flex flex-col space-y-10">
+                  <span className="text-sm">Pressure Slider</span>
+                  <RangeSlider percent="10" />
+                </div>
+                <div className="space-y-2.5">
+                  <span className="text-sm">Estimation</span>
+                  <Select />
+                </div>
+              </div>
+
+              <div className="space-y-2.5">
+                <span className="text-sm">Mode</span>
+                <div className="grid grid-cols-2 md-lg:grid-cols-3 gap-x-4 gap-y-2.5">
+                  <Radio
+                    name="mode"
+                    label="Buy"
+                    value={0}
+                    handleSetMode={handleSetMode}
+                  />
+                  <Radio
+                    name="mode"
+                    label="Hold"
+                    value={1}
+                    handleSetMode={handleSetMode}
+                  />
+                  <Radio
+                    name="mode"
+                    label="Sell"
+                    value={2}
+                    handleSetMode={handleSetMode}
+                  />
+                </div>
+              </div>
+
+              <Button name="Save Settings" />
+
+              <div className="card-content pt-1 space-y-3.75">
+                {mode == 0 && (
+                  <div className="space-y-2.5">
+                    <span className="text-base">
+                      <i className="fa-regular fa-money-bills-simple mr-1"></i>
+                      Cash
+                    </span>
+                    <InputWithIcon
+                      id="cash"
+                      name="cash"
+                      type="number"
+                      value="2324"
+                      submitName="Deposit"
+                    />
+                  </div>
+                )}
+
+                {mode == 2 && (
+                  <div className="space-y-2.5">
+                    <span className="text-base">
+                      <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
+                      Token
+                    </span>
+                    <InputWithIcon
+                      id="token"
+                      name="token"
+                      type="number"
+                      value="2324"
+                      submitName="Deposit"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </Card>
+        </div>
+      )}
+
+      {tab == 2 && (
+        <Card>
+          <div className="vesting-header">
+            <h1 className="text-2xl">Vesting</h1>
+
+            <div className="py-5.5 space-y-4.5">
+              <div className="flex justify-between">
+                <span className="text-sm">Total Vested</span>
+                <span className="flex text-base font-medium">
+                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
+                  100.00
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm">Releasable</span>
+                <span className="flex text-base font-medium">
+                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
+                  100.00
+                </span>
+              </div>
             </div>
           </div>
+
+          <div className="grid md-lg:grid-cols-2 gap-3.75">
+            <ButtonOutline name="Total Amount(1000.00)" />
+            <ButtonOutline name="Amount of Tokens" />
+          </div>
+
+          <div className="pt-9">
+            <Button name="Release Tokens" />
+          </div>
         </Card>
-      </div>
+      )}
     </div>
   );
 }
