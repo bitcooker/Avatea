@@ -5,6 +5,7 @@ import Head from "next/head";
 import Header from "./Header";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import Script from 'next/script'
 const SidebarWithNoSSR = dynamic(() => import("./Sidebar"), { ssr: false });
 
 export default function Layout({ children }) {
@@ -19,13 +20,13 @@ export default function Layout({ children }) {
 
   return (
     <>
-      <Head>
+        <Script src="https://kit.fontawesome.com/92468525cf.js"></Script>
+        <Head>
         <title>Avatea Base Demo</title>
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
-        <script src="https://kit.fontawesome.com/92468525cf.js"></script>
       </Head>
       <UseWalletProvider
         chainId={56}
