@@ -48,6 +48,9 @@ module.exports = {
       screens: {
         "md-lg": "840px",
       },
+      backgroundSize: {
+        "50%": "50%",
+      },
     },
   },
   plugins: [],
