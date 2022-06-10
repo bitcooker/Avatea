@@ -10,12 +10,11 @@ import {
 } from "../../src/helpers/constants";
 
 // core components
-import Input from "../../src/components/core/Input/Input";
+import InputEmpty from "../../src/components/core/Input/InputEmpty";
 import InputWithIcon from "../../src/components/core/Input/InputWithIcon";
 import Button from "../../src/components/core/Button/Button";
 import ButtonOutline from "../../src/components/core/Button/ButtonOutline";
 import RangeSlider from "../../src/components/core/RangeSlider/RangeSlider";
-import Select from "../../src/components/core/Select/Select";
 import Radio from "../../src/components/core/Radio/Radio";
 import Tab from "../../src/components/core/Tab/Tab";
 
@@ -365,7 +364,7 @@ export default function ProjectDetail({ projectDetail }) {
                 </div>
                 <div className="space-y-2.5">
                   <span className="text-sm">Estimation</span>
-                  <Select />
+                  <InputEmpty placeholder="7 Days" readOnly />
                 </div>
               </div>
 
@@ -488,15 +487,10 @@ export async function getServerSideProps(context) {
     projectDetails = {};
   }
   return {
-    // props: {
-    //     projectDetail: projectDetails?.project,
-    //     marketMakingPool: projectDetails?.marketMakingPool,
-    //     vault: projectDetails?.vault
-    // }
     props: {
-      projectDetail: null,
-      marketMakingPool: null,
-      vault: null,
+      projectDetail: projectDetails?.project,
+      marketMakingPool: projectDetails?.marketMakingPool,
+      vault: projectDetails?.vault,
     },
   };
 }
