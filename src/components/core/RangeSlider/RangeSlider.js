@@ -1,7 +1,6 @@
 import * as React from "react";
 
 export default function RangeSlider(props) {
-  const [isMouseOver, setIsMouseOver] = React.useState(false);
   const [percent, setPercent] = React.useState(props.percent);
   const [bgSize, setBgSize] = React.useState(props.percent + "% 100%");
 
@@ -13,14 +12,6 @@ export default function RangeSlider(props) {
     setPercent(e.target.value);
   }, []);
 
-  const handleMouseOver = React.useCallback((e) => {
-    setIsMouseOver(true);
-  }, []);
-
-  const handleMouseOut = React.useCallback((e) => {
-    setIsMouseOver(false);
-  }, []);
-
   return (
     <div className="relative group w-full bg-gray-200 h-2.5 rounded-full">
       <input
@@ -28,8 +19,6 @@ export default function RangeSlider(props) {
         value={percent}
         className="absolute w-full h-2.5 appearance-none rounded-full hover:cursor-pointer"
         onInput={handleOnInput}
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
         style={{ backgroundSize: bgSize }}
       />
       <div
