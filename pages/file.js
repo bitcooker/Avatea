@@ -1,18 +1,29 @@
 import {useState} from "react";
+import {API_URL} from "../src/helpers/constants";
+import helpers from "../src/helpers";
+import {useWallet} from "use-wallet";
+import axios from 'axios';
 
 export default function File() {
 
+    const wallet = useWallet();
     // a local state to store the currently selected file.
     const [selectedFile, setSelectedFile] = useState(null);
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+        const signature = await helpers.web3.authentication.getSignature(wallet);
+
         const formData = new FormData();
-        formData.append("selectedFile", selectedFile);
+        formData.append("image", selectedFile);
+        formData.append("project", "mercor-finance");
+        formData.append("title", 'my-title');
+        formData.append("description", 'my-description');
+        formData.append("signature", signature);
         try {
             const response = await axios({
                 method: "post",
-                url: "/api/upload/file",
+                url: `${API_URL}Article/`,
                 data: formData,
                 headers: { "Content-Type": "multipart/form-data" },
             });
