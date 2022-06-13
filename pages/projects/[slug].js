@@ -57,7 +57,7 @@ export default function ProjectDetail({ projectDetail }) {
         setMarketMakingPool(result?.marketMakingPool);
         setVault(result?.vault);
       };
-      // fetchProject();
+      fetchProject();
     }
   }, []);
 
@@ -192,7 +192,7 @@ export default function ProjectDetail({ projectDetail }) {
 
   return (
     <div className="space-y-7.5">
-      <Banner />
+      <Banner {...project}/>
       {/* Tab menu */}
       <div className="flex justify-center">
         <Tab items={tabItems} tab={tab} setTab={setTab} />
@@ -221,7 +221,7 @@ export default function ProjectDetail({ projectDetail }) {
               <div className="card-content pt-5 space-y-3.75">
                 <div className="space-y-2.5">
                   <span className="text-base">
-                    <i className="fa-regular fa-sack-dollar mr-1"></i>Amount
+                    <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
                   </span>
                   <InputWithIcon
                     id="max"
@@ -241,8 +241,10 @@ export default function ProjectDetail({ projectDetail }) {
                       id="withdrawRewards"
                       name="withdrawRewards"
                       type="number"
-                      value="0"
+                      value={vaultBalance}
+                      setValue={setVaultBalance}
                       submitName="Withdraw"
+                      submitFunction={withdrawVault}
                     />
                   </div>
                   <div>
@@ -333,6 +335,8 @@ export default function ProjectDetail({ projectDetail }) {
                     type="number"
                     placeholder="Input amount to withdraw"
                     submitName="Withdraw"
+                    setValue={setAmountPairToken}
+                    submitFunction={withdrawPairToken}
                   />
                 </div>
                 <div className="space-y-2.5">
@@ -344,8 +348,10 @@ export default function ProjectDetail({ projectDetail }) {
                     id="withdrawToken"
                     name="withdrawToken"
                     type="number"
+                    setValue={setAmountBaseToken}
                     placeholder="Input amount to withdraw"
                     submitName="Withdraw"
+                    submitFunction={withdrawBaseToken}
                   />
                 </div>
               </div>
@@ -488,15 +494,15 @@ export async function getServerSideProps(context) {
     projectDetails = {};
   }
   return {
-    // props: {
-    //     projectDetail: projectDetails?.project,
-    //     marketMakingPool: projectDetails?.marketMakingPool,
-    //     vault: projectDetails?.vault
-    // }
     props: {
-      projectDetail: null,
-      marketMakingPool: null,
-      vault: null,
-    },
+        projectDetail: projectDetails?.project,
+        marketMakingPool: projectDetails?.marketMakingPool,
+        vault: projectDetails?.vault
+    }
+    // props: {
+    //   projectDetail: null,
+    //   marketMakingPool: null,
+    //   vault: null,
+    // },
   };
 }

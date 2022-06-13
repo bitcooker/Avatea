@@ -8,12 +8,12 @@ export default function Preview(props) {
     <div
       className="relative w-full h-85 md-lg:h-100 rounded-2.5xl"
       style={{
-        backgroundImage: `url("/projects/cloud-project.png")`,
+        backgroundImage: `url("${props.banner}")`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <BannerContent />
+      <BannerContent whitepaper={props.whitepaper} website={props.website} description={props.description} name={props.name} tokenImage={props.image}/>
     </div>
   );
 }

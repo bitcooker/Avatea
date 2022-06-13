@@ -2,10 +2,10 @@ import * as React from "react";
 import InputSubmit from "./InputSubmit";
 
 export default function Input(props) {
-  const [value, setValue] = React.useState(props.value);
+  // const [value, setValue] = React.useState(props.value);
 
   const onChange = React.useCallback((e) => {
-    setValue(e.target.value);
+    props.setValue(e.target.value);
   }, []);
 
   return (
@@ -15,12 +15,12 @@ export default function Input(props) {
         id={props.id}
         name={props.name}
         type={props.type}
-        value={value}
+        value={props.value}
         onChange={onChange}
         className="block w-full bg-gray-100"
         placeholder={props.placeholder}
       />
-      <InputSubmit name={props.submitName} />
+      <InputSubmit name={props.submitName} submitFunction={props.submitFunction} />
     </div>
   );
 }

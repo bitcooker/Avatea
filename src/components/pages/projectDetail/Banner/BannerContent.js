@@ -12,56 +12,22 @@ export default function PreviewContent(props) {
       <div className="flex flex-col space-y-5 w-full md-lg:w-1/2 md-lg:h-full">
         <div className="flex md-lg:w-full md-lg:h-1/2 md-lg:space-x-3.5">
           <div className="flex-none w-[67px] h-[67px] px-5 py-2.5 bg-white/10 rounded-0.5xl">
-            <svg
-              width="26"
-              height="42"
-              viewBox="0 0 26 42"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              z-index="10"
-            >
-              <path
-                d="M12.891 0L12.6094 0.957059V28.7287L12.891 29.0098L25.7822 21.3898L12.891 0Z"
-                fill="#DAD3D3"
-              />
-              <path
-                d="M12.8913 0L0 21.3898L12.8913 29.0099V15.5303V0Z"
-                fill="white"
-              />
-              <path
-                d="M12.8911 31.4506L12.7324 31.6441V41.5369L12.8911 42.0005L25.79 23.8345L12.8911 31.4506Z"
-                fill="#DAD3D3"
-              />
-              <path
-                d="M12.8913 42.0005V31.4506L0 23.8345L12.8913 42.0005Z"
-                fill="white"
-              />
-              <path
-                d="M12.8916 29.0096L25.7827 21.3897L12.8916 15.5303V29.0096Z"
-                fill="#9D8A8A"
-              />
-              <path
-                d="M0 21.3897L12.8911 29.0096V15.5303L0 21.3897Z"
-                fill="#DAD3D3"
-              />
-            </svg>
+            <img className={'w-100 '} src={props.tokenImage} />
           </div>
           <div className="flex-1 w-1/2 h-[67px] space-y-2">
             <div className="text-white text-lg font-poppins leading-none">
-              Ethereum (ETH)
+              {props.name}
             </div>
             <div className="text-white/80 text-xs font-poppins">
               Total value locked : <span className="text-white">$100,000</span>
             </div>
             <div className="text-white/80 text-xs font-poppins">
-              Website : <span className="text-white">example.com</span>
+              Website : <span className="text-white"><a href={props.website} target={'_blank'} rel={'nofollow'}>{props.website}</a></span>
             </div>
           </div>
         </div>
         <div className="md-lg:w-full md-lg:h-1/2 text-white leading-6 font-poppins opacity-80">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum nam
-          blandit praesent tellus mauris quam ut. Pulvinar nunc, posuere tellus
-          odio enim, posuere. Enim tincidunt arcu.
+          {props.description}
         </div>
       </div>
       <div className="relative w-48 md-lg:h-full">
