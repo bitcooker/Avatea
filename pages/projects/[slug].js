@@ -11,7 +11,7 @@ import {
 
 // core components
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
-import InputWithIcon from "../../src/components/core/Input/InputWithIcon";
+import InputWithIconSubmit from "../../src/components/core/Input/InputWithIconSubmit";
 import Button from "../../src/components/core/Button/Button";
 import ButtonOutline from "../../src/components/core/Button/ButtonOutline";
 import RangeSlider from "../../src/components/core/RangeSlider/RangeSlider";
@@ -222,7 +222,7 @@ export default function ProjectDetail({ projectDetail }) {
                   <span className="text-base">
                     <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
                   </span>
-                  <InputWithIcon
+                  <InputWithIconSubmit
                     id="max"
                     name="max"
                     type="number"
@@ -236,7 +236,7 @@ export default function ProjectDetail({ projectDetail }) {
                     <i className="fa-regular fa-circle-minus mr-1"></i>
                     Withdraw Avatea
                   </span>
-                  <InputWithIcon
+                  <InputWithIconSubmit
                     id="withdrawAvatea"
                     name="withdrawAvatea"
                     type="number"
@@ -304,7 +304,7 @@ export default function ProjectDetail({ projectDetail }) {
                     <i className="fa-regular fa-money-bills-simple mr-1"></i>
                     Cash: 100.000
                   </span>
-                  <InputWithIcon
+                  <InputWithIconSubmit
                     id="withdrawCash"
                     name="withdrawCash"
                     type="number"
@@ -320,7 +320,7 @@ export default function ProjectDetail({ projectDetail }) {
                     <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
                     Tokens: 100.000
                   </span>
-                  <InputWithIcon
+                  <InputWithIconSubmit
                     id="withdrawToken"
                     name="withdrawToken"
                     type="number"
@@ -385,7 +385,7 @@ export default function ProjectDetail({ projectDetail }) {
                       <i className="fa-regular fa-money-bills-simple mr-1"></i>
                       Cash
                     </span>
-                    <InputWithIcon
+                    <InputWithIconSubmit
                       id="cash"
                       name="cash"
                       type="number"
@@ -402,7 +402,7 @@ export default function ProjectDetail({ projectDetail }) {
                       <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
                       Token
                     </span>
-                    <InputWithIcon
+                    <InputWithIconSubmit
                       id="token"
                       name="token"
                       type="number"
