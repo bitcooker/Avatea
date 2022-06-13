@@ -20,7 +20,11 @@ export default function Input(props) {
         className="block w-full bg-gray-100"
         placeholder={props.placeholder}
       />
-      <InputSubmit name={props.submitName} submitFunction={props.submitFunction} />
+      <InputSubmit
+        name={props.submitName}
+        icon={props.icon}
+        submitFunction={props.submitFunction}
+      />
     </div>
   );
 }

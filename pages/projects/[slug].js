@@ -191,7 +191,7 @@ export default function ProjectDetail({ projectDetail }) {
 
   return (
     <div className="space-y-7.5">
-      <Banner {...project}/>
+      <Banner {...project} />
       {/* Tab menu */}
       <div className="flex justify-center">
         <Tab items={tabItems} tab={tab} setTab={setTab} />
@@ -218,7 +218,7 @@ export default function ProjectDetail({ projectDetail }) {
               </div>
 
               <div className="card-content pt-5 space-y-3.75">
-                <div className="space-y-2.5">
+                <div>
                   <span className="text-base">
                     <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
                   </span>
@@ -228,50 +228,26 @@ export default function ProjectDetail({ projectDetail }) {
                     type="number"
                     value="15"
                     submitName="Max"
+                    icon="fa-light fa-gauge-max"
                   />
                 </div>
-                <div className="grid md-lg:grid-cols-2 gap-3.75">
-                  <div>
-                    <span className="text-base">
-                      <i className="fa-regular fa-circle-minus mr-1"></i>
-                      Withdraw Rewards
-                    </span>
-                    <InputWithIcon
-                      id="withdrawRewards"
-                      name="withdrawRewards"
-                      type="number"
-                      value={vaultBalance}
-                      setValue={setVaultBalance}
-                      submitName="Withdraw"
-                      submitFunction={withdrawVault}
-                    />
-                  </div>
-                  <div>
-                    <span className="text-base">
-                      <i className="fa-regular fa-circle-minus mr-1"></i>
-                      Withdraw Avatea
-                    </span>
-                    <InputWithIcon
-                      id="withdrawAvatea"
-                      name="withdrawAvatea"
-                      type="number"
-                      value="0"
-                      submitName="Withdraw"
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2.5">
+                <div>
                   <span className="text-base">
-                    <i className="fa-regular fa-circle-minus mr-1"></i>Withdraw
-                    Both
+                    <i className="fa-regular fa-circle-minus mr-1"></i>
+                    Withdraw Avatea
                   </span>
                   <InputWithIcon
-                    id="withdrawBoth"
-                    name="withdrawBoth"
+                    id="withdrawAvatea"
+                    name="withdrawAvatea"
                     type="number"
                     value="0"
                     submitName="Withdraw"
+                    icon="fa-light fa-circle-minus"
                   />
+                </div>
+                <div className="grid md-lg:grid-cols-2 gap-3.75">
+                  <Button name="Withdraw Rewards" />
+                  <Button name="Withdraw Both" />
                 </div>
               </div>
             </div>
@@ -334,6 +310,7 @@ export default function ProjectDetail({ projectDetail }) {
                     type="number"
                     placeholder="Input amount to withdraw"
                     submitName="Withdraw"
+                    icon="fa-light fa-circle-minus"
                     setValue={setAmountPairToken}
                     submitFunction={withdrawPairToken}
                   />
@@ -347,9 +324,10 @@ export default function ProjectDetail({ projectDetail }) {
                     id="withdrawToken"
                     name="withdrawToken"
                     type="number"
-                    setValue={setAmountBaseToken}
                     placeholder="Input amount to withdraw"
                     submitName="Withdraw"
+                    icon="fa-light fa-circle-minus"
+                    setValue={setAmountBaseToken}
                     submitFunction={withdrawBaseToken}
                   />
                 </div>
@@ -412,6 +390,7 @@ export default function ProjectDetail({ projectDetail }) {
                       name="cash"
                       type="number"
                       value="2324"
+                      icon="fa-light fa-circle-plus"
                       submitName="Deposit"
                     />
                   </div>
@@ -428,6 +407,7 @@ export default function ProjectDetail({ projectDetail }) {
                       name="token"
                       type="number"
                       value="2324"
+                      icon="fa-light fa-circle-plus"
                       submitName="Deposit"
                     />
                   </div>
@@ -483,7 +463,7 @@ export default function ProjectDetail({ projectDetail }) {
 // }
 
 export async function getServerSideProps(context) {
-  const {slug} = context.query;
+  const { slug } = context.query;
   let projectDetails;
   try {
     projectDetails = await helper.project.getProject(slug);
@@ -496,12 +476,12 @@ export async function getServerSideProps(context) {
     props: {
       projectDetail: projectDetails?.project,
       marketMakingPool: projectDetails?.marketMakingPool,
-      vault: projectDetails?.vault
-    }
+      vault: projectDetails?.vault,
+    },
     // props: {
     //   projectDetail: null,
     //   marketMakingPool: null,
     //   vault: null,
     // },
-  }
+  };
 }
