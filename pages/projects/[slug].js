@@ -483,7 +483,7 @@ export default function ProjectDetail({ projectDetail }) {
 // }
 
 export async function getServerSideProps(context) {
-  const { slug } = context.query;
+  const {slug} = context.query;
   let projectDetails;
   try {
     projectDetails = await helper.project.getProject(slug);
@@ -494,13 +494,14 @@ export async function getServerSideProps(context) {
   }
   return {
     props: {
-        projectDetail: projectDetails?.project,
-        marketMakingPool: projectDetails?.marketMakingPool,
-        vault: projectDetails?.vault
+      projectDetail: projectDetails?.project,
+      marketMakingPool: projectDetails?.marketMakingPool,
+      vault: projectDetails?.vault
     }
     // props: {
     //   projectDetail: null,
     //   marketMakingPool: null,
     //   vault: null,
     // },
+  }
 }
