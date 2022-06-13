@@ -22,7 +22,7 @@ export default function RangeSlider(props) {
         style={{ backgroundSize: bgSize }}
       />
       <div
-        className="absolute w-8 transform -translate-x-1/2 border bottom-5 transition-all ease-in-out duration-200 bg-indigo-500 text-center rounded-md p-1 text-white z-50 opacity-0 scale-y-0 group-hover:opacity-100 group-hover:scale-y-100"
+        className="absolute w-8 transform -translate-x-1/2 border bottom-5 transition-all ease-in-out duration-200 bg-indigo-500 text-center rounded-md p-1 text-white z-50 opacity-0 scale-y-0 group-hover:opacity-100 group-hover:scale-y-100 pointer-events-none"
         style={{ left: percent + "%" }}
       >
         <span>{percent}</span>
