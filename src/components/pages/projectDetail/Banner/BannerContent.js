@@ -11,8 +11,8 @@ export default function PreviewContent(props) {
     >
       <div className="flex flex-col space-y-5 w-full md-lg:w-1/2 md-lg:h-full">
         <div className="flex md-lg:w-full md-lg:h-1/2 md-lg:space-x-3.5">
-          <div className="flex-none w-[67px] h-[67px] px-5 py-2.5 bg-white/10 rounded-0.5xl">
-            <img className={'w-100 '} src={props.tokenImage} />
+          <div className="flex-none flex items-center w-[67px] h-[67px] px-5 py-2.5 bg-white/10 rounded-0.5xl">
+            <img className={"w-100 "} src={props.tokenImage} />
           </div>
           <div className="flex-1 w-1/2 h-[67px] space-y-2">
             <div className="text-white text-lg font-poppins leading-none">
@@ -22,7 +22,12 @@ export default function PreviewContent(props) {
               Total value locked : <span className="text-white">$100,000</span>
             </div>
             <div className="text-white/80 text-xs font-poppins">
-              Website : <span className="text-white"><a href={props.website} target={'_blank'} rel={'noreferrer'}>{props.website}</a></span>
+              Website :{" "}
+              <span className="text-white">
+                <a href={props.website} target={"_blank"} rel={"noreferrer"}>
+                  {props.website}
+                </a>
+              </span>
             </div>
           </div>
         </div>
