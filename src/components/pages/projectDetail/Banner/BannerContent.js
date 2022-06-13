@@ -22,7 +22,7 @@ export default function PreviewContent(props) {
               Total value locked : <span className="text-white">$100,000</span>
             </div>
             <div className="text-white/80 text-xs font-poppins">
-              Website : <span className="text-white"><a href={props.website} target={'_blank'} rel={'nofollow'}>{props.website}</a></span>
+              Website : <span className="text-white"><a href={props.website} target={'_blank'} rel={'noreferrer'}>{props.website}</a></span>
             </div>
           </div>
         </div>
