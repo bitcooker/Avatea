@@ -49,6 +49,12 @@ export default function ProjectDetail({ projectDetail }) {
   const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
   const [mode, setMode] = useState(1); // 0 - buy, 1 - hold, 2 - sell
   const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
+  const [stakedVaultBalance,setStakedVaultBalance] = useState(0);
+  const [avateaBalance,setAvateaBalance] = useState(0);
+  const [amountPairTokenBalance, setAmountPairTokenBalance] = useState(0);
+  const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState(0);
+  const [pairedTokenWalletBalance, setPairedTokenWalletBalance] = useState(0);
+  const [projectTokenBalance, setProjectTokenBalance] = useState(0);
 
   useEffect(() => {
     if (projectDetail) setProject(projectDetail);
@@ -100,27 +106,31 @@ export default function ProjectDetail({ projectDetail }) {
           setPressure(buy_sell_pressure);
           setPriceLimit(priceLimit);
         }
-        setAmountBaseToken(
+        setAmountBaseTokenBalance(
           ethers.utils.formatEther((
-            await helper.marketMaker.available(
+            await helper.web3.marketMaker.available(
               wallet,
               marketMakingPool.address,
               wallet.account
             )
           ))
         );
-        setAmountPairToken(
+        setAmountPairTokenBalance(
             ethers.utils.formatEther((
-            await helper.marketMaker.getWithdrawablePairedTokens(
+            await helper.web3.marketMaker.getWithdrawablePairedTokens(
               wallet,
               marketMakingPool.address,
               wallet.account
             )
           ))
         );
-        setVaultBalance(
-          ethers.utils.formatEther((await helper.vault.balanceOf(wallet, vault.address, wallet.account)))
+        setStakedVaultBalance(
+          ethers.utils.formatEther((await helper.web3.vault.balanceOf(wallet, vault.address, wallet.account)))
         );
+        setAvateaBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, AVATEA_TOKEN_ADDRESS))))
+        setPairedTokenWalletBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, marketMakingPool.paired_token))))
+        setProjectTokenBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, project.token))))
+
       };
       initWalletConnected();
     }
@@ -190,6 +200,7 @@ export default function ProjectDetail({ projectDetail }) {
 
 
 
+
   const updateSettings = async () => {
     console.log(fresh);
     const marketMakingSettings = {
@@ -206,6 +217,10 @@ export default function ProjectDetail({ projectDetail }) {
       fresh,
     });
   };
+
+  const setMax = async(amount,setter) => {
+    setter(amount);
+  }
 
   const handleSetMode = useCallback((mode) => {
     setMode(mode);
@@ -243,6 +258,7 @@ export default function ProjectDetail({ projectDetail }) {
                 <div>
                   <span className="text-base">
                     <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
+                    <span>Balance: {avateaBalance} - <button onClick={() => setMax(avateaBalance,setAmountToVaultStake)}>Max</button></span>
                   </span>
                   <InputApproveWithIconSubmit
                     id="max"
@@ -261,6 +277,7 @@ export default function ProjectDetail({ projectDetail }) {
                   <span className="text-base">
                     <i className="fa-regular fa-circle-minus mr-1"></i>
                     Withdraw Avatea
+                    <span>- Vault Balance: {stakedVaultBalance} - <button onClick={() => setMax(stakedVaultBalance,setVaultBalance)}>Max</button></span>
                   </span>
                   <InputWithIconSubmit
                     id="withdrawAvatea"
@@ -331,6 +348,7 @@ export default function ProjectDetail({ projectDetail }) {
                   <span className="text-base">
                     <i className="fa-regular fa-money-bills-simple mr-1"></i>
                     Cash: 100.000
+                    <span>- Cash Balance: {amountPairTokenBalance} - <button onClick={() => setMax(amountPairTokenBalance,setAmountPairToken)}>Max</button></span>
                   </span>
                   <InputWithIconSubmit
                     id="withdrawCash"
@@ -348,6 +366,8 @@ export default function ProjectDetail({ projectDetail }) {
                   <span className="text-base">
                     <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
                     Tokens: 100.000
+                    <span>- Tokens Balance: {amountBaseTokenBalance} - <button onClick={() => setMax(amountBaseTokenBalance,setAmountBaseToken)}>Max</button></span>
+
                   </span>
                   <InputWithIconSubmit
                     id="withdrawToken"
@@ -414,6 +434,7 @@ export default function ProjectDetail({ projectDetail }) {
                     <span className="text-base">
                       <i className="fa-regular fa-money-bills-simple mr-1"></i>
                       Cash
+                      <span>Wallet Balance: {Number(pairedTokenWalletBalance).toFixed(2)}  <button onClick={() => setMax(pairedTokenWalletBalance,setAmountPairTokenToStake)}>Max</button></span>
                     </span>
                     <InputApproveWithIconSubmit
                       id="cash"
@@ -435,6 +456,7 @@ export default function ProjectDetail({ projectDetail }) {
                     <span className="text-base">
                       <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
                       Token
+                      <span>Wallet Balance: {Number(projectTokenBalance).toFixed(2)}  <button onClick={() => setMax(projectTokenBalance,setAmountToStake)}>Max</button></span>
                     </span>
                     <InputApproveWithIconSubmit
                       id="token"

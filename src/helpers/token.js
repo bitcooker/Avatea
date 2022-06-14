@@ -17,6 +17,18 @@ const fetchTotalSupply = async (wallet, tokenAddress) => {
     }
 }
 
+const balanceOf = async (wallet, tokenAddress) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const tokenContract = await new ethers.Contract(tokenAddress, TokenContract.abi, signer);
+    try {
+        return await tokenContract.balanceOf(wallet.account);
+    } catch (e) {
+        alert(e)
+        console.log('balanceOf error', e);
+    }
+}
+
 const fetchApprovedAmount = async (wallet,addressToApprove, tokenAddress) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
@@ -90,5 +102,6 @@ export default {
     fetchTotalSupply,
     approveToken,
     approveCustomToken,
-    fetchApprovedAmount
+    fetchApprovedAmount,
+    balanceOf
 }
