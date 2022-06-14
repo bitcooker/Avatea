@@ -6,13 +6,13 @@ import {API_URL, MARKET_MAKER_DEPLOYER_ADDRESS} from "../constants";
 import MarketMakerDeployer from "../../abi/MarketMakerDeployer.json";
 import axios from "axios";
 
-const deploy = async (wallet, baseToken, pairedToken, revocable, project) => {
+const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const MarketMakerDeployerContract = await new ethers.Contract(MARKET_MAKER_DEPLOYER_ADDRESS, MarketMakerDeployer.abi, signer);
 
     try {
-        const tx = await MarketMakerDeployerContract.createMarketMaker(baseToken, pairedToken, revocable);
+        const tx = await MarketMakerDeployerContract.createMarketMaker(baseToken, pairedToken, revocable, paused);
         toast.promise(
             tx.wait(),
             {
@@ -23,7 +23,7 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, project) => {
         )
         const receipt = await tx.wait();
 
-        const { _controllerWallet, _marketMaker } = receipt.events.CreatedMarketMakingContract.returnValues;
+        const {_controllerWallet, _marketMaker} = receipt.events.CreatedMarketMakingContract.returnValues;
 
         await axios(
             {
