@@ -283,6 +283,20 @@ const available = async (wallet, marketMakerAddress, address) => {
     }
 }
 
+const fetchVesting = async (wallet, marketMakerAddress, address) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
+        const data = await marketMakerContract.holdersMapping(address);
+        const {amountVested, released, cliff, start, duration, slicePeriodSeconds, initialized, revocable} = data;
+        return {amountVested, released, cliff, start, duration, slicePeriodSeconds, initialized, revocable}
+    } catch (e) {
+        console.log('fetchVesting error', e);
+        return 0;
+    }
+}
+
 export default {
     stake,
     stakePairedToken,
@@ -293,5 +307,6 @@ export default {
     computeReleasableAmount,
     getWithdrawablePairedTokens,
     available,
-    deploy
+    deploy,
+    fetchVesting
 }
