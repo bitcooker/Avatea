@@ -3,7 +3,7 @@ import marketMaker from './web3/marketMaker';
 import vault from './web3/vault';
 import marketMaking from "./marketMaking";
 import project from "./project";
-import token from "./token";
+import token from "./web3/token";
 import user from './user';
 import vaultRest from './vault';
 import callback from "./callback";

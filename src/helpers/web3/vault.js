@@ -139,6 +139,17 @@ const earned = async (wallet, vaultAddress, address) => {
     }
 }
 
+const totalSupply = async (wallet, vaultAddress) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
+        return await vaultContract.totalSupply();
+    } catch (e) {
+        console.log('totalSupply error', e);
+        return 0;
+    }
+}
 
 const rewardPerToken = async (wallet, vaultAddress) => {
     try {

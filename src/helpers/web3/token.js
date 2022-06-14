@@ -1,9 +1,9 @@
 import axios from 'axios';
 import {ethers} from 'ethers';
-import TokenContract from '../abi/Token.json';
-import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
+import TokenContract from '../../abi/Token.json';
+import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "../constants";
 import {toast} from "react-toastify";
-import helpers from "./index";
+import helpers from "../index";
 
 const fetchTotalSupply = async (wallet, tokenAddress) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);

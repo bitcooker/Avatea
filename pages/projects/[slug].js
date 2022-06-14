@@ -245,7 +245,7 @@ export default function ProjectDetail({ projectDetail }) {
                 <div className="py-5.5 space-y-4.5">
                   <div className="flex justify-between">
                     <span className="text-sm">Total Transaction</span>
-                    <span className="text-base font-medium">2,345.56</span>
+                    <span className="text-base font-medium">{vault.num_invested}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm">Expected APY</span>
@@ -485,14 +485,14 @@ export default function ProjectDetail({ projectDetail }) {
 
             <div className="py-5.5 space-y-4.5">
               <div className="flex justify-between">
-                <span className="text-sm">Total Vested</span>
+                <span className="text-sm">Total Users</span>
                 <span className="flex text-base font-medium">
                   <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
                   100.00
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm">Releasable</span>
+                <span className="text-sm">TVL</span>
                 <span className="flex text-base font-medium">
                   <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
                   100.00
