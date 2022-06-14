@@ -121,9 +121,33 @@ const balanceOf = async (wallet, vaultAddress, address) => {
         const signer = provider.getSigner();
         const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
         return await vaultContract.balanceOf(address);
-        console.log('balanceOf success')
     } catch (e) {
         console.log('balanceOf error', e);
+        return 0;
+    }
+}
+
+const earned = async (wallet, vaultAddress, address) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
+        return await vaultContract.earned(address);
+    } catch (e) {
+        console.log('earned error', e);
+        return 0;
+    }
+}
+
+
+const rewardPerToken = async (wallet, vaultAddress) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
+        return await vaultContract.rewardPerToken();
+    } catch (e) {
+        console.log('rewardPerToken error', e);
         return 0;
     }
 }
@@ -134,4 +158,6 @@ export default {
     balanceOf,
     getReward,
     exit,
+    earned,
+    rewardPerToken
 }
