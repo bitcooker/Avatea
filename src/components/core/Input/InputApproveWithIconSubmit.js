@@ -15,7 +15,7 @@ export default function Input(props) {
     };
 
     useEffect(() => {
-        if (props.address && props.token) fetchApproval();
+        if (props.address && props.token && wallet.isConnected()) fetchApproval();
     }, [props]);
 
     const onChange = React.useCallback(
@@ -47,6 +47,7 @@ export default function Input(props) {
                 onChange={onChange}
                 className="block w-full bg-gray-100"
                 placeholder={props.placeholder}
+                disabled={!approved}
             />
             <InputSubmit
                 name={approved ? props.submitName : 'Approve'}
