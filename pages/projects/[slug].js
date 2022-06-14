@@ -227,8 +227,8 @@ export default function ProjectDetail({ projectDetail }) {
                     name="max"
                     type="number"
                     value="15"
-                    submitName="Max"
-                    icon="fa-light fa-gauge-max"
+                    submitName="Approve"
+                    icon="fa-solid fa-handshake-simple"
                   />
                 </div>
                 <div>
