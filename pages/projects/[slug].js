@@ -415,7 +415,7 @@ export default function ProjectDetail({ projectDetail }) {
                       <i className="fa-regular fa-money-bills-simple mr-1"></i>
                       Cash
                     </span>
-                    <InputWithIconSubmit
+                    <InputApproveWithIconSubmit
                       id="cash"
                       name="cash"
                       type="number"
@@ -424,6 +424,8 @@ export default function ProjectDetail({ projectDetail }) {
                       submitFunction={stakePairedToken}
                       value={amountPairTokenToStake}
                       setValue={setAmountPairTokenToStake}
+                      address={marketMakingPool.address}
+                      token={marketMakingPool.paired_token}
                     />
                   </div>
                 )}
@@ -434,7 +436,7 @@ export default function ProjectDetail({ projectDetail }) {
                       <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
                       Token
                     </span>
-                    <InputWithIconSubmit
+                    <InputApproveWithIconSubmit
                       id="token"
                       name="token"
                       type="number"
@@ -443,6 +445,8 @@ export default function ProjectDetail({ projectDetail }) {
                       submitFunction={stakeMarketMaker}
                       value={amountToStake}
                       setValue={setAmountToStake}
+                      address={marketMakingPool.address}
+                      token={project.token}
                     />
                   </div>
                 )}
