@@ -22,6 +22,7 @@ import Tab from "../../src/components/core/Tab/Tab";
 import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
 import Card from "../../src/components/pages/projectDetail/Card/Card";
 import Feed from "../../src/components/pages/projectDetail/Feed/Feed";
+import marketMaker from "../../src/helpers/web3/marketMaker";
 
 const tabItems = ["Vault(News)", "Market Making", "Vesting"];
 
@@ -36,6 +37,7 @@ export default function ProjectDetail({ projectDetail }) {
   const [amountToStake, setAmountToStake] = useState(0);
   const [amountBaseToken, setAmountBaseToken] = useState(0);
   const [amountPairToken, setAmountPairToken] = useState(0);
+  const [amountPairTokenToStake, setAmountPairTokenToStake] = useState(0);
   const [amountToVaultStake, setAmountToVaultStake] = useState(0);
   const [vaultBalance, setVaultBalance] = useState(0);
   const [marketMakingType, setMarketMakingType] = useState(null);
@@ -98,37 +100,32 @@ export default function ProjectDetail({ projectDetail }) {
           setPriceLimit(priceLimit);
         }
         setAmountBaseToken(
-          (
+          ethers.utils.formatEther((
             await helper.marketMaker.available(
               wallet,
               marketMakingPool.address,
               wallet.account
             )
-          ).toString()
+          ))
         );
         setAmountPairToken(
-          (
+            ethers.utils.formatEther((
             await helper.marketMaker.getWithdrawablePairedTokens(
               wallet,
               marketMakingPool.address,
               wallet.account
             )
-          ).toString()
+          ))
         );
         setVaultBalance(
-          (
-            await helper.vault.balanceOf(wallet, vault.address, wallet.account)
-          ).toString()
+          ethers.utils.formatEther((await helper.vault.balanceOf(wallet, vault.address, wallet.account)))
         );
       };
       initWalletConnected();
     }
   }, [wallet, marketMakingPool]);
 
-  const stakeMarketMaker = async () => {
-    const wei = ethers.utils.parseEther(amountToStake);
-    await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
-  };
+
 
   const approve = async (address, tokenAddress) => {
     console.log(address);
@@ -143,30 +140,54 @@ export default function ProjectDetail({ projectDetail }) {
   };
 
   const withdrawBaseToken = async () => {
+    const wei = ethers.utils.parseEther(amountBaseToken);
     await helper.marketMaker.withdrawBaseToken(
       wallet,
       marketMakingPool.address,
-      amountBaseToken
+      wei
     );
   };
 
   const withdrawPairToken = async () => {
-    await helper.marketMaker.withdrawPairToken(
+    const wei = ethers.utils.parseEther(amountPairToken);
+    await helper.web3.marketMaker.withdrawPairToken(
       wallet,
       marketMakingPool.address,
-      amountPairToken
+      wei
     );
   };
 
   const stakeVault = async () => {
-    console.log(amountToVaultStake);
     const wei = ethers.utils.parseEther(amountToVaultStake);
-    await helper.vault.stake(wallet, vault.address, wei);
+    await helper.web3.vault.stake(wallet, vault.address, wei);
   };
 
   const withdrawVault = async () => {
-    await helper.vault.withdraw(wallet, vault.address, vaultBalance);
+    const wei = ethers.utils.parseEther(vaultBalance);
+    await helper.web3.vault.withdraw(wallet, vault.address, wei);
   };
+
+  const claimVaultRewards = async () => {
+    await helper.web3.vault.getReward(wallet, vault.address);
+  };
+
+  const exitVault = async () => {
+    await helper.web3.vault.exit(wallet, vault.address);
+  };
+
+  const stakePairedToken = async () => {
+    const wei = ethers.utils.parseEther(amountPairTokenToStake);
+    console.log(wei);
+    console.log(marketMakingPool.address)
+    await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
+  };
+
+  const stakeMarketMaker = async () => {
+    const wei = ethers.utils.parseEther(amountToStake);
+    await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
+  };
+
+
 
   const updateSettings = async () => {
     console.log(fresh);
@@ -226,9 +247,11 @@ export default function ProjectDetail({ projectDetail }) {
                     id="max"
                     name="max"
                     type="number"
-                    value="15"
-                    submitName="Max"
+                    submitName="Stake"
                     icon="fa-light fa-gauge-max"
+                    submitFunction={stakeVault}
+                    value={amountToVaultStake}
+                    setValue={setAmountToVaultStake}
                   />
                 </div>
                 <div>
@@ -240,14 +263,16 @@ export default function ProjectDetail({ projectDetail }) {
                     id="withdrawAvatea"
                     name="withdrawAvatea"
                     type="number"
-                    value="0"
                     submitName="Withdraw"
                     icon="fa-light fa-circle-minus"
+                    submitFunction={withdrawVault}
+                    value={vaultBalance}
+                    setValue={setVaultBalance}
                   />
                 </div>
                 <div className="grid md-lg:grid-cols-2 gap-3.75">
-                  <Button name="Withdraw Rewards" />
-                  <Button name="Withdraw Both" />
+                  <Button name="Withdraw Rewards" handleClick={claimVaultRewards} />
+                  <Button name="Withdraw Both" handleClick={exitVault} />
                 </div>
               </div>
             </div>
@@ -311,6 +336,7 @@ export default function ProjectDetail({ projectDetail }) {
                     placeholder="Input amount to withdraw"
                     submitName="Withdraw"
                     icon="fa-light fa-circle-minus"
+                    value={amountPairToken}
                     setValue={setAmountPairToken}
                     submitFunction={withdrawPairToken}
                   />
@@ -327,6 +353,7 @@ export default function ProjectDetail({ projectDetail }) {
                     placeholder="Input amount to withdraw"
                     submitName="Withdraw"
                     icon="fa-light fa-circle-minus"
+                    value={amountBaseToken}
                     setValue={setAmountBaseToken}
                     submitFunction={withdrawBaseToken}
                   />
@@ -389,9 +416,11 @@ export default function ProjectDetail({ projectDetail }) {
                       id="cash"
                       name="cash"
                       type="number"
-                      value="2324"
                       icon="fa-light fa-circle-plus"
                       submitName="Deposit"
+                      submitFunction={stakePairedToken}
+                      value={amountPairTokenToStake}
+                      setValue={setAmountPairTokenToStake}
                     />
                   </div>
                 )}
@@ -406,9 +435,11 @@ export default function ProjectDetail({ projectDetail }) {
                       id="token"
                       name="token"
                       type="number"
-                      value="2324"
                       icon="fa-light fa-circle-plus"
                       submitName="Deposit"
+                      submitFunction={stakeMarketMaker}
+                      value={amountToStake}
+                      setValue={setAmountToStake}
                     />
                   </div>
                 )}
@@ -455,33 +486,31 @@ export default function ProjectDetail({ projectDetail }) {
   );
 }
 
-// ProjectDetail.getInitialProps = async (ctx) => {
-//     console.log(ctx);
-//     // const res = await fetch('https://api.github.com/repos/vercel/next.js')
-//     // const json = await res.json()
-//      return { test: 'test' }
-// }
 
 export async function getServerSideProps(context) {
   const { slug } = context.query;
-  let projectDetails;
-  try {
-    projectDetails = await helper.project.getProject(slug);
-    console.log(projectDetails);
-  } catch (e) {
-    console.log(e);
-    projectDetails = {};
+  if (slug !== "undefined") {
+    let projectDetails;
+    try {
+      projectDetails = await helper.project.getProject(slug);
+    } catch (e) {
+      console.log(e);
+      projectDetails = null;
+    }
+    return {
+      props: {
+        projectDetail: projectDetails?.project,
+        marketMakingPool: projectDetails?.marketMakingPool,
+        vault: projectDetails?.vault,
+      }
+    }
+  } else {
+    return {
+      props: {
+        projectDetail: null,
+        marketMakingPool: null,
+        vault: null,
+      }
+    };
   }
-  return {
-    props: {
-      projectDetail: projectDetails?.project,
-      marketMakingPool: projectDetails?.marketMakingPool,
-      vault: projectDetails?.vault,
-    },
-    // props: {
-    //   projectDetail: null,
-    //   marketMakingPool: null,
-    //   vault: null,
-    // },
-  };
 }
