@@ -4,7 +4,12 @@ import { socialFacebook, socialTwitter } from "../../SVG";
 
 export default function SocialItem(props) {
   return (
-    <div className="relative flex items-center justify-center -mr-1 w-[67px] h-[67px] rounded-full bg-sky-400">
+    <div
+      className={
+        "relative flex items-center justify-center -mr-1 w-[67px] h-[67px] rounded-full " +
+        props.bgColor
+      }
+    >
       {props.icon}
 
       <div className="absolute flex items-center justify-center top-0 right-0 w-[22px] h-[22px] rounded-full bg-rose-500 ring ring-white ring-offset-0 hover:cursor-pointer hover:ring-rose-500/50 transition">

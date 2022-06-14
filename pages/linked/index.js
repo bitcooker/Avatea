@@ -11,7 +11,12 @@ import ImageDropdown from "../../src/components/pages/Linked/ImageDropdown";
 import SocialItem from "../../src/components/pages/Linked/SocialItem";
 
 // social icons without background
-import { socialFacebookWithOutBG } from "../../src/components/SVG";
+import {
+  socialFacebookWithOutBG,
+  socialTwitterWithOutBG,
+  socialLinkedWithOutBG,
+  socialTelegramWithOutBG,
+} from "../../src/components/SVG";
 
 export default function Linked(props) {
   const [step, setStep] = React.useState(1);
@@ -144,7 +149,22 @@ export default function Linked(props) {
                 />
               </div>
               <div className="flex flex-row gap-3.75">
-                <SocialItem icon={socialFacebookWithOutBG} />
+                <SocialItem
+                  icon={socialFacebookWithOutBG}
+                  bgColor="bg-indigo-400"
+                />
+                <SocialItem
+                  icon={socialTwitterWithOutBG}
+                  bgColor="bg-sky-400"
+                />
+                <SocialItem
+                  icon={socialLinkedWithOutBG}
+                  bgColor="bg-indigo-400"
+                />
+                <SocialItem
+                  icon={socialTelegramWithOutBG}
+                  bgColor="bg-sky-400"
+                />
               </div>
             </div>
           </Step>
