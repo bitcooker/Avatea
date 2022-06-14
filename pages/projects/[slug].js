@@ -83,7 +83,7 @@ export default function ProjectDetail({ projectDetail }) {
   }, [project]);
 
   useEffect(() => {
-    if (wallet.isConnected()) {
+    if (wallet.isConnected() && marketMakingPool.paired_token) {
       const initWalletConnected = async () => {
         //@TODO Wire Chain ID for production
         const marketMakingSettings =
