@@ -12,6 +12,7 @@ import {
 // core components
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
 import InputWithIconSubmit from "../../src/components/core/Input/InputWithIconSubmit";
+import InputApproveWithIconSubmit from "../../src/components/core/Input/InputApproveWithIconSubmit";
 import Button from "../../src/components/core/Button/Button";
 import ButtonOutline from "../../src/components/core/Button/ButtonOutline";
 import RangeSlider from "../../src/components/core/RangeSlider/RangeSlider";
@@ -243,7 +244,7 @@ export default function ProjectDetail({ projectDetail }) {
                   <span className="text-base">
                     <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
                   </span>
-                  <InputWithIconSubmit
+                  <InputApproveWithIconSubmit
                     id="max"
                     name="max"
                     type="number"
@@ -252,6 +253,8 @@ export default function ProjectDetail({ projectDetail }) {
                     submitFunction={stakeVault}
                     value={amountToVaultStake}
                     setValue={setAmountToVaultStake}
+                    address={vault.address}
+                    token={AVATEA_TOKEN_ADDRESS}
                   />
                 </div>
                 <div>
