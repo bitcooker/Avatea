@@ -30,7 +30,19 @@ const getProject = async (slug, network = DEFAULT_CHAIN_ID, user_address = "none
 }
 
 
+//@TODO Handle error for market maker settings if no wallet is available
+const getArticles = async (slug) => {
+    try {
+        const data = await axios.get(`${API_URL}Article/?project=${slug}`);
+        return data
+    } catch (e) {
+        console.log('getArticles error:', e);
+    }
+}
+
+
 export default {
     getProjects,
-    getProject
+    getProject,
+    getArticles
 }
