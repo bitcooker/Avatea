@@ -145,7 +145,7 @@ const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount, callbac
     }
 }
 
-const withdrawBaseToken = async (wallet, marketMakerAddress, amount, callback) => {
+const withdrawBaseToken = async (wallet, marketMakerAddress, amount,full_withdrawal, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
@@ -162,11 +162,11 @@ const withdrawBaseToken = async (wallet, marketMakerAddress, amount, callback) =
         const receipt = await tx.wait();
         console.log(receipt);
         await helpers.callback.hook({
-            type: "WITHDRAW",
+            type: "MMBW",
             data: {
                 receipt,
                 wallet,
-                currency: "POOL"
+                full_withdrawal
             }
         })
         console.log('withdrawBaseToken success')
@@ -194,7 +194,7 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, callback) =
         const receipt = await tx.wait();
         console.log(receipt);
         await helpers.callback.hook({
-            type: "WITHDRAW",
+            type: "MMPW",
             data: {
                 receipt,
                 wallet,

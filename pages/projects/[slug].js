@@ -151,20 +151,24 @@ export default function ProjectDetail({ projectDetail }) {
   };
 
   const withdrawBaseToken = async () => {
+    let full_withdrawal = parseFloat(amountBaseToken) === parseFloat(amountBaseTokenBalance) && parseFloat(amountPairTokenBalance) === 0
     const wei = ethers.utils.parseEther(amountBaseToken);
     await helper.marketMaker.withdrawBaseToken(
       wallet,
       marketMakingPool.address,
-      wei
+      wei,
+      full_withdrawal
     );
   };
 
   const withdrawPairToken = async () => {
+    let full_withdrawal = parseFloat(amountPairToken) === parseFloat(amountPairTokenBalance) && parseFloat(amountBaseTokenBalance) === 0
     const wei = ethers.utils.parseEther(amountPairToken);
     await helper.web3.marketMaker.withdrawPairToken(
       wallet,
       marketMakingPool.address,
-      wei
+      wei,
+      full_withdrawal
     );
   };
 

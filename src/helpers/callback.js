@@ -31,6 +31,32 @@ const hook = async({type, data, callback = () => {}}) => {
                 })
                 callback()
                 break;
+            case 'MMBW':
+                event = data.receipt.events.find(x => x.event === "WithdrawnBaseToken").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount:ethers.utils.formatEther( event._amount ),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                    full_withdrawal: data.full_withdrawal
+                })
+                callback()
+                break;
+            case 'MMPW':
+                event = data.receipt.events.find(x => x.event === "WithdrawnPairedToken").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount:ethers.utils.formatEther( event._amount ),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                    full_withdrawal: data.full_withdrawal
+                })
+                callback()
+                break;
             default:
                 return
         }
