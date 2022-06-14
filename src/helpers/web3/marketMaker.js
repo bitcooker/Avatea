@@ -23,7 +23,7 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
         )
         const receipt = await tx.wait();
 
-        const {_controllerWallet, _marketMaker} = receipt.events.CreatedMarketMakingContract.returnValues;
+        const {_controllerWallet, _marketMaker}  = data.receipt.events.find(x => x.event === "CreatedMarketMakingContract").args;
 
         await axios(
             {
@@ -34,15 +34,15 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
                     controller_wallet: _controllerWallet,
                     paired_token: pairedToken,
                     project: project,
+                    live:!paused
                 }
             }
         )
         await helpers.callback.hook({
-            type: "DEPLOYMENT",
+            type: "MMCD",
             data: {
                 receipt,
                 wallet,
-                currency: "POOL"
             }
         })
 
@@ -209,7 +209,7 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, full_withdr
 }
 
 
-const release = async (wallet, marketMakerAddress, amount, callback) => {
+const release = async (wallet, marketMakerAddress, amount, full_withdrawal, callback) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
@@ -227,11 +227,11 @@ const release = async (wallet, marketMakerAddress, amount, callback) => {
         const receipt = await tx.wait();
         console.log(receipt);
         await helpers.callback.hook({
-            type: "RELEASE",
+            type: "MMVR",
             data: {
                 receipt,
                 wallet,
-                currency: "POOL"
+                full_withdrawal
             }
         })
         console.log('release success')

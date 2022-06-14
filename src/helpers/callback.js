@@ -57,6 +57,30 @@ const hook = async({type, data, callback = () => {}}) => {
                 })
                 callback()
                 break;
+            case 'MMVR':
+                event = data.receipt.events.find(x => x.event === "AmountReleased").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount:ethers.utils.formatEther( event._amount ),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                    full_withdrawal: data.full_withdrawal
+                })
+                callback()
+                break;
+            case 'MMCD':
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                    full_withdrawal: data.full_withdrawal
+                })
+                callback()
+                break;
             default:
                 return
         }
