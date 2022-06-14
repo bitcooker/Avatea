@@ -5,16 +5,27 @@ import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
 import {toast} from "react-toastify";
 import helpers from "./index";
 
-const fetchTotalSupply = async (wallet, callback) => {
+const fetchTotalSupply = async (wallet, tokenAddress) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const tokenContract = await new ethers.Contract(TokenContract.address.testnet, TokenContract.abi, signer);
-    // tokenContract.connect(signer)
+    const tokenContract = await new ethers.Contract(tokenAddress, TokenContract.abi, signer);
     try {
         return await tokenContract.totalSupply();
     } catch (e) {
         alert(e)
         console.log('fetchTotalSupply error', e);
+    }
+}
+
+const fetchApprovedAmount = async (wallet,addressToApprove, tokenAddress) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const tokenContract = await new ethers.Contract(tokenAddress, TokenContract.abi, signer);
+    try {
+        return await tokenContract.allowance(wallet.account, addressToApprove);
+    } catch (e) {
+        alert(e)
+        console.log('fetchApprovedAmount error', e);
     }
 }
 
@@ -78,5 +89,6 @@ const approveCustomToken = async (wallet, addressToApprove, supplyToApprove, tok
 export default {
     fetchTotalSupply,
     approveToken,
-    approveCustomToken
+    approveCustomToken,
+    fetchApprovedAmount
 }
