@@ -1,96 +1,31 @@
 import axios from 'axios';
 import { API_URL } from "./constants";
+import {ethers} from 'ethers';
 
 //@Todo check register method, temp done with extra fields because of error
 const hook = async({type, data, callback = () => {}}) => {
     try {
+        let event;
         switch(type) {
-            case 'WITHDRAWAL':
+            case 'MMBD':
+                event = data.receipt.events.find(x => x.event === "Staked").args;
                 await axios.post(`${API_URL}Transaction/`, {
                     hash: data.receipt.transactionHash,
-                    from: data.receipt.from,
-                    type: 'withdrawal',
+                    type: type,
                     contract: data.receipt.to,
-                    amount:0,
-                    currency: data.currency,
+                    amount:ethers.utils.formatEther( event._amount ),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId
                 })
                 callback()
                 break;
-            case 'DEPOSIT':
+            case 'MMPD':
+                event = data.receipt.events.find(x => x.event === "StakedInPairedToken").args;
                 await axios.post(`${API_URL}Transaction/`, {
                     hash: data.receipt.transactionHash,
-                    from: data.receipt.from,
-                    type: 'deposit',
+                    type: type,
                     contract: data.receipt.to,
-                    amount:0,
-                    currency: data.currency,
-                    user_address: data.receipt.from,
-                    network: data.wallet.chainId
-                })
-                callback()
-                break;
-            case 'INVESTMENT':
-                await axios.post(`${API_URL}Transaction/`, {
-                    hash: data.receipt.transactionHash,
-                    from: data.receipt.from,
-                    type: 'investment',
-                    contract: data.receipt.to,
-                    amount:0,
-                    currency: data.currency,
-                    user_address: data.receipt.from,
-                    network: data.wallet.chainId
-                })
-                callback()
-                break;
-            case 'TRANSACTION':
-                await axios.post(`${API_URL}Transaction/`, {
-                    hash: data.receipt.transactionHash,
-                    from: data.receipt.from,
-                    type: 'transaction',
-                    contract: data.receipt.to,
-                    amount:0,
-                    currency: data.currency,
-                    user_address: data.receipt.from,
-                    network: data.wallet.chainId
-                })
-                callback()
-                break;
-            case 'RELEASE':
-                await axios.post(`${API_URL}Transaction/`, {
-                    hash: data.receipt.transactionHash,
-                    from: data.receipt.from,
-                    type: 'release',
-                    contract: data.receipt.to,
-                    amount:0,
-                    currency: data.currency,
-                    user_address: data.receipt.from,
-                    network: data.wallet.chainId
-                })
-                callback()
-                break;
-            case 'VESTING':
-                await axios.post(`${API_URL}Transaction/`, {
-                    hash: data.receipt.transactionHash,
-                    from: data.receipt.from,
-                    type: 'vesting',
-                    contract: data.receipt.to,
-                    amount:0,
-                    currency: data.currency,
-                    user_address: data.receipt.from,
-                    network: data.wallet.chainId
-                })
-                callback()
-                break;
-            case 'DEPLOYMENT':
-                await axios.post(`${API_URL}Transaction/`, {
-                    hash: data.receipt.transactionHash,
-                    from: data.receipt.from,
-                    type: 'deployment',
-                    contract: data.receipt.to,
-                    amount:0,
-                    currency: data.currency,
+                    amount:ethers.utils.formatEther( event._amount ),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId
                 })

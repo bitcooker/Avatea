@@ -70,13 +70,12 @@ const stake = async (wallet, marketMakerAddress, amount, callback) => {
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
+
         await helpers.callback.hook({
-            type: "DEPOSIT",
+            type: "MMBD",
             data: {
                 receipt,
-                wallet,
-                currency: "POOL"
+                wallet
             }
         })
         console.log('stake success')
@@ -102,13 +101,11 @@ const stakePairedToken = async (wallet, marketMakerAddres, amount, callback) => 
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
-            type: "DEPOSIT",
+            type: "MMPD",
             data: {
                 receipt,
                 wallet,
-                currency: "POOL"
             }
         })
         console.log('stakePairedToken success')
@@ -136,11 +133,10 @@ const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount, callbac
         const receipt = await tx.wait();
         console.log(receipt);
         await helpers.callback.hook({
-            type: "DEPOSIT",
+            type: "MMPD",
             data: {
                 receipt,
                 wallet,
-                currency: "POOL"
             }
         })
     } catch (e) {
