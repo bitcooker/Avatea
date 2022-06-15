@@ -48,7 +48,7 @@ export default function ProjectDetail({ projectDetail }) {
   const [priceLimit, setPriceLimit] = useState(null);
   const [fresh, setFresh] = useState(false);
   const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
-  const [mode, setMode] = useState(1); // 0 - buy, 1 - hold, 2 - sell
+  const [mode, setMode] = useState('hold');
   const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
   const [stakedVaultBalance,setStakedVaultBalance] = useState(0);
   const [avateaBalance,setAvateaBalance] = useState(0);
@@ -102,7 +102,7 @@ export default function ProjectDetail({ projectDetail }) {
           } = marketMakingSettings;
           if (!market_making_type) setFresh(true);
           setMarketMakingSettingsId(id);
-          setMarketMakingType(market_making_type);
+          setMode(market_making_type);
           setAmountSetting(amount);
           setPressure(buy_sell_pressure);
           setPriceLimit(priceLimit);
@@ -217,7 +217,7 @@ export default function ProjectDetail({ projectDetail }) {
   const updateSettings = async () => {
     console.log(fresh);
     const marketMakingSettings = {
-      marketMakingType,
+      marketMakingType: mode,
       amountSettings,
       pressure,
       priceLimit,
@@ -407,7 +407,7 @@ export default function ProjectDetail({ projectDetail }) {
               <div className=" grid md-lg:grid-cols-2 gap-5">
                 <div className="flex flex-col space-y-10">
                   <span className="text-sm">Pressure Slider</span>
-                  <RangeSlider percent="10" />
+                  <RangeSlider setPercent={setPressure} percent={pressure} />
                 </div>
                 <div className="space-y-2.5">
                   <span className="text-sm">Estimation</span>
@@ -421,28 +421,47 @@ export default function ProjectDetail({ projectDetail }) {
                   <Radio
                     name="mode"
                     label="Buy"
-                    value={0}
+                    value={'buy'}
                     handleSetMode={handleSetMode}
                   />
                   <Radio
                     name="mode"
                     label="Hold"
-                    value={1}
+                    value={'hold'}
                     handleSetMode={handleSetMode}
                   />
                   <Radio
                     name="mode"
                     label="Sell"
-                    value={2}
+                    value={'sell'}
                     handleSetMode={handleSetMode}
                   />
                 </div>
               </div>
+              {
+                  mode !== 'hold' ? (
+                      <div className="space-y-2.5">
 
-              <Button name="Save Settings" />
+                        <span className="text-sm">{mode === 'buy' ? "Maximum Buying Price" : "Minimum Selling Price"}</span>
+                        <InputWithIconSubmit
+                            id="priceLimit"
+                            name="priceLimit"
+                            type="number"
+                            placeholder="Enter price"
+                            icon="fa-light fa-circle-minus"
+                            hideButton={true}
+                            value={priceLimit}
+                            setValue={setPriceLimit}
+                        />
+                      </div>
+                  ) : ""
+              }
+
+
+              <Button name="Save Settings" handleClick={updateSettings} />
 
               <div className="card-content pt-1 space-y-3.75">
-                {mode == 0 && (
+                {mode == 'buy' && (
                   <div className="space-y-2.5">
                     <span className="text-base">
                       <i className="fa-regular fa-money-bills-simple mr-1"></i>
@@ -464,7 +483,7 @@ export default function ProjectDetail({ projectDetail }) {
                   </div>
                 )}
 
-                {mode == 2 && (
+                {mode == 'sell' && (
                   <div className="space-y-2.5">
                     <span className="text-base">
                       <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
@@ -514,10 +533,6 @@ export default function ProjectDetail({ projectDetail }) {
             </div>
           </div>
 
-          <div className="grid md-lg:grid-cols-2 gap-3.75">
-            <ButtonOutline name="Total Amount(1000.00)" />
-            <ButtonOutline name="Amount of Tokens" />
-          </div>
 
           <div className="pt-9">
             <Button name="Release Tokens" />
