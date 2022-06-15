@@ -13,7 +13,7 @@ const hook = async({type, data, callback = () => {}}) => {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount:ethers.utils.formatEther( event.amount ),
+                    amount:ethers.utils.formatEther( event.claimed ),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId
                 })
@@ -25,7 +25,7 @@ const hook = async({type, data, callback = () => {}}) => {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount:ethers.utils.formatEther( event.receiver ),
+                    amount:ethers.utils.formatEther( event.amount ),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId
                 })
