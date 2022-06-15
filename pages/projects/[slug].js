@@ -53,6 +53,8 @@ export default function ProjectDetail(props) {
   const [projectTokenBalance, setProjectTokenBalance] = useState(0);
   const [releaseAbleAmount, setReleaseAbleAmount] = useState(0);
   const [vestingDetails, setVestingDetails] = useState(null)
+  const [amountVested,setAmountVested] = useState(0)
+  const [amountReleased, setAmountReleased] = useState(0);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -149,8 +151,10 @@ export default function ProjectDetail(props) {
         setPairedTokenWalletBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, marketMakingPool.paired_token))))
         setProjectTokenBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, project.token))))
         setReleaseAbleAmount((await helper.web3.marketMaker.computeReleasableAmount(wallet, marketMakingPool.address)))
-        const vestingData = await helper.web3.marketMaker.fetchVesting(wallet,marketMakingPool.address);
-        setVestingDetails(vestingData)
+        const { amountVested, released } = await helper.web3.marketMaker.fetchVesting(wallet,marketMakingPool.address);
+        setAmountReleased(released);
+        setAmountVested(amountVested)
+
       }
       initWalletConnected()
     }
@@ -521,7 +525,7 @@ export default function ProjectDetail(props) {
                 <span className="text-sm">Total Vested</span>
                 <span className="flex text-base font-medium">
                   <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
-                  {Number(ethers.utils.formatEther(vestingDetails.amountVested)).toFixed(2)}
+                  {Number(ethers.utils.formatEther(amountVested)).toFixed(2)}
                 </span>
               </div>
               <div className="py-5.5 space-y-4.5">
@@ -529,7 +533,7 @@ export default function ProjectDetail(props) {
                   <span className="text-sm">Released</span>
                   <span className="flex text-base font-medium">
                   <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
-                    {Number(ethers.utils.formatEther(vestingDetails.released)).toFixed(2)}
+                    {Number(ethers.utils.formatEther(amountReleased)).toFixed(2)}
                 </span>
                 </div>
               </div>
