@@ -178,8 +178,9 @@ export default function ProjectDetail({ projectDetail }) {
   };
 
   const withdrawVault = async () => {
+    let full_withdrawal = parseFloat(vaultBalance) === parseFloat(stakedVaultBalance)
     const wei = ethers.utils.parseEther(vaultBalance);
-    await helper.web3.vault.withdraw(wallet, vault.address, wei);
+    await helper.web3.vault.withdraw(wallet, vault.address, wei, full_withdrawal);
   };
 
   const claimVaultRewards = async () => {

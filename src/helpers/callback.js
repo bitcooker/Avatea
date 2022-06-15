@@ -7,6 +7,67 @@ const hook = async({type, data, callback = () => {}}) => {
     try {
         let event;
         switch(type) {
+            case 'AR':
+                event = data.receipt.events.find(x => x.event === "Claimed").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount:ethers.utils.formatEther( event.amount ),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId
+                })
+                callback()
+                break;
+            case 'VD':
+                event = data.receipt.events.find(x => x.event === "Staked").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount:ethers.utils.formatEther( event.receiver ),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId
+                })
+                callback()
+                break;
+            case 'VW':
+                event = data.receipt.events.find(x => x.event === "Withdrawn").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount:ethers.utils.formatEther( event.amount ),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                    full_withdrawal: data.full_withdrawal
+                })
+                callback()
+                break;
+            case 'VR':
+                event = data.receipt.events.find(x => x.event === "RewardPaid").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount:ethers.utils.formatEther( event.reward ),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                })
+                callback()
+                break;
+            case 'VE':
+                event = data.receipt.events.find(x => x.event === "Withdrawn").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount:ethers.utils.formatEther( event.amount ),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                })
+                callback()
+                break;
             case 'MMBD':
                 event = data.receipt.events.find(x => x.event === "Staked").args;
                 await axios.post(`${API_URL}Transaction/`, {

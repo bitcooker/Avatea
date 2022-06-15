@@ -22,11 +22,10 @@ const stake = async (wallet, vaultAddress, amount, callback) => {
         const receipt = await tx.wait();
         console.log(receipt);
         await helpers.callback.hook({
-            type: "DEPOSIT",
+            type: "VD",
             data: {
                 receipt,
                 wallet,
-                currency: "VAULT"
             }
         })
         console.log('stake success')
@@ -36,7 +35,7 @@ const stake = async (wallet, vaultAddress, amount, callback) => {
     }
 }
 
-const withdraw = async (wallet, vaultAddress, amount) => {
+const withdraw = async (wallet, vaultAddress, amount,full_withdrawal) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
@@ -54,11 +53,11 @@ const withdraw = async (wallet, vaultAddress, amount) => {
         const receipt = await tx.wait();
         console.log(receipt);
         await helpers.callback.hook({
-            type: "WITHDRAW",
+            type: "VW",
             data: {
                 receipt,
                 wallet,
-                currency: "VAULT"
+                full_withdrawal
             }
         })
         console.log('withdraw success')
@@ -74,8 +73,24 @@ const getReward = async (wallet, vaultAddress, callback) => {
     const vaultContract = await new ethers.Contract(vaultAddress, vault.abi, signer);
 
     try {
-        const allowanceTx = await vaultContract.getReward();
-        await allowanceTx.wait();
+        const tx = await vaultContract.getReward();
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        const receipt = await tx.wait();
+        console.log(receipt);
+        await helpers.callback.hook({
+            type: "VR",
+            data: {
+                receipt,
+                wallet,
+            }
+        })
         console.log('getReward success')
     } catch (e) {
         alert(e)
@@ -101,11 +116,10 @@ const exit = async (wallet, vaultAddress, callback) => {
         const receipt = await tx.wait();
         console.log(receipt);
         await helpers.callback.hook({
-            type: "WITHDRAW",
+            type: "VE",
             data: {
                 receipt,
                 wallet,
-                currency: "VAULT"
             }
         })
         console.log('exit success')
