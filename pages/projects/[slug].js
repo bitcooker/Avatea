@@ -93,6 +93,7 @@ export default function ProjectDetail({ projectDetail }) {
             user_address: wallet.account,
           });
         if (marketMakingSettings) {
+          console.log(marketMakingSettings)
           const {
             market_making_type,
             amount,
@@ -103,11 +104,12 @@ export default function ProjectDetail({ projectDetail }) {
           console.log(market_making_type)
           if (!market_making_type) setFresh(true);
           setMarketMakingSettingsId(id);
-          setMode(market_making_type);
-          setAmountSetting(amount);
-          setPressure(buy_sell_pressure);
-          setPriceLimit(price_limit);
+          setMode(market_making_type === null ? 'hold' : market_making_type);
+          setAmountSetting(amount === null ? '0' : amount);
+          setPressure(buy_sell_pressure === null ? 0 : buy_sell_pressure);
+          setPriceLimit(price_limit === null ? 0 : price_limit);
         }
+
         setAmountBaseTokenBalance(
           ethers.utils.formatEther((
             await helper.web3.marketMaker.available(
