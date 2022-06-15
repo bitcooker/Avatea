@@ -553,24 +553,23 @@ export default function ProjectDetail(props) {
               <div className="card-content pt-1 space-y-3.75">
                 {mode == "buy" && (
                   <div className="space-y-2.5">
-                    <span className="text-base">
-                      <i className="fa-regular fa-money-bills-simple mr-1"></i>
-                      Cash
+                    <div className="flex flex-row items-center justify-between text-base">
+                      <div>
+                        <i className="fa-regular fa-money-bills-simple mr-1"></i>
+                        Cash
+                      </div>
                       <span>
-                        Wallet Balance:{" "}
-                        {Number(pairedTokenWalletBalance).toFixed(2)}{" "}
-                        <button
+                        {Number(pairedTokenWalletBalance).toFixed(2)} &nbsp;
+                        <MaxButton
                           onClick={() =>
                             setMax(
                               pairedTokenWalletBalance,
                               setAmountPairTokenToStake
                             )
                           }
-                        >
-                          Max
-                        </button>
+                        />
                       </span>
-                    </span>
+                    </div>
                     <InputApproveWithIconSubmit
                       id="cash"
                       name="cash"
@@ -588,20 +587,20 @@ export default function ProjectDetail(props) {
 
                 {mode == "sell" && (
                   <div className="space-y-2.5">
-                    <span className="text-base">
-                      <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
-                      Token
+                    <div className="flex flex-row items-center justify-between text-base">
+                      <div>
+                        <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
+                        Token
+                      </div>
                       <span>
-                        Wallet Balance: {Number(projectTokenBalance).toFixed(2)}{" "}
-                        <button
+                        {Number(projectTokenBalance).toFixed(2)} &nbsp;
+                        <MaxButton
                           onClick={() =>
                             setMax(projectTokenBalance, setAmountToStake)
                           }
-                        >
-                          Max
-                        </button>
+                        />
                       </span>
-                    </span>
+                    </div>
                     <InputApproveWithIconSubmit
                       id="token"
                       name="token"
