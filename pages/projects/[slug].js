@@ -92,7 +92,7 @@ export default function ProjectDetail(props) {
   }, [props.projectDetail]);
 
   useEffect(() => {
-    if (wallet.status === "connected") {
+    if (wallet.status === "connected" ) {
       const initWalletConnected = async () => {
         //@TODO Wire Chain ID for production
         const marketMakingSettings =
@@ -116,38 +116,45 @@ export default function ProjectDetail(props) {
           setPriceLimit(price_limit === null ? 0 : price_limit);
         }
 
+      };
+      initWalletConnected();
+    }
+  }, [wallet]);
+
+  useEffect(() => {
+    if (wallet.status === "connected" && marketMakingPool.paired_token) {
+      const initWalletConnected = async () => {
         setAmountBaseTokenBalance(
-          ethers.utils.formatEther((
-            await helper.web3.marketMaker.available(
-              wallet,
-              marketMakingPool.address,
-              wallet.account
-            )
-          ))
+            ethers.utils.formatEther((
+                await helper.web3.marketMaker.available(
+                    wallet,
+                    marketMakingPool.address,
+                    wallet.account
+                )
+            ))
         );
         setAmountPairTokenBalance(
             ethers.utils.formatEther((
-            await helper.web3.marketMaker.getWithdrawablePairedTokens(
-              wallet,
-              marketMakingPool.address,
-              wallet.account
-            )
-          ))
+                await helper.web3.marketMaker.getWithdrawablePairedTokens(
+                    wallet,
+                    marketMakingPool.address,
+                    wallet.account
+                )
+            ))
         );
         setStakedVaultBalance(
-          ethers.utils.formatEther((await helper.web3.vault.balanceOf(wallet, vault.address, wallet.account)))
+            ethers.utils.formatEther((await helper.web3.vault.balanceOf(wallet, vault.address, wallet.account)))
         );
         setAvateaBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, AVATEA_TOKEN_ADDRESS))))
         setPairedTokenWalletBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, marketMakingPool.paired_token))))
         setProjectTokenBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, project.token))))
         setReleaseAbleAmount((await helper.web3.marketMaker.computeReleasableAmount(wallet, marketMakingPool.address)))
         const vestingData = await helper.web3.marketMaker.fetchVesting(wallet,marketMakingPool.address);
-        console.log(vestingData)
         setVestingDetails(vestingData)
-      };
-      initWalletConnected();
+      }
+      initWalletConnected()
     }
-  }, [wallet.status]);
+  }, [wallet, vault,marketMakingPool])
 
 
   const withdrawBaseToken = async () => {
