@@ -8,6 +8,7 @@ import TextArea from "../../src/components/core/TextArea/TextArea";
 import SocialItem from "../../src/components/pages/Linked/SocialItem";
 import Button from "../../src/components/core/Button/Button";
 import Modal from "../../src/components/core/modal/Modal";
+import RangeSlider from "../../src/components/core/RangeSlider/RangeSlider";
 
 // project detail components
 import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
@@ -32,9 +33,11 @@ export default function VaultsDetail(props) {
   });
 
   const [openEditProject, setOpenEditProject] = React.useState(false);
+  const [openEditMMPool, setOpenEditMMPool] = React.useState(false);
 
   return (
     <div>
+      {/* Edit project modal */}
       <Modal
         title="Edit Project"
         open={openEditProject}
@@ -165,6 +168,65 @@ export default function VaultsDetail(props) {
               handleClick={() => setOpenEditProject(true)}
             />
           </div>
+        </div>
+      </Modal>
+
+      {/* Edit Market making pool */}
+      <Modal
+        title="Edit Market Making"
+        size="sm"
+        open={openEditMMPool}
+        handleClose={() => setOpenEditMMPool(false)}
+      >
+        <div className="card-content space-y-3.75">
+          {/* Base Token */}
+          <div className="w-full space-y-2.5">
+            <span className="text-base">Base Token</span>
+            <InputWithIcon
+              id="editBaseToken"
+              name="editBaseToken"
+              type="number"
+              placeholder="2324"
+            />
+          </div>
+          {/* Pair Token */}
+          <div className="w-full space-y-2.5">
+            <span className="text-base">Pair Token</span>
+            <InputWithIcon
+              id="editPairToken"
+              name="editPairToken"
+              type="number"
+              placeholder="2324"
+            />
+          </div>
+          {/* OTC RangeSlider */}
+          <div className="w-full space-y-16">
+            <span className="text-base">OTC Ratio</span>
+            <RangeSlider percent="24" />
+          </div>
+          {/* Max buying amount & Max selling amount */}
+          <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
+            <div className="w-full space-y-2.5">
+              <span className="text-base">Max Buying Amount</span>
+              <InputWithIcon
+                id="editMaxBuyingAmount"
+                name="editMaxBuyingAmount"
+                type="number"
+                placeholder="1234"
+              />
+            </div>
+            <div className="w-full space-y-2.5">
+              <span className="text-base">Max Selling Amount</span>
+              <InputWithIcon
+                id="editMaxSellingAmount"
+                name="editMaxSellingAmount"
+                type="number"
+                placeholder="1234"
+              />
+            </div>
+          </div>
+
+          <Button name="Save Information" />
         </div>
       </Modal>
       <div className="space-y-7.5">
@@ -308,7 +370,10 @@ export default function VaultsDetail(props) {
           <Card>
             <div className="flex flex-col p-3.75 space-y-4">
               <h1 className="text-base text-center">Nothing See Yeat</h1>
-              <Button name="Create Market Making Pool" />
+              <Button
+                name="Create Market Making Pool"
+                handleClick={() => setOpenEditMMPool(true)}
+              />
             </div>
           </Card>
         </div>
