@@ -29,7 +29,6 @@ export default function Layout({ children }) {
         />
       </Head>
       <UseWalletProvider
-        chainId={56}
         autoConnect={true}
         connectors={{
           injected: {

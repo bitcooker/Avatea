@@ -92,9 +92,6 @@ export default function ProjectDetail(props) {
   }, [props.projectDetail]);
 
   useEffect(() => {
-    console.log('Initial')
-    console.log(wallet.status,marketMakingPool.paired_token )
-    console.log(marketMakingPool)
     if (wallet.status === "connected") {
       const initWalletConnected = async () => {
         //@TODO Wire Chain ID for production
@@ -104,7 +101,6 @@ export default function ProjectDetail(props) {
             user_address: wallet.account,
           });
         if (marketMakingSettings) {
-          console.log(marketMakingSettings)
           const {
             market_making_type,
             amount,
@@ -112,7 +108,6 @@ export default function ProjectDetail(props) {
             price_limit,
             id,
           } = marketMakingSettings;
-          console.log(market_making_type)
           if (!market_making_type) setFresh(true);
           setMarketMakingSettingsId(id);
           setMode(market_making_type === null ? 'hold' : market_making_type);
@@ -152,7 +147,7 @@ export default function ProjectDetail(props) {
       };
       initWalletConnected();
     }
-  }, [wallet]);
+  }, [wallet.status]);
 
 
   const withdrawBaseToken = async () => {
@@ -198,8 +193,6 @@ export default function ProjectDetail(props) {
 
   const stakePairedToken = async () => {
     const wei = ethers.utils.parseEther(amountPairTokenToStake);
-    console.log(wei);
-    console.log(marketMakingPool.address)
     await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
   };
 
@@ -214,7 +207,6 @@ export default function ProjectDetail(props) {
 
 
   const updateSettings = async () => {
-    console.log(fresh);
     const marketMakingSettings = {
       marketMakingType: mode,
       amountSettings,
@@ -524,6 +516,15 @@ export default function ProjectDetail(props) {
                   <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
                   {Number(ethers.utils.formatEther(vestingDetails.amountVested)).toFixed(2)}
                 </span>
+              </div>
+              <div className="py-5.5 space-y-4.5">
+                <div className="flex justify-between">
+                  <span className="text-sm">Released</span>
+                  <span className="flex text-base font-medium">
+                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
+                    {Number(ethers.utils.formatEther(vestingDetails.released)).toFixed(2)}
+                </span>
+                </div>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Releaseable Amount</span>
