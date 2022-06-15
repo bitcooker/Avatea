@@ -3,9 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import helper from "../../src/helpers";
 import { ethers } from "ethers";
-import {
-  AVATEA_TOKEN_ADDRESS,
-} from "../../src/helpers/constants";
+import { AVATEA_TOKEN_ADDRESS } from "../../src/helpers/constants";
 
 // core components
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
@@ -20,6 +18,7 @@ import Tab from "../../src/components/core/Tab/Tab";
 import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
 import Card from "../../src/components/pages/projectDetail/Card/Card";
 import Feed from "../../src/components/pages/projectDetail/Feed/Feed";
+import MaxButton from "../../src/components/pages/projects/Button/MaxButton";
 
 const tabItems = ["Vault(News)", "Market Making", "Vesting"];
 
@@ -30,7 +29,7 @@ export default function ProjectDetail(props) {
   const { slug } = router.query;
   const [project, setProject] = useState({});
   const [vault, setVault] = useState({});
-  const [articles,setArticles] = useState([])
+  const [articles, setArticles] = useState([]);
   const [marketMakingPool, setMarketMakingPool] = useState({});
   const [amountToStake, setAmountToStake] = useState(0);
   const [amountBaseToken, setAmountBaseToken] = useState(0);
@@ -43,27 +42,29 @@ export default function ProjectDetail(props) {
   const [priceLimit, setPriceLimit] = useState(null);
   const [fresh, setFresh] = useState(false);
   const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
-  const [mode, setMode] = useState('hold');
+  const [mode, setMode] = useState("hold");
   const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
-  const [stakedVaultBalance,setStakedVaultBalance] = useState(0);
-  const [avateaBalance,setAvateaBalance] = useState(0);
+  const [stakedVaultBalance, setStakedVaultBalance] = useState(0);
+  const [avateaBalance, setAvateaBalance] = useState(0);
   const [amountPairTokenBalance, setAmountPairTokenBalance] = useState(0);
   const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState(0);
   const [pairedTokenWalletBalance, setPairedTokenWalletBalance] = useState(0);
   const [projectTokenBalance, setProjectTokenBalance] = useState(0);
   const [releaseAbleAmount, setReleaseAbleAmount] = useState(0);
-  const [vestingDetails, setVestingDetails] = useState(null)
-  const [amountVested,setAmountVested] = useState(0)
+  const [vestingDetails, setVestingDetails] = useState(null);
+  const [amountVested, setAmountVested] = useState(0);
   const [amountReleased, setAmountReleased] = useState(0);
 
   useEffect(() => {
     const fetchArticles = async () => {
       if (project.slug) {
-        setArticles((await helper.article.getArticles({project: project.slug})))
+        setArticles(
+          await helper.article.getArticles({ project: project.slug })
+        );
       }
-    }
-    fetchArticles()
-  },[project])
+    };
+    fetchArticles();
+  }, [project]);
 
   useEffect(() => {
     if (props.projectDetail) setProject(props.projectDetail);
@@ -94,7 +95,7 @@ export default function ProjectDetail(props) {
   }, [props.projectDetail]);
 
   useEffect(() => {
-    if (wallet.status === "connected" ) {
+    if (wallet.status === "connected") {
       const initWalletConnected = async () => {
         //@TODO Wire Chain ID for production
         const marketMakingSettings =
@@ -112,12 +113,11 @@ export default function ProjectDetail(props) {
           } = marketMakingSettings;
           if (!market_making_type) setFresh(true);
           setMarketMakingSettingsId(id);
-          setMode(market_making_type === null ? 'hold' : market_making_type);
-          setAmountSetting(amount === null ? '0' : amount);
+          setMode(market_making_type === null ? "hold" : market_making_type);
+          setAmountSetting(amount === null ? "0" : amount);
           setPressure(buy_sell_pressure === null ? 0 : buy_sell_pressure);
           setPriceLimit(price_limit === null ? 0 : price_limit);
         }
-
       };
       initWalletConnected();
     }
@@ -127,42 +127,69 @@ export default function ProjectDetail(props) {
     if (wallet.status === "connected" && marketMakingPool.paired_token) {
       const initWalletConnected = async () => {
         setAmountBaseTokenBalance(
-            ethers.utils.formatEther((
-                await helper.web3.marketMaker.available(
-                    wallet,
-                    marketMakingPool.address,
-                    wallet.account
-                )
-            ))
+          ethers.utils.formatEther(
+            await helper.web3.marketMaker.available(
+              wallet,
+              marketMakingPool.address,
+              wallet.account
+            )
+          )
         );
         setAmountPairTokenBalance(
-            ethers.utils.formatEther((
-                await helper.web3.marketMaker.getWithdrawablePairedTokens(
-                    wallet,
-                    marketMakingPool.address,
-                    wallet.account
-                )
-            ))
+          ethers.utils.formatEther(
+            await helper.web3.marketMaker.getWithdrawablePairedTokens(
+              wallet,
+              marketMakingPool.address,
+              wallet.account
+            )
+          )
         );
         setStakedVaultBalance(
-            ethers.utils.formatEther((await helper.web3.vault.balanceOf(wallet, vault.address, wallet.account)))
+          ethers.utils.formatEther(
+            await helper.web3.vault.balanceOf(
+              wallet,
+              vault.address,
+              wallet.account
+            )
+          )
         );
-        setAvateaBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, AVATEA_TOKEN_ADDRESS))))
-        setPairedTokenWalletBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, marketMakingPool.paired_token))))
-        setProjectTokenBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, project.token))))
-        setReleaseAbleAmount((await helper.web3.marketMaker.computeReleasableAmount(wallet, marketMakingPool.address)))
-        const { amountVested, released } = await helper.web3.marketMaker.fetchVesting(wallet,marketMakingPool.address);
+        setAvateaBalance(
+          ethers.utils.formatEther(
+            await helper.token.balanceOf(wallet, AVATEA_TOKEN_ADDRESS)
+          )
+        );
+        setPairedTokenWalletBalance(
+          ethers.utils.formatEther(
+            await helper.token.balanceOf(wallet, marketMakingPool.paired_token)
+          )
+        );
+        setProjectTokenBalance(
+          ethers.utils.formatEther(
+            await helper.token.balanceOf(wallet, project.token)
+          )
+        );
+        setReleaseAbleAmount(
+          await helper.web3.marketMaker.computeReleasableAmount(
+            wallet,
+            marketMakingPool.address
+          )
+        );
+        const { amountVested, released } =
+          await helper.web3.marketMaker.fetchVesting(
+            wallet,
+            marketMakingPool.address
+          );
         setAmountReleased(released);
-        setAmountVested(amountVested)
-
-      }
-      initWalletConnected()
+        setAmountVested(amountVested);
+      };
+      initWalletConnected();
     }
-  }, [wallet, vault,marketMakingPool])
-
+  }, [wallet, vault, marketMakingPool]);
 
   const withdrawBaseToken = async () => {
-    let full_withdrawal = parseFloat(amountBaseToken) === parseFloat(amountBaseTokenBalance) && parseFloat(amountPairTokenBalance) === 0
+    let full_withdrawal =
+      parseFloat(amountBaseToken) === parseFloat(amountBaseTokenBalance) &&
+      parseFloat(amountPairTokenBalance) === 0;
     const wei = ethers.utils.parseEther(amountBaseToken);
     await helper.marketMaker.withdrawBaseToken(
       wallet,
@@ -173,7 +200,9 @@ export default function ProjectDetail(props) {
   };
 
   const withdrawPairToken = async () => {
-    let full_withdrawal = parseFloat(amountPairToken) === parseFloat(amountPairTokenBalance) && parseFloat(amountBaseTokenBalance) === 0
+    let full_withdrawal =
+      parseFloat(amountPairToken) === parseFloat(amountPairTokenBalance) &&
+      parseFloat(amountBaseTokenBalance) === 0;
     const wei = ethers.utils.parseEther(amountPairToken);
     await helper.web3.marketMaker.withdrawPairToken(
       wallet,
@@ -189,9 +218,15 @@ export default function ProjectDetail(props) {
   };
 
   const withdrawVault = async () => {
-    let full_withdrawal = parseFloat(vaultBalance) === parseFloat(stakedVaultBalance)
+    let full_withdrawal =
+      parseFloat(vaultBalance) === parseFloat(stakedVaultBalance);
     const wei = ethers.utils.parseEther(vaultBalance);
-    await helper.web3.vault.withdraw(wallet, vault.address, wei, full_withdrawal);
+    await helper.web3.vault.withdraw(
+      wallet,
+      vault.address,
+      wei,
+      full_withdrawal
+    );
   };
 
   const claimVaultRewards = async () => {
@@ -204,7 +239,11 @@ export default function ProjectDetail(props) {
 
   const stakePairedToken = async () => {
     const wei = ethers.utils.parseEther(amountPairTokenToStake);
-    await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
+    await helper.web3.marketMaker.stakePairedToken(
+      wallet,
+      marketMakingPool.address,
+      wei
+    );
   };
 
   const stakeMarketMaker = async () => {
@@ -212,10 +251,13 @@ export default function ProjectDetail(props) {
     await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
   };
 
-  const releaseVesting = async() => {
-    await helper.marketMaker.release(wallet, marketMakingPool.address, releaseAbleAmount);
-  }
-
+  const releaseVesting = async () => {
+    await helper.marketMaker.release(
+      wallet,
+      marketMakingPool.address,
+      releaseAbleAmount
+    );
+  };
 
   const updateSettings = async () => {
     const marketMakingSettings = {
@@ -233,9 +275,9 @@ export default function ProjectDetail(props) {
     });
   };
 
-  const setMax = async(amount,setter) => {
+  const setMax = async (amount, setter) => {
     setter(amount);
-  }
+  };
 
   const handleSetMode = useCallback((mode) => {
     setMode(mode);
@@ -260,7 +302,9 @@ export default function ProjectDetail(props) {
                 <div className="py-5.5 space-y-4.5">
                   <div className="flex justify-between">
                     <span className="text-sm">Total Transaction</span>
-                    <span className="text-base font-medium">{vault.num_invested}</span>
+                    <span className="text-base font-medium">
+                      {vault.num_invested}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-sm">Expected APY</span>
@@ -271,10 +315,20 @@ export default function ProjectDetail(props) {
 
               <div className="card-content pt-5 space-y-3.75">
                 <div>
-                  <span className="text-base">
-                    <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
-                    <span>Balance: {avateaBalance} - <button onClick={() => setMax(avateaBalance,setAmountToVaultStake)}>Max</button></span>
-                  </span>
+                  <div className="flex flex-row items-center justify-between text-base">
+                    <div>
+                      <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
+                    </div>
+                    &nbsp;
+                    <span>
+                      {avateaBalance} &nbsp;
+                      <MaxButton
+                        onClick={() =>
+                          setMax(avateaBalance, setAmountToVaultStake)
+                        }
+                      />
+                    </span>
+                  </div>
                   <InputApproveWithIconSubmit
                     id="max"
                     name="max"
@@ -289,11 +343,20 @@ export default function ProjectDetail(props) {
                   />
                 </div>
                 <div>
-                  <span className="text-base">
-                    <i className="fa-regular fa-circle-minus mr-1"></i>
-                    Withdraw Avatea
-                    <span>- Vault Balance: {stakedVaultBalance} - <button onClick={() => setMax(stakedVaultBalance,setVaultBalance)}>Max</button></span>
-                  </span>
+                  <div className="flex flex-row items-center justify-between text-base">
+                    <div>
+                      <i className="fa-regular fa-circle-minus mr-1" />
+                      Withdraw Avatea
+                    </div>
+                    <span>
+                      {stakedVaultBalance} &nbsp;
+                      <MaxButton
+                        onClick={() =>
+                          setMax(stakedVaultBalance, setVaultBalance)
+                        }
+                      />
+                    </span>
+                  </div>
                   <InputWithIconSubmit
                     id="withdrawAvatea"
                     name="withdrawAvatea"
@@ -306,7 +369,10 @@ export default function ProjectDetail(props) {
                   />
                 </div>
                 <div className="grid md-lg:grid-cols-2 gap-3.75">
-                  <Button name="Withdraw Rewards" handleClick={claimVaultRewards} />
+                  <Button
+                    name="Withdraw Rewards"
+                    handleClick={claimVaultRewards}
+                  />
                   <Button name="Withdraw Both" handleClick={exitVault} />
                 </div>
               </div>
@@ -360,11 +426,20 @@ export default function ProjectDetail(props) {
             <div className="card-content space-y-5">
               <div className="space-y-3.75">
                 <div className="space-y-2.5">
-                  <span className="text-base">
-                    <i className="fa-regular fa-money-bills-simple mr-1"></i>
-                    Cash: 100.000
-                    <span>- Cash Balance: {amountPairTokenBalance} - <button onClick={() => setMax(amountPairTokenBalance,setAmountPairToken)}>Max</button></span>
-                  </span>
+                  <div className="flex flex-row items-center justify-between text-base">
+                    <div>
+                      <i className="fa-regular fa-money-bills-simple mr-1"></i>
+                      Cash: 100.000
+                    </div>
+                    <span>
+                      {amountPairTokenBalance} &nbsp;
+                      <MaxButton
+                        onClick={() =>
+                          setMax(amountPairTokenBalance, setAmountPairToken)
+                        }
+                      />
+                    </span>
+                  </div>
                   <InputWithIconSubmit
                     id="withdrawCash"
                     name="withdrawCash"
@@ -378,12 +453,20 @@ export default function ProjectDetail(props) {
                   />
                 </div>
                 <div className="space-y-2.5">
-                  <span className="text-base">
-                    <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
-                    Tokens: 100.000
-                    <span>- Tokens Balance: {amountBaseTokenBalance} - <button onClick={() => setMax(amountBaseTokenBalance,setAmountBaseToken)}>Max</button></span>
-
-                  </span>
+                  <div className="flex flex-row items-center justify-between text-base">
+                    <div>
+                      <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
+                      Tokens: 100.000
+                    </div>
+                    <span>
+                      {amountBaseTokenBalance} &nbsp;
+                      <MaxButton
+                        onClick={() =>
+                          setMax(amountBaseTokenBalance, setAmountBaseToken)
+                        }
+                      />
+                    </span>
+                  </div>
                   <InputWithIconSubmit
                     id="withdrawToken"
                     name="withdrawToken"
@@ -423,55 +506,70 @@ export default function ProjectDetail(props) {
                   <Radio
                     name="mode"
                     label="Buy"
-                    value={'buy'}
-                    checked={mode === 'buy' ? true : false}
+                    value={"buy"}
+                    checked={mode === "buy" ? true : false}
                     handleSetMode={handleSetMode}
                   />
                   <Radio
                     name="mode"
                     label="Hold"
-                    value={'hold'}
-                    checked={mode === 'hold' ? true : false}
+                    value={"hold"}
+                    checked={mode === "hold" ? true : false}
                     handleSetMode={handleSetMode}
                   />
                   <Radio
                     name="mode"
                     label="Sell"
-                    value={'sell'}
-                    checked={mode === 'sell' ? true : false}
+                    value={"sell"}
+                    checked={mode === "sell" ? true : false}
                     handleSetMode={handleSetMode}
                   />
                 </div>
               </div>
-              {
-                  mode !== 'hold' ? (
-                      <div className="space-y-2.5">
-
-                        <span className="text-sm">{mode === 'buy' ? "Maximum Buying Price" : "Minimum Selling Price"}</span>
-                        <InputWithIconSubmit
-                            id="priceLimit"
-                            name="priceLimit"
-                            type="number"
-                            placeholder="Enter price"
-                            icon="fa-light fa-circle-minus"
-                            hideButton={true}
-                            value={priceLimit}
-                            setValue={setPriceLimit}
-                        />
-                      </div>
-                  ) : ""
-              }
-
+              {mode !== "hold" ? (
+                <div className="space-y-2.5">
+                  <span className="text-sm">
+                    {mode === "buy"
+                      ? "Maximum Buying Price"
+                      : "Minimum Selling Price"}
+                  </span>
+                  <InputWithIconSubmit
+                    id="priceLimit"
+                    name="priceLimit"
+                    type="number"
+                    placeholder="Enter price"
+                    icon="fa-light fa-circle-minus"
+                    hideButton={true}
+                    value={priceLimit}
+                    setValue={setPriceLimit}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
 
               <Button name="Save Settings" handleClick={updateSettings} />
 
               <div className="card-content pt-1 space-y-3.75">
-                {mode == 'buy' && (
+                {mode == "buy" && (
                   <div className="space-y-2.5">
                     <span className="text-base">
                       <i className="fa-regular fa-money-bills-simple mr-1"></i>
                       Cash
-                      <span>Wallet Balance: {Number(pairedTokenWalletBalance).toFixed(2)}  <button onClick={() => setMax(pairedTokenWalletBalance,setAmountPairTokenToStake)}>Max</button></span>
+                      <span>
+                        Wallet Balance:{" "}
+                        {Number(pairedTokenWalletBalance).toFixed(2)}{" "}
+                        <button
+                          onClick={() =>
+                            setMax(
+                              pairedTokenWalletBalance,
+                              setAmountPairTokenToStake
+                            )
+                          }
+                        >
+                          Max
+                        </button>
+                      </span>
                     </span>
                     <InputApproveWithIconSubmit
                       id="cash"
@@ -488,12 +586,21 @@ export default function ProjectDetail(props) {
                   </div>
                 )}
 
-                {mode == 'sell' && (
+                {mode == "sell" && (
                   <div className="space-y-2.5">
                     <span className="text-base">
                       <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
                       Token
-                      <span>Wallet Balance: {Number(projectTokenBalance).toFixed(2)}  <button onClick={() => setMax(projectTokenBalance,setAmountToStake)}>Max</button></span>
+                      <span>
+                        Wallet Balance: {Number(projectTokenBalance).toFixed(2)}{" "}
+                        <button
+                          onClick={() =>
+                            setMax(projectTokenBalance, setAmountToStake)
+                          }
+                        >
+                          Max
+                        </button>
+                      </span>
                     </span>
                     <InputApproveWithIconSubmit
                       id="token"
@@ -532,21 +639,27 @@ export default function ProjectDetail(props) {
                 <div className="flex justify-between">
                   <span className="text-sm">Released</span>
                   <span className="flex text-base font-medium">
-                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
-                    {Number(ethers.utils.formatEther(amountReleased)).toFixed(2)}
-                </span>
+                    <img
+                      src="/coins/maticIcon.png"
+                      className="w-6 h-6 mr-2.5"
+                    />
+                    {Number(ethers.utils.formatEther(amountReleased)).toFixed(
+                      2
+                    )}
+                  </span>
                 </div>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm">Releaseable Amount</span>
                 <span className="flex text-base font-medium">
                   <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
-                  {Number(ethers.utils.formatEther(releaseAbleAmount)).toFixed(2)}
+                  {Number(ethers.utils.formatEther(releaseAbleAmount)).toFixed(
+                    2
+                  )}
                 </span>
               </div>
             </div>
           </div>
-
 
           <div className="pt-9">
             <Button name="Release Tokens" handleClick={releaseVesting} />
@@ -556,7 +669,6 @@ export default function ProjectDetail(props) {
     </div>
   );
 }
-
 
 export async function getServerSideProps(context) {
   const { slug } = context.query;
@@ -573,15 +685,15 @@ export async function getServerSideProps(context) {
         projectDetail: projectDetails?.project,
         marketMakingPool: projectDetails?.marketMakingPool,
         vault: projectDetails?.vault,
-      }
-    }
+      },
+    };
   } else {
     return {
       props: {
         projectDetail: null,
         marketMakingPool: null,
         vault: null,
-      }
+      },
     };
   }
 }
