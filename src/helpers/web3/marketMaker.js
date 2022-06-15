@@ -242,13 +242,13 @@ const release = async (wallet, marketMakerAddress, amount, full_withdrawal, call
 }
 
 
-const computeReleasableAmount = async (wallet, marketMakerAddress, address, callback) => {
+const computeReleasableAmount = async (wallet, marketMakerAddress) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
-        const result = await marketMakerContract.computeReleasableAmount(address);
-        callback(result)
+        const result = await marketMakerContract.computeReleasableAmount(wallet.account);
+        return result
         console.log('computeReleasableAmount success')
     } catch (e) {
         console.log('computeReleasableAmount error', e);
@@ -267,24 +267,24 @@ const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, 
         return 0;
     }
 }
-const available = async (wallet, marketMakerAddress, address) => {
+const available = async (wallet, marketMakerAddress) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
-        return await marketMakerContract.available(address);
+        return await marketMakerContract.available(wallet.account);
     } catch (e) {
         console.log('available error', e);
         return 0;
     }
 }
 
-const fetchVesting = async (wallet, marketMakerAddress, address) => {
+const fetchVesting = async (wallet, marketMakerAddress) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
-        const data = await marketMakerContract.holdersMapping(address);
+        const data = await marketMakerContract.holdersMapping(wallet.account);
         const {amountVested, released, cliff, start, duration, slicePeriodSeconds, initialized, revocable} = data;
         return {amountVested, released, cliff, start, duration, slicePeriodSeconds, initialized, revocable}
     } catch (e) {

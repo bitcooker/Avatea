@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useWallet } from "use-wallet";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
@@ -6,7 +5,6 @@ import helper from "../../src/helpers";
 import { ethers } from "ethers";
 import {
   AVATEA_TOKEN_ADDRESS,
-  CLOUD_2_TOKEN_ADDRESS,
 } from "../../src/helpers/constants";
 
 // core components
@@ -14,7 +12,6 @@ import InputEmpty from "../../src/components/core/Input/InputEmpty";
 import InputWithIconSubmit from "../../src/components/core/Input/InputWithIconSubmit";
 import InputApproveWithIconSubmit from "../../src/components/core/Input/InputApproveWithIconSubmit";
 import Button from "../../src/components/core/Button/Button";
-import ButtonOutline from "../../src/components/core/Button/ButtonOutline";
 import RangeSlider from "../../src/components/core/RangeSlider/RangeSlider";
 import Radio from "../../src/components/core/Radio/Radio";
 import Tab from "../../src/components/core/Tab/Tab";
@@ -23,11 +20,10 @@ import Tab from "../../src/components/core/Tab/Tab";
 import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
 import Card from "../../src/components/pages/projectDetail/Card/Card";
 import Feed from "../../src/components/pages/projectDetail/Feed/Feed";
-import marketMaker from "../../src/helpers/web3/marketMaker";
 
 const tabItems = ["Vault(News)", "Market Making", "Vesting"];
 
-export default function ProjectDetail({ projectDetail }) {
+export default function ProjectDetail(props) {
   //@Todo add min buy limit and max buy limit fields (stop-loss)
   const wallet = useWallet();
   const router = useRouter();
@@ -42,9 +38,8 @@ export default function ProjectDetail({ projectDetail }) {
   const [amountPairTokenToStake, setAmountPairTokenToStake] = useState(0);
   const [amountToVaultStake, setAmountToVaultStake] = useState(0);
   const [vaultBalance, setVaultBalance] = useState(0);
-  const [marketMakingType, setMarketMakingType] = useState(null);
   const [amountSettings, setAmountSetting] = useState(null);
-  const [pressure, setPressure] = useState(null);
+  const [pressure, setPressure] = useState(0);
   const [priceLimit, setPriceLimit] = useState(null);
   const [fresh, setFresh] = useState(false);
   const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
@@ -56,9 +51,22 @@ export default function ProjectDetail({ projectDetail }) {
   const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState(0);
   const [pairedTokenWalletBalance, setPairedTokenWalletBalance] = useState(0);
   const [projectTokenBalance, setProjectTokenBalance] = useState(0);
+  const [releaseAbleAmount, setReleaseAbleAmount] = useState(0);
+  const [vestingDetails, setVestingDetails] = useState(null)
 
   useEffect(() => {
-    if (projectDetail) setProject(projectDetail);
+    const fetchArticles = async () => {
+      if (project.slug) {
+        setArticles((await helper.article.getArticles({project: project.slug})))
+      }
+    }
+    fetchArticles()
+  },[project])
+
+  useEffect(() => {
+    if (props.projectDetail) setProject(props.projectDetail);
+    if (props.marketMakingPool) setMarketMakingPool(props.marketMakingPool);
+    if (props.vault) setVault(props.vault);
     else {
       const fetchProject = async () => {
         const result = await helper.project.getProject(slug);
@@ -81,10 +89,13 @@ export default function ProjectDetail({ projectDetail }) {
       };
       fetchProject();
     }
-  }, [project]);
+  }, [props.projectDetail]);
 
   useEffect(() => {
-    if (wallet.isConnected() && marketMakingPool.paired_token) {
+    console.log('Initial')
+    console.log(wallet.status,marketMakingPool.paired_token )
+    console.log(marketMakingPool)
+    if (wallet.status === "connected") {
       const initWalletConnected = async () => {
         //@TODO Wire Chain ID for production
         const marketMakingSettings =
@@ -134,32 +145,15 @@ export default function ProjectDetail({ projectDetail }) {
         setAvateaBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, AVATEA_TOKEN_ADDRESS))))
         setPairedTokenWalletBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, marketMakingPool.paired_token))))
         setProjectTokenBalance(ethers.utils.formatEther((await helper.token.balanceOf(wallet, project.token))))
-
+        setReleaseAbleAmount((await helper.web3.marketMaker.computeReleasableAmount(wallet, marketMakingPool.address)))
+        const vestingData = await helper.web3.marketMaker.fetchVesting(wallet,marketMakingPool.address);
+        console.log(vestingData)
+        setVestingDetails(vestingData)
       };
       initWalletConnected();
     }
-  }, [wallet, marketMakingPool]);
+  }, [wallet]);
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      if (project) {
-        setArticles((await helper.article.getArticles({project: project.slug})))
-      }
-    }
-    fetchArticles()
-  })
-
-  const approve = async (address, tokenAddress) => {
-    console.log(address);
-    const totalSupply = await helper.token.fetchTotalSupply(wallet);
-    console.log(totalSupply);
-    await helper.token.approveCustomToken(
-      wallet,
-      address,
-      totalSupply,
-      tokenAddress
-    );
-  };
 
   const withdrawBaseToken = async () => {
     let full_withdrawal = parseFloat(amountBaseToken) === parseFloat(amountBaseTokenBalance) && parseFloat(amountPairTokenBalance) === 0
@@ -214,7 +208,9 @@ export default function ProjectDetail({ projectDetail }) {
     await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
   };
 
-
+  const releaseVesting = async() => {
+    await helper.marketMaker.release(wallet, marketMakingPool.address, releaseAbleAmount);
+  }
 
 
   const updateSettings = async () => {
@@ -523,17 +519,17 @@ export default function ProjectDetail({ projectDetail }) {
 
             <div className="py-5.5 space-y-4.5">
               <div className="flex justify-between">
-                <span className="text-sm">Total Users</span>
+                <span className="text-sm">Total Vested</span>
                 <span className="flex text-base font-medium">
                   <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
-                  100.00
+                  {Number(ethers.utils.formatEther(vestingDetails.amountVested)).toFixed(2)}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm">TVL</span>
+                <span className="text-sm">Releaseable Amount</span>
                 <span className="flex text-base font-medium">
                   <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
-                  100.00
+                  {Number(ethers.utils.formatEther(releaseAbleAmount)).toFixed(2)}
                 </span>
               </div>
             </div>
@@ -541,7 +537,7 @@ export default function ProjectDetail({ projectDetail }) {
 
 
           <div className="pt-9">
-            <Button name="Release Tokens" />
+            <Button name="Release Tokens" handleClick={releaseVesting} />
           </div>
         </Card>
       )}
