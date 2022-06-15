@@ -3,15 +3,15 @@ import {API_URL} from "./constants";
 import helpers from "./index";
 
 
-const getArticles = async ({project, callback} = {}) => {
+const getArticles = async ({project}) => {
 
     let parameters = "?";
     if (project) parameters += `project=${project}&`;
 
 
     try {
-        const {data} = await axios.get(`${API_URL}Article/${parameters}`);
-        callback(data)
+        const { data } = await axios.get(`${API_URL}Article/${parameters}`);
+        return data
     } catch (e) {
         console.log('getArticles error:', e);
     }

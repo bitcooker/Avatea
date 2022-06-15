@@ -34,6 +34,7 @@ export default function ProjectDetail({ projectDetail }) {
   const { slug } = router.query;
   const [project, setProject] = useState({});
   const [vault, setVault] = useState({});
+  const [articles,setArticles] = useState([])
   const [marketMakingPool, setMarketMakingPool] = useState({});
   const [amountToStake, setAmountToStake] = useState(0);
   const [amountBaseToken, setAmountBaseToken] = useState(0);
@@ -136,7 +137,14 @@ export default function ProjectDetail({ projectDetail }) {
     }
   }, [wallet, marketMakingPool]);
 
-
+  useEffect(() => {
+    const fetchArticles = async () => {
+      if (project) {
+        setArticles((await helper.article.getArticles({project: project.slug})))
+      }
+    }
+    fetchArticles()
+  })
 
   const approve = async (address, tokenAddress) => {
     console.log(address);
@@ -309,7 +317,7 @@ export default function ProjectDetail({ projectDetail }) {
             </div>
 
             <div className="card-content pt-5.5">
-              <Feed />
+              <Feed articles={articles} />
             </div>
           </Card>
         </div>
