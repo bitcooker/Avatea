@@ -23,7 +23,7 @@ export default function Radio(props) {
         value={props.value}
         type="radio"
         ref={radioRef}
-        defaultChecked={props.value == 1}
+        defaultChecked={props.checked}
       />
       <span className="text-sm">{props.label}</span>
     </div>

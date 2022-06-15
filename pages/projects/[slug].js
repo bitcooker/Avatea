@@ -97,15 +97,16 @@ export default function ProjectDetail({ projectDetail }) {
             market_making_type,
             amount,
             buy_sell_pressure,
-            priceLimit,
+            price_limit,
             id,
           } = marketMakingSettings;
+          console.log(market_making_type)
           if (!market_making_type) setFresh(true);
           setMarketMakingSettingsId(id);
           setMode(market_making_type);
           setAmountSetting(amount);
           setPressure(buy_sell_pressure);
-          setPriceLimit(priceLimit);
+          setPriceLimit(price_limit);
         }
         setAmountBaseTokenBalance(
           ethers.utils.formatEther((
@@ -422,18 +423,21 @@ export default function ProjectDetail({ projectDetail }) {
                     name="mode"
                     label="Buy"
                     value={'buy'}
+                    checked={mode === 'buy' ? true : false}
                     handleSetMode={handleSetMode}
                   />
                   <Radio
                     name="mode"
                     label="Hold"
                     value={'hold'}
+                    checked={mode === 'hold' ? true : false}
                     handleSetMode={handleSetMode}
                   />
                   <Radio
                     name="mode"
                     label="Sell"
                     value={'sell'}
+                    checked={mode === 'sell' ? true : false}
                     handleSetMode={handleSetMode}
                   />
                 </div>
