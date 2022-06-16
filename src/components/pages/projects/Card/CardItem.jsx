@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import Link from 'next/link'
+import Link from "next/link";
 import {
   socialFacebook,
   socialLinked,
@@ -8,7 +8,6 @@ import {
 } from "../../../SVG";
 
 export default function CardItem(props) {
-
   return (
     <div className="cardItem">
       <CardImage image={props.banner} id={props.slug} />
@@ -19,10 +18,10 @@ export default function CardItem(props) {
         <div className="cardItem__body-general">
           <div className="cardItem__body-name">{props.name}</div>
           <div className="cardItem__body-social">
-            <Link href={props.facebook}>{socialFacebook}</Link>
-            <Link href={props.twitter}>{socialTwitter}</Link>
-            <Link href={props.linkedin}>{socialLinked}</Link>
-            <Link href={props.telegram}>{socialTelegram}</Link>
+            <Link href={props.social_facebook}>{socialFacebook}</Link>
+            <Link href={props.social_twitter}>{socialTwitter}</Link>
+            <Link href={props.social_linkedin}>{socialLinked}</Link>
+            <Link href={props.social_telegram}>{socialTelegram}</Link>
           </div>
         </div>
         <div className="cardItem__body-row">
@@ -31,14 +30,22 @@ export default function CardItem(props) {
         </div>
         <div className="cardItem__body-row">
           <div className="cardItem__body-row-title">Whitepaper :</div>
-          <div className="cardItem__body-row-info purple"><a href={props.whitepaper} target={'_blank'} rel={'noreferrer'}>View</a></div>
+          <div className="cardItem__body-row-info purple">
+            <a href={props.whitepaper} target={"_blank"} rel={"noreferrer"}>
+              View
+            </a>
+          </div>
         </div>
         <div className="cardItem__body-row">
           <div className="cardItem__body-row-title">Website :</div>
-          <div className="cardItem__body-row-info"><a href={props.website} target={'_blank'} rel={'noreferrer'}>View</a></div>
+          <div className="cardItem__body-row-info">
+            <a href={props.website} target={"_blank"} rel={"noreferrer"}>
+              View
+            </a>
+          </div>
         </div>
         <Link href={`projects/${props.slug}`} className="button primary">
-          <a className={'button primary'}>View Project</a>
+          <a className={"button primary"}>View Project</a>
         </Link>
       </div>
     </div>
@@ -55,7 +62,7 @@ export const CardImage = (props) => {
       // this one for test purposes
       image.current.onload = () => setTimeout(() => setLoad(true), 3000);
     }
-  }, );
+  });
 
   return (
     <div className={`cardItem__image ${load ? "" : "spinner"}`}>
