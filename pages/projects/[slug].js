@@ -3,7 +3,6 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import helper from "../../src/helpers";
 import { ethers } from "ethers";
-import { AVATEA_TOKEN_ADDRESS } from "../../src/helpers/constants";
 
 // core components
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
