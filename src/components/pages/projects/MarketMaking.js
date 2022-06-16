@@ -16,7 +16,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
     const [amountPairToken, setAmountPairToken] = useState('0');
     const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState('0');
     const [amountBaseToken, setAmountBaseToken] = useState('0');
-    const [amountSettings, setAmountSetting] = useState(null);
+    const [amountSettings, setAmountSetting] = useState(0);
     const [pressure, setPressure] = useState(0);
     const [amountToStake, setAmountToStake] = useState('0');
     const [projectTokenBalance, setProjectTokenBalance] = useState('0');
@@ -85,7 +85,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                     if (!market_making_type) setFresh(true);
                     setMarketMakingSettingsId(id);
                     setMode(market_making_type === null ? "hold" : market_making_type);
-                    setAmountSetting(amount === null ? "0" : amount);
+                    // setAmountSetting(amount === null ? "0" : amount);
                     setPressure(buy_sell_pressure === null ? 0 : buy_sell_pressure);
                     setPriceLimit(price_limit === null ? 0 : price_limit);
                 }
@@ -132,6 +132,8 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
             marketMakingPool.address,
             wei
         );
+        await setAmountSetting(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake))
+        await updateSettings();
     };
 
     const withdrawPairToken = async () => {
@@ -145,6 +147,10 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
             wei,
             full_withdrawal
         );
+        if(mode === 'buy') {
+            await setAmountSetting(parseFloat(amountPairTokenBalance) - parseFloat(amountPairToken))
+            await updateSettings();
+        }
     };
 
     const withdrawBaseToken = async () => {
@@ -158,6 +164,10 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
             wei,
             full_withdrawal
         );
+        if(mode === 'sell') {
+            await setAmountSetting(parseFloat(amountBaseTokenBalance) - parseFloat(amountBaseToken))
+            await updateSettings();
+        }
     };
 
     const updateSettings = async () => {
@@ -179,6 +189,8 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
     const stakeMarketMaker = async () => {
         const wei = ethers.utils.parseEther(amountToStake);
         await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
+        await setAmountSetting(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake))
+        await updateSettings();
     };
 
     return (
