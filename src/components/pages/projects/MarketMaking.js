@@ -115,7 +115,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
             setEstimation('- Days')
         }
 
-    }, [mode, pressure, amountPairTokenToStake, amountToStake]);
+    }, [mode, pressure, amountPairTokenToStake, amountToStake, marketMakingPool.max_buying_amount]);
 
     const setMax = async (amount, setter) => {
         setter(amount);
