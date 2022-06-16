@@ -19,10 +19,10 @@ export default function CardItem(props) {
         <div className="cardItem__body-general">
           <div className="cardItem__body-name">{props.name}</div>
           <div className="cardItem__body-social">
-            <Link href={props.facebook}>{socialFacebook}</Link>
-            <Link href={props.twitter}>{socialTwitter}</Link>
-            <Link href={props.linkedin}>{socialLinked}</Link>
-            <Link href={props.telegram}>{socialTelegram}</Link>
+            <Link href={props.social_facebook}>{socialFacebook}</Link>
+            <Link href={props.social_twitter}>{socialTwitter}</Link>
+            <Link href={props.social_linkedin}>{socialLinked}</Link>
+            <Link href={props.social_telegram}>{socialTelegram}</Link>
           </div>
         </div>
         <div className="cardItem__body-row">

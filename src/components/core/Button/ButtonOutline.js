@@ -5,6 +5,7 @@ export default function ButtonOutline(props) {
       onClick={props.handleClick}
     >
       {props.name}
+      {props.children}
     </div>
   );
 }
