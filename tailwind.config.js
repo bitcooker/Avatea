@@ -11,7 +11,13 @@ module.exports = {
       width: {
         25: "6.25rem",
         38: "9.5rem",
+        50: "12.5rem",
+        66.25: "16.5625rem",
         100: "25rem",
+      },
+      maxWidth: {
+        42.5: "10.625rem",
+        66.25: "16.5625rem",
       },
       height: {
         7.5: "1.875rem",
@@ -21,6 +27,9 @@ module.exports = {
         68.75: "17.1875rem",
         85: "21.25rem",
         100: "25rem",
+      },
+      inset: {
+        7.5: "1.875rem",
       },
       borderRadius: {
         "0.5xl": "0.625rem",
@@ -52,6 +61,8 @@ module.exports = {
       },
       screens: {
         "md-lg": "840px",
+        "lg-xl": "1240px",
+        "xl-2xl": "1360px",
       },
       backgroundSize: {
         "50%": "50%",
