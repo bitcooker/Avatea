@@ -63,8 +63,6 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
         }
     }, [wallet, vault, marketMakingPool]);
 
-
-
     useEffect(() => {
         if (wallet.status === "connected") {
             const initWalletConnected = async () => {

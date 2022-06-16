@@ -59,12 +59,14 @@ export default function PreviewContent(props) {
       <div className="relative w-1/3 md-lg:h-full">
         <div className="absolute flex flex-col w-full md-lg:h-1/2 md-lg:bottom-0 md-lg:right-0 space-y-5">
           <div className="">
-            <ButtonOutline>
-              <span className="pr-2.5 text-white"><i className="fa-solid fa-file-code"/></span>
-              <span className="text-white font-semibold">
-                View Whitepaper
-              </span>
-            </ButtonOutline>
+            <a href={props.whitepaper} target={"_blank"} rel={'noreferrer'}>
+              <ButtonOutline>
+                <span className="pr-2.5 text-white"><i className="fa-solid fa-file-code"/></span>
+                <span className="text-white font-semibold">
+                  View Whitepaper
+                </span>
+              </ButtonOutline>
+            </a>
           </div>
           <div className="flex flex-row justify-between w-full">
             {
