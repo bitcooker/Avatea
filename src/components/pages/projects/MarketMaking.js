@@ -26,7 +26,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
     const [fresh, setFresh] = useState(false);
     const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
     const [mode, setMode] = useState("hold");
-    const [estimation, setEstimation] = useState("0 Days");
+    const [estimation, setEstimation] = useState("- Days");
 
     useEffect(() => {
         if (wallet.status === "connected" && marketMakingPool.paired_token) {
@@ -95,22 +95,26 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
     }, [wallet]);
 
     useEffect(() => {
-            if (mode === 'buy') {
-                let max_buying_amount = marketMakingPool.max_buying_amount
-                let balance = parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake ? amountPairTokenToStake : 0)
-                let days = balance / (max_buying_amount * pressure / 100)
-                days = Math.round(days * 10) / 10
-                setEstimation(days + ' Days')
-            } else if (mode === 'sell') {
-                let max_selling_amount = marketMakingPool.max_selling_amount
-                let balance = parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake ? amountToStake : 0)
-                let days = balance / (max_selling_amount * pressure / 100)
-                days = Math.round(days * 10) / 10
-                setEstimation(days + ' Days')
-            } else {
-                setEstimation(0 + ' Days')
-            }
-        
+        if (parseFloat(pressure) === 0) {
+            setEstimation('- Days')
+            return
+        }
+        if (mode === 'buy') {
+            let max_buying_amount = marketMakingPool.max_buying_amount
+            let balance = parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake ? amountPairTokenToStake : 0)
+            let days = balance / (max_buying_amount * pressure / 100)
+            days = Math.round(days * 10) / 10
+            setEstimation(days + ' Days')
+        } else if (mode === 'sell') {
+            let max_selling_amount = marketMakingPool.max_selling_amount
+            let balance = parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake ? amountToStake : 0)
+            let days = balance / (max_selling_amount * pressure / 100)
+            days = Math.round(days * 10) / 10
+            setEstimation(days + ' Days')
+        } else {
+            setEstimation('- Days')
+        }
+
     }, [mode, pressure, amountPairTokenToStake, amountToStake]);
 
     const setMax = async (amount, setter) => {
