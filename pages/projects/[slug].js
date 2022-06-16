@@ -323,7 +323,7 @@ export default function ProjectDetail(props) {
                     <span>
                       {avateaBalance} &nbsp;
                       <MaxButton
-                        onClick={() =>
+                        handleClick={() =>
                           setMax(avateaBalance, setAmountToVaultStake)
                         }
                       />
@@ -351,7 +351,7 @@ export default function ProjectDetail(props) {
                     <span>
                       {stakedVaultBalance} &nbsp;
                       <MaxButton
-                        onClick={() =>
+                        handleClick={() =>
                           setMax(stakedVaultBalance, setVaultBalance)
                         }
                       />
@@ -434,7 +434,7 @@ export default function ProjectDetail(props) {
                     <span>
                       {amountPairTokenBalance} &nbsp;
                       <MaxButton
-                        onClick={() =>
+                        handleClick={() =>
                           setMax(amountPairTokenBalance, setAmountPairToken)
                         }
                       />
@@ -461,7 +461,7 @@ export default function ProjectDetail(props) {
                     <span>
                       {amountBaseTokenBalance} &nbsp;
                       <MaxButton
-                        onClick={() =>
+                        handleClick={() =>
                           setMax(amountBaseTokenBalance, setAmountBaseToken)
                         }
                       />
@@ -561,7 +561,7 @@ export default function ProjectDetail(props) {
                       <span>
                         {Number(pairedTokenWalletBalance).toFixed(2)} &nbsp;
                         <MaxButton
-                          onClick={() =>
+                          handleClick={() =>
                             setMax(
                               pairedTokenWalletBalance,
                               setAmountPairTokenToStake
@@ -595,7 +595,7 @@ export default function ProjectDetail(props) {
                       <span>
                         {Number(projectTokenBalance).toFixed(2)} &nbsp;
                         <MaxButton
-                          onClick={() =>
+                          handleClick={() =>
                             setMax(projectTokenBalance, setAmountToStake)
                           }
                         />
