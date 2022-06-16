@@ -6,7 +6,7 @@ import InputEmpty from "../../core/Input/InputEmpty";
 import Radio from "../../core/Radio/Radio";
 import Button from "../../core/Button/Button";
 import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
-import {useState, useEffect, useCallback, useRef} from "react";
+import {useState, useEffect, useCallback} from "react";
 import {ethers} from "ethers";
 import helper from "../../../helpers";
 
@@ -16,7 +16,6 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
     const [amountPairToken, setAmountPairToken] = useState('0');
     const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState('0');
     const [amountBaseToken, setAmountBaseToken] = useState('0');
-    const [amountSettings, setAmountSettings] = useState(0);
     const [pressure, setPressure] = useState(0);
     const [amountToStake, setAmountToStake] = useState('0');
     const [projectTokenBalance, setProjectTokenBalance] = useState('0');
@@ -27,7 +26,6 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
     const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
     const [mode, setMode] = useState("hold");
     const [estimation, setEstimation] = useState("- Days");
-    const didMount = useRef(false);
 
     useEffect(() => {
         if (wallet.status === "connected" && marketMakingPool.paired_token) {
@@ -76,7 +74,6 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                 if (marketMakingSettings) {
                     const {
                         market_making_type,
-                        amount,
                         buy_sell_pressure,
                         price_limit,
                         id,
@@ -84,7 +81,6 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                     if (!market_making_type) setFresh(true);
                     setMarketMakingSettingsId(id);
                     setMode(market_making_type === null ? "hold" : market_making_type);
-                    // setAmountSettings(amount === null ? "0" : amount);
                     setPressure(buy_sell_pressure === null ? 0 : buy_sell_pressure);
                     setPriceLimit(price_limit === null ? 0 : price_limit);
                 }
@@ -116,16 +112,6 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
 
     }, [mode, pressure, amountPairTokenToStake, amountToStake, marketMakingPool.max_buying_amount]);
 
-    useEffect(() => {
-        // Return early, if this is the first render:
-        if ( !didMount.current ) {
-            return didMount.current = true;
-        }
-        // Paste code to be executed on subsequent renders:
-        console.log(amountSettings)
-        updateSettings();
-    }, [amountSettings]);
-
     const setMax = async (amount, setter) => {
         setter(amount);
     };
@@ -141,7 +127,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
             marketMakingPool.address,
             wei
         );
-        await setAmountSettings(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake))
+        await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
     };
 
     const withdrawPairToken = async () => {
@@ -156,7 +142,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
             full_withdrawal
         );
         if(mode === 'buy') {
-            await setAmountSettings(parseFloat(amountPairTokenBalance) - parseFloat(amountPairToken))
+            await updateSettings((parseFloat(amountPairTokenBalance) - parseFloat(amountPairToken)))
         }
     };
 
@@ -172,20 +158,20 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
             full_withdrawal
         );
         if(mode === 'sell') {
-            setAmountSettings(parseFloat(amountBaseTokenBalance) - parseFloat(amountBaseToken))
+            await updateSettings((parseFloat(amountBaseTokenBalance) - parseFloat(amountBaseToken)));
         }
     };
 
-    const updateSettings = async () => {
+    const updateSettings = async (amount = 0) => {
         const marketMakingSettings = {
             marketMakingType: mode,
-            amountSettings,
+            amountSettings: amount,
             pressure,
             priceLimit,
             marketMakingPoolId: marketMakingPool.id,
             id: marketMakingSettingsId ? marketMakingSettingsId : "",
         };
-        console.log(marketMakingSettings, amountSettings)
+        console.log(marketMakingSettings)
         await helper.marketMaking.updateMarketMakingSettings({
             marketMakingSettings,
             wallet,
@@ -197,7 +183,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
         console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake))
         const wei = ethers.utils.parseEther(amountToStake);
         await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
-        setAmountSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake))
+        await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake))
     };
 
     return (
