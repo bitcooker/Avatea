@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 
 // core components
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
@@ -29,7 +30,6 @@ export default function Linked(props) {
           <svg
             width="100%"
             height="100%"
-            viewBox="0 0 100% 100%"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -39,12 +39,11 @@ export default function Linked(props) {
             />
           </svg>
         </div>
-        <img src="/linked/bg.svg" style={{ height: "100%" }} />
+        <Image src="/linked/bg.svg" alt="background" layout="fill" />
         <div className="absolute bottom-0 flex justify-center w-full">
           <svg
             width="90%"
             height="3"
-            viewBox="0 0 90% 3"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
