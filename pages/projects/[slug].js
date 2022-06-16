@@ -51,9 +51,11 @@ export default function ProjectDetail(props) {
   const [pairedTokenWalletBalance, setPairedTokenWalletBalance] = useState(0);
   const [projectTokenBalance, setProjectTokenBalance] = useState(0);
   const [releaseAbleAmount, setReleaseAbleAmount] = useState(0);
-  const [vestingDetails, setVestingDetails] = useState(null);
   const [amountVested, setAmountVested] = useState(0);
   const [amountReleased, setAmountReleased] = useState(0);
+  const [earnedTokens, setEarnedTokens] = useState('0');
+  const [vaultTLV,setVaultTLV] = useState('0');
+  const [rewardPerToken, setRewardPerToken] = useState('0')
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -181,6 +183,9 @@ export default function ProjectDetail(props) {
           );
         setAmountReleased(released);
         setAmountVested(amountVested);
+        setEarnedTokens(ethers.utils.formatEther(await helper.web3.vault.earned(wallet,vault.address,wallet.account)));
+        setVaultTLV(ethers.utils.formatEther(await helper.web3.vault.totalSupply(wallet,vault.address)));
+        setRewardPerToken(ethers.utils.formatEther(await helper.web3.vault.rewardPerToken(wallet,vault.address)));
       };
       initWalletConnected();
     }
@@ -301,14 +306,22 @@ export default function ProjectDetail(props) {
 
                 <div className="py-5.5 space-y-4.5">
                   <div className="flex justify-between">
-                    <span className="text-sm">Total Transaction</span>
+                    <span className="text-sm">Users</span>
                     <span className="text-base font-medium">
                       {vault.num_invested}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm">Expected APY</span>
-                    <span className="text-base font-medium">1234</span>
+                    <span className="text-sm">Generated Rewards</span>
+                    <span className="text-base font-medium">{earnedTokens}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm">TVL</span>
+                    <span className="text-base font-medium">{vaultTLV}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm">Reward per token</span>
+                    <span className="text-base font-medium">{rewardPerToken}</span>
                   </div>
                 </div>
               </div>

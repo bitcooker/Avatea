@@ -184,5 +184,6 @@ export default {
     getReward,
     exit,
     earned,
-    rewardPerToken
+    rewardPerToken,
+    totalSupply
 }
