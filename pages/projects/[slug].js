@@ -19,6 +19,7 @@ import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
 import Card from "../../src/components/pages/projectDetail/Card/Card";
 import Feed from "../../src/components/pages/projectDetail/Feed/Feed";
 import MaxButton from "../../src/components/pages/projects/Button/MaxButton";
+import formatting from "../../src/helpers/formatting";
 
 const tabItems = ["Vault", "Market Making", "Vesting"];
 
@@ -56,6 +57,14 @@ export default function ProjectDetail(props) {
   const [earnedTokens, setEarnedTokens] = useState('0');
   const [vaultTLV,setVaultTLV] = useState('0');
   const [rewardPerToken, setRewardPerToken] = useState('0')
+  const [baseAmountBought, setBaseAmountBought] = useState('0')
+  const [pairedAmountBought, setPairedAmountBought] = useState('0')
+  const [baseAmountSold, setBaseAmountSold] = useState('0')
+  const [pairedAmountSold, setPairedAmountSold] = useState('0')
+  const [cliff, setCliff] = useState('0')
+  const [start, setStart] = useState('0')
+  const [duration, setDuration] = useState('0')
+  const [slicePeriodSeconds, setSlicePeriodSeconds] = useState('0')
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -128,17 +137,8 @@ export default function ProjectDetail(props) {
   useEffect(() => {
     if (wallet.status === "connected" && marketMakingPool.paired_token) {
       const initWalletConnected = async () => {
-        setAmountBaseTokenBalance(
-          ethers.utils.formatEther(
-            await helper.web3.marketMaker.available(
-              wallet,
-              marketMakingPool.address,
-              wallet.account
-            )
-          )
-        );
         setAmountPairTokenBalance(
-          ethers.utils.formatEther(
+          helper.formatting.web3_format(
             await helper.web3.marketMaker.getWithdrawablePairedTokens(
               wallet,
               marketMakingPool.address,
@@ -147,7 +147,7 @@ export default function ProjectDetail(props) {
           )
         );
         setStakedVaultBalance(
-          ethers.utils.formatEther(
+          helper.formatting.web3_format(
             await helper.web3.vault.balanceOf(
               wallet,
               vault.address,
@@ -156,36 +156,63 @@ export default function ProjectDetail(props) {
           )
         );
         setAvateaBalance(
-          ethers.utils.formatEther(
+          helper.formatting.web3_format(
             await helper.token.balanceOf(wallet, AVATEA_TOKEN_ADDRESS)
           )
         );
         setPairedTokenWalletBalance(
-          ethers.utils.formatEther(
+          helper.formatting.web3_format(
             await helper.token.balanceOf(wallet, marketMakingPool.paired_token)
           )
         );
         setProjectTokenBalance(
-          ethers.utils.formatEther(
+          helper.formatting.web3_format(
             await helper.token.balanceOf(wallet, project.token)
           )
         );
+
         setReleaseAbleAmount(
-          await helper.web3.marketMaker.computeReleasableAmount(
-            wallet,
-            marketMakingPool.address
-          )
+          helper.formatting.web3_format(
+            await helper.web3.marketMaker.computeReleasableAmount(
+              wallet,
+              marketMakingPool.address
+            ))
         );
-        const { amountVested, released } =
-          await helper.web3.marketMaker.fetchVesting(
-            wallet,
-            marketMakingPool.address
-          );
-        setAmountReleased(released);
-        setAmountVested(amountVested);
-        setEarnedTokens(ethers.utils.formatEther(await helper.web3.vault.earned(wallet,vault.address,wallet.account)));
-        setVaultTLV(ethers.utils.formatEther(await helper.web3.vault.totalSupply(wallet,vault.address)));
-        setRewardPerToken(ethers.utils.formatEther(await helper.web3.vault.rewardPerToken(wallet,vault.address)));
+
+        const {
+          available,
+          amountVested,
+          released,
+          baseAmountBought,
+          pairedAmountBought,
+          baseAmountSold,
+          pairedAmountSold,
+          cliff,
+          start,
+          duration,
+          slicePeriodSeconds,
+          projectOwner,
+          revocable
+        } =
+            await helper.web3.marketMaker.fetchHoldersMapping(
+                wallet,
+                marketMakingPool.address
+            );
+        setAmountBaseTokenBalance(helper.formatting.web3_format(available));
+        setAmountReleased(helper.formatting.web3_format(released));
+        setAmountVested(helper.formatting.web3_format(amountVested));
+        setBaseAmountBought(helper.formatting.web3_format(baseAmountBought));
+        setPairedAmountBought(helper.formatting.web3_format(pairedAmountBought));
+        setBaseAmountSold(helper.formatting.web3_format(baseAmountSold));
+        setPairedAmountSold(helper.formatting.web3_format(pairedAmountSold));
+        setCliff(helper.formatting.web3_format(cliff));
+        setStart(helper.formatting.web3_format(start));
+        setDuration(helper.formatting.web3_format(duration));
+        setSlicePeriodSeconds(helper.formatting.web3_format(slicePeriodSeconds));
+        
+        setEarnedTokens(helper.formatting.web3_format(await helper.web3.vault.earned(wallet,vault.address,wallet.account)));
+        setVaultTLV(helper.formatting.web3_format(await helper.web3.vault.totalSupply(wallet,vault.address)));
+        setRewardPerToken(helper.formatting.web3_format(await helper.web3.vault.rewardPerToken(wallet,vault.address)));
       };
       initWalletConnected();
     }
@@ -644,7 +671,7 @@ export default function ProjectDetail(props) {
                 <span className="text-sm">Total Vested</span>
                 <span className="flex text-base font-medium">
                   <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
-                  {Number(ethers.utils.formatEther(amountVested)).toFixed(2)}
+                  {amountVested}
                 </span>
               </div>
               <div className="py-5.5 space-y-4.5">
@@ -655,9 +682,7 @@ export default function ProjectDetail(props) {
                       src="/coins/maticIcon.png"
                       className="w-6 h-6 mr-2.5"
                     />
-                    {Number(ethers.utils.formatEther(amountReleased)).toFixed(
-                      2
-                    )}
+                    {amountReleased}
                   </span>
                 </div>
               </div>
@@ -665,9 +690,7 @@ export default function ProjectDetail(props) {
                 <span className="text-sm">Releaseable Amount</span>
                 <span className="flex text-base font-medium">
                   <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5" />
-                  {Number(ethers.utils.formatEther(releaseAbleAmount)).toFixed(
-                    2
-                  )}
+                  {releaseAbleAmount}
                 </span>
               </div>
             </div>

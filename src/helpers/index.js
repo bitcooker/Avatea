@@ -4,6 +4,7 @@ import vault from './web3/vault';
 import marketMaking from "./marketMaking";
 import project from "./project";
 import token from "./web3/token";
+import formatting from "./formatting";
 import user from './user';
 import vaultRest from './vault';
 import callback from "./callback";
@@ -21,12 +22,13 @@ export default {
         avateaToken,
         marketMaker,
         vault,
-        authentication
+        authentication,
     },
     project,
     article,
     token,
     user,
     vaultRest,
-    callback
+    callback,
+    formatting
 }
