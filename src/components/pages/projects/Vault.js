@@ -40,7 +40,7 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
                 );
                 setEarnedTokens(helper.formatting.web3Format(await helper.web3.vault.earned(wallet,vault.address,wallet.account)));
                 setVaultTLV(helper.formatting.web3Format(await helper.web3.vault.totalSupply(wallet,vault.address)));
-                setRewardPerToken(helper.formatting.web3Format(await helper.web3.vault.rewardPerToken(wallet,vault.address)));
+                setRewardPerToken(await helper.web3.vault.rewardPerToken(wallet,vault.address));
             };
             initWalletConnected();
         }
@@ -112,7 +112,7 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
                                 <span className="text-base font-medium">{vaultTLV}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-sm">Reward per token</span>
+                                <span className="text-sm">Reward per Avatea token per day</span>
                                 <span className="text-base font-medium">{rewardPerToken}</span>
                             </div>
                         </div>
