@@ -36,12 +36,6 @@ const options = {
     axis: 'x'
   },
   scales: {
-    yAxes: [{
-      ticks: {
-        beginAtZero: true,
-        padding: 25,
-      }
-    }],
     y: {
       ticks: {
         callback: function (value, index, ticks) {
@@ -105,9 +99,9 @@ export function Chart(props) {
         return amountVested
       } else {
         let timeFromStart = currentTime - start;
-        let vestedSlicePeriods = timeFromStart / slicePeriodSeconds;
+        let vestedSlicePeriods = parseInt(timeFromStart / slicePeriodSeconds);
         let vestedSeconds = vestedSlicePeriods * slicePeriodSeconds;
-        return amountVested * vestedSeconds / duration;
+        return Math.floor((amountVested * vestedSeconds / duration)*100) /100;
       }
     }
 
@@ -128,7 +122,7 @@ export function Chart(props) {
 
     let time = start
 
-    while (time < start + duration + slicePeriodSeconds) {
+    while (time <= start + duration + slicePeriodSeconds) {
 
       data_points.push({
         "timestamp": time,
