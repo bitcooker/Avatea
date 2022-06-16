@@ -4,7 +4,6 @@ import Image from "next/image";
 import BannerContent from "./BannerContent";
 
 export default function Preview(props) {
-    console.log(props)
   return (
     <div
       className="relative w-full h-85 md-lg:h-100 rounded-2.5xl"

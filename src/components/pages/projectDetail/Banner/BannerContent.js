@@ -6,8 +6,6 @@ export default function PreviewContent(props) {
 
   const socials = Object.entries(Object.fromEntries(Object.entries(props).filter(([key]) => key.includes('social_'))));
 
-  console.log(socials);
-
   const mapSocials = () => {
     return socials.map(social => {
       return <a key={social[0]} href={social[1]} target={'_blank'} rel={'noreferrer'}><BannerSocialButton><i className={`text-white text-base fa-brands fa-${social[0].replace('social_','')}`} /></BannerSocialButton></a>
