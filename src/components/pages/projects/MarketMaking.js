@@ -348,7 +348,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                                         Cash
                                     </div>
                                     <span>
-                        {Number(pairedTokenWalletBalance).toFixed(2)} &nbsp;
+                        {pairedTokenWalletBalance} &nbsp;
                                         <MaxButton
                                             handleClick={() =>
                                                 setMax(
@@ -382,7 +382,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                                         Token
                                     </div>
                                     <span>
-                        {Number(projectTokenBalance).toFixed(2)} &nbsp;
+                        {projectTokenBalance} &nbsp;
                                         <MaxButton
                                             handleClick={() =>
                                                 setMax(projectTokenBalance, setAmountToStake)
