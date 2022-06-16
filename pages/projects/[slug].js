@@ -139,14 +139,6 @@ export default function ProjectDetail(props) {
       {tab == 2 && (
         <Card>
           <div className="vesting-header">
-            <Chart
-              amountVested={amountVested}
-              cliff={cliff}
-              start={start}
-              duration={duration}
-              slicePeriodSeconds={slicePeriodSeconds}
-              ticker={project.ticker}
-            />
             <h1 className="text-2xl">Vesting</h1>
 
             <div className="py-5.5 space-y-4.5">
@@ -178,7 +170,14 @@ export default function ProjectDetail(props) {
               </div>
             </div>
           </div>
-
+            <Chart
+              amountVested={amountVested}
+              cliff={cliff}
+              start={start}
+              duration={duration}
+              slicePeriodSeconds={slicePeriodSeconds}
+              ticker={project.ticker}
+            />
           <div className="pt-9">
             <Button name="Release Tokens" handleClick={releaseVesting} />
           </div>

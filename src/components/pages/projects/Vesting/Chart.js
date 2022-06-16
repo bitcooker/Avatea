@@ -24,13 +24,8 @@ ChartJS.register(
 );
 
 const CHART_COLORS = {
-  red: 'rgb(255, 99, 132)',
-  orange: 'rgb(255, 159, 64)',
-  yellow: 'rgb(255, 205, 86)',
-  green: 'rgb(75, 192, 192)',
-  blue: 'rgb(54, 162, 235)',
-  purple: 'rgb(153, 102, 255)',
-  grey: 'rgb(201, 203, 207)'
+  primary: '#635bff',
+  black: '#000000',
 };
 
 
@@ -72,7 +67,7 @@ const data = {
     {
       label: 'Released tokens',
       data: [0],
-      borderColor: CHART_COLORS.red,
+      borderColor: CHART_COLORS.primary,
       fill: false,
       stepped: true,
     }
@@ -139,7 +134,7 @@ export function Chart(props) {
         "timestamp": time,
         "labels": timeConverter(time),
         "values": vesting(time),
-        "colors": CHART_COLORS.blue,
+        "colors": CHART_COLORS.primary,
         "pointRadius": 3
 
       })
@@ -154,7 +149,7 @@ export function Chart(props) {
       "timestamp": now,
       "labels": 'Now',
       "values": vesting(now),
-      "colors": CHART_COLORS.red,
+      "colors": CHART_COLORS.black,
       "pointRadius": 5
     })
 
