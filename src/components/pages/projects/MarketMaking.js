@@ -27,6 +27,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
     const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
     const [mode, setMode] = useState("hold");
     const [estimation, setEstimation] = useState("- Days");
+    const didMount = useRef(false);
 
     useEffect(() => {
         if (wallet.status === "connected" && marketMakingPool.paired_token) {
@@ -115,6 +116,15 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
 
     }, [mode, pressure, amountPairTokenToStake, amountToStake, marketMakingPool.max_buying_amount]);
 
+    useEffect(() => {
+        // Return early, if this is the first render:
+        if ( !didMount.current ) {
+            return didMount.current = true;
+        }
+        // Paste code to be executed on subsequent renders:
+        updateSettings();
+    }, [amountSettings]);
+
     const setMax = async (amount, setter) => {
         setter(amount);
     };
@@ -189,11 +199,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
         console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake))
         const wei = ethers.utils.parseEther(amountToStake);
         await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
-        const res = setAmountSettings(prevState => {
-            return parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake)
-        })
-        console.log(res);
-        console.log(amountSettings);
+        setAmountSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake))
         await updateSettings();
     };
 
