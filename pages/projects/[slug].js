@@ -18,6 +18,7 @@ import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
 import Card from "../../src/components/pages/projectDetail/Card/Card";
 import MaxButton from "../../src/components/pages/projects/Button/MaxButton";
 import Vault from "../../src/components/pages/projects/Vault";
+import {Chart} from "../../src/components/pages/projects/Vesting/Chart";
 
 const tabItems = ["Vault", "Market Making", "Vesting"];
 
@@ -499,6 +500,7 @@ export default function ProjectDetail(props) {
       {tab == 2 && (
         <Card>
           <div className="vesting-header">
+            <Chart/>
             <h1 className="text-2xl">Vesting</h1>
 
             <div className="py-5.5 space-y-4.5">
