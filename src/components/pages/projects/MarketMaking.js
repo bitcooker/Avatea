@@ -6,7 +6,7 @@ import InputEmpty from "../../core/Input/InputEmpty";
 import Radio from "../../core/Radio/Radio";
 import Button from "../../core/Button/Button";
 import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
-import {useState, useEffect, useCallback} from "react";
+import {useState, useEffect, useCallback, useRef} from "react";
 import {ethers} from "ethers";
 import helper from "../../../helpers";
 
