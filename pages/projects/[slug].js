@@ -138,7 +138,7 @@ export default function ProjectDetail(props) {
     if (wallet.status === "connected" && marketMakingPool.paired_token) {
       const initWalletConnected = async () => {
         setAmountPairTokenBalance(
-          helper.formatting.web3_format(
+          helper.formatting.web3Format(
             await helper.web3.marketMaker.getWithdrawablePairedTokens(
               wallet,
               marketMakingPool.address,
@@ -147,7 +147,7 @@ export default function ProjectDetail(props) {
           )
         );
         setStakedVaultBalance(
-          helper.formatting.web3_format(
+          helper.formatting.web3Format(
             await helper.web3.vault.balanceOf(
               wallet,
               vault.address,
@@ -156,23 +156,23 @@ export default function ProjectDetail(props) {
           )
         );
         setAvateaBalance(
-          helper.formatting.web3_format(
+          helper.formatting.web3Format(
             await helper.token.balanceOf(wallet, AVATEA_TOKEN_ADDRESS)
           )
         );
         setPairedTokenWalletBalance(
-          helper.formatting.web3_format(
+          helper.formatting.web3Format(
             await helper.token.balanceOf(wallet, marketMakingPool.paired_token)
           )
         );
         setProjectTokenBalance(
-          helper.formatting.web3_format(
+          helper.formatting.web3Format(
             await helper.token.balanceOf(wallet, project.token)
           )
         );
 
         setReleaseAbleAmount(
-          helper.formatting.web3_format(
+          helper.formatting.web3Format(
             await helper.web3.marketMaker.computeReleasableAmount(
               wallet,
               marketMakingPool.address
@@ -198,21 +198,21 @@ export default function ProjectDetail(props) {
                 wallet,
                 marketMakingPool.address
             );
-        setAmountBaseTokenBalance(helper.formatting.web3_format(available));
-        setAmountReleased(helper.formatting.web3_format(released));
-        setAmountVested(helper.formatting.web3_format(amountVested));
-        setBaseAmountBought(helper.formatting.web3_format(baseAmountBought));
-        setPairedAmountBought(helper.formatting.web3_format(pairedAmountBought));
-        setBaseAmountSold(helper.formatting.web3_format(baseAmountSold));
-        setPairedAmountSold(helper.formatting.web3_format(pairedAmountSold));
-        setCliff(helper.formatting.web3_format(cliff));
-        setStart(helper.formatting.web3_format(start));
-        setDuration(helper.formatting.web3_format(duration));
-        setSlicePeriodSeconds(helper.formatting.web3_format(slicePeriodSeconds));
+        setAmountBaseTokenBalance(helper.formatting.web3Format(available));
+        setAmountReleased(helper.formatting.web3Format(released));
+        setAmountVested(helper.formatting.web3Format(amountVested));
+        setBaseAmountBought(helper.formatting.web3Format(baseAmountBought));
+        setPairedAmountBought(helper.formatting.web3Format(pairedAmountBought));
+        setBaseAmountSold(helper.formatting.web3Format(baseAmountSold));
+        setPairedAmountSold(helper.formatting.web3Format(pairedAmountSold));
+        setCliff(helper.formatting.web3Format(cliff));
+        setStart(helper.formatting.web3Format(start));
+        setDuration(helper.formatting.web3Format(duration));
+        setSlicePeriodSeconds(helper.formatting.web3Format(slicePeriodSeconds));
         
-        setEarnedTokens(helper.formatting.web3_format(await helper.web3.vault.earned(wallet,vault.address,wallet.account)));
-        setVaultTLV(helper.formatting.web3_format(await helper.web3.vault.totalSupply(wallet,vault.address)));
-        setRewardPerToken(helper.formatting.web3_format(await helper.web3.vault.rewardPerToken(wallet,vault.address)));
+        setEarnedTokens(helper.formatting.web3Format(await helper.web3.vault.earned(wallet,vault.address,wallet.account)));
+        setVaultTLV(helper.formatting.web3Format(await helper.web3.vault.totalSupply(wallet,vault.address)));
+        setRewardPerToken(helper.formatting.web3Format(await helper.web3.vault.rewardPerToken(wallet,vault.address)));
       };
       initWalletConnected();
     }
