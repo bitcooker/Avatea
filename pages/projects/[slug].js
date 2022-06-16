@@ -20,6 +20,7 @@ import Card from "../../src/components/pages/projectDetail/Card/Card";
 import Feed from "../../src/components/pages/projectDetail/Feed/Feed";
 import MaxButton from "../../src/components/pages/projects/Button/MaxButton";
 import formatting from "../../src/helpers/formatting";
+import Vault from "../../src/components/pages/projects/Vault";
 
 const tabItems = ["Vault", "Market Making", "Vesting"];
 
@@ -30,14 +31,11 @@ export default function ProjectDetail(props) {
   const { slug } = router.query;
   const [project, setProject] = useState({});
   const [vault, setVault] = useState({});
-  const [articles, setArticles] = useState([]);
   const [marketMakingPool, setMarketMakingPool] = useState({});
   const [amountToStake, setAmountToStake] = useState(0);
   const [amountBaseToken, setAmountBaseToken] = useState(0);
   const [amountPairToken, setAmountPairToken] = useState(0);
   const [amountPairTokenToStake, setAmountPairTokenToStake] = useState(0);
-  const [amountToVaultStake, setAmountToVaultStake] = useState(0);
-  const [vaultBalance, setVaultBalance] = useState(0);
   const [amountSettings, setAmountSetting] = useState(null);
   const [pressure, setPressure] = useState(0);
   const [priceLimit, setPriceLimit] = useState(null);
@@ -45,8 +43,6 @@ export default function ProjectDetail(props) {
   const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
   const [mode, setMode] = useState("hold");
   const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
-  const [stakedVaultBalance, setStakedVaultBalance] = useState(0);
-  const [avateaBalance, setAvateaBalance] = useState(0);
   const [amountPairTokenBalance, setAmountPairTokenBalance] = useState(0);
   const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState(0);
   const [pairedTokenWalletBalance, setPairedTokenWalletBalance] = useState(0);
@@ -54,9 +50,6 @@ export default function ProjectDetail(props) {
   const [releaseAbleAmount, setReleaseAbleAmount] = useState(0);
   const [amountVested, setAmountVested] = useState(0);
   const [amountReleased, setAmountReleased] = useState(0);
-  const [earnedTokens, setEarnedTokens] = useState('0');
-  const [vaultTLV,setVaultTLV] = useState('0');
-  const [rewardPerToken, setRewardPerToken] = useState('0')
   const [baseAmountBought, setBaseAmountBought] = useState('0')
   const [pairedAmountBought, setPairedAmountBought] = useState('0')
   const [baseAmountSold, setBaseAmountSold] = useState('0')
@@ -66,16 +59,6 @@ export default function ProjectDetail(props) {
   const [duration, setDuration] = useState('0')
   const [slicePeriodSeconds, setSlicePeriodSeconds] = useState('0')
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      if (project.slug) {
-        setArticles(
-          await helper.article.getArticles({ project: project.slug })
-        );
-      }
-    };
-    fetchArticles();
-  }, [project]);
 
   useEffect(() => {
     if (props.projectDetail) setProject(props.projectDetail);
@@ -146,20 +129,7 @@ export default function ProjectDetail(props) {
             )
           )
         );
-        setStakedVaultBalance(
-          helper.formatting.web3Format(
-            await helper.web3.vault.balanceOf(
-              wallet,
-              vault.address,
-              wallet.account
-            )
-          )
-        );
-        setAvateaBalance(
-          helper.formatting.web3Format(
-            await helper.token.balanceOf(wallet, AVATEA_TOKEN_ADDRESS)
-          )
-        );
+
         setPairedTokenWalletBalance(
           helper.formatting.web3Format(
             await helper.token.balanceOf(wallet, marketMakingPool.paired_token)
@@ -209,10 +179,6 @@ export default function ProjectDetail(props) {
         setStart(helper.formatting.web3Format(start));
         setDuration(helper.formatting.web3Format(duration));
         setSlicePeriodSeconds(helper.formatting.web3Format(slicePeriodSeconds));
-        
-        setEarnedTokens(helper.formatting.web3Format(await helper.web3.vault.earned(wallet,vault.address,wallet.account)));
-        setVaultTLV(helper.formatting.web3Format(await helper.web3.vault.totalSupply(wallet,vault.address)));
-        setRewardPerToken(helper.formatting.web3Format(await helper.web3.vault.rewardPerToken(wallet,vault.address)));
       };
       initWalletConnected();
     }
@@ -244,30 +210,6 @@ export default function ProjectDetail(props) {
     );
   };
 
-  const stakeVault = async () => {
-    const wei = ethers.utils.parseEther(amountToVaultStake);
-    await helper.web3.vault.stake(wallet, vault.address, wei);
-  };
-
-  const withdrawVault = async () => {
-    let full_withdrawal =
-      parseFloat(vaultBalance) === parseFloat(stakedVaultBalance);
-    const wei = ethers.utils.parseEther(vaultBalance);
-    await helper.web3.vault.withdraw(
-      wallet,
-      vault.address,
-      wei,
-      full_withdrawal
-    );
-  };
-
-  const claimVaultRewards = async () => {
-    await helper.web3.vault.getReward(wallet, vault.address);
-  };
-
-  const exitVault = async () => {
-    await helper.web3.vault.exit(wallet, vault.address);
-  };
 
   const stakePairedToken = async () => {
     const wei = ethers.utils.parseEther(amountPairTokenToStake);
@@ -324,111 +266,7 @@ export default function ProjectDetail(props) {
       </div>
       {/* Staked Avatea in vaults & News Feed */}
       {tab == 0 && (
-        <div className="grid md-lg:grid-cols-2 gap-7.5">
-          <Card>
-            <div className="divide-y">
-              {/* Card Header */}
-              <div className="card-header">
-                <h1 className="text-2xl">Staked Avatea in vaults</h1>
-
-                <div className="py-5.5 space-y-4.5">
-                  <div className="flex justify-between">
-                    <span className="text-sm">Users</span>
-                    <span className="text-base font-medium">
-                      {vault.num_invested}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm">Generated Rewards</span>
-                    <span className="text-base font-medium">{earnedTokens}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm">TVL</span>
-                    <span className="text-base font-medium">{vaultTLV}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm">Reward per token</span>
-                    <span className="text-base font-medium">{rewardPerToken}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="card-content pt-5 space-y-3.75">
-                <div>
-                  <div className="flex flex-row items-center justify-between text-base">
-                    <div>
-                      <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
-                    </div>
-                    &nbsp;
-                    <span>
-                      {avateaBalance} &nbsp;
-                      <MaxButton
-                        handleClick={() =>
-                          setMax(avateaBalance, setAmountToVaultStake)
-                        }
-                      />
-                    </span>
-                  </div>
-                  <InputApproveWithIconSubmit
-                    id="max"
-                    name="max"
-                    type="number"
-                    submitName="Stake"
-                    icon="fa-light fa-gauge-max"
-                    submitFunction={stakeVault}
-                    value={amountToVaultStake}
-                    setValue={setAmountToVaultStake}
-                    address={vault.address}
-                    token={AVATEA_TOKEN_ADDRESS}
-                  />
-                </div>
-                <div>
-                  <div className="flex flex-row items-center justify-between text-base">
-                    <div>
-                      <i className="fa-regular fa-circle-minus mr-1" />
-                      Withdraw Avatea
-                    </div>
-                    <span>
-                      {stakedVaultBalance} &nbsp;
-                      <MaxButton
-                        handleClick={() =>
-                          setMax(stakedVaultBalance, setVaultBalance)
-                        }
-                      />
-                    </span>
-                  </div>
-                  <InputWithIconSubmit
-                    id="withdrawAvatea"
-                    name="withdrawAvatea"
-                    type="number"
-                    submitName="Withdraw"
-                    icon="fa-light fa-circle-minus"
-                    submitFunction={withdrawVault}
-                    value={vaultBalance}
-                    setValue={setVaultBalance}
-                  />
-                </div>
-                <div className="grid md-lg:grid-cols-2 gap-3.75">
-                  <Button
-                    name="Withdraw Rewards"
-                    handleClick={claimVaultRewards}
-                  />
-                  <Button name="Withdraw Both" handleClick={exitVault} />
-                </div>
-              </div>
-            </div>
-          </Card>
-          <Card title="News Feed">
-            {/* Card Header */}
-            <div className="card-header">
-              <h1 className="text-2xl">News Feed</h1>
-            </div>
-
-            <div className="card-content pt-5.5">
-              <Feed articles={articles} />
-            </div>
-          </Card>
-        </div>
+            <Vault vault={vault} wallet={wallet} project={project} marketMakingPool={marketMakingPool}/>
       )}
 
       {/* Activity & Settings */}
