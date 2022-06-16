@@ -20,7 +20,7 @@ import Card from "../../src/components/pages/projectDetail/Card/Card";
 import Feed from "../../src/components/pages/projectDetail/Feed/Feed";
 import MaxButton from "../../src/components/pages/projects/Button/MaxButton";
 
-const tabItems = ["Vault(News)", "Market Making", "Vesting"];
+const tabItems = ["Vault", "Market Making", "Vesting"];
 
 export default function ProjectDetail(props) {
   //@Todo add min buy limit and max buy limit fields (stop-loss)
