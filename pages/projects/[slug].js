@@ -97,10 +97,14 @@ export default function ProjectDetail(props) {
             );
         setAmountReleased(helper.formatting.web3Format(released));
         setAmountVested(helper.formatting.web3Format(amountVested));
-        setCliff(helper.formatting.web3Format(cliff));
-        setStart(helper.formatting.web3Format(start));
-        setDuration(helper.formatting.web3Format(duration));
-        setSlicePeriodSeconds(helper.formatting.web3Format(slicePeriodSeconds));
+        // setBaseAmountBought(helper.formatting.web3Format(baseAmountBought));
+        // setPairedAmountBought(helper.formatting.web3Format(pairedAmountBought));
+        // setBaseAmountSold(helper.formatting.web3Format(baseAmountSold));
+        // setPairedAmountSold(helper.formatting.web3Format(pairedAmountSold));
+        setCliff(cliff);
+        setStart(start);
+        setDuration(duration);
+        setSlicePeriodSeconds(slicePeriodSeconds);
       };
       initWalletConnected();
     }
@@ -135,7 +139,14 @@ export default function ProjectDetail(props) {
       {tab == 2 && (
         <Card>
           <div className="vesting-header">
-            <Chart/>
+            <Chart
+              amountVested={amountVested}
+              cliff={cliff}
+              start={start}
+              duration={duration}
+              slicePeriodSeconds={slicePeriodSeconds}
+              ticker={project.ticker}
+            />
             <h1 className="text-2xl">Vesting</h1>
 
             <div className="py-5.5 space-y-4.5">

@@ -272,21 +272,21 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                                 name="mode"
                                 label="Buy"
                                 value={"buy"}
-                                checked={mode === "buy" ? true : false}
+                                checked={mode === "buy"}
                                 handleSetMode={handleSetMode}
                             />
                             <Radio
                                 name="mode"
                                 label="Hold"
                                 value={"hold"}
-                                checked={mode === "hold" ? true : false}
+                                checked={mode === "hold"}
                                 handleSetMode={handleSetMode}
                             />
                             <Radio
                                 name="mode"
                                 label="Sell"
                                 value={"sell"}
-                                checked={mode === "sell" ? true : false}
+                                checked={mode === "sell"}
                                 handleSetMode={handleSetMode}
                             />
                         </div>
