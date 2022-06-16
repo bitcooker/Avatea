@@ -189,7 +189,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
         console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake))
         const wei = ethers.utils.parseEther(amountToStake);
         await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
-        await setAmountSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake));
+        setAmountSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake));
         console.log(amountSettings);
         await updateSettings();
     };
