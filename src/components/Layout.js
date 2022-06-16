@@ -5,7 +5,7 @@ import Head from "next/head";
 import Header from "./Header";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import Script from 'next/script'
+import Script from "next/script";
 const SidebarWithNoSSR = dynamic(() => import("./Sidebar"), { ssr: false });
 
 export default function Layout({ children }) {
@@ -20,8 +20,8 @@ export default function Layout({ children }) {
 
   return (
     <>
-        <Script src="https://kit.fontawesome.com/92468525cf.js"></Script>
-        <Head>
+      <Script src="https://kit.fontawesome.com/92468525cf.js"></Script>
+      <Head>
         <title>Avatea Base Demo</title>
         <link
           rel="stylesheet"
@@ -48,8 +48,8 @@ export default function Layout({ children }) {
       >
         <SidebarWithNoSSR menu={menu} setMenu={setMenu} />
         <main className="main">
-          <div className="auto__container">
-            <div className="main__inner">
+          <div className="px-[15px] lg-xl:px-5 xl-2xl:pr-5 xl-2xl:pl-[295px]">
+            <div className="">
               <Header menu={menu} setMenu={setMenu} title={title} />
               {children}
               <ToastContainer
