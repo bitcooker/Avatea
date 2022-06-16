@@ -5,6 +5,7 @@ export default function Button(props) {
       onClick={props.handleClick}
     >
       {props.name}
+      {props.children}
     </div>
   );
 }
