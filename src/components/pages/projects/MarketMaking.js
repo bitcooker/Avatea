@@ -26,6 +26,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
     const [fresh, setFresh] = useState(false);
     const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
     const [mode, setMode] = useState("hold");
+    const [estimation, setEstimation] = useState("0 Days");
 
     useEffect(() => {
         if (wallet.status === "connected" && marketMakingPool.paired_token) {
@@ -92,6 +93,25 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
             initWalletConnected();
         }
     }, [wallet]);
+
+    useEffect(() => {
+            if (mode === 'buy') {
+                let max_buying_amount = marketMakingPool.max_buying_amount
+                let balance = parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake ? amountPairTokenToStake : 0)
+                let days = balance / (max_buying_amount * pressure / 100)
+                days = Math.round(days * 10) / 10
+                setEstimation(days + ' Days')
+            } else if (mode === 'sell') {
+                let max_selling_amount = marketMakingPool.max_selling_amount
+                let balance = parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake ? amountToStake : 0)
+                let days = balance / (max_selling_amount * pressure / 100)
+                days = Math.round(days * 10) / 10
+                setEstimation(days + ' Days')
+            } else {
+                setEstimation(0 + ' Days')
+            }
+        
+    }, [mode, pressure, amountPairTokenToStake, amountToStake]);
 
     const setMax = async (amount, setter) => {
         setter(amount);
@@ -261,7 +281,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                         </div>
                         <div className="space-y-2.5">
                             <span className="text-sm">Estimation</span>
-                            <InputEmpty placeholder="7 Days" readOnly />
+                            <InputEmpty placeholder={estimation} readOnly />
                         </div>
                     </div>
 
