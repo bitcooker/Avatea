@@ -218,7 +218,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                             <div className="flex flex-row items-center justify-between text-base">
                                 <div>
                                     <i className="fa-regular fa-money-bills-simple mr-1"></i>
-                                    Cash: 100.000
+                                    Cash
                                 </div>
                                 <span>
                       {amountPairTokenBalance} &nbsp;
@@ -245,7 +245,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                             <div className="flex flex-row items-center justify-between text-base">
                                 <div>
                                     <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
-                                    Tokens: 100.000
+                                    Tokens
                                 </div>
                                 <span>
                       {amountBaseTokenBalance} &nbsp;
