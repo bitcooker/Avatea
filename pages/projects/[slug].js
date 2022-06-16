@@ -17,9 +17,7 @@ import Tab from "../../src/components/core/Tab/Tab";
 // project detail components
 import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
 import Card from "../../src/components/pages/projectDetail/Card/Card";
-import Feed from "../../src/components/pages/projectDetail/Feed/Feed";
 import MaxButton from "../../src/components/pages/projects/Button/MaxButton";
-import formatting from "../../src/helpers/formatting";
 import Vault from "../../src/components/pages/projects/Vault";
 
 const tabItems = ["Vault", "Market Making", "Vesting"];
