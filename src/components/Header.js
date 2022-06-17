@@ -2,6 +2,8 @@ import { useWallet } from "use-wallet";
 import helpers from "../helpers";
 import { useEffect } from "react";
 
+import SwitchNetwork from "../components/core/SwitchNetwork";
+
 export default function Header({ menu, setMenu, title }) {
   const wallet = useWallet();
 
@@ -14,6 +16,13 @@ export default function Header({ menu, setMenu, title }) {
       initWallet();
     }
   }, [wallet]);
+
+  const shortenAddress = (address) => {
+    return `${address.slice(0, 6)}...${address.slice(
+      address.length - 4,
+      address.length
+    )}`;
+  };
 
   return (
     <header className="relative pt-5 pb-[95px] md-lg:static md-lg:py-7.5">
@@ -41,23 +50,22 @@ export default function Header({ menu, setMenu, title }) {
             </div>
           </form>
           <i className="relative fa-light fa-bell text-2xl mr-6.25 hover:cursor-pointer after:content-[''] after:w-2 after:h-2 after:absolute after:right-0 after:rounded-full after:bg-rose-500 after:hover:ring-2 after:hover:ring-rose-500/30 transition" />
-          <small>
-            {wallet?.account ? (
-              <>
-                {wallet.account} | Chain ID {wallet.chainId}
-              </>
-            ) : null}
-          </small>
+          <div className="mr-6.25">
+            <SwitchNetwork />
+          </div>
           {wallet.status === "connected" ? (
             <button
-              className="flex justify-center items-center px-7.5 py-4 bg-indigo-500 text-white rounded-full hover:cursor-pointer hover:bg-indigo-500/80 transition"
+              className="flex justify-center box-border items-center px-7.5 py-4 bg-indigo-500 text-white rounded-full hover:cursor-pointer hover:bg-indigo-500/80 transition"
               onClick={() => wallet.reset()}
             >
-              Disconnect
+              <span className="text-indigo-300">
+                {wallet.balance + "ETH " + shortenAddress(wallet.account)}
+              </span>
+              &nbsp; Disconnect
             </button>
           ) : (
             <button
-              className="flex justify-center items-center px-7.5 py-4 bg-indigo-500 text-white rounded-full hover:cursor-pointer hover:bg-indigo-500/80 transition"
+              className="flex justify-center items-center px-7.5 py-4 bg-indigo-500 text-white rounded-full hover:cursor-pointer hover:bg-indigo-500/80 hover: transition"
               onClick={() => wallet.connect("injected")}
             >
               Connect with wallet

@@ -43,24 +43,22 @@ export default function Layout({ children }) {
         pollBalanceInterval={3000}
       >
         <SidebarWithNoSSR menu={menu} setMenu={setMenu} />
-        <main className="main">
+        <main>
           <div className="px-[15px] lg-xl:px-5 lg-xl:pl-[220px] xl-2xl:pr-5 xl-2xl:pl-[295px]">
-            <div className="">
-              <Header menu={menu} setMenu={setMenu} title={title} />
-              {children}
-              <ToastContainer
-                transition={Slide}
-                position="bottom-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-              />
-            </div>
+            <Header menu={menu} setMenu={setMenu} title={title} />
+            {children}
+            <ToastContainer
+              transition={Slide}
+              position="bottom-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
           </div>
         </main>
       </UseWalletProvider>
