@@ -23,10 +23,6 @@ export default function Layout({ children }) {
       <Script src="https://kit.fontawesome.com/92468525cf.js"></Script>
       <Head>
         <title>Avatea Base Demo</title>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
       </Head>
       <UseWalletProvider
         autoConnect={true}
