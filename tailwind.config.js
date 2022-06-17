@@ -13,6 +13,7 @@ module.exports = {
         38: "9.5rem",
         50: "12.5rem",
         66.25: "16.5625rem",
+        75: "18.75rem",
         100: "25rem",
       },
       maxWidth: {
@@ -38,6 +39,7 @@ module.exports = {
       },
       margin: {
         3.75: "0.9375rem",
+        6.25: "1.5625rem",
         7.5: "1.875rem",
       },
       padding: {
@@ -60,9 +62,13 @@ module.exports = {
         7.5: "1.875rem",
       },
       screens: {
+        "xsm-sm": "560px",
+        "sm-md": "700px",
         "md-lg": "840px",
         "lg-xl": "1240px",
         "xl-2xl": "1360px",
+        "2xl-3xl": "1560px",
+        "3xl-4xl": "1750px",
       },
       backgroundSize: {
         "50%": "50%",
