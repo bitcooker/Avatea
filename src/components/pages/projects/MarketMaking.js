@@ -289,7 +289,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                 }}/>
 
                 <div className="card-content pt-1 space-y-3.75">
-                    {mode == "buy" && (<div className="space-y-2.5">
+                    {mode === "buy" && (<div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
                                 <i className="fa-regular fa-money-bills-simple mr-1"></i>
@@ -316,7 +316,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                         />
                     </div>)}
 
-                    {mode == "sell" && (<div className="space-y-2.5">
+                    {mode === "sell" && (<div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
                                 <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
