@@ -48,7 +48,7 @@ export default function Layout({ children }) {
       >
         <SidebarWithNoSSR menu={menu} setMenu={setMenu} />
         <main className="main">
-          <div className="px-[15px] lg-xl:px-5 xl-2xl:pr-5 xl-2xl:pl-[295px]">
+          <div className="px-[15px] lg-xl:px-5 lg-xl:pl-[220px] xl-2xl:pr-5 xl-2xl:pl-[295px]">
             <div className="">
               <Header menu={menu} setMenu={setMenu} title={title} />
               {children}
