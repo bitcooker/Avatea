@@ -215,13 +215,13 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, full_withdr
 }
 
 
-const release = async (wallet, marketMakerAddress, amount, full_withdrawal, callback) => {
+const release = async (wallet, marketMakerAddress, full_withdrawal, callback) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
-        const tx = await marketMakerContract.release(amount);
+        const tx = await marketMakerContract.release();
         toast.promise(
             tx.wait(),
             {

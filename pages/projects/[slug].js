@@ -115,7 +115,6 @@ export default function ProjectDetail(props) {
         await helper.marketMaker.release(
             wallet,
             marketMakingPool.address,
-            releaseAbleAmount
         );
     };
 
