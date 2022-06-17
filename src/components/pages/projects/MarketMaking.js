@@ -10,7 +10,7 @@ import {useState, useEffect, useCallback} from "react";
 import {ethers} from "ethers";
 import helper from "../../../helpers";
 
-export default function MarketMaking({ vault, wallet, project, marketMakingPool }) {
+export default function MarketMaking({vault, wallet, project, marketMakingPool}) {
 
     const [amountPairTokenBalance, setAmountPairTokenBalance] = useState('0');
     const [amountPairToken, setAmountPairToken] = useState('0');
@@ -51,7 +51,7 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                     )
                 );
 
-                const { available } =
+                const {available} =
                     await helper.web3.marketMaker.fetchHoldersMapping(
                         wallet,
                         marketMakingPool.address
@@ -122,12 +122,12 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
 
     const stakePairedToken = async () => {
         const wei = ethers.utils.parseEther(amountPairTokenToStake);
-        await helper.web3.marketMaker.stakePairedToken(
+        let success = await helper.web3.marketMaker.stakePairedToken(
             wallet,
             marketMakingPool.address,
             wei
         );
-        await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
+        if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
     };
 
     const withdrawPairToken = async () => {
@@ -135,13 +135,13 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
             parseFloat(amountPairToken) === parseFloat(amountPairTokenBalance) &&
             parseFloat(amountBaseTokenBalance) === 0;
         const wei = ethers.utils.parseEther(amountPairToken);
-        await helper.web3.marketMaker.withdrawPairToken(
+        let success = await helper.web3.marketMaker.withdrawPairToken(
             wallet,
             marketMakingPool.address,
             wei,
             full_withdrawal
         );
-        if(mode === 'buy') {
+        if (mode === 'buy' && success) {
             await updateSettings((parseFloat(amountPairTokenBalance) - parseFloat(amountPairToken)))
         }
     };
@@ -151,13 +151,13 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
             parseFloat(amountBaseToken) === parseFloat(amountBaseTokenBalance) &&
             parseFloat(amountPairTokenBalance) === 0;
         const wei = ethers.utils.parseEther(amountBaseToken);
-        await helper.marketMaker.withdrawBaseToken(
+        let success = await helper.marketMaker.withdrawBaseToken(
             wallet,
             marketMakingPool.address,
             wei,
             full_withdrawal
         );
-        if(mode === 'sell') {
+        if (mode === 'sell' && success) {
             await updateSettings((parseFloat(amountBaseTokenBalance) - parseFloat(amountBaseToken)));
         }
     };
@@ -182,8 +182,8 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
     const stakeMarketMaker = async () => {
         console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake))
         const wei = ethers.utils.parseEther(amountToStake);
-        await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
-        await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake))
+        let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
+        if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountToStake))
     };
 
     return (
@@ -286,11 +286,11 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                     <div className=" grid md-lg:grid-cols-2 gap-5">
                         <div className="flex flex-col space-y-10">
                             <span className="text-sm">Pressure Slider</span>
-                            <RangeSlider setPercent={setPressure} percent={pressure} />
+                            <RangeSlider setPercent={setPressure} percent={pressure}/>
                         </div>
                         <div className="space-y-2.5">
                             <span className="text-sm">Estimation</span>
-                            <InputEmpty placeholder={estimation} readOnly />
+                            <InputEmpty placeholder={estimation} readOnly/>
                         </div>
                     </div>
 
@@ -342,7 +342,9 @@ export default function MarketMaking({ vault, wallet, project, marketMakingPool 
                         ""
                     )}
 
-                    <Button name="Save Settings" handleClick={updateSettings} />
+                    <Button name="Save Settings" handleClick={(e) => {
+                        updateSettings(mode==='sell'?amountBaseTokenBalance:amountPairTokenBalance)
+                    }}/>
 
                     <div className="card-content pt-1 space-y-3.75">
                         {mode == "buy" && (

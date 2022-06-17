@@ -15,7 +15,7 @@ export default function Projects({projects}) {
             return (
                 <li key={project.slug}>
                     <Link href={`/projects/${project.slug}`}>
-                    {project.name}
+                        {project.name}
                     </Link>
                     <small>
                         {project.description}
@@ -28,7 +28,7 @@ export default function Projects({projects}) {
     return (
         <div>
             <div className="index">
-                <Card projectsProps={projects} />
+                <Card projectsProps={projects}/>
             </div>
         </div>
     )

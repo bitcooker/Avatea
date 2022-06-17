@@ -47,9 +47,10 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
         })
 
         console.log('stake success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('stake error', e);
+        return false;
     }
 }
 
@@ -79,9 +80,10 @@ const stake = async (wallet, marketMakerAddress, amount, callback) => {
             }
         })
         console.log('stake success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('stake error', e);
+        return false;
     }
 }
 
@@ -109,9 +111,10 @@ const stakePairedToken = async (wallet, marketMakerAddres, amount, callback) => 
             }
         })
         console.log('stakePairedToken success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('stakePairedToken error', e);
+        return false;
     }
 }
 
@@ -139,9 +142,10 @@ const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount, callbac
                 wallet,
             }
         })
+        return true;
     } catch (e) {
-        alert(e)
         console.log('stakePairedTokenInETH error', e);
+        return false;
     }
 }
 
@@ -170,9 +174,10 @@ const withdrawBaseToken = async (wallet, marketMakerAddress, amount, full_withdr
             }
         })
         console.log('withdrawBaseToken success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('withdrawBaseToken error', e);
+        return false;
     }
 }
 
@@ -202,9 +207,10 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, full_withdr
             }
         })
         console.log('withdrawPairedToken success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('withdrawPairedToken error', e);
+        return false;
     }
 }
 
@@ -235,9 +241,10 @@ const release = async (wallet, marketMakerAddress, amount, full_withdrawal, call
             }
         })
         console.log('release success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('release error', e);
+        return false;
     }
 }
 
