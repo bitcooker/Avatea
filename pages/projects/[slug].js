@@ -112,9 +112,11 @@ export default function ProjectDetail(props) {
 
 
     const releaseVesting = async () => {
+        let full_withdrawal = parseFloat(amountVested) === parseFloat(amountReleased) + parseFloat(releaseAbleAmount);
         await helper.marketMaker.release(
             wallet,
             marketMakingPool.address,
+            full_withdrawal
         );
     };
 
