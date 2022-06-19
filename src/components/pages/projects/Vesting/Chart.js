@@ -82,14 +82,15 @@ export function Chart(props) {
 
 
     useEffect(() => {
-        let start = props.start
-        let cliff = props.cliff
-        let duration = props.duration
-        let slicePeriodSeconds = props.slicePeriodSeconds
-        let amountVested = props.amountVested
+        let start = parseInt(props.start)
+        let cliff = parseInt(props.cliff)
+        let duration = parseInt(props.duration)
+        let slicePeriodSeconds = parseInt(props.slicePeriodSeconds)
+        let amountVested = parseFloat(props.amountVested)
         let ticker = props.ticker
 
-        if (amountVested > 0) {
+
+        if (amountVested > 0 && slicePeriodSeconds > 0 && duration > 0) {
 
             let newOptions = options
 
@@ -198,7 +199,7 @@ export function Chart(props) {
 
             setChartData(newData)
         }
-    }, [props]);
+    }, [props.start, props.cliff, props.duration, props.slicePeriodSeconds, props.amountVested]);
 
     return <Line options={chartOptions} data={chartData}/>;
 }
