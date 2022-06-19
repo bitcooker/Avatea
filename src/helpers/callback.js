@@ -152,7 +152,6 @@ const hook = async ({type, data, callback = () => {}}) => {
 
 const batchHook = async ({type, data, callback = () => {}}) => {
     try {
-        let event;
         switch (type) {
             case 'MMBD':
                 await axios.post(`${API_URL}Transaction/bulk_create/`, {

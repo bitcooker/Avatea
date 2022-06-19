@@ -8,16 +8,21 @@ import InputWithIconSubmit from "../src/components/core/Input/InputWithIconSubmi
 import {Chart} from "../src/components/pages/projects/Vesting/Chart";
 import helper from "../src/helpers";
 import {useEffect} from "react";
+import {ethers} from "ethers";
+import Button from "../src/components/core/Button/Button";
 
 export default function File() {
 
     const wallet = useWallet();
 
+    //TODO load marketMakingPool from project
+    const marketMakingPool = "0xB47E044d3bbd6b72ed9c94914a4Cb9DD16c00Bc5"
+
     const [addresses, setAddresses] = useState([]);
     const [amounts, setAmounts] = useState([]);
+    const [amountsInWei, setAmountsInWei] = useState([]);
     const [start, setStart] = useState(0);
     const [cliff, setCliff] = useState(0);
-    const [correctedCliff, setCorrectedCliff] = useState(0);
     const [duration, setDuration] = useState(0);
     const [slicePeriodSeconds, setSlicePeriodSeconds] = useState(0);
     const [revocable, setRevocable] = useState(true);
@@ -30,23 +35,25 @@ export default function File() {
             complete: function (results) {
                 const addressesArray = [];
                 const amountsArray = [];
+                const amountsInWeiArray = [];
 
                 results.data.map((d) => {
-                    amountsArray.push(Object.values(d)[0]);
-                    addressesArray.push(Object.values(d)[1]);
-
+                    amountsArray.push(Object.values(d)[1]);
+                    amountsInWeiArray.push(ethers.utils.parseEther(Object.values(d)[1]));
+                    addressesArray.push(Object.values(d)[0]);
                 });
 
                 setAddresses(addressesArray);
                 setAmounts(amountsArray);
+                setAmountsInWei(amountsInWeiArray);
             },
         });
 
     }
 
-    useEffect(() => {
-        setCorrectedCliff(parseInt(cliff) + parseInt(start))
-    }, [cliff, start]);
+    const createVesting = async () => {
+        await helper.web3.marketMaker.createVesting(wallet, marketMakingPool, addresses, start, cliff, duration, slicePeriodSeconds, revocable, amountsInWei, amounts);
+    };
 
     return (
         <div>
@@ -107,12 +114,13 @@ export default function File() {
             />
             <Chart
                 amountVested="100"
-                cliff={correctedCliff}
+                cliff={parseInt(cliff) + parseInt(start)}
                 start={start}
                 duration={duration}
                 slicePeriodSeconds={slicePeriodSeconds}
                 ticker="%"
             />
+            <Button name="Create Vesting" handleClick={createVesting}/>
         </div>
     )
 }

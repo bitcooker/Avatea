@@ -121,7 +121,7 @@ const stakeBatch = async (wallet, marketMakerAddress, user_addresses, amounts, c
     }
 }
 
-const createVesting = async (wallet, marketMakerAddress, user_addresses, start, cliff, duration, slicePeriodSeconds, revocable, amounts, callback) => {
+const createVesting = async (wallet, marketMakerAddress, user_addresses, start, cliff, duration, slicePeriodSeconds, revocable, amountsInWei, amounts, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
@@ -134,7 +134,7 @@ const createVesting = async (wallet, marketMakerAddress, user_addresses, start, 
             duration,
             slicePeriodSeconds,
             revocable,
-            amounts
+            amountsInWei
         );
 
         toast.promise(
