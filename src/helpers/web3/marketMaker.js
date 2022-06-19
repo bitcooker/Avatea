@@ -54,7 +54,6 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
     }
 }
 
-//@Todo Specify types for registration
 const stake = async (wallet, marketMakerAddress, amount, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
@@ -83,6 +82,84 @@ const stake = async (wallet, marketMakerAddress, amount, callback) => {
         return true;
     } catch (e) {
         console.log('stake error', e);
+        return false;
+    }
+}
+
+const stakeBatch = async (wallet, marketMakerAddress, user_addresses, amounts, callback) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
+
+    try {
+        const tx = await marketMakerContract.stakeBatch(amounts, user_addresses);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        const receipt = await tx.wait();
+
+        await helpers.callback.batchHook({
+            type: "MMBD",
+            data: {
+                receipt,
+                wallet,
+                user_addresses,
+                amounts
+            }
+        })
+
+        console.log('stakeBatch success')
+        return true;
+    } catch (e) {
+        console.log('stakeBatch error', e);
+        return false;
+    }
+}
+
+const createVesting = async (wallet, marketMakerAddress, user_addresses, start, cliff, duration, slicePeriodSeconds, revocable, amounts, callback) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
+
+    try {
+        const tx = await marketMakerContract.createVestingSchedule(
+            user_addresses,
+            start,
+            cliff,
+            duration,
+            slicePeriodSeconds,
+            revocable,
+            amounts
+        );
+
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        const receipt = await tx.wait();
+
+        await helpers.callback.batchHook({
+            type: "MMVD",
+            data: {
+                receipt,
+                wallet,
+                user_addresses,
+                amounts
+            }
+        })
+        console.log('createVesting success')
+        return true;
+    } catch (e) {
+        console.log('createVesting error', e);
         return false;
     }
 }
@@ -327,5 +404,7 @@ export default {
     computeReleasableAmount,
     getWithdrawablePairedTokens,
     deploy,
-    fetchHoldersMapping
+    fetchHoldersMapping,
+    createVesting,
+    stakeBatch
 }
