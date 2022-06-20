@@ -26,13 +26,20 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
     const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
     const [mode, setMode] = useState("hold");
     const [estimation, setEstimation] = useState("- Days");
+    const [activity,setActivity]  = useState({baseAmountBought:'0', pairedAmountBought:'0', baseAmountSold: '0', pairedAmountSold: '0'})
 
     useEffect(() => {
         if (wallet.status === "connected" && marketMakingPool.paired_token) {
             const initWalletConnected = async () => {
                 setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token)));
                 setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token)));
-                const {available} = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address);
+                const {available, baseAmountBought, pairedAmountBought, baseAmountSold, pairedAmountSold} = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address);
+                setActivity({
+                    baseAmountBought: helper.formatting.web3Format(baseAmountBought),
+                    pairedAmountBought: helper.formatting.web3Format(pairedAmountBought),
+                    baseAmountSold: helper.formatting.web3Format(baseAmountSold),
+                    pairedAmountSold: helper.formatting.web3Format(pairedAmountSold)
+                })
                 setAmountBaseTokenBalance(helper.formatting.web3Format(available));
                 setAmountPairTokenBalance(helper.formatting.web3Format(await helper.web3.marketMaker.getWithdrawablePairedTokens(wallet, marketMakingPool.address, wallet.account)));
             };
@@ -85,9 +92,9 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
 
     }, [mode, pressure, amountBaseTokenBalance, amountPairTokenBalance, amountPairTokenToStake, amountBaseTokenToStake, marketMakingPool.max_buying_amount]);
 
-    const setMax = async (amount, setter) => {
+    const setMax = useCallback(async (amount, setter) => {
         setter(amount);
-    };
+    },[]);
 
     const handleSetMode = useCallback((mode) => {
         setMode(mode);
@@ -153,7 +160,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                         src="/coins/maticIcon.png"
                         className="w-6 h-6 mr-2.5"
                     />
-                    100.00
+                            {activity.baseAmountSold} / {activity.pairedAmountSold}
                   </span>
                     </div>
                     <div className="flex justify-between">
@@ -163,7 +170,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                         src="/coins/maticIcon.png"
                         className="w-6 h-6 mr-2.5"
                     />
-                    100.00
+                            {activity.baseAmountBought} / {activity.pairedAmountBought}
                   </span>
                     </div>
                 </div>
