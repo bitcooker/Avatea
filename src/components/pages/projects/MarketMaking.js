@@ -160,17 +160,23 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                         src={project.image}
                         className="w-6 h-6 mr-2.5"
                     />
-                            {activity.baseAmountSold} / {activity.pairedAmountSold}
+                            {activity.baseAmountSold} <img
+                            src={marketMakingPool.paired_token_image}
+                            className="w-6 h-6 ml-2.5 mr-2.5"
+                        /> {activity.pairedAmountSold}
                   </span>
                     </div>
                     <div className="flex justify-between">
                         <span className="text-sm"><i className="fa-solid fa-circle-plus"/> Bought</span>
                         <span className="flex text-base font-medium">
                     <img
-                        src={marketMakingPool.paired_token_image}
+                        src={project.image}
                         className="w-6 h-6 mr-2.5"
                     />
-                            {activity.baseAmountBought} / {activity.pairedAmountBought}
+                            {activity.baseAmountBought} <img
+                            src={marketMakingPool.paired_token_image}
+                            className="w-6 h-6 ml-2.5 mr-2.5"
+                        /> {activity.pairedAmountBought}
                   </span>
                     </div>
                 </div>
