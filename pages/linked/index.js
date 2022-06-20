@@ -38,6 +38,7 @@ export default function Linked(props) {
     const [whitepaper, setWhitepaper] = React.useState("");
     const [audit, setAudit] = React.useState("");
     const [description, setDescription] = React.useState("");
+    const [tokenName, setTokenName] = React.useState("");
     const [socials, setSocials] = React.useState([]);
     const [socialIndex, setSocialIndex] = React.useState(0);
     const [url, setUrl] = React.useState("");
@@ -121,10 +122,12 @@ export default function Linked(props) {
                         <div className="flex flex-col space-y-6.25">
                             <div className="flex flex-col space-y-3.75">
                                 <h1 className="text-xl">Project Token</h1>
-                                <Select
+                                <InputEmpty
                                     id="tokenName"
                                     name="tokenName"
                                     placeholder="Token Name"
+                                    value={tokenName}
+                                    setValue={setTokenName}
                                 />
                             </div>
                             <div className="grid md-lg:grid-cols-2 gap-5">
