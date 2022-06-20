@@ -94,25 +94,25 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
                 <div className="divide-y">
                     {/* Card Header */}
                     <div className="card-header">
-                        <h1 className="text-2xl">Staked Avatea in vaults</h1>
+                        <h1 className="text-2xl"><i className="fa-solid fa-nfc-lock"/> Vault</h1>
 
                         <div className="py-5.5 space-y-4.5">
                             <div className="flex justify-between">
-                                <span className="text-sm">Users</span>
+                                <span className="text-sm"><i className="fa-solid fa-users"/> Users</span>
                                 <span className="text-base font-medium">
                       {vault.num_invested}
                     </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-sm">Generated Rewards</span>
+                                <span className="text-sm"><i className="fa-solid fa-treasure-chest"/> Generated Rewards</span>
                                 <span className="text-base font-medium">{earnedTokens}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-sm">TVL</span>
+                                <span className="text-sm"><i className="fa-solid fa-money-bill-transfer"/> TVL</span>
                                 <span className="text-base font-medium">{vaultTLV}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-sm">Reward per Avatea token per day</span>
+                                <span className="text-sm"><i className="fa-solid fa-hands-holding-dollar"/> Reward Per Avatea Token Per Day</span>
                                 <span className="text-base font-medium">{rewardPerToken}</span>
                             </div>
                         </div>
@@ -177,8 +177,12 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
                             <Button
                                 name="Withdraw Rewards"
                                 handleClick={claimVaultRewards}
-                            />
-                            <Button name="Withdraw Both" handleClick={exitVault} />
+                            >
+                                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                            </Button>
+                            <Button name="Withdraw Both" handleClick={exitVault}>
+                                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -186,7 +190,7 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
             <Card title="News Feed">
                 {/* Card Header */}
                 <div className="card-header">
-                    <h1 className="text-2xl">News Feed</h1>
+                    <h1 className="text-2xl"><i className="fa-solid fa-newspaper"/> News</h1>
                 </div>
 
                 <div className="card-content pt-5.5">

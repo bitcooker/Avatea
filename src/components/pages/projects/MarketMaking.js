@@ -150,11 +150,11 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
         <Card title="Activity">
             {/* Card Header */}
             <div className="card-header">
-                <h1 className="text-2xl">Activity</h1>
+                <h1 className="text-2xl"><i class="fa-solid fa-wave-pulse"></i> Activity</h1>
 
                 <div className="py-5.5 space-y-4.5">
                     <div className="flex justify-between">
-                        <span className="text-sm">Sold</span>
+                        <span className="text-sm"><i className="fa-solid fa-circle-minus"/> Sold</span>
                         <span className="flex text-base font-medium">
                     <img
                         src="/coins/maticIcon.png"
@@ -164,7 +164,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                   </span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-sm">Bought</span>
+                        <span className="text-sm"><i className="fa-solid fa-circle-plus"/> Bought</span>
                         <span className="flex text-base font-medium">
                     <img
                         src="/coins/maticIcon.png"
@@ -181,7 +181,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
-                                <i className="fa-regular fa-money-bills-simple mr-1"></i>
+                                <i className="fa-solid fa-circle-dollar mr-1" />
                                 Cash
                             </div>
                             <span>
@@ -206,7 +206,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
-                                <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
+                                <i className="fa-solid fa-coin mr-1" />
                                 Tokens
                             </div>
                             <span>
@@ -234,23 +234,23 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
         <Card title="Settings">
             {/* Card Header */}
             <div className="card-header">
-                <h1 className="text-2xl">Settings</h1>
+                <h1 className="text-2xl"><i className="fa-solid fa-sliders"/> Settings</h1>
             </div>
 
             <div className="card-content pt-5.5 space-y-5">
                 <div className=" grid md-lg:grid-cols-2 gap-5">
                     <div className="flex flex-col space-y-10">
-                        <span className="text-sm">Pressure Slider</span>
+                        <span className="text-sm"><i className="fa-solid fa-circle-bolt" /> Pressure</span>
                         <RangeSlider setPercent={setPressure} percent={pressure}/>
                     </div>
-                    <div className="space-y-2.5">
-                        <span className="text-sm">Estimation</span>
+                    <div className={`space-y-2.5 ${estimation === '- Days' ? 'hidden' : ''}`}>
+                        <span className="text-sm"><i className="fa-solid fa-timer"/> Estimation</span>
                         <InputEmpty placeholder={estimation} readOnly/>
                     </div>
                 </div>
 
                 <div className="space-y-2.5">
-                    <span className="text-sm">Mode</span>
+                    <span className="text-sm"><i className="fa-solid fa-plus-minus"/> Mode</span>
                     <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
                         <Radio
                             name="mode"
@@ -269,8 +269,8 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                     </div>
                 </div>
                 <div className="space-y-2.5">
-                  <span className="text-sm">
-                    {mode === "buy" ? "Maximum Buying Price" : "Minimum Selling Price"}
+                  <span className="text-sm"><i className="fa-solid fa-circle-dollar" />
+                    {mode === "buy" ? " Maximum Buying Price" : " Minimum Selling Price"}
                   </span>
                     <InputWithIconSubmit
                         id="priceLimit"
@@ -285,14 +285,13 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                 </div>
                 <Button name="Save Settings" handleClick={(e) => {
                     updateSettings(mode === 'sell' ? amountBaseTokenBalance : amountPairTokenBalance)
-                }}/>
+                }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
 
                 <div className="card-content pt-1 space-y-3.75">
                     {mode === "buy" && (<div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
-                                <i className="fa-regular fa-money-bills-simple mr-1"></i>
-                                Cash
+                                <i className="fa-solid fa-coin" /> Cash
                             </div>
                             <span>
                         {pairedTokenWalletBalance} &nbsp;
@@ -318,8 +317,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                     {mode === "sell" && (<div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
-                                <i className="fa-regular fa-hexagon-vertical-nft mr-1"></i>
-                                Token
+                                <i className="fa-solid fa-coin" /> Token
                             </div>
                             <span>
                         {baseTokenWalletBalance} &nbsp;

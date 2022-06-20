@@ -11,6 +11,7 @@ import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
 import Vault from "../../src/components/pages/projects/Vault";
 import MarketMaking from "../../src/components/pages/projects/MarketMaking";
 import Vesting from "../../src/components/pages/projects/Vesting";
+import NoVesting from "../../src/components/pages/projects/NoVesting";
 
 const tabItems = ["Vault", "Market Making", "Vesting"];
 
@@ -23,6 +24,7 @@ export default function ProjectDetail(props) {
     const [vault, setVault] = useState({});
     const [marketMakingPool, setMarketMakingPool] = useState({});
     const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
+    const [holdersMapping, setHoldersMapping] = useState({});
 
 
     useEffect(() => {
@@ -54,6 +56,18 @@ export default function ProjectDetail(props) {
     }, [props.projectDetail]);
 
 
+    useEffect(() => {
+        if (wallet.status === "connected" && marketMakingPool.paired_token) {
+            const initWalletConnected = async () => {
+                const results = await helper.web3.marketMaker.fetchHoldersMapping(
+                    wallet,
+                    marketMakingPool.address
+                );
+                setHoldersMapping(results);
+            };
+            initWalletConnected();
+        }
+    }, [wallet, marketMakingPool]);
 
     return (
         <div className="space-y-7.5">
@@ -72,8 +86,11 @@ export default function ProjectDetail(props) {
                 <MarketMaking wallet={wallet} marketMakingPool={marketMakingPool} vault={vault} project={project}/>
             )}
 
-            {tab == 2 && (
-                <Vesting wallet={wallet} marketMakingPool={marketMakingPool} project={project}/>
+            {tab == 2 && Object.keys(holdersMapping).length !== 0 && holdersMapping?.amountVested.gt(0) && (
+                <Vesting wallet={wallet} marketMakingPool={marketMakingPool} project={project} holdersMapping={holdersMapping}/>
+            )}
+            {tab == 2 && Object.keys(holdersMapping).length !== 0 && holdersMapping?.amountVested.eq(0) && (
+                <NoVesting/>
             )}
         </div>
     );

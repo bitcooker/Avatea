@@ -4,7 +4,7 @@ import Button from "../../core/Button/Button";
 import helper from "../../../helpers";
 import {useEffect, useState} from "react";
 
-export default function Vesting({  wallet, project, marketMakingPool }) {
+export default function Vesting({  wallet, project, marketMakingPool, holdersMapping }) {
 
     const [releaseAbleAmount, setReleaseAbleAmount] = useState(0);
     const [amountVested, setAmountVested] = useState(0);
@@ -15,7 +15,7 @@ export default function Vesting({  wallet, project, marketMakingPool }) {
     const [slicePeriodSeconds, setSlicePeriodSeconds] = useState('0')
 
     useEffect(() => {
-        if (wallet.status === "connected" && marketMakingPool.paired_token) {
+        if (wallet.status === "connected" && marketMakingPool.paired_token && Object.keys(holdersMapping).length !== 0) {
             const initWalletConnected = async () => {
                 setReleaseAbleAmount(
                     helper.formatting.web3Format(
@@ -26,20 +26,14 @@ export default function Vesting({  wallet, project, marketMakingPool }) {
                 );
 
                 const {
-                    available,
                     amountVested,
                     released,
                     cliff,
                     start,
                     duration,
                     slicePeriodSeconds,
-                    projectOwner,
                     revocable
-                } =
-                    await helper.web3.marketMaker.fetchHoldersMapping(
-                        wallet,
-                        marketMakingPool.address
-                    );
+                } = holdersMapping;
                 setAmountReleased(helper.formatting.web3Format(released));
                 setAmountVested(helper.formatting.web3Format(amountVested));
                 setCliff(cliff);

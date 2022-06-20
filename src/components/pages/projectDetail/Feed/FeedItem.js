@@ -18,7 +18,7 @@ export default function FeedItem(props) {
                   {description}
               </div>
 
-                <Button><Link href={link}>Read more</Link></Button>
+                <Button><Link href={link}><>Read more <i className="fa-solid fa-circle-chevron-right pl-2"/></></Link></Button>
             </div>
           </div>
         </div>
