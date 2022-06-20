@@ -18,10 +18,12 @@ export default function Header({ menu, setMenu, title }) {
   }, [wallet]);
 
   const shortenAddress = (address) => {
-    return `${address.slice(0, 6)}...${address.slice(
-      address.length - 4,
-      address.length
-    )}`;
+    return address != null
+      ? `${address.slice(0, 6)}...${address.slice(
+          address.length - 4,
+          address.length
+        )}`
+      : "";
   };
 
   return (
@@ -55,7 +57,7 @@ export default function Header({ menu, setMenu, title }) {
           </div>
           {wallet.status === "connected" ? (
             <button
-              className="flex justify-center box-border items-center px-7.5 py-4 bg-indigo-500 text-white rounded-full hover:cursor-pointer hover:bg-indigo-500/80 transition"
+              className="flex justify-center box-border items-center px-7.5 py-4 bg-indigo-500 text-white rounded-full hover:cursor-pointer hover:bg-indigo-500 transition"
               onClick={() => wallet.reset()}
             >
               <span className="text-indigo-300">
@@ -65,7 +67,7 @@ export default function Header({ menu, setMenu, title }) {
             </button>
           ) : (
             <button
-              className="flex justify-center items-center px-7.5 py-4 bg-indigo-500 text-white rounded-full hover:cursor-pointer hover:bg-indigo-500/80 hover: transition"
+              className="flex justify-center items-center px-7.5 py-4 bg-indigo-500 text-white rounded-full hover:cursor-pointer hover:bg-indigo-500 hover: transition"
               onClick={() => wallet.connect("injected")}
             >
               Connect with wallet
