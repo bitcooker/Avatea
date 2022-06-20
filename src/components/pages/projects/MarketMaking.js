@@ -24,7 +24,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
     const [priceLimit, setPriceLimit] = useState(null);
     const [fresh, setFresh] = useState(false);
     const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
-    const [mode, setMode] = useState("hold");
+    const [mode, setMode] = useState("sell");
     const [estimation, setEstimation] = useState("- Days");
     const [activity,setActivity]  = useState({baseAmountBought:'0', pairedAmountBought:'0', baseAmountSold: '0', pairedAmountSold: '0'})
 
@@ -60,7 +60,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                     } = marketMakingSettings;
                     if (!market_making_type) setFresh(true);
                     setMarketMakingSettingsId(id);
-                    setMode(market_making_type === null ? "hold" : market_making_type);
+                    setMode(market_making_type === null ? "sell" : market_making_type);
                     setPressure(buy_sell_pressure === null ? 0 : buy_sell_pressure);
                     setPriceLimit(price_limit === null ? 0 : price_limit);
                 }
@@ -251,19 +251,12 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
 
                 <div className="space-y-2.5">
                     <span className="text-sm">Mode</span>
-                    <div className="grid grid-cols-2 md-lg:grid-cols-3 gap-x-4 gap-y-2.5">
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
                         <Radio
                             name="mode"
                             label="Buy"
                             value={"buy"}
                             checked={mode === "buy"}
-                            handleSetMode={handleSetMode}
-                        />
-                        <Radio
-                            name="mode"
-                            label="Hold"
-                            value={"hold"}
-                            checked={mode === "hold"}
                             handleSetMode={handleSetMode}
                         />
                         <Radio
@@ -275,7 +268,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                         />
                     </div>
                 </div>
-                {mode !== "hold" ? (<div className="space-y-2.5">
+                <div className="space-y-2.5">
                   <span className="text-sm">
                     {mode === "buy" ? "Maximum Buying Price" : "Minimum Selling Price"}
                   </span>
@@ -289,8 +282,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                         value={priceLimit}
                         setValue={setPriceLimit}
                     />
-                </div>) : ("")}
-
+                </div>
                 <Button name="Save Settings" handleClick={(e) => {
                     updateSettings(mode === 'sell' ? amountBaseTokenBalance : amountPairTokenBalance)
                 }}/>
