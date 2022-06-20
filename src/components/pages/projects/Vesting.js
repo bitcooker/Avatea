@@ -98,7 +98,7 @@ export default function Vesting({  wallet, project, marketMakingPool, holdersMap
             ticker={project.ticker}
         />
         <div className="pt-9">
-            <Button name="Release Tokens" handleClick={releaseVesting}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
+            <Button name="Release Tokens" handleClick={releaseVesting}> <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
         </div>
     </Card>)
 }
