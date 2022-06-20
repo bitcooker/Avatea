@@ -57,35 +57,36 @@ export default function Vesting({  wallet, project, marketMakingPool, holdersMap
 
     return ( <Card>
         <div className="vesting-header">
-            <h1 className="text-2xl">Vesting</h1>
+            <h1 className="text-2xl"><i className="fa-solid fa-unlock"></i> Vesting</h1>
 
-            <div className="py-5.5 space-y-4.5">
-                <div className="flex justify-between">
-                    <span className="text-sm">Total Vested</span>
-                    <span className="flex text-base font-medium">
-                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5"/>
-                        {amountVested}
-                </span>
-                </div>
-                <div className="py-5.5 space-y-4.5">
-                    <div className="flex justify-between">
-                        <span className="text-sm">Released</span>
+            <div className="py-5.5 space-y-4.5 ">
+                <div className="sm:grid sm:grid-cols-1 md:grid-cols-3">
+                    <div className="mb-5 md:mb-0">
+                        <span className="text-sm">Total Vested</span>
                         <span className="flex text-base font-medium">
+                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5"/>
+                            {amountVested}
+                </span>
+                    </div>
+                    <div className="mb-5 md:mb-0">
+                            <span className="text-sm">Released</span>
+                            <span className="flex text-base font-medium">
                     <img
                         src="/coins/maticIcon.png"
                         className="w-6 h-6 mr-2.5"
                     />
-                            {amountReleased}
+                                {amountReleased}
                   </span>
                     </div>
-                </div>
-                <div className="flex justify-between">
-                    <span className="text-sm">Releaseable Amount</span>
-                    <span className="flex text-base font-medium">
+                    <div className="mb-5 md:mb-0">
+                        <span className="text-sm">Releaseable Amount</span>
+                        <span className="flex text-base font-medium">
                   <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5"/>
-                        {releaseAbleAmount}
+                            {releaseAbleAmount}
                 </span>
+                    </div>
                 </div>
+
             </div>
         </div>
         <Chart
@@ -97,7 +98,7 @@ export default function Vesting({  wallet, project, marketMakingPool, holdersMap
             ticker={project.ticker}
         />
         <div className="pt-9">
-            <Button name="Release Tokens" handleClick={releaseVesting}/>
+            <Button name="Release Tokens" handleClick={releaseVesting}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
         </div>
     </Card>)
 }
