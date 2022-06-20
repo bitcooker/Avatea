@@ -32,7 +32,7 @@ const SOCIALDATA = [
 ]
 
 export default function Linked(props) {
-    const [step, setStep] = React.useState(4);
+    const [step, setStep] = React.useState(1);
     const [projectName, setProjectName] = React.useState("");
     const [website, setWebsite] = React.useState("");
     const [whitepaper, setWhitepaper] = React.useState("");
