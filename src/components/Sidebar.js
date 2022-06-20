@@ -36,7 +36,7 @@ const menus = [
   },
 ];
 
-export default function Sidebar({ menu, setMenu }) {
+export default function Sidebar({ menu, setMenu, setTitle }) {
   const wallet = useWallet();
   const [claimableDividend, setClaimableDividend] = useState(0);
 
@@ -83,6 +83,7 @@ export default function Sidebar({ menu, setMenu }) {
                 href={menu.href}
                 label={menu.label}
                 icon={menu.icon}
+                setTitle={setTitle}
                 key={index}
               />
             ))}
@@ -134,6 +135,7 @@ export const MenuItem = (props) => {
             ? "bg-indigo-500 text-white"
             : "bg-white text-black"
         }`}
+        onClick={() => props.setTitle(props.label)}
       >
         <i className={props.icon + " mr-1"} />
         {props.label}
