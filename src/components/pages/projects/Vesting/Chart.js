@@ -199,7 +199,7 @@ export function Chart(props) {
 
             setChartData(newData)
         }
-    }, [props.start, props.cliff, props.duration, props.slicePeriodSeconds, props.amountVested]);
+    }, [props]);
 
     return <Line options={chartOptions} data={chartData}/>;
 }

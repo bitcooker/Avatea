@@ -90,7 +90,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
             setEstimation('- Days')
         }
 
-    }, [mode, pressure, amountBaseTokenBalance, amountPairTokenBalance, amountPairTokenToStake, amountBaseTokenToStake, marketMakingPool.max_buying_amount]);
+    }, [mode, pressure, amountBaseTokenBalance, amountPairTokenBalance, amountPairTokenToStake, amountBaseTokenToStake, marketMakingPool]);
 
     const setMax = useCallback(async (amount, setter) => {
         setter(amount);
@@ -150,7 +150,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
         <Card title="Activity">
             {/* Card Header */}
             <div className="card-header">
-                <h1 className="text-2xl"><i class="fa-solid fa-wave-pulse"></i> Activity</h1>
+                <h1 className="text-2xl"><i className="fa-solid fa-wave-pulse"></i> Activity</h1>
 
                 <div className="py-5.5 space-y-4.5">
                     <div className="flex justify-between">
