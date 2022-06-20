@@ -64,7 +64,7 @@ export default function Vesting({  wallet, project, marketMakingPool, holdersMap
                     <div className="mb-5 md:mb-0">
                         <span className="text-sm">Total Vested</span>
                         <span className="flex text-base font-medium">
-                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5"/>
+                  <img src={project.image} className="w-6 h-6 mr-2.5"/>
                             {amountVested}
                 </span>
                     </div>
@@ -72,7 +72,7 @@ export default function Vesting({  wallet, project, marketMakingPool, holdersMap
                             <span className="text-sm">Released</span>
                             <span className="flex text-base font-medium">
                     <img
-                        src="/coins/maticIcon.png"
+                        src={project.image}
                         className="w-6 h-6 mr-2.5"
                     />
                                 {amountReleased}
@@ -81,7 +81,7 @@ export default function Vesting({  wallet, project, marketMakingPool, holdersMap
                     <div className="mb-5 md:mb-0">
                         <span className="text-sm">Releaseable Amount</span>
                         <span className="flex text-base font-medium">
-                  <img src="/coins/maticIcon.png" className="w-6 h-6 mr-2.5"/>
+                  <img src={project.image} className="w-6 h-6 mr-2.5"/>
                             {releaseAbleAmount}
                 </span>
                     </div>

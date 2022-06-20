@@ -139,6 +139,7 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
                                 name="max"
                                 type="number"
                                 submitName="Stake"
+                                image={project.image}
                                 icon="fa-light fa-gauge-max"
                                 submitFunction={stakeVault}
                                 value={amountToVaultStake}

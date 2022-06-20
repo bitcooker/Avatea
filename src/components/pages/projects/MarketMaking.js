@@ -157,7 +157,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                         <span className="text-sm"><i className="fa-solid fa-circle-minus"/> Sold</span>
                         <span className="flex text-base font-medium">
                     <img
-                        src="/coins/maticIcon.png"
+                        src={project.image}
                         className="w-6 h-6 mr-2.5"
                     />
                             {activity.baseAmountSold} / {activity.pairedAmountSold}
@@ -167,7 +167,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                         <span className="text-sm"><i className="fa-solid fa-circle-plus"/> Bought</span>
                         <span className="flex text-base font-medium">
                     <img
-                        src="/coins/maticIcon.png"
+                        src={marketMakingPool.paired_token_image}
                         className="w-6 h-6 mr-2.5"
                     />
                             {activity.baseAmountBought} / {activity.pairedAmountBought}
@@ -197,6 +197,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                             type="number"
                             placeholder="Input amount to withdraw"
                             submitName="Withdraw"
+                            image={marketMakingPool.paired_token_image}
                             icon="fa-light fa-circle-minus"
                             value={amountPairTokenToWithdraw}
                             setValue={setAmountPairTokenToWithdraw}
@@ -222,6 +223,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                             type="number"
                             placeholder="Input amount to withdraw"
                             submitName="Withdraw"
+                            image={project.image}
                             icon="fa-light fa-circle-minus"
                             value={amountBaseTokenToWithdraw}
                             setValue={setAmountBaseTokenToWithdraw}
@@ -276,6 +278,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                         id="priceLimit"
                         name="priceLimit"
                         type="number"
+                        image={mode === "sell" ? project.image : marketMakingPool.paired_token_image}
                         placeholder="Enter price"
                         icon="fa-light fa-circle-minus"
                         hideButton={true}
@@ -308,6 +311,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                             submitName="Deposit"
                             submitFunction={stakePairedToken}
                             value={amountPairTokenToStake}
+                            image={marketMakingPool.paired_token_image}
                             setValue={setAmountPairTokenToStake}
                             address={marketMakingPool.address}
                             token={marketMakingPool.paired_token}
@@ -332,6 +336,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                             type="number"
                             icon="fa-light fa-circle-plus"
                             submitName="Deposit"
+                            image={project.image}
                             submitFunction={stakeMarketMaker}
                             value={amountBaseTokenToStake}
                             setValue={setAmountBaseTokenToStake}
