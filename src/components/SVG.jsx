@@ -197,7 +197,7 @@ export const socialTwitter = (
   </svg>
 );
 
-export const socialLinkedWithOutBG = (
+export const socialLinkedInWithOutBG = (
   <svg
     width="29"
     height="29"
