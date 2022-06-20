@@ -34,6 +34,7 @@ export default function VaultsDetail(props) {
 
   const [openEditProject, setOpenEditProject] = React.useState(false);
   const [openEditMMPool, setOpenEditMMPool] = React.useState(false);
+  const [otcPercent, setOtcPercent] = React.useState(10);
 
   return (
     <div>
@@ -202,7 +203,7 @@ export default function VaultsDetail(props) {
           {/* OTC RangeSlider */}
           <div className="w-full space-y-16">
             <span className="text-base">OTC Ratio</span>
-            <RangeSlider percent="24" />
+            <RangeSlider percent={otcPercent} setPercent={setOtcPercent} />
           </div>
           {/* Max buying amount & Max selling amount */}
           <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
