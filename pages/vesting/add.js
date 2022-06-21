@@ -18,18 +18,11 @@ export default function VestingAdd(props) {
     setIsSSR(false);
   }, []);
 
-  const handleOpen = React.useCallback(() => {}, []);
-
   return (
-    <div className="flex flex-col h-[85vh] space-y-7.5">
+    <div className="relative flex flex-col h-[70vh] md-lg:h-[85vh] space-y-7.5">
       <div className="flex flex-row items-center justify-between">
         <h1 className="text-2xl">Vesting Overview</h1>
-        <div className="flex flex-row space-x-5">
-          <ButtonFit
-            name="Upload CSV "
-            icon="fa-solid fa-cloud-arrow-down"
-            handleClick={handleOpen}
-          />
+        <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
           <ButtonFit
             name="Download CSV Template"
             icon="fa-solid fa-cloud-arrow-up"
