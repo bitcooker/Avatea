@@ -17,7 +17,9 @@
     "react-chartjs-2": "^4.1.0",
     "react-dom": "18.1.0",
     "react-toastify": "^9.0.1",
+    "react-uploader": "^1.8.0",
     "sass": "^1.51.0",
+    "uploader": "^1.45.14",
     "use-wallet": "0.13.4"
   },
   "devDependencies": {

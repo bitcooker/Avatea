@@ -1212,6 +1212,11 @@
     "@typescript-eslint/types" "5.27.0"
     eslint-visitor-keys "^3.3.0"
 
+"@upload-io/upload-api-client-upload-js@1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@upload-io/upload-api-client-upload-js/-/upload-api-client-upload-js-1.13.0.tgz#c829048b47bde547743b837668893b38b8aa8816"
+  integrity sha512-RPALUdB84on1dJ7v1J2Dk/OkT85yLLUmTvFWMVIC49/QsouwdSQNQi9kiGjjUXzvhG3PWcZsPVunaRyW3g1LqQ==
+
 "@walletconnect/browser-utils@^1.7.8":
   version "1.7.8"
   resolved "https://registry.yarnpkg.com/@walletconnect/browser-utils/-/browser-utils-1.7.8.tgz#c9e27f69d838442d69ccf53cb38ffc3c554baee2"
@@ -2946,6 +2951,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.2.6:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
+  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
 
 cliui@^5.0.0:
   version "5.0.0"
@@ -7182,6 +7192,11 @@ preact@^10.5.9:
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.7.3.tgz#f98c09a29cb8dbb22e5fc824a1edcc377fc42b5a"
   integrity sha512-giqJXP8VbtA1tyGa3f1n9wiN7PrHtONrDyE3T+ifjr/tTkg+2N4d/6sjC9WyJKv8wM7rOYDveqy5ZoFmYlwo4w==
 
+preact@^10.6.5:
+  version "10.8.1"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-10.8.1.tgz#54227a20a688efe41e07c52d420e7f829c33c8c5"
+  integrity sha512-p5CKQ0MCEXTGKGOHiFaNE2V2nDq2hvDHykXvIlz+4lbfJ9umLZr8JS/fa1bXUwRcHXK+Ljk8zqmDhr25n0LtVg==
+
 prebuild-install@^5.3.0:
   version "5.3.6"
   resolved "https://registry.yarnpkg.com/prebuild-install/-/prebuild-install-5.3.6.tgz#7c225568d864c71d89d07f8796042733a3f54291"
@@ -7237,6 +7252,11 @@ process@^0.11.10:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
   integrity sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==
+
+progress-smoother@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/progress-smoother/-/progress-smoother-1.3.0.tgz#5dd982c17d9f194c34ce363aeff76fc48ae078f5"
+  integrity sha512-vWtKd8Q1pQXHJ6Fx4pa5fbSCj+p6BPKfWufCVmagOjNKc3JsNsMfgTF55yx8UE0mNnZlnbKHr20+M/imHsnNbQ==
 
 promise-to-callback@^1.0.0:
   version "1.0.0"
@@ -7473,6 +7493,13 @@ react-toastify@^9.0.1:
   integrity sha512-0QZJk0SqYBxouRBGCFU3ymvjlwimRRhVH7SzqGRiVrQ001KSoUNbGKx9Yq42aoPv18n45yJzEFG82zqv3HnASg==
   dependencies:
     clsx "^1.1.1"
+
+react-uploader@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/react-uploader/-/react-uploader-1.8.0.tgz#7e7f94a5d119ea9dfa7e68eb0585a3a72df616d6"
+  integrity sha512-Rjx34aSQ9AoBixOu67qyTQxnZRZC93OOBgjZD3Ulu8WHoANSM9qXEl0G1vA8SXwm6hTIQSoC8mlFop84sKDSbw==
+  dependencies:
+    uploader "^1.37.3"
 
 react@18.1.0:
   version "18.1.0"
@@ -8751,6 +8778,23 @@ unset-value@^1.0.0:
   dependencies:
     has-value "^0.3.1"
     isobject "^3.0.0"
+
+upload-js@^1.44.3:
+  version "1.48.21"
+  resolved "https://registry.yarnpkg.com/upload-js/-/upload-js-1.48.21.tgz#35dfc1a9cbbd92015246a82273142c38f355b7c8"
+  integrity sha512-5D7YU0wbQLZPdvypxHBRJ8OeuFkyMXTYMna+U88Xi0BZRgoSRhqvyoDfsSGwq2m0vMcGFC7gC/bHrnMztJBkUA==
+  dependencies:
+    "@upload-io/upload-api-client-upload-js" "1.13.0"
+    progress-smoother "1.3.0"
+
+uploader@^1.37.3, uploader@^1.45.14:
+  version "1.45.14"
+  resolved "https://registry.yarnpkg.com/uploader/-/uploader-1.45.14.tgz#7ab5e39f458fc370ee704c2105b78b42e3f07ca7"
+  integrity sha512-9paLaE9Wt6ZxXaR2nHIr/X5ZsQy4T6RMlPjbzQjefJIe+LQu0qZ5M0124DK/vZp0DQtmW1F7D64JCKQzNuV35w==
+  dependencies:
+    classnames "^2.2.6"
+    preact "^10.6.5"
+    upload-js "^1.44.3"
 
 uri-js@^4.2.2:
   version "4.4.1"
