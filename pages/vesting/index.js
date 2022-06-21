@@ -13,7 +13,7 @@ export default function Vesting(props) {
         <h1 className="text-2xl">Vesting Overview List</h1>
         <ButtonFit name="Add Vesting" icon="fa-regular fa-plus-large" />
       </div>
-      <div className="grow space-y-3.75 overflow-hidden overflow-y-scroll scrollbar:!w-1.5">
+      <div className="grow space-y-3.75 overflow-hidden overflow-y-auto scrollbar:!w-1.5">
         <ListItem projectImage="/coins/ethImage.png" projectName="Ethereum" />
         <ListItem projectImage="/coins/dotImage.png" projectName="Dot" />
         <ListItem projectImage="/coins/bnbImage.png" projectName="BNB" />
