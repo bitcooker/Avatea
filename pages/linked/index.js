@@ -38,7 +38,8 @@ export default function Linked(props) {
     const [whitepaper, setWhitepaper] = React.useState("");
     const [audit, setAudit] = React.useState("");
     const [description, setDescription] = React.useState("");
-    const [tokenName, setTokenName] = React.useState("");
+    const [tokenTicker, setTokenTicker] = React.useState("");
+    const [tokenAddress, setTokenAddress] = React.useState("");
     const [socials, setSocials] = React.useState([]);
     const [socialIndex, setSocialIndex] = React.useState(0);
     const [url, setUrl] = React.useState("");
@@ -114,25 +115,35 @@ export default function Linked(props) {
                                 setValue={setProjectName}
                             />
                         </div>
+                        <div className="flex flex-col space-y-3.75">
+                            <h1 className="text-xl">Token Ticker</h1>
+                            <InputEmpty
+                                id="tokenTicker"
+                                name="tokenTicker"
+                                placeholder="Token Ticker"
+                                value={tokenTicker}
+                                setValue={setTokenTicker}
+                            />
+                        </div>
+                        <div className="flex flex-col space-y-3.75">
+                            <h1 className="text-xl">Token Address</h1>
+                            <InputEmpty
+                                id="tokenAddress"
+                                name="tokenAddress"
+                                placeholder="Token Address"
+                                value={tokenAddress}
+                                setValue={setTokenAddress}
+                            />
+                        </div>
                     </Step>
                 )}
                 {/* Step 2 */}
                 {step == 2 && (
                     <Step title="Create Your Project" step={step} setStep={setStep}>
                         <div className="flex flex-col space-y-6.25">
-                            <div className="flex flex-col space-y-3.75">
-                                <h1 className="text-xl">Project Token</h1>
-                                <InputEmpty
-                                    id="tokenName"
-                                    name="tokenName"
-                                    placeholder="Token Name"
-                                    value={tokenName}
-                                    setValue={setTokenName}
-                                />
-                            </div>
                             <div className="grid md-lg:grid-cols-2 gap-5">
-                                <ImageDropdown label="Token Image"/>
-                                <ImageDropdown label="Banner Image"/>
+                                <ImageDropdown aspectRatio={16/9} label="Token Image"/>
+                                <ImageDropdown aspectRatio={1} label="Banner Image"/>
                             </div>
                         </div>
                     </Step>
