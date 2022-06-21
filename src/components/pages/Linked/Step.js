@@ -14,14 +14,14 @@ export default function Step(props) {
           <span className="text-xl">{props.title}</span>
           <span className="text-xl">
             <span className=" font-semibold">{props.step}/</span>
-            <span className="text-sm">4</span>
+            <span className="text-sm">6</span>
           </span>
         </div>
       </div>
       <div className="w-full h-2.5 bg-gray-200 rounded-full my-5">
         <div
           className="h-2.5 bg-indigo-500 rounded-full"
-          style={{ width: `${props.step * 25}%` }}
+          style={{ width: `${props.step * 100/6}%` }}
         ></div>
       </div>
       {/* Button Group */}
@@ -32,8 +32,10 @@ export default function Step(props) {
             handleClick={() => props.setStep(props.step - 1)}
           />
         )}
-        {props.step == 4 ? (
-          <Button name="Save" />
+        {props.step == 6 ? (
+          <Button name="Save"
+                      handleClick={props.handleClick}
+          />
         ) : (
           <Button
             name="Next"

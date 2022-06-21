@@ -17,9 +17,12 @@ import {
     socialLinkedInWithOutBG,
     socialTelegramWithOutBG,
 } from "../../src/components/SVG";
-import {ethers} from "ethers";
-import helper from "../../src/helpers";
+
 import Button from "../../src/components/core/Button/Button";
+import helpers from "../../src/helpers";
+import axios from "axios";
+import {API_URL} from "../../src/helpers/constants";
+import {useWallet} from "use-wallet";
 
 const SOCIALDATA = [
     {name: "LinkedIn", value: "social_linkedin", "icon": socialLinkedInWithOutBG, "color": "bg-indigo-400"},
@@ -32,6 +35,8 @@ const SOCIALDATA = [
 ]
 
 export default function Linked(props) {
+    const wallet = useWallet();
+
     const [step, setStep] = React.useState(1);
     const [projectName, setProjectName] = React.useState("");
     const [website, setWebsite] = React.useState("");
@@ -42,7 +47,79 @@ export default function Linked(props) {
     const [tokenAddress, setTokenAddress] = React.useState("");
     const [socials, setSocials] = React.useState([]);
     const [socialIndex, setSocialIndex] = React.useState(0);
+    const [companyName, setCompanyName] = React.useState("");
+    const [streetAddress, setStreetAddress] = React.useState("");
+    const [city, setCity] = React.useState("");
+    const [companyState, setCompanyState] = React.useState("");
+    const [postalCode, setPostalCode] = React.useState("");
+    const [country, setCountry] = React.useState("");
+    const [firstName, setFirstName] = React.useState("");
+    const [lastName, setLastName] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [phoneNumber, setPhoneNumber] = React.useState("");
+    const [telegram, setTelegram] = React.useState("");
     const [url, setUrl] = React.useState("");
+    const [image, setImage] = React.useState("");
+    const [banner, setBanner] = React.useState("");
+
+    const postProject = async (event) => {
+
+        function slugify(text) {
+            const from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;"
+            const to = "aaaaaeeeeeiiiiooooouuuunc------"
+
+            const newText = text.split('').map(
+                (letter, i) => letter.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i)))
+
+            return newText
+                .toString()                     // Cast to string
+                .toLowerCase()                  // Convert the string to lowercase letters
+                .trim()                         // Remove whitespace from both sides of a string
+                .replace(/\s+/g, '-')           // Replace spaces with -
+                .replace(/&/g, '-y-')           // Replace & with 'and'
+                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+                .replace(/\-\-+/g, '-');        // Replace multiple - with single -
+        }
+
+        event.preventDefault()
+        const signature = await helpers.web3.authentication.getSignature(wallet);
+
+        const formData = new FormData();
+        formData.append("signature", signature);
+        formData.append("name", projectName);
+        formData.append("slug", slugify(projectName));
+        formData.append("owner", wallet.account);
+        formData.append("token", tokenAddress);
+        formData.append("ticker", tokenTicker);
+        formData.append("description", description);
+        formData.append("website", website);
+        formData.append("whitepaper", whitepaper);
+        formData.append("audit", audit);
+        formData.append("image", image);
+        formData.append("banner", banner);
+        formData.append("contact_name", firstName + ' ' + lastName);
+        formData.append("contact_email", email);
+        formData.append("contact_phone", phoneNumber);
+        formData.append("contact_telegram", telegram);
+        formData.append("contact_company", companyName);
+        formData.append("contact_street", streetAddress);
+        formData.append("contact_city", city);
+        formData.append("contact_state", companyState);
+        formData.append("contact_postal", postalCode);
+        formData.append("contact_country", country);
+        socials.map(e => formData.append(e.value, e.URL))
+
+        try {
+            const response = await axios({
+                method: "post",
+                url: `${API_URL}Project/`,
+                data: formData,
+                headers: {"Content-Type": "multipart/form-data"},
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const addSocial = async () => {
         if (socials.some(e => e.name === SOCIALDATA[socialIndex].name)) return
@@ -104,36 +181,39 @@ export default function Linked(props) {
                 {/* Step 1 */}
                 {step == 1 && (
                     <Step title="Create Your Project" step={step} setStep={setStep}>
-                        <div className="flex flex-col space-y-3.75">
-                            <h1 className="text-xl">Project Name</h1>
-                            <InputEmpty
-                                id="projectName"
-                                name="projectName"
-                                type="text"
-                                placeholder="Enter Your Project Name"
-                                value={projectName}
-                                setValue={setProjectName}
-                            />
-                        </div>
-                        <div className="flex flex-col space-y-3.75">
-                            <h1 className="text-xl">Token Ticker</h1>
-                            <InputEmpty
-                                id="tokenTicker"
-                                name="tokenTicker"
-                                placeholder="Token Ticker"
-                                value={tokenTicker}
-                                setValue={setTokenTicker}
-                            />
-                        </div>
-                        <div className="flex flex-col space-y-3.75">
-                            <h1 className="text-xl">Token Address</h1>
-                            <InputEmpty
-                                id="tokenAddress"
-                                name="tokenAddress"
-                                placeholder="Token Address"
-                                value={tokenAddress}
-                                setValue={setTokenAddress}
-                            />
+                        <div className="flex flex-col space-y-6.25">
+
+                            <div className="flex flex-col space-y-3.75">
+                                <h1 className="text-xl">Project Name</h1>
+                                <InputEmpty
+                                    id="projectName"
+                                    name="projectName"
+                                    type="text"
+                                    placeholder="Enter Your Project Name"
+                                    value={projectName}
+                                    setValue={setProjectName}
+                                />
+                            </div>
+                            <div className="flex flex-col space-y-3.75">
+                                <h1 className="text-xl">Token Ticker</h1>
+                                <InputEmpty
+                                    id="tokenTicker"
+                                    name="tokenTicker"
+                                    placeholder="Token Ticker"
+                                    value={tokenTicker}
+                                    setValue={setTokenTicker}
+                                />
+                            </div>
+                            <div className="flex flex-col space-y-3.75">
+                                <h1 className="text-xl">Token Address</h1>
+                                <InputEmpty
+                                    id="tokenAddress"
+                                    name="tokenAddress"
+                                    placeholder="Token Address"
+                                    value={tokenAddress}
+                                    setValue={setTokenAddress}
+                                />
+                            </div>
                         </div>
                     </Step>
                 )}
@@ -142,8 +222,8 @@ export default function Linked(props) {
                     <Step title="Create Your Project" step={step} setStep={setStep}>
                         <div className="flex flex-col space-y-6.25">
                             <div className="grid md-lg:grid-cols-2 gap-5">
-                                <ImageDropdown aspectRatio={16/9} label="Token Image"/>
-                                <ImageDropdown aspectRatio={1} label="Banner Image"/>
+                                <ImageDropdown label="Token Image" setValue={setImage}/>
+                                <ImageDropdown label="Banner Image" setValue={setBanner}/>
                             </div>
                         </div>
                     </Step>
@@ -238,6 +318,150 @@ export default function Linked(props) {
                                         name={social.name}
                                         deleteValue={removeSocial}
                                     />)}
+                            </div>
+                        </div>
+                    </Step>
+                )}
+                {step == 5 && (
+                    <Step
+                        title="Add Contact Information"
+                        step={step}
+                        setStep={setStep}
+                    >
+                        <div className="flex flex-col space-y-6.25">
+
+                            <div className="grid md-lg:grid-cols-2 gap-5">
+                                <div className="flex flex-col space-y-3.75">
+                                    <h1 className="text-xl">First Name</h1>
+                                    <InputEmpty
+                                        id="firstName"
+                                        name="firstName"
+                                        placeholder="First Name"
+                                        value={firstName}
+                                        setValue={setFirstName}
+                                    />
+                                </div>
+                                <div className="flex flex-col space-y-3.75">
+                                    <h1 className="text-xl">Last Name</h1>
+                                    <InputEmpty
+                                        id="lastName"
+                                        name="lastName"
+                                        placeholder="Last Name"
+                                        value={lastName}
+                                        setValue={setLastName}
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex flex-col space-y-3.75">
+                                <h1 className="text-xl">Email</h1>
+                                <InputEmpty
+                                    id="email"
+                                    name="email"
+                                    placeholder="Email"
+                                    value={email}
+                                    setValue={setEmail}
+                                />
+                            </div>
+
+                            <div className="flex flex-col space-y-3.75">
+                                <h1 className="text-xl">Phone Number</h1>
+                                <InputEmpty
+                                    id="website"
+                                    name="website"
+                                    placeholder="Phone Number"
+                                    value={phoneNumber}
+                                    setValue={setPhoneNumber}
+                                />
+                            </div>
+
+                            <div className="flex flex-col space-y-3.75">
+                                <h1 className="text-xl">Telegram</h1>
+                                <InputEmpty
+                                    id="telegram"
+                                    name="telegram"
+                                    placeholder="Telegram"
+                                    value={telegram}
+                                    setValue={setTelegram}
+                                />
+                            </div>
+
+                        </div>
+                    </Step>
+                )}
+                {step == 6 && (
+                    <Step
+                        title="Add Company Information"
+                        step={step}
+                        setStep={setStep}
+                        handleClick={postProject}
+                    >
+                        <div className="flex flex-col space-y-6.25">
+                            <div className="flex flex-col space-y-3.75">
+                                <h1 className="text-xl">Company Name</h1>
+                                <InputEmpty
+                                    id="companyName"
+                                    name="companyName"
+                                    placeholder="Company Name"
+                                    value={companyName}
+                                    setValue={setCompanyName}
+                                />
+                            </div>
+                            <div className="flex flex-col space-y-3.75">
+                                <h1 className="text-xl">Street Address</h1>
+                                <InputEmpty
+                                    id="streetAddress"
+                                    name="streetAddress"
+                                    placeholder="Street Address"
+                                    value={streetAddress}
+                                    setValue={setStreetAddress}
+                                />
+                            </div>
+
+                            <div className="grid md-lg:grid-cols-2 gap-5">
+                                <div className="flex flex-col space-y-3.75">
+                                    <h1 className="text-xl">City</h1>
+                                    <InputEmpty
+                                        id="city"
+                                        name="city"
+                                        placeholder="City"
+                                        value={city}
+                                        setValue={setCity}
+                                    />
+                                </div>
+                                <div className="flex flex-col space-y-3.75">
+                                    <h1 className="text-xl">State</h1>
+                                    <InputEmpty
+                                        id="State"
+                                        name="State"
+                                        placeholder="State"
+                                        value={companyState}
+                                        setValue={setCompanyState}
+                                    />
+                                </div>
+                            </div>
+
+
+                            <div className="grid md-lg:grid-cols-2 gap-5">
+                                <div className="flex flex-col space-y-3.75">
+                                    <h1 className="text-xl">Postal Code</h1>
+                                    <InputEmpty
+                                        id="postalCode"
+                                        name="postalCode"
+                                        placeholder="Postal Code"
+                                        value={postalCode}
+                                        setValue={setPostalCode}
+                                    />
+                                </div>
+                                <div className="flex flex-col space-y-3.75">
+                                    <h1 className="text-xl">Country</h1>
+                                    <InputEmpty
+                                        id="country"
+                                        name="country"
+                                        placeholder="Country"
+                                        value={country}
+                                        setValue={setCountry}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </Step>
