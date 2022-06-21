@@ -10,7 +10,7 @@ const templateW4 = {
     castEid: 'y8jLGrpDEmOVzTmgGL7X',
 }
 
-const packetFiles = [ templateW4,templateW4]
+const packetFiles = [ templateW4]
 
 const packetSigners = [
     {
