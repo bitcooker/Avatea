@@ -5379,6 +5379,13 @@ hash.js@1.1.7, hash.js@^1.0.0, hash.js@^1.0.3, hash.js@^1.1.7:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
+hashicon@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/hashicon/-/hashicon-0.3.0.tgz#e7dcd69b8e30dd9d67929f87be4d06e2fdef0951"
+  integrity sha512-rgwUbayXUspgn4Lgmw1FGLvGoqYxesRYwQPuG3sRhyqB5RQ2E1rz97MpmO+raOK9yoVZqVElarc/AzZTnAAadw==
+  dependencies:
+    js-sha3 "^0.8.0"
+
 hdkey@^0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/hdkey/-/hdkey-0.7.1.tgz#caee4be81aa77921e909b8d228dd0f29acaee632"
@@ -7310,7 +7317,7 @@ postcss-selector-parser@^6.0.10, postcss-selector-parser@^6.0.6:
     cssesc "^3.0.0"
     util-deprecate "^1.0.2"
 
-postcss-value-parser@^4.0.2, postcss-value-parser@^4.2.0:
+postcss-value-parser@^4.0.0, postcss-value-parser@^4.0.2, postcss-value-parser@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
