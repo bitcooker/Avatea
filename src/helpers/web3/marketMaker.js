@@ -23,7 +23,7 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
         )
         const receipt = await tx.wait();
 
-        const {_controllerWallet, _marketMaker}  = data.receipt.events.find(x => x.event === "CreatedMarketMakingContract").args;
+        const {_controllerWallet, _marketMaker} = data.receipt.events.find(x => x.event === "CreatedMarketMakingContract").args;
 
         await axios(
             {
@@ -34,7 +34,7 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
                     controller_wallet: _controllerWallet,
                     paired_token: pairedToken,
                     project: project,
-                    live:!paused
+                    live: !paused
                 }
             }
         )
@@ -47,13 +47,13 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
         })
 
         console.log('stake success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('stake error', e);
+        return false;
     }
 }
 
-//@Todo Specify types for registration
 const stake = async (wallet, marketMakerAddress, amount, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
@@ -79,9 +79,88 @@ const stake = async (wallet, marketMakerAddress, amount, callback) => {
             }
         })
         console.log('stake success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('stake error', e);
+        return false;
+    }
+}
+
+const stakeBatch = async (wallet, marketMakerAddress, user_addresses, amounts, callback) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
+
+    try {
+        const tx = await marketMakerContract.stakeBatch(amounts, user_addresses);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        const receipt = await tx.wait();
+
+        await helpers.callback.batchHook({
+            type: "MMBD",
+            data: {
+                receipt,
+                wallet,
+                user_addresses,
+                amounts
+            }
+        })
+
+        console.log('stakeBatch success')
+        return true;
+    } catch (e) {
+        console.log('stakeBatch error', e);
+        return false;
+    }
+}
+
+const createVesting = async (wallet, marketMakerAddress, user_addresses, start, cliff, duration, slicePeriodSeconds, revocable, amountsInWei, amounts, callback) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
+
+    try {
+        const tx = await marketMakerContract.createVestingSchedule(
+            user_addresses,
+            start,
+            cliff,
+            duration,
+            slicePeriodSeconds,
+            revocable,
+            amountsInWei
+        );
+
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        const receipt = await tx.wait();
+
+        await helpers.callback.batchHook({
+            type: "MMVD",
+            data: {
+                receipt,
+                wallet,
+                user_addresses,
+                amounts
+            }
+        })
+        console.log('createVesting success')
+        return true;
+    } catch (e) {
+        console.log('createVesting error', e);
+        return false;
     }
 }
 
@@ -109,9 +188,10 @@ const stakePairedToken = async (wallet, marketMakerAddres, amount, callback) => 
             }
         })
         console.log('stakePairedToken success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('stakePairedToken error', e);
+        return false;
     }
 }
 
@@ -139,13 +219,14 @@ const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount, callbac
                 wallet,
             }
         })
+        return true;
     } catch (e) {
-        alert(e)
         console.log('stakePairedTokenInETH error', e);
+        return false;
     }
 }
 
-const withdrawBaseToken = async (wallet, marketMakerAddress, amount,full_withdrawal, callback) => {
+const withdrawBaseToken = async (wallet, marketMakerAddress, amount, full_withdrawal, callback) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
@@ -170,9 +251,10 @@ const withdrawBaseToken = async (wallet, marketMakerAddress, amount,full_withdra
             }
         })
         console.log('withdrawBaseToken success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('withdrawBaseToken error', e);
+        return false;
     }
 }
 
@@ -202,20 +284,21 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, full_withdr
             }
         })
         console.log('withdrawPairedToken success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('withdrawPairedToken error', e);
+        return false;
     }
 }
 
 
-const release = async (wallet, marketMakerAddress, amount, full_withdrawal, callback) => {
+const release = async (wallet, marketMakerAddress, full_withdrawal, callback) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
-        const tx = await marketMakerContract.release(amount);
+        const tx = await marketMakerContract.release();
         toast.promise(
             tx.wait(),
             {
@@ -235,9 +318,10 @@ const release = async (wallet, marketMakerAddress, amount, full_withdrawal, call
             }
         })
         console.log('release success')
+        return true;
     } catch (e) {
-        alert(e)
         console.log('release error', e);
+        return false;
     }
 }
 
@@ -267,26 +351,43 @@ const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, 
         return 0;
     }
 }
-const available = async (wallet, marketMakerAddress) => {
-    try {
-        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-        const signer = provider.getSigner();
-        const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
-        return await marketMakerContract.available(wallet.account);
-    } catch (e) {
-        console.log('available error', e);
-        return 0;
-    }
-}
 
-const fetchVesting = async (wallet, marketMakerAddress) => {
+const fetchHoldersMapping = async (wallet, marketMakerAddress) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
         const data = await marketMakerContract.holdersMapping(wallet.account);
-        const {amountVested, released, cliff, start, duration, slicePeriodSeconds, initialized, revocable} = data;
-        return {amountVested, released, cliff, start, duration, slicePeriodSeconds, initialized, revocable}
+        const {
+            available,
+            amountVested,
+            released,
+            baseAmountBought,
+            pairedAmountBought,
+            baseAmountSold,
+            pairedAmountSold,
+            cliff,
+            start,
+            duration,
+            slicePeriodSeconds,
+            projectOwner,
+            revocable
+        } = data;
+        return {
+            available,
+            amountVested,
+            released,
+            baseAmountBought,
+            pairedAmountBought,
+            baseAmountSold,
+            pairedAmountSold,
+            cliff,
+            start,
+            duration,
+            slicePeriodSeconds,
+            projectOwner,
+            revocable
+        }
     } catch (e) {
         console.log('fetchVesting error', e);
         return 0;
@@ -302,7 +403,8 @@ export default {
     release,
     computeReleasableAmount,
     getWithdrawablePairedTokens,
-    available,
     deploy,
-    fetchVesting
+    fetchHoldersMapping,
+    createVesting,
+    stakeBatch
 }

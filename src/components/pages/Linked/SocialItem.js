@@ -12,7 +12,7 @@ export default function SocialItem(props) {
     >
       {props.icon}
 
-      <div className="absolute flex items-center justify-center top-0 right-0 w-[22px] h-[22px] rounded-full bg-rose-500 ring ring-white ring-offset-0 hover:cursor-pointer hover:ring-rose-500/50 transition">
+      <div onClick={() => props.deleteValue(props.name)} className="absolute flex items-center justify-center top-0 right-0 w-[22px] h-[22px] rounded-full bg-rose-500 ring ring-white ring-offset-0 hover:cursor-pointer hover:ring-rose-500/50 transition">
         <svg
           width="10"
           height="10"

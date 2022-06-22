@@ -2,7 +2,6 @@ import * as React from "react";
 
 export default function Radio(props) {
   const radioRef = React.useRef(null);
-  const [isSelected, setIsSelected] = React.useState(props.isSelected || false);
 
   const handleClick = React.useCallback(
     (e) => {
@@ -23,7 +22,8 @@ export default function Radio(props) {
         value={props.value}
         type="radio"
         ref={radioRef}
-        defaultChecked={props.checked}
+        checked={props.checked}
+        onChange={(e) => e.preventDefault()}
       />
       <span className="text-sm">{props.label}</span>
     </div>

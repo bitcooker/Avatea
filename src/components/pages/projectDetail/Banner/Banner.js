@@ -13,7 +13,7 @@ export default function Preview(props) {
         backgroundPosition: "center",
       }}
     >
-      <BannerContent whitepaper={props.whitepaper} website={props.website} description={props.description} name={props.name} tokenImage={props.image}/>
+      <BannerContent {...props}/>
     </div>
   );
 }

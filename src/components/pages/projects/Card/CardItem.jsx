@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-import Button from "../../../core/Button/Button";
 import {
   socialFacebook,
   socialLinked,
