@@ -12,7 +12,7 @@ export default function VestingOverview(props) {
 
         <ButtonFit name="Submit Vesting" icon="fa-solid fa-cloud-arrow-up" />
       </div>
-      <div className="grow">
+      <div className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
         <Table />
       </div>
     </div>
