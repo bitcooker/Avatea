@@ -1,6 +1,8 @@
+import Image from "next/image";
 import { useWallet } from "use-wallet";
 import helpers from "../helpers";
 import { useEffect } from "react";
+import hashicon from "hashicon";
 
 import SwitchNetwork from "../components/core/SwitchNetwork";
 
@@ -56,22 +58,32 @@ export default function Header({ menu, setMenu, title }) {
             <SwitchNetwork />
           </div>
           {wallet.status === "connected" ? (
-            <button
-              className="flex justify-center box-border items-center px-7.5 py-4 bg-indigo-500 text-white rounded-full hover:cursor-pointer hover:bg-indigo-500 transition"
-              onClick={() => wallet.reset()}
-            >
-              <span className="text-indigo-300">
-                {wallet.balance + "ETH " + shortenAddress(wallet.account)}
-              </span>
-              &nbsp; Disconnect
-            </button>
+            <div className="flex flex-row items-center bg-white p-1 rounded-4xl">
+              <span className="text-base px-2">{wallet.balance + "ETH "}</span>
+              <button
+                className="flex justify-center box-border items-center px-7.5 py-3 bg-indigo-500 text-white rounded-4xl hover:cursor-pointer hover:bg-indigo-500/80 transition"
+                onClick={() => wallet.reset()}
+              >
+                <span className="text-base mr-2">
+                  {shortenAddress(wallet.account)}
+                </span>
+                <Image
+                  src={hashicon(wallet.account).toDataURL()}
+                  alt="hashicon"
+                  width={20}
+                  height={20}
+                />
+              </button>
+            </div>
           ) : (
-            <button
-              className="flex justify-center items-center px-7.5 py-4 bg-indigo-500 text-white rounded-full hover:cursor-pointer hover:bg-indigo-500 hover: transition"
-              onClick={() => wallet.connect("injected")}
-            >
-              Connect with wallet
-            </button>
+            <div className="bg-white p-1 rounded-4xl">
+              <button
+                className="flex justify-center items-center px-7.5 py-3 bg-indigo-500 text-white rounded-4xl hover:cursor-pointer hover:bg-indigo-500/80 transition"
+                onClick={() => wallet.connect("injected")}
+              >
+                <span className="text-base">Connect with wallet</span>
+              </button>
+            </div>
           )}
         </div>
       </div>
