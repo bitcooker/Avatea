@@ -12,7 +12,8 @@ export default function Iframe({projects}) {
             let signUrl = 'https://app.hellosign.com/sign/ab82497c2b1473772c2b5157a65de83710a0ca45'
             client.open(signUrl, {
                 clientId: 'eeb7e20b9704f245baa10d5582c15a95',
-                skipDomainVerification: true
+                skipDomainVerification: true,
+                testMode: true
             });
         })
     }
