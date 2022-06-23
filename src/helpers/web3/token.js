@@ -17,12 +17,12 @@ const fetchTotalSupply = async (wallet, tokenAddress) => {
     }
 }
 
-const balanceOf = async (wallet, tokenAddress) => {
+const balanceOf = async (wallet, tokenAddress, address) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const tokenContract = await new ethers.Contract(tokenAddress, TokenContract.abi, signer);
     try {
-        return await tokenContract.balanceOf(wallet.account);
+        return await tokenContract.balanceOf(address);
     } catch (e) {
         alert(e)
         console.log('balanceOf error', e);

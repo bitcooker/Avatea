@@ -17,23 +17,6 @@ export default async function handler(req, res) {
             }
         ]
 
-
-// Any of the signers is eligible to sign for the entire group.
-//         var signerGroup = [
-//             {
-//                 role: 'Signer',
-//                 group: 'Authorized signatory',
-//                 [0]: {
-//                     name: 'George',
-//                     email_address: 'george@example.com',
-//                 },
-//                 [1]: {
-//                     name: 'Gina',
-//                     email_address: 'gina@example.com',
-//                 }
-//             },
-//         ]
-
         const options = {
             test_mode : 1,
             template_id : 'ab124575fe93962d99d509f994cb58c73a112be0',
@@ -59,5 +42,4 @@ export default async function handler(req, res) {
         }
     }
 
-    // res.status(200).json({ name: 'John Doe' })
 }
