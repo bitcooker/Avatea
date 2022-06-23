@@ -30,7 +30,6 @@ export default function VaultsDetail(props) {
     const wallet = useWallet();
     const router = useRouter();
     const [openEditProject, setOpenEditProject] = React.useState(false);
-    const [openEditMMPool, setOpenEditMMPool] = React.useState(false);
     const [CreateMMPool, setCreateMMPool] = React.useState(false);
     const [otcPercent, setOtcPercent] = React.useState(10);
     const [vault, setVault] = useState({});
@@ -216,41 +215,6 @@ export default function VaultsDetail(props) {
             </div>
         </Modal>
 
-        {/* Edit Market making pool */}
-        <Modal
-            title="Edit Market Making"
-            size="sm"
-            open={openEditMMPool}
-            handleClose={() => setOpenEditMMPool(false)}
-        >
-            <div className="card-content space-y-3.75">
-                {/* Max buying amount & Max selling amount */}
-                <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
-                    <div className="w-full space-y-2.5">
-                        <span className="text-base">Max Buying Amount per day</span>
-                        <InputWithIcon
-                            id="editMaxBuyingAmount"
-                            name="editMaxBuyingAmount"
-                            type="number"
-                            placeholder="1234"
-                        />
-                    </div>
-                    <div className="w-full space-y-2.5">
-                        <span className="text-base">Max Selling Amount per day</span>
-                        <InputWithIcon
-                            id="editMaxSellingAmount"
-                            name="editMaxSellingAmount"
-                            type="number"
-                            placeholder="1234"
-                        />
-                    </div>
-                </div>
-
-
-                <Button name="Save Information"/>
-            </div>
-        </Modal>
-
         {/* Create Market making pool */}
         <Modal
             title="Create a Market Making pool"
@@ -369,23 +333,32 @@ export default function VaultsDetail(props) {
                                     /> {pairedTokenBalance}
                             </span>
                             </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-money-bill-transfer"/> Max selling / buying amount per day</span>
-                                <span className="flex text-base font-medium">
-                                    <img
-                                        src={project.image}
-                                        className="w-6 h-6 mr-2.5"
+                            <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
+                                <div className="w-full space-y-2.5">
+                                    <span className="text-base">Max Buying Amount per day</span>
+                                    <InputWithIcon
+                                        id="editMaxBuyingAmount"
+                                        name="editMaxBuyingAmount"
+                                        type="number"
+                                        value={marketMakingPool.max_buying_amount}
+                                        image={marketMakingPool.paired_token_image}
                                     />
-                                    {marketMakingPool.max_buying_amount}
-                                    <img
-                                        src={marketMakingPool.paired_token_image}
-                                        className="w-6 h-6 ml-2.5 mr-2.5"
-                                    /> {marketMakingPool.max_selling_amount}
-                            </span>
+                                </div>
+                                <div className="w-full space-y-2.5">
+                                    <span className="text-base">Max Selling Amount per day</span>
+                                    <InputWithIcon
+                                        id="editMaxSellingAmount"
+                                        name="editMaxSellingAmount"
+                                        type="number"
+                                        value={marketMakingPool.max_selling_amount}
+                                        image={project.image}
+                                    />
+                                </div>
                             </div>
+
                             <Button
-                                name="Edit Market Making Pool"
-                                handleClick={() => setOpenEditMMPool(true)}
+                                name="Update Market Making Pool"
+                                // handleClick={}
                             />
                         </div> :
                         <div className="flex flex-col p-3.75 space-y-4">
