@@ -1,59 +1,4 @@
-import Anvil from '@anvilco/anvil'
-const apiKey = 'EtcKgKD81SbGDjn4ewlfV0LTsDXFp1YI'
-const anvilClient = new Anvil({ apiKey })
-
-
-const templateW4 = {
-    id: 'sample',
-    // castEid is also known as the 'PDF template ID'
-    // found under the 'API Info' tab on the PDF template page
-    castEid: 'y8jLGrpDEmOVzTmgGL7X',
-}
-
-const packetFiles = [ templateW4]
-
-const packetSigners = [
-    {
-        id: 'signer1',
-        // Important! This tells Anvil that our app will be
-        // notifying the signer when it is their turn to sign
-        signerType: 'embedded',
-        // Important! This tells Anvil to redirect to this URL
-        // after the signer has completed their signatures
-        redirectURL: '/onboarding/finish',
-        // fields left undefined to be filled using webform input
-        name: 'John Doe',
-        email: 'uri@avatea.io',
-        fields: [
-            {
-                fileId: 'templateW4',
-                fieldId: 'employeeSignature',
-            }
-        ],
-    }
-]
-
-const packetPrefillData = {
-    templateW4: {
-        data: {
-            // fields left undefined to be filled using webform input
-            firstName: 'Test',
-            lastName: 'Test',
-            address: 'Test',
-            ssn: 'Test',
-        },
-    },
-}
-
-const variables = {
-    files: packetFiles,
-    signers: packetSigners,
-    data: {
-        payloads: {
-            ...packetPrefillData,
-        },
-    },
-}
+const hellosign = require('hellosign-sdk')({key: process.env.HELLOSIGN_API_KEY});
 
 export default async function handler(req, res) {
     if (req.method === 'POST') {
@@ -63,30 +8,55 @@ export default async function handler(req, res) {
         } = req.body
 
 
-        // Fill in signer details
-        variables.signers[0].name = firstName + lastName
-        variables.signers[0].email = email
+        const signers = [
+            {
+                email_address : 'uri@avatea.io',
+                name : 'George',
+                role : 'signer',
+                pin: '1234'
+            }
+        ]
 
 
-        // Enter the prefill data for the W4
-        variables.data.payloads.templateW4.data = {
-            firstName,
-            lastName,
-            address,
-            ssn,
+// Any of the signers is eligible to sign for the entire group.
+//         var signerGroup = [
+//             {
+//                 role: 'Signer',
+//                 group: 'Authorized signatory',
+//                 [0]: {
+//                     name: 'George',
+//                     email_address: 'george@example.com',
+//                 },
+//                 [1]: {
+//                     name: 'Gina',
+//                     email_address: 'gina@example.com',
+//                 }
+//             },
+//         ]
+
+        const options = {
+            test_mode : 1,
+            template_id : 'ab124575fe93962d99d509f994cb58c73a112be0',
+            subject : 'Purchase Order',
+            message : 'Glad we could come to an agreement.',
+            signers : signers,
+            custom_fields: [
+                {
+                    name: "name",
+                    value: "Habiba",
+                    // editor: "Signer",
+                    // required: true
+                }
+            ]
+        };
+
+        try {
+           const result = await hellosign.signatureRequest.sendWithTemplate(options);
+            res.status(200).json(result)
+        } catch(e) {
+            res.status(500).json(e)
+
         }
-
-        // Create the signature packet on the server
-        const {
-            statusCode, data, errors
-        } = await anvilClient.createEtchPacket({ variables })
-
-        console.log(data);
-        // Pass the signature packet EID to the client-side
-        // for new hire to sign the packet
-        const signaturePacketEid = data.data.createEtchPacket.eid
-        const signingPageURL = `/onboarding/sign/${signaturePacketEid}`
-        res.status(200).json({ signingPageURL })
     }
 
     // res.status(200).json({ name: 'John Doe' })

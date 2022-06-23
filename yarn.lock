@@ -4912,6 +4912,15 @@ forever-agent@~0.6.1:
   resolved "https://registry.yarnpkg.com/forever-agent/-/forever-agent-0.6.1.tgz#fbc71f0c41adeb37f96c577ad1ed42d8fdacca91"
   integrity sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==
 
+form-data@^2.3.2:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-2.5.1.tgz#f2cbec57b5e59e23716e128fe44d4e5dd23895f4"
+  integrity sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.6"
+    mime-types "^2.1.12"
+
 form-data@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
@@ -5412,6 +5421,13 @@ hellosign-embedded@^2.10.0:
     common-tags "^1.8.0"
     debug "^4.1.1"
     tiny-emitter "^2.1.0"
+
+hellosign-sdk@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/hellosign-sdk/-/hellosign-sdk-2.1.0.tgz#8af9143fee077f5b5712334ca24868a3ccaaea8a"
+  integrity sha512-2O83jVSvXDgzI+4+sPvCKlN6rdPDmKIQqBVMWnTUczSwqPYO6DlYCoHb3rFdUoubsXMFSnHX+kMBOw6W6BKwnw==
+  dependencies:
+    form-data "^2.3.2"
 
 hmac-drbg@^1.0.1:
   version "1.0.1"

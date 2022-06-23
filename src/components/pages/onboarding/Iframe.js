@@ -15,7 +15,7 @@ export default function Iframe({projects}) {
 
             // Get the settings and add the container if needed
             const settings = {
-                url: "https://app.hellosign.com/editor/embeddedSign?signature_id=b88698569ba8e6926ecb4be93907594a&token=474178b3977b845f46e17e388cf56f9e",
+                url: "https://app.hellosign.com/editor/embeddedSign?signature_id=a3b9e43458e04a76e7827d3e06619ce0&token=3bbe944ec029ab7524493d4d3d97f878",
                 uxVersion: 2,
                 debug: true,
                 allowCancel: true,
