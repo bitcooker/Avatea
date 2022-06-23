@@ -22,6 +22,51 @@ import {
   socialTelegramWithOutBG,
 } from "../../src/components/SVG";
 
+const SOCIALDATA = [
+  {
+    name: "LinkedIn",
+    value: "social_linkedin",
+    icon: "linkedin",
+    color: "bg-indigo-400",
+  },
+  {
+    name: "Facebook",
+    value: "social_facebook",
+    icon: "facebook-f",
+    color: "bg-indigo-400",
+  },
+  {
+    name: "Github",
+    value: "social_github",
+    icon: "github",
+    color: "bg-indigo-400",
+  },
+  {
+    name: "Telegram",
+    value: "social_telegram",
+    icon: "telegram",
+    color: "bg-sky-400",
+  },
+  {
+    name: "Discord",
+    value: "social_discord",
+    icon: "discord",
+    color: "bg-indigo-400",
+  },
+  {
+    name: "Medium",
+    value: "social_medium",
+    icon: "medium",
+    color: "bg-indigo-400",
+  },
+  {
+    name: "Twitter",
+    value: "social_twitter",
+    icon: "twitter",
+    color: "bg-sky-400",
+  },
+];
+
 export default function VaultsDetail(props) {
   const [project, setProject] = React.useState({
     banner: "/projects/default.png",
@@ -94,6 +139,7 @@ export default function VaultsDetail(props) {
                 id="socialName"
                 name="socialName"
                 placeholder="Social Name"
+                options={SOCIALDATA}
               />
             </div>
             {/* Social Items */}
@@ -287,26 +333,15 @@ export default function VaultsDetail(props) {
                   id="socialName"
                   name="socialName"
                   placeholder="Social Name"
+                  options={SOCIALDATA}
                 />
               </div>
               {/* Social Items */}
               <div className="flex flex-row gap-3.75">
-                <SocialItem
-                  icon={socialFacebookWithOutBG}
-                  bgColor="bg-indigo-400"
-                />
-                <SocialItem
-                  icon={socialTwitterWithOutBG}
-                  bgColor="bg-sky-400"
-                />
-                <SocialItem
-                  icon={socialLinkedWithOutBG}
-                  bgColor="bg-indigo-400"
-                />
-                <SocialItem
-                  icon={socialTelegramWithOutBG}
-                  bgColor="bg-sky-400"
-                />
+                <SocialItem icon="facebook-f" bgColor="bg-indigo-400" />
+                <SocialItem icon="twitter" bgColor="bg-sky-400" />
+                <SocialItem icon="linkedin" bgColor="bg-indigo-400" />
+                <SocialItem icon="telegram" bgColor="bg-sky-400" />
               </div>
             </div>
             {/* right */}
