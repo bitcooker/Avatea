@@ -65,30 +65,13 @@ export default function Linked(props) {
 
     const postProject = async (event) => {
 
-        function slugify(text) {
-            const from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;"
-            const to = "aaaaaeeeeeiiiiooooouuuunc------"
-
-            const newText = text.split('').map(
-                (letter, i) => letter.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i)))
-
-            return newText
-                .toString()                     // Cast to string
-                .toLowerCase()                  // Convert the string to lowercase letters
-                .trim()                         // Remove whitespace from both sides of a string
-                .replace(/\s+/g, '-')           // Replace spaces with -
-                .replace(/&/g, '-y-')           // Replace & with 'and'
-                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-                .replace(/\-\-+/g, '-');        // Replace multiple - with single -
-        }
-
         event.preventDefault()
         const signature = await helpers.web3.authentication.getSignature(wallet);
 
         const formData = new FormData();
         formData.append("signature", signature);
         formData.append("name", projectName);
-        formData.append("slug", slugify(projectName));
+        formData.append("slug", helpers.formatting.slugify(projectName));
         formData.append("owner", wallet.account);
         formData.append("token", tokenAddress);
         formData.append("ticker", tokenTicker);
