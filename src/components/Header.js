@@ -59,7 +59,9 @@ export default function Header({ menu, setMenu, title }) {
           </div>
           {wallet.status === "connected" ? (
             <div className="flex flex-row items-center bg-white p-1 rounded-4xl">
-              <span className="text-base px-2">{wallet.balance + "ETH "}</span>
+              <span className="hidden sm:block text-base px-2">
+                {wallet.balance + "ETH "}
+              </span>
               <button
                 className="flex justify-center box-border items-center px-7.5 py-3 bg-indigo-500 text-white rounded-4xl hover:cursor-pointer hover:bg-indigo-500/80 transition"
                 onClick={() => wallet.reset()}
