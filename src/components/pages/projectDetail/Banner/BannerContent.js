@@ -72,8 +72,8 @@ export default function PreviewContent(props) {
           ""
         )}
       </div>
-      <div className="relative w-full md-lg:w-1/3 md-lg:h-full">
-        <div className="absolute flex flex-col w-full md-lg:h-1/2 md-lg:bottom-0 md-lg:right-0 space-y-5">
+      <div className="relative flex w-full md-lg:w-1/3 md-lg:h-full">
+        <div className="absolute flex flex-col w-full md-lg:bottom-0 md-lg:right-0 space-y-5">
           <div className="w-full">
             <a href={props.whitepaper} target={"_blank"} rel={"noreferrer"}>
               <ButtonOutline>
