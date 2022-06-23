@@ -117,6 +117,9 @@ export default function Linked(props) {
                 data: formData,
                 headers: {"Content-Type": "multipart/form-data"},
             });
+
+            //TODO send to iframe with embedded url
+            let embedded_url = response.data.embedded_url
         } catch (error) {
             console.log(error)
         }
