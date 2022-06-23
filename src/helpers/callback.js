@@ -57,6 +57,18 @@ const hook = async ({type, data, callback = () => {}}) => {
                 callback()
                 break;
             case 'VE':
+                event = data.receipt.events.find(x => x.event === "RewardAdded").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount: ethers.utils.formatEther(event.reward),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                })
+                callback()
+                break;
+            case 'VA':
                 event = data.receipt.events.find(x => x.event === "Withdrawn").args;
                 await axios.post(`${API_URL}Transaction/`, {
                     hash: data.receipt.transactionHash,

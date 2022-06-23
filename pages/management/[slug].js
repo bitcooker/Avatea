@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 // core components
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
@@ -9,7 +9,6 @@ import TextArea from "../../src/components/core/TextArea/TextArea";
 import SocialItem from "../../src/components/pages/Linked/SocialItem";
 import Button from "../../src/components/core/Button/Button";
 import Modal from "../../src/components/core/modal/Modal";
-import RangeSlider from "../../src/components/core/RangeSlider/RangeSlider";
 
 // project detail components
 import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
@@ -20,6 +19,9 @@ import {socialFacebookWithOutBG, socialLinkedWithOutBG, socialTelegramWithOutBG,
 import {useWallet} from "use-wallet";
 import {useRouter} from "next/router";
 import helper from "../../src/helpers";
+import InputApproveWithIconSubmit from "../../src/components/core/Input/InputApproveWithIconSubmit";
+import MaxButton from "../../src/components/pages/projects/Button/MaxButton";
+import {ethers} from "ethers";
 
 
 export default function VaultsDetail(props) {
@@ -29,6 +31,7 @@ export default function VaultsDetail(props) {
     const router = useRouter();
     const [openEditProject, setOpenEditProject] = React.useState(false);
     const [openEditMMPool, setOpenEditMMPool] = React.useState(false);
+    const [CreateMMPool, setCreateMMPool] = React.useState(false);
     const [otcPercent, setOtcPercent] = React.useState(10);
     const [vault, setVault] = useState({});
     const [marketMakingPool, setMarketMakingPool] = useState({});
@@ -36,6 +39,8 @@ export default function VaultsDetail(props) {
     const [rewardPerToken, setRewardPerToken] = useState('0');
     const [baseTokenBalance, setBaseTokenBalance] = useState('0');
     const [pairedTokenBalance, setPairedTokenBalance] = useState('0');
+    const [baseTokenWalletBalance, setBaseTokenWalletBalance] = useState('0');
+    const [amountBaseTokenToStake, setAmountBaseTokenToStake] = useState('0');
 
 
     useEffect(() => {
@@ -59,10 +64,21 @@ export default function VaultsDetail(props) {
                 setRewardPerToken(await helper.web3.vault.rewardPerToken(wallet, vault.address));
                 setBaseTokenBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token, marketMakingPool.address)));
                 setPairedTokenBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token, marketMakingPool.address)));
+                setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token, wallet.account)));
             };
             initWalletConnected();
         }
     }, [wallet, vault, marketMakingPool]);
+
+    const addReward = async () => {
+        const wei = ethers.utils.parseEther(amountBaseTokenToStake);
+        let success = await helper.web3.vault.addReward(wallet, vault.address, wei);
+    };
+
+    const setMax = useCallback(async (amount, setter) => {
+        setter(amount);
+    }, []);
+
 
     return (<div>
         {/* Edit project modal */}
@@ -208,16 +224,41 @@ export default function VaultsDetail(props) {
             handleClose={() => setOpenEditMMPool(false)}
         >
             <div className="card-content space-y-3.75">
-                {/* Base Token */}
-                <div className="w-full space-y-2.5">
-                    <span className="text-base">Base Token</span>
-                    <InputWithIcon
-                        id="editBaseToken"
-                        name="editBaseToken"
-                        type="number"
-                        placeholder="2324"
-                    />
+                {/* Max buying amount & Max selling amount */}
+                <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
+                    <div className="w-full space-y-2.5">
+                        <span className="text-base">Max Buying Amount per day</span>
+                        <InputWithIcon
+                            id="editMaxBuyingAmount"
+                            name="editMaxBuyingAmount"
+                            type="number"
+                            placeholder="1234"
+                        />
+                    </div>
+                    <div className="w-full space-y-2.5">
+                        <span className="text-base">Max Selling Amount per day</span>
+                        <InputWithIcon
+                            id="editMaxSellingAmount"
+                            name="editMaxSellingAmount"
+                            type="number"
+                            placeholder="1234"
+                        />
+                    </div>
                 </div>
+
+
+                <Button name="Save Information"/>
+            </div>
+        </Modal>
+
+        {/* Create Market making pool */}
+        <Modal
+            title="Create a Market Making pool"
+            size="sm"
+            open={CreateMMPool}
+            handleClose={() => setCreateMMPool(false)}
+        >
+            <div className="card-content space-y-3.75">
                 {/* Pair Token */}
                 <div className="w-full space-y-2.5">
                     <span className="text-base">Pair Token</span>
@@ -228,15 +269,10 @@ export default function VaultsDetail(props) {
                         placeholder="2324"
                     />
                 </div>
-                {/* OTC RangeSlider */}
-                <div className="w-full space-y-16">
-                    <span className="text-base">OTC Ratio</span>
-                    <RangeSlider percent={otcPercent} setPercent={setOtcPercent}/>
-                </div>
                 {/* Max buying amount & Max selling amount */}
                 <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
                     <div className="w-full space-y-2.5">
-                        <span className="text-base">Max Buying Amount</span>
+                        <span className="text-base">Max Buying Amount per day</span>
                         <InputWithIcon
                             id="editMaxBuyingAmount"
                             name="editMaxBuyingAmount"
@@ -245,7 +281,7 @@ export default function VaultsDetail(props) {
                         />
                     </div>
                     <div className="w-full space-y-2.5">
-                        <span className="text-base">Max Selling Amount</span>
+                        <span className="text-base">Max Selling Amount per day</span>
                         <InputWithIcon
                             id="editMaxSellingAmount"
                             name="editMaxSellingAmount"
@@ -255,6 +291,7 @@ export default function VaultsDetail(props) {
                     </div>
                 </div>
 
+
                 <Button name="Save Information"/>
             </div>
         </Modal>
@@ -263,7 +300,7 @@ export default function VaultsDetail(props) {
 
             <div className="grid md-lg:grid-cols-2 gap-3.75">
                 <Card>
-                    {vault ? <div className="flex flex-col p-3.75 space-y-4">
+                    {vault.address ? <div className="flex flex-col p-3.75 space-y-4">
                         <h1 className="text-base text-center">Vault</h1>
                         <div className="flex justify-between">
                             <span className="text-sm"><i className="fa-solid fa-money-bill-transfer"/> TVL</span>
@@ -283,13 +320,40 @@ export default function VaultsDetail(props) {
                                     /> {rewardPerToken}
                             </span>
                         </div>
+
+                        <div className="flex flex-row items-center justify-between text-base">
+                            <div>
+                                <i className="fa-solid fa-coin"/> Add rewards
+                            </div>
+                            <span>
+                        {baseTokenWalletBalance} &nbsp;
+                                <MaxButton
+                                    handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}
+                                />
+                      </span>
+                        </div>
+                        <InputApproveWithIconSubmit
+                            id="cash"
+                            name="cash"
+                            type="number"
+                            icon="fa-light fa-circle-plus"
+                            submitName="Deposit"
+                            image={project.image}
+                            submitFunction={addReward}
+                            value={amountBaseTokenToStake}
+                            setValue={setAmountBaseTokenToStake}
+                            address={vault.address}
+                            token={project.token}
+                        />
+
+
                     </div> : <div className="flex flex-col p-3.75 space-y-4">
                         <h1 className="text-base text-center">No Vault created</h1>
                         <Button name="Request a vault"/>
                     </div>}
                 </Card>
                 <Card>
-                    {marketMakingPool ? <div className="flex flex-col p-3.75 space-y-4">
+                    {marketMakingPool.address ? <div className="flex flex-col p-3.75 space-y-4">
                             <h1 className="text-base text-center">Market Making Pool</h1>
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-money-bill-transfer"/> TVL</span>
@@ -319,12 +383,16 @@ export default function VaultsDetail(props) {
                                     /> {marketMakingPool.max_selling_amount}
                             </span>
                             </div>
+                            <Button
+                                name="Edit Market Making Pool"
+                                handleClick={() => setOpenEditMMPool(true)}
+                            />
                         </div> :
                         <div className="flex flex-col p-3.75 space-y-4">
                             <h1 className="text-base text-center">No Market Making Pool created</h1>
                             <Button
                                 name="Create Market Making Pool"
-                                handleClick={() => setOpenEditMMPool(true)}
+                                handleClick={() => setCreateMMPool(true)}
                             />
                         </div>
 
