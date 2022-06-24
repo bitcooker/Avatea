@@ -159,6 +159,9 @@ export default function VaultsDetail(props) {
                             id="socialName"
                             name="socialName"
                             placeholder="Social Name"
+                            options={[
+                                {name:'Test'}
+                            ]}
                         />
                     </div>
                     {/* Social Items */}
