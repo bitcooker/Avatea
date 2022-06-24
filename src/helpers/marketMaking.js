@@ -31,8 +31,37 @@ const getMarketMakingSettings = async ({slug, network = DEFAULT_CHAIN_ID, user_a
     }
 }
 
+
 //@Todo check api to allow API method and how to fix authentication
-const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMakingSettings, wallet, fresh}) => {
+const updateMarketMakingPool = async ({settings, wallet}) => {
+    try {
+        const {volume, max_selling_amount, max_buying_amount, id} = settings;
+        const signature = await helpers.web3.authentication.getSignature(wallet);
+        console.log(wallet.account)
+        console.log(signature)
+            await axios(
+                {
+                    method: 'patch',
+                    url: `${API_URL}MarketMakingPool/${id}/`,
+                    data: {
+                        volume,
+                        max_selling_amount,
+                        max_buying_amount,
+                        signature
+                    }
+                }
+            )
+            toast.success('Settings saved succesfully.')
+
+    } catch (e) {
+        console.log('updateMarketMakingSettings error:', e);
+        toast.error('Something wen\'t wrong.')
+    }
+}
+
+
+//@Todo check api to allow API method and how to fix authentication
+const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh}) => {
     try {
         const {marketMakingType, amountSettings, pressure, priceLimit, marketMakingPoolId, id} = marketMakingSettings;
         const signature = await helpers.web3.authentication.getSignature(wallet);
@@ -41,7 +70,7 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
             await axios(
                 {
                     method: 'post',
-                    url: `${API_URL}UserSettings/?network=${network}`,
+                    url: `${API_URL}UserSettings`,
                     data: {
                         market_making_type: marketMakingType,
                         amount: amountSettings,
@@ -58,7 +87,7 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
             await axios(
                 {
                     method: 'put',
-                    url: `${API_URL}UserSettings/${id}/?network=${network}`,
+                    url: `${API_URL}UserSettings/${id}/`,
                     data: {
                         market_making_type: marketMakingType,
                         amount: amountSettings,
@@ -94,5 +123,6 @@ export default {
     getMarketMakingPools,
     getMarketMakingPool,
     updateMarketMakingSettings,
-    getMarketMakingSettings
+    getMarketMakingSettings,
+    updateMarketMakingPool
 }

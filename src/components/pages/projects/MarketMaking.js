@@ -31,8 +31,8 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
     useEffect(() => {
         if (wallet.status === "connected" && marketMakingPool.paired_token) {
             const initWalletConnected = async () => {
-                setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token)));
-                setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token)));
+                setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token, wallet.account)));
+                setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token, wallet.account)));
                 const {available, baseAmountBought, pairedAmountBought, baseAmountSold, pairedAmountSold} = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address);
                 setActivity({
                     baseAmountBought: helper.formatting.web3Format(baseAmountBought),

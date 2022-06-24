@@ -10,6 +10,8 @@ import vaultRest from './vault';
 import callback from "./callback";
 import authentication from "./web3/authentication";
 import article from "./article";
+import validator from "./validator";
+
 
 
 // @TODO Cleanup all to Web3 object for now keep it as it is without breaking the current code
@@ -30,5 +32,6 @@ export default {
     user,
     vaultRest,
     callback,
-    formatting
+    formatting,
+    validator
 }
