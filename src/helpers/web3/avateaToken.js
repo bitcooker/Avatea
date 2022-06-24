@@ -21,11 +21,10 @@ const claim = async (wallet) => {
         const receipt = await tx.wait();
         console.log(receipt);
         await helpers.callback.hook({
-            type: "TRANSACTION",
+            type: "AR",
             data: {
                 receipt,
                 wallet,
-                currency: "AVATEA"
             }
         })
     } catch (e) {

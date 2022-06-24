@@ -1,12 +1,11 @@
 import React from "react";
+import Image from "next/image";
 
 export default function ActItem(props) {
-  const PUBLIC = process.env.PUBLIC_URL;
-
   return (
     <div className="actItem">
       <div className="actItem__image">
-        <img src={PUBLIC + `${props.image}`} alt={props.id} />
+        <Image src={`/${props.image}`} alt={props.id} width={80} height={80} />
       </div>
       <div className="actItem__content">
         <div className="actItem__content-info">

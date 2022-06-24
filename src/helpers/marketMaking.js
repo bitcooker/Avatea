@@ -3,6 +3,7 @@ import {ethers} from 'ethers';
 import TokenContract from '../abi/Token.json';
 import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
 import helpers from '../helpers';
+import {toast} from 'react-toastify';
 
 
 const getMarketMakingPools = async ({invested, saved, live, network = DEFAULT_CHAIN_ID, callback} = {}) => {
@@ -37,8 +38,6 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
         const signature = await helpers.web3.authentication.getSignature(wallet);
         if (fresh) {
             //Consider it as a new post
-            console.log(pressure)
-            console.log(priceLimit)
             await axios(
                 {
                     method: 'post',
@@ -54,6 +53,7 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
                     }
                 }
             )
+            toast.success('Settings saved succesfully.')
         } else {
             await axios(
                 {
@@ -70,12 +70,13 @@ const updateMarketMakingSettings = async ({network = DEFAULT_CHAIN_ID, marketMak
                     }
                 }
             )
+            toast.success('Settings saved succesfully.')
         }
 
 
     } catch (e) {
-
         console.log('updateMarketMakingSettings error:', e);
+        toast.error('Something wen\'t wrong.')
     }
 }
 

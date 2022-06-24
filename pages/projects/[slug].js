@@ -1,222 +1,140 @@
-import axios from 'axios';
-import {useWallet} from "use-wallet";
-import {useState, useEffect} from "react";
-import { useRouter } from 'next/router'
+import { useWallet } from "use-wallet";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import helper from "../../src/helpers";
-import {ethers} from 'ethers';
-import {AVATEA_TOKEN_ADDRESS, CLOUD_2_TOKEN_ADDRESS} from "../../src/helpers/constants";
 
+// core components
+import Tab from "../../src/components/core/Tab/Tab";
 
-export default function ProjectDetail({projectDetail}) {
+// project detail components
+import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
+import Vault from "../../src/components/pages/projects/Vault";
+import MarketMaking from "../../src/components/pages/projects/MarketMaking";
+import Vesting from "../../src/components/pages/projects/Vesting";
+import NoVesting from "../../src/components/pages/projects/NoVesting";
 
-    //@Todo add min buy limit and max buy limit fields (stop-loss)
-    //@Todo implement estimation with moment.js - calculate estimation for timeframe to buy or sell the amount of tokens
-    const wallet = useWallet();
-    const router = useRouter()
-    const { slug } = router.query;
-    const [project, setProject] = useState({});
-    const [vault, setVault] = useState({});
-    const [marketMakingPool, setMarketMakingPool] = useState({});
-    const [amountToStake, setAmountToStake] = useState(0);
-    const [amountBaseToken,setAmountBaseToken] = useState(0);
-    const [amountPairToken,setAmountPairToken] = useState(0);
-    const [amountToVaultStake, setAmountToVaultStake] = useState(0);
-    const [vaultBalance, setVaultBalance] = useState(0);
-    const [marketMakingType,setMarketMakingType] = useState(null);
-    const [amountSettings,setAmountSetting] = useState(null);
-    const [pressure,setPressure] = useState(null);
-    const [priceLimit,setPriceLimit] = useState(null);
-    const [fresh,setFresh] = useState(false);
-    const [marketMakingSettingsId, setMarketMakingSettingsId]  = useState(null);
+const tabItems = ["Vault", "Market Making", "Vesting"];
 
+export default function ProjectDetail(props) {
+  //@Todo add min buy limit and max buy limit fields (stop-loss)
+  const wallet = useWallet();
+  const router = useRouter();
+  const { slug } = router.query;
+  const [project, setProject] = useState({});
+  const [vault, setVault] = useState({});
+  const [marketMakingPool, setMarketMakingPool] = useState({});
+  const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
+  const [holdersMapping, setHoldersMapping] = useState({});
 
-    useEffect(() => {
-        if (projectDetail) setProject(projectDetail);
-        else {
-            const fetchProject = async () => {
-                const result = await helper.project.getProject(slug);
-                setProject(result?.project);
-                setMarketMakingPool(result?.marketMakingPool);
-                setVault(result?.vault);
-            }
-            fetchProject();
-        }
-    }, [])
-
-    useEffect(() => {
-        //@TODO Error handling if empty market making pool or vault
-        if (Object.keys(project).length !== 0) {
-            const fetchProject = async () => {
-                const result = await helper.project.getProject(project.slug);
-
-                setMarketMakingPool(result?.marketMakingPool);
-                setVault(result?.vault);
-            }
-            fetchProject();
-        }
-    }, [project])
-
-    useEffect(() => {
-        if(wallet.isConnected()) {
-            const initWalletConnected = async () => {
-                //@TODO Wire Chain ID for production
-                const marketMakingSettings = await helper.marketMaking.getMarketMakingSettings({
-                    slug: project.slug,
-                    user_address: wallet.account
-                });
-                if (marketMakingSettings) {
-
-                    const { market_making_type, amount, buy_sell_pressure, price_limit, id } = marketMakingSettings;
-                    if (!market_making_type) setFresh(true);
-                    setMarketMakingSettingsId(id)
-                    setMarketMakingType(market_making_type);
-                    setAmountSetting(amount);
-                    setPressure(buy_sell_pressure);
-                    setPriceLimit(price_limit);
-                }
-                setAmountBaseToken((await helper.marketMaker.available(wallet,marketMakingPool.address,wallet.account)).toString())
-                setAmountPairToken((await helper.marketMaker.getWithdrawablePairedTokens(wallet,marketMakingPool.address,wallet.account)).toString())
-                setVaultBalance((await helper.vault.balanceOf(wallet,vault.address,wallet.account)).toString());
-            }
-            initWalletConnected();
-        }
-    },[wallet,marketMakingPool])
-
-    const stakeMarketMaker = async () => {
-        const wei = ethers.utils.parseEther(amountToStake);
-        await helper.marketMaker.stake(wallet,marketMakingPool.address,wei);
+  useEffect(() => {
+    if (props.projectDetail) setProject(props.projectDetail);
+    if (props.marketMakingPool) setMarketMakingPool(props.marketMakingPool);
+    if (props.vault) setVault(props.vault);
+    else {
+      const fetchProject = async () => {
+        const result = await helper.project.getProject(slug);
+        setProject(result?.project);
+        setMarketMakingPool(result?.marketMakingPool);
+        setVault(result?.vault);
+      };
+      fetchProject();
     }
+  }, []);
 
-    const approve = async (address,tokenAddress) => {
-        console.log(address)
-        const totalSupply = await helper.token.fetchTotalSupply(wallet);
-        console.log(totalSupply);
-        await helper.token.approveCustomToken(wallet,address,totalSupply,tokenAddress);
+  useEffect(() => {
+    //@TODO Error handling if empty market making pool or vault
+    if (Object.keys(project).length !== 0) {
+      const fetchProject = async () => {
+        const result = await helper.project.getProject(project.slug);
+
+        setMarketMakingPool(result?.marketMakingPool);
+        setVault(result?.vault);
+      };
+      fetchProject();
     }
+  }, [props.projectDetail]);
 
-    const withdrawBaseToken = async () => {
-        await helper.marketMaker.withdrawBaseToken(wallet,marketMakingPool.address,amountBaseToken);
+  useEffect(() => {
+    if (wallet.status === "connected" && marketMakingPool.paired_token) {
+      const initWalletConnected = async () => {
+        const results = await helper.web3.marketMaker.fetchHoldersMapping(
+          wallet,
+          marketMakingPool.address
+        );
+        setHoldersMapping(results);
+      };
+      initWalletConnected();
     }
+  }, [wallet, marketMakingPool]);
 
-    const withdrawPairToken = async () => {
-        await helper.marketMaker.withdrawPairToken(wallet,marketMakingPool.address,amountPairToken);
-    }
+  return (
+    <div className="space-y-7.5 mb-5">
+      <Banner {...project} />
+      {/* Tab menu */}
+      <div className="flex justify-center">
+        <Tab items={tabItems} tab={tab} setTab={setTab} />
+      </div>
+      {/* Staked Avatea in vaults & News Feed */}
+      {tab == 0 && (
+        <Vault
+          vault={vault}
+          wallet={wallet}
+          project={project}
+          marketMakingPool={marketMakingPool}
+        />
+      )}
 
-    const stakeVault = async () => {
-        console.log(amountToVaultStake)
-        const wei = ethers.utils.parseEther(amountToVaultStake);
-        await helper.vault.stake(wallet,vault.address,wei);
-    }
+      {/* Activity & Settings */}
+      {tab == 1 && (
+        <MarketMaking
+          wallet={wallet}
+          marketMakingPool={marketMakingPool}
+          vault={vault}
+          project={project}
+        />
+      )}
 
-    const withdrawVault = async () => {
-        await helper.vault.withdraw(wallet,vault.address,vaultBalance);
-    }
-
-    const updateSettings = async () => {
-        console.log(fresh)
-        const marketMakingSettings = {
-            marketMakingType,
-            amountSettings,
-            pressure,
-            priceLimit,
-            marketMakingPoolId: marketMakingPool.id,
-            id: marketMakingSettingsId ? marketMakingSettingsId : ""
-        }
-            await helper.marketMaking.updateMarketMakingSettings({
-                marketMakingSettings,
-                wallet,
-                fresh
-            });
-
-    }
-
-
-    return (
-        <div>
-            <h1>Project Detail page {project.name}</h1>
-            <p>{project.slug}</p>
-            <button onClick={() => approve(marketMakingPool.address,CLOUD_2_TOKEN_ADDRESS)}>Approve</button>
-            <div style={{border: "2px solid black"}}>
-                <input type="number" onChange={(e) => setAmountToStake(e.target.value)}/>
-                <button onClick={() => stakeMarketMaker()}>Stake</button>
-            </div>
-            <p>Available base tokens {ethers.utils.formatEther(amountBaseToken)}</p>
-            <button onClick={() => withdrawBaseToken()}>Withdraw base token</button>
-            <p>Available pair tokens {ethers.utils.formatEther(amountPairToken)}</p>
-            <button onClick={() => withdrawPairToken()}>Withdraw pair token</button>
-            <pre>
-                <small>MMPool </small>
-            {JSON.stringify(marketMakingPool, null, 2) }
-            </pre>
-            <pre>
-                <small>Vault </small>
-            {JSON.stringify(vault, null, 2) }
-            </pre>
-            <button onClick={() => approve(vault.address,AVATEA_TOKEN_ADDRESS)}>Approve</button>
-            <div style={{border: "2px solid black"}}>
-                <input type="number" onChange={(e) => setAmountToVaultStake(e.target.value)}/>
-                <button onClick={() => stakeVault()}>Stake</button>
-            </div>
-            <p>Balance of vault: {ethers.utils.formatEther(vaultBalance)} </p>
-            <div style={{border: "2px solid black"}}>
-                <button onClick={() => withdrawVault()}>Withdraw Vault</button>
-            </div>
-
-            <hr/>
-            {
-                wallet.isConnected() ? (<>
-                        <h2>Settings</h2>
-                            <div>
-                                <label htmlFor="pressure">Pressure</label>
-                                <input type="text" name="pressure" placeholder={'Pressure'} value={pressure ? pressure : "Empty Pressure"} onChange={e => setPressure(e.target.value)}/>
-                            </div>
-                        <div>
-                            <label htmlFor="marketmakingtype">MM Type</label>
-                            <input type="text" name="marketmakingtype" placeholder={'Market Making Type'} value={marketMakingType ? marketMakingType : "Empty MM Type"} onChange={e => setMarketMakingType(e.target.value)}/>
-                        </div>
-
-                    <div>
-                    <label htmlFor="priceLimit">price Limit</label>
-                    <input type="text" name="priceLimit" placeholder={'PriceLimit'} value={priceLimit ? priceLimit : "Empty PriceLimit"} onChange={e => setPriceLimit(e.target.value)}/>
-                    </div>
-
-                    <div>
-                    <label htmlFor="amount">Amount</label>
-                    <input type="text" name="amount" placeholder={'Amount'} value={amountSettings ? amountSettings : "Empty amount"} onChange={e => setAmountSetting(e.target.value)}/>
-                    </div>
-
-                    <button onClick={() => updateSettings()}>Change Settings</button>
-                    </>
-                ) : ""
-            }
-
-
-        </div>
-    )
+      {tab == 2 &&
+        Object.keys(holdersMapping).length !== 0 &&
+        holdersMapping?.amountVested.gt(0) && (
+          <Vesting
+            wallet={wallet}
+            marketMakingPool={marketMakingPool}
+            project={project}
+            holdersMapping={holdersMapping}
+          />
+        )}
+      {tab == 2 &&
+        Object.keys(holdersMapping).length !== 0 &&
+        holdersMapping?.amountVested.eq(0) && <NoVesting />}
+    </div>
+  );
 }
 
-// ProjectDetail.getInitialProps = async (ctx) => {
-//     console.log(ctx);
-//     // const res = await fetch('https://api.github.com/repos/vercel/next.js')
-//     // const json = await res.json()
-//      return { test: 'test' }
-// }
-
 export async function getServerSideProps(context) {
-    const { slug } = context.query;
+  const { slug } = context.query;
+  if (slug !== "undefined") {
     let projectDetails;
     try {
-        projectDetails = await helper.project.getProject(slug);
-        console.log(projectDetails)
+      projectDetails = await helper.project.getProject(slug);
     } catch (e) {
-        console.log(e);
-        projectDetails = {}
+      console.log(e);
+      projectDetails = null;
     }
     return {
-        props: {
-            projectDetail: projectDetails?.project,
-            marketMakingPool: projectDetails?.marketMakingPool,
-            vault: projectDetails?.vault
-        }
-    }
+      props: {
+        projectDetail: projectDetails?.project,
+        marketMakingPool: projectDetails?.marketMakingPool,
+        vault: projectDetails?.vault,
+      },
+    };
+  } else {
+    return {
+      props: {
+        projectDetail: null,
+        marketMakingPool: null,
+        vault: null,
+      },
+    };
+  }
 }

@@ -1,110 +1,145 @@
-import React, {useEffect, useState} from "react";
-import Link from 'next/link'
-import { activity, home, logOut, setting, vault } from "./SVG";
-import {useRouter} from "next/router";
-import helper from '../helpers/';
-import {useWallet} from "use-wallet";
-import { ethers } from 'ethers';
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import helper from "../helpers/";
+import { useWallet } from "use-wallet";
+import { ethers } from "ethers";
 
-export default function Sidebar({ menu, setMenu }) {
+import Button from "../components/core/Button/Button";
 
-    const wallet = useWallet();
-    const router = useRouter();
-    const [claimableDividend, setClaimableDividend] = useState(0);
+const menus = [
+  {
+    label: "Home",
+    href: "/",
+    icon: "fa-solid fa-home-user",
+  },
+  {
+    label: "My Activity",
+    href: "/activity",
+    icon: "fa-solid fa-chart-area",
+  },
+  {
+    label: "Vault List",
+    href: "/projects",
+    icon: "fa-solid fa-diagram-project",
+  },
+  {
+    label: "Settings",
+    href: "/settings",
+    icon: "fa-solid fa-gears",
+  },
+  {
+    label: "Logout",
+    href: "/logout",
+    icon: "fa-solid fa-right-from-bracket",
+  },
+];
 
-    useEffect(() => {
-        if(wallet.isConnected()) {
-            const fetchClaimableDividend = async () => {
-                const result = await helper.avateaToken.getClaimableAmount(wallet, wallet.account);
-                setClaimableDividend(ethers.utils.formatEther(result));
-            }
-            fetchClaimableDividend()
-        }
-    },[wallet])
+export default function Sidebar({ menu, setMenu, setTitle }) {
+  const wallet = useWallet();
+  const [claimableDividend, setClaimableDividend] = useState(0);
 
-    const claimDividend = async () => {
-        if(wallet.isConnected()) {
-            await helper.avateaToken.claim(wallet);
-        } else {
-            alert('Wallet is not connected')
-        }
+  useEffect(() => {
+    if (wallet.isConnected()) {
+      const fetchClaimableDividend = async () => {
+        const result = await helper.avateaToken.getClaimableAmount(
+          wallet,
+          wallet.account
+        );
+        setClaimableDividend(ethers.utils.formatEther(result));
+      };
+      fetchClaimableDividend();
     }
-    let links = document.querySelectorAll(".nav__inner-link");
-    const menuClose = React.useCallback((e) => {
-        const target = e.target;
-        if (target === document.querySelector(".sidebar")) {
-            document.body.classList.remove("active");
-            document.body.removeEventListener("click", menuClose);
-            setMenu(false);
-        }
-    }, []);
-    useEffect(() => {
-        if (menu) {
-            document.body.addEventListener("click", menuClose);
-            document.body.classList.add("active");
-        }
-    }, [menu]);
-    let body = document.body;
-    links.forEach((e) => {
-        onLinkClick(e);
-    });
-    function onLinkClick(linkItem) {
-        linkItem.addEventListener("click", function () {
-            setMenu(false);
-            body.classList.remove("active");
-        });
-    }
-    return (
-        <div className={"sidebar " + (menu ? "active" : "")}>
-            <div className="sidebar__inner">
-                <div className="sidebar__inner-logo">
-                    <img src={"/logo.svg"} alt="logo" />
-                </div>
-                <nav className="nav">
-                    <div className="nav__inner">
-                        <Link href="/">
-                           <a className={`nav__inner-link ${router.asPath == "/" ? "active" : ""}`}> {home}Home</a>
-                        </Link>
-                        <Link href="/activity" className="nav__inner-link">
-                            <a className={`nav__inner-link ${router.asPath == "/activity" ? "active" : ""}`}> {activity}
-                            My Activity</a>
-                        </Link>
-                        <Link href="/projects" className="nav__inner-link">
-                            <a className={`nav__inner-link ${router.asPath == "/projects" ? "active" : ""}`}>   {vault}
-                            Vault list</a>
-                        </Link>
-                        <Link href="/settings" className="nav__inner-link">
-                            <a className="nav__inner-link">      {setting}
-                            Settings</a>
-                        </Link>
-                        <Link href="/logout" className="nav__inner-link">
-                            <a className="nav__inner-link"> {logOut}
-                            Logout</a>
-                        </Link>
-                    </div>
-                    <div className="nav__footer">
-                        <div className="plan">
-                            <div className="plan__inner">
-                                <div className="plan__icon">
-                                    <img
-                                        src={"/shapes/shapePlan.svg"}
-                                        alt="plan"
-                                    />
-                                </div>
+  }, [wallet]);
 
-                                <div className="plan__text">
-                                    Claimable Dividend <br /> {
-                                    wallet.isConnected() ? <p>{claimableDividend}</p> : "Connect your wallet"
-                                }
-                                </div>
-                               <button className='button primary' onClick={() => claimDividend()}>
-                                    Claim Dividend
-                               </button>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </div>
+  const claimDividend = async () => {
+    if (wallet.isConnected()) {
+      await helper.avateaToken.claim(wallet);
+    } else {
+      alert("Wallet is not connected");
+    }
+  };
+
+  return (
+    <div
+      className={
+        "fixed w-[100vw] h-[100vh] bg-black/30 top-0 left-0 z-50 lg-xl:rounded-r-2.5xl transition bg-white lg-xl:translate-x-0 lg-xl:w-50 xl-2xl:w-66.25 " +
+        (menu ? "translate-x-0" : "-translate-x-full")
+      }
+      onClick={() => setMenu(false)}
+    >
+      <div className="px-3.75 max-w-66.25 bg-white rounded-r-2.5xl h-[100vh]">
+        <div className="flex items-center justify-start px-3.75">
+          <Image src={"/logo.svg"} alt="logo" width={126} height="100%" />
         </div>
-    );
+        <nav
+          className="relative flex flex-col justify-between"
+          style={{ height: "calc(100% - 105px)" }}
+        >
+          <div className="flex flex-col">
+            {menus.map((menu, index) => (
+              <MenuItem
+                href={menu.href}
+                label={menu.label}
+                icon={menu.icon}
+                setTitle={setTitle}
+                key={index}
+              />
+            ))}
+          </div>
+          <div className="pt-7.5 pb-8">
+            <div className="relative w-100 mx-auto max-w-42.5 px-5 pb-5 box-border rounded-2xl before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-2xl before:bg-gradient-to-t before:from-indigo-500 after:absolute after:content-[''] after:top-0.5 after:left-0.5 after:w-[98%] after:h-[98%] after:rounded-2xl after:bg-slate-100">
+              <div className="relative z-10">
+                <div className="flex items-center w-20 mx-auto -mb-5">
+                  <img
+                    src={"/shapes/shapePlan.svg"}
+                    alt="plan"
+                    className="relative w-full -top-7.5"
+                  />
+                </div>
+
+                <div className="mb-5 font-medium text-base text-center tracking-wider">
+                  Claimable Dividend <br />
+                  &nbsp;
+                  {wallet.isConnected() ? (
+                    <p>{claimableDividend}</p>
+                  ) : (
+                    "Connect your wallet"
+                  )}
+                </div>
+                <Button
+                  handleClick={() => claimDividend()}
+                  name="
+                  Claim Dividend"
+                />
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  );
 }
+
+export const MenuItem = (props) => {
+  const router = useRouter();
+
+  return (
+    <Link href={props.href}>
+      <a
+        className={`link flex items-center font-medium text-base rounded-4xl transition p-3.75 hover:cursor-pointer ${
+          router.asPath == props.href
+            ? "bg-indigo-500 text-white"
+            : router.asPath.indexOf(props.href) == 0 && props.href != "/"
+            ? "bg-indigo-500 text-white"
+            : "bg-white text-black"
+        }`}
+        onClick={() => props.setTitle(props.label)}
+      >
+        <i className={props.icon + " mr-1"} />
+        {props.label}
+      </a>
+    </Link>
+  );
+};
