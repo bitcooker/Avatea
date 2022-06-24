@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
+import BannerSocialButton from "../../projectDetail/Banner/BannerSocialButton";
 import {
   socialFacebook,
   socialLinked,
@@ -10,6 +11,34 @@ import {
 } from "../../../SVG";
 
 export default function CardItem(props) {
+  const socials = Object.entries(
+    Object.fromEntries(
+      Object.entries(props).filter(([key]) => key.includes("social_"))
+    )
+  );
+
+  const mapSocials = () => {
+    return socials.map((social) => {
+      return (
+        <a
+          key={social[0]}
+          href={social[1]}
+          target={"_blank"}
+          rel={"noreferrer"}
+        >
+          <div className="w-10 h-10 bg-indigo-500 hover:bg-indigo-500/80 rounded-full px-3 py-3 flex items-center justify-center">
+            <i
+              className={`text-white text-base fa-brands fa-${social[0].replace(
+                "social_",
+                ""
+              )}`}
+            />
+          </div>
+        </a>
+      );
+    });
+  };
+
   return (
     <div className="rounded-2.5xl bg-white overflow-hidden transition hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
       <CardImage image={props.banner} id={props.slug} />
@@ -17,24 +46,11 @@ export default function CardItem(props) {
         <div className="absolute -top-9 p-2 flex items-center justify-center w-14 h-14 bg-white shadow-[0_4px_8px_rgba(0,0,0,0.08)] rounded-0.5xl">
           <img src={props.image} alt={props.slug} />
         </div>
-        <div className="flex mb-3.75 items-center justify-between">
-          <div className="overflow-hidden text-ellipsis font-medium text-base">
-            {props.name}
-          </div>
-          <div className="flex items-center space-x-1">
-            <Link href={props.social_facebook}>
-              <a>{socialFacebook}</a>
-            </Link>
-            <Link href={props.social_twitter}>
-              <a>{socialTwitter}</a>
-            </Link>
-            <Link href={props.social_linkedin}>
-              <a>{socialLinked}</a>
-            </Link>
-            <Link href={props.social_telegram}>
-              <a>{socialTelegram}</a>
-            </Link>
-          </div>
+        <div className="overflow-hidden text-ellipsis font-medium text-base">
+          {props.name}
+        </div>
+        <div className="flex items-center justify-center space-x-1 my-3.5">
+          {mapSocials()}
         </div>
         <div className="flex items-center justify-between mb-2.5">
           <div className="text-sm text-black/60">Total value locked :</div>

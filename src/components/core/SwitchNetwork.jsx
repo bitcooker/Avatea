@@ -15,11 +15,6 @@ export default function SwitchNetwork(props) {
       <div className="flex flex-row items-center space-x-2">
         <img src={currentNetwork.icon} alt="network" width={20} height={20} />
         <span className="hidden md-lg:block">{currentNetwork.displayName}</span>
-        {open ? (
-          <i className="fa-regular fa-chevron-up mt-1"></i>
-        ) : (
-          <i className="fa-regular fa-chevron-down mt-1"></i>
-        )}
       </div>
       {open && (
         <NetworkDropdown
