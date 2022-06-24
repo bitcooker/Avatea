@@ -3,8 +3,9 @@ import { useWallet } from "use-wallet";
 import helpers from "../helpers";
 import { useEffect } from "react";
 import hashicon from "hashicon";
-
+import networks from "./../network/network.json";
 import SwitchNetwork from "../components/core/SwitchNetwork";
+import {ethers} from "ethers";
 
 export default function Header({ menu, setMenu, title }) {
   const wallet = useWallet();
@@ -59,8 +60,9 @@ export default function Header({ menu, setMenu, title }) {
           </div>
           {wallet.status === "connected" ? (
             <div className="flex flex-row items-center bg-white p-1 rounded-4xl">
-              <span className="hidden sm:block text-base px-2">
-                {wallet.balance + "ETH "}
+              <span className="hidden sm:block text-base px-2 ">
+                {Number(ethers.utils.formatEther(wallet.balance)).toFixed(4)} <img src={networks[0].icon} className={'inline w-[20px] h-[20px]'}/>
+
               </span>
               <button
                 className="flex justify-center box-border items-center px-7.5 py-3 bg-indigo-500 text-white rounded-4xl hover:cursor-pointer hover:bg-indigo-500/80 transition"
