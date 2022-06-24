@@ -1,5 +1,6 @@
 import * as React from "react";
-import Image from "next/image";
+import Swal from 'sweetalert2'
+import { useRouter } from 'next/router'
 
 // core components
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
@@ -24,6 +25,8 @@ import helpers from "../../src/helpers";
 import axios from "axios";
 import {API_URL} from "../../src/helpers/constants";
 import {useWallet} from "use-wallet";
+import {useCallback, useState} from "react";
+import {ethers} from "ethers";
 
 const SOCIALDATA = [
     {name: "LinkedIn", value: "social_linkedin", "icon": socialLinkedInWithOutBG, "color": "bg-indigo-400"},
@@ -37,6 +40,7 @@ const SOCIALDATA = [
 
 export default function Linked(props) {
     const wallet = useWallet();
+    const router = useRouter();
 
     const [step, setStep] = React.useState(1);
     const [projectName, setProjectName] = React.useState("");
@@ -62,10 +66,25 @@ export default function Linked(props) {
     const [url, setUrl] = React.useState("");
     const [image, setImage] = React.useState("");
     const [banner, setBanner] = React.useState("");
+    const [validationClass, setValidationClass] = useState({
+        projectName: false,
+        tokenTicker: false,
+        tokenAddress: false,
+        description: false,
+        firstName: false,
+        lastName: false,
+        email: false,
+        phoneNumber: false,
+        companyName: false,
+        streetAddress: false,
+        city: false,
+        postalCode: false,
+        country: false,
+        companyState: false
+    })
 
-    const postProject = async (event) => {
+    const postProject = async () => {
 
-        event.preventDefault()
         const signature = await helpers.web3.authentication.getSignature(wallet);
 
         const formData = new FormData();
@@ -100,11 +119,160 @@ export default function Linked(props) {
                 data: formData,
                 headers: {"Content-Type": "multipart/form-data"},
             });
-
+            if(response.status === 201) {
+                await Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Your project has been created',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    didClose() {
+                        router.push(`/management/${response.data.slug}`)
+                    }
+                })
+            }
         } catch (error) {
             console.log(error)
         }
     }
+
+    const validationHelper = useCallback((key, bool) => {
+        setValidationClass(prevState => ({
+            ...prevState,
+            [key]: bool
+        }))
+    },[])
+
+    const validateFirstStep = useCallback(() => {
+
+        let valueInvalid = false;
+
+        if(!projectName) {
+            validationHelper('projectName', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('projectName', false);
+        }
+
+        if(!tokenTicker) {
+            validationHelper('tokenTicker', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('tokenTicker', false);
+        }
+
+        if (!tokenAddress || ethers.utils.isAddress(tokenAddress) === false) {
+            validationHelper('tokenAddress', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('tokenAddress', false);
+        }
+
+        return valueInvalid;
+    },[projectName,tokenAddress,tokenTicker])
+
+    const validateSecondStep = useCallback(() => {
+        return false;
+    },[banner,image])
+
+    const validateThirdStep = useCallback(() => {
+
+        let valueInvalid = false;
+
+        if(!description) {
+            validationHelper('description', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('description', false);
+        }
+
+        return valueInvalid;
+    },[description])
+
+    const validateFifthStep = useCallback(() => {
+
+        let valueInvalid = false;
+
+        if(!firstName) {
+            validationHelper('firstName', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('firstName', false);
+        }
+
+        if(!lastName) {
+            validationHelper('lastName', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('lastName', false);
+        }
+
+        if(!email || !helpers.validator.validateEmail(email)) {
+            validationHelper('email', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('email', false);
+        }
+
+        if (!phoneNumber || !helpers.validator.validatePhoneNumber(phoneNumber) ) {
+            validationHelper('phoneNumber', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('phoneNumber', false);
+        }
+
+        return valueInvalid;
+    },[firstName,lastName,email,phoneNumber,telegram])
+
+    const validateSixthStep = useCallback(() => {
+
+        let valueInvalid = false;
+
+        if(!companyName) {
+            validationHelper('companyName', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('companyName', false);
+        }
+
+        if(!companyState) {
+            validationHelper('companyState', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('companyState', false);
+        }
+
+        if(!streetAddress) {
+            validationHelper('streetAddress', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('streetAddress', false);
+        }
+
+        if(!city) {
+            validationHelper('city', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('city', false);
+        }
+
+
+        if(!postalCode) {
+            validationHelper('postalCode', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('postalCode', false);
+        }
+
+        if(!country) {
+            validationHelper('country', true)
+            valueInvalid = true;
+        } else {
+            validationHelper('country', false);
+        }
+
+        return valueInvalid;
+    },[companyName,streetAddress,city,postalCode,country,companyState])
 
     const addSocial = async () => {
         if (socials.some(e => e.name === SOCIALDATA[socialIndex].name)) return
@@ -165,7 +333,7 @@ export default function Linked(props) {
                 <h1 className="text-2xl mb-10">Create a New Project</h1>
                 {/* Step 1 */}
                 {step == 1 && (
-                    <Step title="Create Your Project" step={step} setStep={setStep}>
+                    <Step validateStep={validateFirstStep} title="Create Your Project" step={step} setStep={setStep}>
                         <div className="flex flex-col space-y-6.25">
 
                             <div className="flex flex-col space-y-3.75">
@@ -177,7 +345,13 @@ export default function Linked(props) {
                                     placeholder="Enter Your Project Name"
                                     value={projectName}
                                     setValue={setProjectName}
+                                    classNames={validationClass.projectName ? 'border-2 border-red-600' : ''}
                                 />
+                                {
+                                    validationClass.projectName ? (
+                                        <small className={'text-red-600'}>Project Name is required.</small>
+                                    ) : ""
+                                }
                             </div>
                             <div className="flex flex-col space-y-3.75">
                                 <h1 className="text-xl">Token Ticker</h1>
@@ -187,7 +361,13 @@ export default function Linked(props) {
                                     placeholder="Token Ticker"
                                     value={tokenTicker}
                                     setValue={setTokenTicker}
+                                    classNames={validationClass.tokenTicker ? 'border-2 border-red-600' : ''}
                                 />
+                                {
+                                    validationClass.tokenTicker ? (
+                                        <small className={'text-red-600'}>Token Ticker is required.</small>
+                                    ) : ""
+                                }
                             </div>
                             <div className="flex flex-col space-y-3.75">
                                 <h1 className="text-xl">Token Address</h1>
@@ -196,15 +376,21 @@ export default function Linked(props) {
                                     name="tokenAddress"
                                     placeholder="Token Address"
                                     value={tokenAddress}
+                                    classNames={validationClass.tokenAddress ? 'border-2 border-red-600' : ''}
                                     setValue={setTokenAddress}
                                 />
+                                {
+                                    validationClass.tokenAddress ? (
+                                        <small className={'text-red-600'}>Enter a valid token address.</small>
+                                    ) : ""
+                                }
                             </div>
                         </div>
                     </Step>
                 )}
                 {/* Step 2 */}
                 {step == 2 && (
-                    <Step title="Create Your Project" step={step} setStep={setStep}>
+                    <Step validateStep={validateSecondStep} title="Create Your Project" step={step} setStep={setStep}>
                         <div className="flex flex-col space-y-6.25">
                             <div className="grid md-lg:grid-cols-2 gap-5">
                                 <ImageDropdown label="Token Image" setValue={setImage}/>
@@ -219,6 +405,7 @@ export default function Linked(props) {
                         title="Add Your Project Information"
                         step={step}
                         setStep={setStep}
+                        validateStep={validateThirdStep}
                     >
                         <div className="flex flex-col space-y-6.25">
                             <div className="flex flex-col space-y-3.75">
@@ -261,7 +448,13 @@ export default function Linked(props) {
                                     placeholder="Type here"
                                     value={description}
                                     setValue={setDescription}
+                                    classNames={validationClass.description ? 'border-2 border-red-600' : ''}
                                 />
+                                {
+                                    validationClass.description ? (
+                                        <small className={'text-red-600'}>Description is required.</small>
+                                    ) : ""
+                                }
                             </div>
                         </div>
                     </Step>
@@ -271,6 +464,7 @@ export default function Linked(props) {
                         title="Add Your Social Information"
                         step={step}
                         setStep={setStep}
+                        validateStep={() => false}
                     >
                         <div className="flex flex-col space-y-6.25">
                             <div className="flex flex-col space-y-3.75">
@@ -312,6 +506,7 @@ export default function Linked(props) {
                         title="Add Contact Information"
                         step={step}
                         setStep={setStep}
+                        validateStep={validateFifthStep}
                     >
                         <div className="flex flex-col space-y-6.25">
 
@@ -324,7 +519,13 @@ export default function Linked(props) {
                                         placeholder="First Name"
                                         value={firstName}
                                         setValue={setFirstName}
+                                        classNames={validationClass.firstName ? 'border-2 border-red-600' : ''}
                                     />
+                                    {
+                                        validationClass.firstName ? (
+                                            <small className={'text-red-600'}>First Name is required.</small>
+                                        ) : ""
+                                    }
                                 </div>
                                 <div className="flex flex-col space-y-3.75">
                                     <h1 className="text-xl">Last Name</h1>
@@ -334,7 +535,13 @@ export default function Linked(props) {
                                         placeholder="Last Name"
                                         value={lastName}
                                         setValue={setLastName}
+                                        classNames={validationClass.lastName ? 'border-2 border-red-600' : ''}
                                     />
+                                    {
+                                        validationClass.lastName ? (
+                                            <small className={'text-red-600'}>Last Name is required.</small>
+                                        ) : ""
+                                    }
                                 </div>
                             </div>
                             <div className="flex flex-col space-y-3.75">
@@ -345,7 +552,13 @@ export default function Linked(props) {
                                     placeholder="Email"
                                     value={email}
                                     setValue={setEmail}
+                                    classNames={validationClass.email ? 'border-2 border-red-600' : ''}
                                 />
+                                {
+                                    validationClass.email ? (
+                                        <small className={'text-red-600'}>Valid e-mail is required.</small>
+                                    ) : ""
+                                }
                             </div>
 
                             <div className="flex flex-col space-y-3.75">
@@ -356,7 +569,13 @@ export default function Linked(props) {
                                     placeholder="Phone Number"
                                     value={phoneNumber}
                                     setValue={setPhoneNumber}
+                                    classNames={validationClass.phoneNumber ? 'border-2 border-red-600' : ''}
                                 />
+                                {
+                                    validationClass.phoneNumber ? (
+                                        <small className={'text-red-600'}>Valid phone number is required.</small>
+                                    ) : ""
+                                }
                             </div>
 
                             <div className="flex flex-col space-y-3.75">
@@ -379,6 +598,7 @@ export default function Linked(props) {
                         step={step}
                         setStep={setStep}
                         handleClick={postProject}
+                        validateStep={validateSixthStep}
                     >
                         <div className="flex flex-col space-y-6.25">
                             <div className="flex flex-col space-y-3.75">
@@ -389,7 +609,13 @@ export default function Linked(props) {
                                     placeholder="Company Name"
                                     value={companyName}
                                     setValue={setCompanyName}
+                                    classNames={validationClass.companyName ? 'border-2 border-red-600' : ''}
                                 />
+                                {
+                                    validationClass.companyName ? (
+                                        <small className={'text-red-600'}>Company Name is required.</small>
+                                    ) : ""
+                                }
                             </div>
                             <div className="flex flex-col space-y-3.75">
                                 <h1 className="text-xl">Street Address</h1>
@@ -399,7 +625,13 @@ export default function Linked(props) {
                                     placeholder="Street Address"
                                     value={streetAddress}
                                     setValue={setStreetAddress}
+                                    classNames={validationClass.streetAddress ? 'border-2 border-red-600' : ''}
                                 />
+                                {
+                                    validationClass.streetAddress ? (
+                                        <small className={'text-red-600'}>Street Address is required.</small>
+                                    ) : ""
+                                }
                             </div>
 
                             <div className="grid md-lg:grid-cols-2 gap-5">
@@ -411,7 +643,14 @@ export default function Linked(props) {
                                         placeholder="City"
                                         value={city}
                                         setValue={setCity}
+                                        classNames={validationClass.city ? 'border-2 border-red-600' : ''}
                                     />
+                                    {
+                                        validationClass.city ? (
+                                            <small className={'text-red-600'}>City is required.</small>
+                                        ) : ""
+                                    }
+
                                 </div>
                                 <div className="flex flex-col space-y-3.75">
                                     <h1 className="text-xl">State</h1>
@@ -421,7 +660,13 @@ export default function Linked(props) {
                                         placeholder="State"
                                         value={companyState}
                                         setValue={setCompanyState}
+                                        classNames={validationClass.companyState ? 'border-2 border-red-600' : ''}
                                     />
+                                    {
+                                        validationClass.companyState ? (
+                                            <small className={'text-red-600'}>State is required.</small>
+                                        ) : ""
+                                    }
                                 </div>
                             </div>
 
@@ -435,7 +680,13 @@ export default function Linked(props) {
                                         placeholder="Postal Code"
                                         value={postalCode}
                                         setValue={setPostalCode}
+                                        classNames={validationClass.postalCode ? 'border-2 border-red-600' : ''}
                                     />
+                                    {
+                                        validationClass.postalCode ? (
+                                            <small className={'text-red-600'}>Postal Code is required.</small>
+                                        ) : ""
+                                    }
                                 </div>
                                 <div className="flex flex-col space-y-3.75">
                                     <h1 className="text-xl">Country</h1>
@@ -445,7 +696,13 @@ export default function Linked(props) {
                                         placeholder="Country"
                                         value={country}
                                         setValue={setCountry}
+                                        classNames={validationClass.country ? 'border-2 border-red-600' : ''}
                                     />
+                                    {
+                                        validationClass.country ? (
+                                            <small className={'text-red-600'}>Country is required.</small>
+                                        ) : ""
+                                    }
                                 </div>
                             </div>
                         </div>
