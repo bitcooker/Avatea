@@ -274,7 +274,7 @@ export default function VaultsDetail(props) {
                             name="editMaxSellingAmount"
                             type="number"
                             placeholder="0"
-                                                        image={project.image}
+                            image={project.image}
                         />
                     </div>
                 </div>
@@ -405,6 +405,13 @@ export default function VaultsDetail(props) {
                                 name="Update Market Making Pool"
                                 handleClick={updateMarketMakingPool}
                             />
+                                                {/* Edit Button */}
+                        <Button
+                            name="Create Vesting schedules"
+                        />
+                        <Button
+                            name="Stake for participants"
+                        />
                         </div> :
                         <div className="flex flex-col p-3.75 space-y-4">
                             <h1 className="text-base text-center">No Market Making Pool created</h1>
@@ -422,8 +429,6 @@ export default function VaultsDetail(props) {
                 <div className="card-header mb-5">
                     <h1 className="text-2xl">Manage Project</h1>
                 </div>
-                <div className="card-content grid md-lg:grid-cols-2 gap-3.75">
-                    {/* left */}
                     <div className="w-full space-y-3.75">
                         {/* Edit Button */}
                         <Button
@@ -433,17 +438,7 @@ export default function VaultsDetail(props) {
                         <Button
                             name="Edit Articles"
                         />
-                    </div>
-                    {/* right */}
-                    <div className="flex flex-col w-full space-y-3.75">
-                        {/* Edit Button */}
-                        <Button
-                            name="Create Vesting schedules"
-                        />
-                        <Button
-                            name="Stake for participants"
-                        />
-                    </div>
+
                 </div>
             </Card>
 
