@@ -40,6 +40,9 @@ export default function VaultsDetail(props) {
     const [pairedTokenBalance, setPairedTokenBalance] = useState('0');
     const [baseTokenWalletBalance, setBaseTokenWalletBalance] = useState('0');
     const [amountBaseTokenToStake, setAmountBaseTokenToStake] = useState('0');
+    const [volume, setVolume] = useState('0');
+    const [maxBuyingAmount, setMaxBuyingAmount] = useState('0');
+    const [maxSellingAmount, setMaxSellingAmount] = useState('0');
 
 
     useEffect(() => {
@@ -69,10 +72,30 @@ export default function VaultsDetail(props) {
         }
     }, [wallet, vault, marketMakingPool]);
 
+    useEffect(() => {
+        setMaxSellingAmount(marketMakingPool.max_selling_amount)
+        setMaxBuyingAmount(marketMakingPool.max_buying_amount)
+        setVolume(marketMakingPool.volume)
+    }, [marketMakingPool.max_buying_amount]);
+
     const addReward = async () => {
         const wei = ethers.utils.parseEther(amountBaseTokenToStake);
         let success = await helper.web3.vault.addReward(wallet, vault.address, wei);
     };
+
+    const updateMarketMakingPool = async () => {
+        const settings = {
+            volume: volume,
+            max_selling_amount: maxBuyingAmount,
+            max_buying_amount: maxSellingAmount,
+            id: marketMakingPool.id,
+        };
+
+        await helper.marketMaking.updateMarketMakingPool({
+            settings, wallet
+        });
+    };
+
 
     const setMax = useCallback(async (amount, setter) => {
         setter(amount);
@@ -340,7 +363,8 @@ export default function VaultsDetail(props) {
                                         id="editMaxBuyingAmount"
                                         name="editMaxBuyingAmount"
                                         type="number"
-                                        value={marketMakingPool.max_buying_amount}
+                                        value={maxBuyingAmount}
+                                        setValue={setMaxBuyingAmount}
                                         image={marketMakingPool.paired_token_image}
                                     />
                                 </div>
@@ -350,15 +374,25 @@ export default function VaultsDetail(props) {
                                         id="editMaxSellingAmount"
                                         name="editMaxSellingAmount"
                                         type="number"
-                                        value={marketMakingPool.max_selling_amount}
+                                        value={maxSellingAmount}
+                                        setValue={setMaxSellingAmount}
                                         image={project.image}
                                     />
                                 </div>
                             </div>
-
+                            <div className="w-full space-y-2.5">
+                                <span className="text-base">Volume</span>
+                                <InputWithIcon
+                                    id="editPairToken"
+                                    name="editPairToken"
+                                    type="number"
+                                    value={volume}
+                                    setValue={setVolume}
+                                    image={project.image}/>
+                            </div>
                             <Button
                                 name="Update Market Making Pool"
-                                // handleClick={}
+                                handleClick={updateMarketMakingPool}
                             />
                         </div> :
                         <div className="flex flex-col p-3.75 space-y-4">
