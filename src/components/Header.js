@@ -70,7 +70,9 @@ export default function Header({ menu, setMenu, title }) {
                   {shortenAddress(wallet.account)}
                 </span>
                 <Image
-                  src={hashicon(wallet.account).toDataURL()}
+                  src={hashicon(
+                    wallet.account == null ? "" : wallet.account
+                  ).toDataURL()}
                   alt="hashicon"
                   width={20}
                   height={20}
