@@ -1,4 +1,8 @@
 import * as React from "react";
+import Link from "next/link";
+
+// core components
+import ButtonFit from "../../../src/components/core/Button/ButtonFit";
 
 // news component
 import NewsCard from "../../../src/components/pages/management/news/NewsCard";
@@ -49,10 +53,20 @@ const news = [
 
 export default function NewsList(props) {
   return (
-    <div className="grid md-lg:grid-cols-2 lg-xl:grid-cols-4 gap-2">
-      {news.map((news, index) => (
-        <NewsCard news={news} key={index} />
-      ))}
+    <div className="w-full">
+      <div className="flex flex-row items-center justify-between">
+        <h1 className="text-2xl">News List</h1>
+        <Link href="news/add" passHref>
+          <a>
+            <ButtonFit name="Add News" icon="fa-regular fa-plus-large" />
+          </a>
+        </Link>
+      </div>
+      <div className="grid md-lg:grid-cols-2 lg-xl:grid-cols-4 gap-4 m-2">
+        {news.map((news, index) => (
+          <NewsCard news={news} key={index} />
+        ))}
+      </div>
     </div>
   );
 }

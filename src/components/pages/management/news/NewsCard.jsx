@@ -2,6 +2,8 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+import ButtonFit from "../../../core/Button/ButtonFit";
+
 export default function NewsCard(props) {
   return (
     <div className="relative flex flex-col w-full bg-white rounded-lg overflow-hidden shadow-lg">
@@ -21,10 +23,10 @@ export default function NewsCard(props) {
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
           {props.news.date}
         </span>
-        <Link href={`news/${props.news.id}`}>
-          <div className="flex items-center justify-center w-9 h-9 rounded-full bg-red-100/50 hover:ring-2 hover:ring-red-200/50 hover:cursor-pointer transition">
-            <i className="fa-solid fa-pen-line text-red-500"></i>
-          </div>
+        <Link href={`news/${props.news.id}`} passHref>
+          <a>
+            <ButtonFit name="Edit" icon="fa-solid fa-edit" />
+          </a>
         </Link>
       </div>
     </div>
