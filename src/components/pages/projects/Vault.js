@@ -35,7 +35,7 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
                 );
                 setAvateaBalance(
                     helper.formatting.web3Format(
-                        await helper.token.balanceOf(wallet, AVATEA_TOKEN_ADDRESS)
+                        await helper.token.balanceOf(wallet, AVATEA_TOKEN_ADDRESS,wallet.account)
                     )
                 );
                 setEarnedTokens(helper.formatting.web3Format(await helper.web3.vault.earned(wallet,vault.address,wallet.account)));

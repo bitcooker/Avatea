@@ -4,7 +4,7 @@ import Button from "../../core/Button/Button";
 import ButtonOutline from "../../core/Button/ButtonOutline";
 
 export default function Step(props) {
-  return (
+   return (
     <div className="flex flex-col grow">
       {/* content */}
       <div className="grow">{props.children}</div>
@@ -34,12 +34,20 @@ export default function Step(props) {
         )}
         {props.step == 6 ? (
           <Button name="Save"
-                      handleClick={props.handleClick}
+                      handleClick={() => {
+                          if(!props.validateStep()) {
+                              props.handleClick();
+                          }
+                      }}
           />
         ) : (
           <Button
             name="Next"
-            handleClick={() => props.setStep(props.step + 1)}
+            handleClick={() => {
+              if(!props.validateStep()) {
+                props.setStep(props.step + 1)
+              }
+            }}
           />
         )}
       </div>
