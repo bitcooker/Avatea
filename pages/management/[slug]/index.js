@@ -405,25 +405,5 @@ export default function VaultsDetail(props) {
 }
 
 export async function getServerSideProps(context) {
-    const {slug} = context.query;
-    if (slug !== "undefined") {
-        let projectDetails;
-        try {
-            projectDetails = await helper.project.getProject(slug);
-        } catch (e) {
-            console.log(e);
-            projectDetails = null;
-        }
-        return {
-            props: {
-                projectDetail: projectDetails?.project, marketMakingPool: projectDetails?.marketMakingPool, vault: projectDetails?.vault,
-            },
-        };
-    } else {
-        return {
-            props: {
-                projectDetail: null, marketMakingPool: null, vault: null,
-            },
-        };
-    }
+   return await helper.project.getProjectServerSide(context);
 }

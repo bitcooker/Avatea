@@ -29,6 +29,35 @@ const getProject = async (slug, network = DEFAULT_CHAIN_ID, user_address = "none
     }
 }
 
+const getProjectServerSide = async (context, network = DEFAULT_CHAIN_ID, user_address = "none") => {
+    const {slug} = context.query;
+    if (slug !== "undefined") {
+        try {
+            const {data} = await axios.get(`${API_URL}Project/${slug}/?network=${network}&user_address=${user_address}`);
+            const {project, vault, marketMakingPool, UserSettings} = data;
+            return {
+                props: {
+                    projectDetail: project, marketMakingPool, vault
+                }
+            }
+        } catch (e) {
+            console.log('getProject error:', e);
+            return {
+                props: {
+                    projectDetail: null, marketMakingPool: null, vault: null
+                }
+            }
+        }
+    } else {
+        return {
+            props: {
+                projectDetail: null, marketMakingPool: null, vault: null,
+            },
+        };
+    }
+}
+
+
 
 //@TODO Handle error for market maker settings if no wallet is available
 const getArticles = async (slug) => {
@@ -44,5 +73,6 @@ const getArticles = async (slug) => {
 export default {
     getProjects,
     getProject,
-    getArticles
+    getArticles,
+    getProjectServerSide
 }
