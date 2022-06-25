@@ -23,7 +23,7 @@ export default function NewsCard(props) {
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
           {props.news.date}
         </span>
-        <Link href={`news/${props.news.id}`} passHref>
+        <Link href={`/management/${props.mid}/news/${props.news.id}`} passHref>
           <a>
             <ButtonFit name="Edit" icon="fa-solid fa-edit" />
           </a>
