@@ -22,6 +22,7 @@ import helper from "../../src/helpers";
 import InputApproveWithIconSubmit from "../../src/components/core/Input/InputApproveWithIconSubmit";
 import MaxButton from "../../src/components/pages/projects/Button/MaxButton";
 import {ethers} from "ethers";
+import MarketMakingDeployment from "../../src/components/management/MarketMakingDeployment";
 
 
 export default function VaultsDetail(props) {
@@ -248,53 +249,7 @@ export default function VaultsDetail(props) {
             open={CreateMMPool}
             handleClose={() => setCreateMMPool(false)}
         >
-            <div className="card-content space-y-3.75">
-                {/* Pair Token */}
-                <div className="w-full space-y-2.5">
-                    <span className="text-base">Pair Token</span>
-                    <InputWithIcon
-                        id="editPairToken"
-                        name="editPairToken"
-                        type="number"
-                        placeholder="0"
-                    />
-                </div>
-                {/* Max buying amount & Max selling amount */}
-                <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
-                    <div className="w-full space-y-2.5">
-                        <span className="text-base">Max Buying Amount per day</span>
-                        <InputWithIcon
-                            id="editMaxBuyingAmount"
-                            name="editMaxBuyingAmount"
-                            type="number"
-                            placeholder="0"
-                        />
-                    </div>
-                    <div className="w-full space-y-2.5">
-                        <span className="text-base">Max Selling Amount per day</span>
-                        <InputWithIcon
-                            id="editMaxSellingAmount"
-                            name="editMaxSellingAmount"
-                            type="number"
-                            placeholder="0"
-                            image={project.image}
-                        />
-                    </div>
-                </div>
-                <div className="w-full space-y-2.5">
-                    <span className="text-base">Volume per day</span>
-                    <InputWithIcon
-                        id="editPairToken"
-                        name="editPairToken"
-                        type="number"
-                        placeholder="0"
-                        image={project.image}
-                    />
-                </div>
-
-
-                <Button name="Save Information"/>
-            </div>
+            <MarketMakingDeployment project={project}/>
         </Modal>
         <div className="space-y-7.5">
             <Banner {...project} />
@@ -408,13 +363,13 @@ export default function VaultsDetail(props) {
                                 name="Update Market Making Pool"
                                 handleClick={updateMarketMakingPool}
                             />
-                                                {/* Edit Button */}
-                        <Button
-                            name="Create Vesting schedules"
-                        />
-                        <Button
-                            name="Stake for participants"
-                        />
+                            {/* Edit Button */}
+                            <Button
+                                name="Create Vesting schedules"
+                            />
+                            <Button
+                                name="Stake for participants"
+                            />
                         </div> :
                         <div className="flex flex-col p-3.75 space-y-4">
                             <h1 className="text-base text-center">No Market Making Pool created</h1>
@@ -432,15 +387,15 @@ export default function VaultsDetail(props) {
                 <div className="card-header mb-5">
                     <h1 className="text-2xl">Manage Project</h1>
                 </div>
-                    <div className="w-full space-y-3.75">
-                        {/* Edit Button */}
-                        <Button
-                            name="Edit Information"
-                            handleClick={() => setOpenEditProject(true)}
-                        />
-                        <Button
-                            name="Edit Articles"
-                        />
+                <div className="w-full space-y-3.75">
+                    {/* Edit Button */}
+                    <Button
+                        name="Edit Information"
+                        handleClick={() => setOpenEditProject(true)}
+                    />
+                    <Button
+                        name="Edit Articles"
+                    />
 
                 </div>
             </Card>
