@@ -4,7 +4,7 @@ import TokenContract from '../abi/Token.json';
 import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
 
 
-const getProjects = async ({live, network = DEFAULT_CHAIN_ID} = {}) => {
+const getProjects = async ({live = 'True', network = DEFAULT_CHAIN_ID} = {}) => {
 
     let parameters = "?";
     if (live) parameters += `live=${live}&`
