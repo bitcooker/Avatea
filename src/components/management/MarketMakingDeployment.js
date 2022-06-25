@@ -16,6 +16,7 @@ export default function MarketMakingDeployment({project}) {
 
     const deployMarketMakingPool = async () => {
         await helper.web3.marketMaker.deploy(wallet, project.token, pairedToken, revocable, paused, project.slug, volume, maxBuyingAmount, maxSellingAmount);
+        location.reload();
     };
 
 
