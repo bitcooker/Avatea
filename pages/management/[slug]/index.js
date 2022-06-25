@@ -2,27 +2,27 @@ import * as React from "react";
 import {useCallback, useEffect, useState} from "react";
 
 // core components
-import InputEmpty from "../../src/components/core/Input/InputEmpty";
-import InputWithIcon from "../../src/components/core/Input/InputWithIcon";
-import Select from "../../src/components/core/Select/Select";
-import TextArea from "../../src/components/core/TextArea/TextArea";
-import SocialItem from "../../src/components/pages/Linked/SocialItem";
-import Button from "../../src/components/core/Button/Button";
-import Modal from "../../src/components/core/modal/Modal";
+import InputEmpty from "../../../src/components/core/Input/InputEmpty";
+import InputWithIcon from "../../../src/components/core/Input/InputWithIcon";
+import Select from "../../../src/components/core/Select/Select";
+import TextArea from "../../../src/components/core/TextArea/TextArea";
+import SocialItem from "../../../src/components/pages/Linked/SocialItem";
+import Button from "../../../src/components/core/Button/Button";
+import Modal from "../../../src/components/core/modal/Modal";
 
 // project detail components
-import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
-import Card from "../../src/components/pages/projectDetail/Card/Card";
+import Banner from "../../../src/components/pages/projectDetail/Banner/Banner";
+import Card from "../../../src/components/pages/projectDetail/Card/Card";
 
 // social icons without background
-import {socialFacebookWithOutBG, socialLinkedWithOutBG, socialTelegramWithOutBG, socialTwitterWithOutBG,} from "../../src/components/SVG";
+import {socialFacebookWithOutBG, socialLinkedWithOutBG, socialTelegramWithOutBG, socialTwitterWithOutBG,} from "../../../src/components/SVG";
 import {useWallet} from "use-wallet";
 import {useRouter} from "next/router";
-import helper from "../../src/helpers";
-import InputApproveWithIconSubmit from "../../src/components/core/Input/InputApproveWithIconSubmit";
-import MaxButton from "../../src/components/pages/projects/Button/MaxButton";
+import helper from "../../../src/helpers";
+import InputApproveWithIconSubmit from "../../../src/components/core/Input/InputApproveWithIconSubmit";
+import MaxButton from "../../../src/components/pages/projects/Button/MaxButton";
 import {ethers} from "ethers";
-import MarketMakingDeployment from "../../src/components/management/MarketMakingDeployment";
+import MarketMakingDeployment from "../../../src/components/management/MarketMakingDeployment";
 
 
 export default function VaultsDetail(props) {
@@ -262,7 +262,7 @@ export default function VaultsDetail(props) {
                             <span className="text-sm"><i className="fa-solid fa-money-bill-transfer"/> TVL</span>
                             <span className="flex text-base font-medium">
                                     <img
-                                        src="/avatea-token.png"
+                                        src="/public/avatea-token.png"
                                         className="w-6 h-6 ml-2.5 mr-2.5"
                                     /> {vaultTLV}
                             </span>

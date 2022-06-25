@@ -2,10 +2,10 @@ import * as React from "react";
 import Link from "next/link";
 
 // core components
-import ButtonFit from "../../../src/components/core/Button/ButtonFit";
+import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 
 // news component
-import NewsCard from "../../../src/components/pages/management/news/NewsCard";
+import NewsCard from "../../../../src/components/pages/management/news/NewsCard";
 
 const news = [
   {
