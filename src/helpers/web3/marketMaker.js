@@ -2,14 +2,14 @@ import {ethers} from 'ethers';
 import marketMaker from '../../abi/MarketMaker.json';
 import {toast} from "react-toastify";
 import helpers from "../index";
-import {API_URL, MARKET_MAKER_DEPLOYER_ADDRESS} from "../constants";
+import {API_URL, DEPLOYMENT_GAS_COST, MARKET_MAKER_DEPLOYER_ADDRESS} from "../constants";
 import MarketMakerDeployer from "../../abi/MarketMakerDeployer.json";
 import axios from "axios";
 
-const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project) => {
+const deploy = async (wallet, baseToken, pairedToken, revocable, paused, projectSlug, volume, maxBuyingAmount, maxSellingAmount) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const MarketMakerDeployerContract = await new ethers.Contract(MARKET_MAKER_DEPLOYER_ADDRESS, MarketMakerDeployer.abi, signer);
+    const MarketMakerDeployerContract = await new ethers.Contract(MARKET_MAKER_DEPLOYER_ADDRESS[wallet.chainId], MarketMakerDeployer.abi, signer, {value: ethers.utils.parseEther(DEPLOYMENT_GAS_COST)});
 
     try {
         const tx = await MarketMakerDeployerContract.createMarketMaker(baseToken, pairedToken, revocable, paused);
@@ -33,7 +33,11 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
                     address: _marketMaker,
                     controller_wallet: _controllerWallet,
                     paired_token: pairedToken,
-                    project: project,
+                    project: projectSlug,
+                    network: wallet.chainId,
+                    max_selling_amount: maxSellingAmount,
+                    max_buying_amount: maxBuyingAmount,
+                    volume,
                     live: !paused
                 }
             }
