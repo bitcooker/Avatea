@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 
 // core components
@@ -53,9 +52,6 @@ const news = [
 ];
 
 export default function NewsList(props) {
-  const router = useRouter();
-  const { id } = router.query;
-
   return (
     <div className="w-full">
       <div className="flex flex-row items-center justify-between">
@@ -68,7 +64,7 @@ export default function NewsList(props) {
       </div>
       <div className="grid md-lg:grid-cols-2 lg-xl:grid-cols-4 gap-4 m-2">
         {news.map((news, index) => (
-          <NewsCard mid={id} news={news} key={index} />
+          <NewsCard news={news} key={index} />
         ))}
       </div>
     </div>
