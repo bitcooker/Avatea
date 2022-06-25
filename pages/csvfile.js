@@ -1,13 +1,9 @@
 import {useState} from "react";
-import {API_URL} from "../src/helpers/constants";
-import helpers from "../src/helpers";
+import helper from "../src/helpers";
 import {useWallet} from "use-wallet";
-import axios from 'axios';
 import Papa from "papaparse";
 import InputWithIconSubmit from "../src/components/core/Input/InputWithIconSubmit";
 import {Chart} from "../src/components/pages/projects/Vesting/Chart";
-import helper from "../src/helpers";
-import {useEffect} from "react";
 import {ethers} from "ethers";
 import Button from "../src/components/core/Button/Button";
 
@@ -26,6 +22,8 @@ export default function File() {
     const [duration, setDuration] = useState(0);
     const [slicePeriodSeconds, setSlicePeriodSeconds] = useState(0);
     const [revocable, setRevocable] = useState(true);
+    const [batchName, setBatchName] = useState('');
+    const [projectName, setProjectName] = useState('cloud-project');
 
     const handleFileSelect = (event) => {
 
@@ -52,7 +50,7 @@ export default function File() {
     }
 
     const createVesting = async () => {
-        await helper.web3.marketMaker.createVesting(wallet, marketMakingPool, addresses, start, cliff, duration, slicePeriodSeconds, revocable, amountsInWei, amounts);
+        await helper.web3.marketMaker.createVesting(wallet, marketMakingPool, addresses, start, cliff, duration, slicePeriodSeconds, revocable, amountsInWei, amounts, batchName, projectName);
     };
 
     return (
@@ -76,6 +74,24 @@ export default function File() {
                     )
                 })}
             </table>
+            batch name
+            <InputWithIconSubmit
+                id="start"
+                name="start"
+                type="text"
+                placeholder="batch name"
+                value={batchName}
+                setValue={setBatchName}
+            />
+            project name
+            <InputWithIconSubmit
+                id="start"
+                name="start"
+                type="text"
+                placeholder="batch name"
+                value={projectName}
+                setValue={setProjectName}
+            />
             start
             <InputWithIconSubmit
                 id="start"
