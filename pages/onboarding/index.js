@@ -756,6 +756,7 @@ export default function Linked(props) {
                                             onSelect={(code) => setCountry(code)}
                                             placeholder="Select Country"
                                             searchable
+                                            selectButtonClassName={validationClass.country ? 'border-2 border-red-600' : ''}
                                         />
                                         {
                                             validationClass.country ? (
