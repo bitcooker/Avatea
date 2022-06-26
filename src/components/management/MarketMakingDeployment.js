@@ -1,13 +1,17 @@
 import Button from "../core/Button/Button";
 import InputWithIcon from "../core/Input/InputWithIcon";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useWallet} from "use-wallet";
 import helper from "../../../src/helpers";
+import {PAIRED_TOKEN_DEFAULT_IMAGE, PAIRED_TOKEN_OPTIONS} from "../../helpers/constants";
+import {ethers} from "ethers";
 
 export default function MarketMakingDeployment({project}) {
 
     const wallet = useWallet();
     const [pairedToken, setPairedToken] = useState('');
+    const [pairedTokenCheckSum, setPairedTokenCheckSum] = useState('');
+    const [pairedTokenImage, setPairedTokenImage] = useState(PAIRED_TOKEN_DEFAULT_IMAGE);
     const [volume, setVolume] = useState('0');
     const [maxBuyingAmount, setMaxBuyingAmount] = useState('0');
     const [maxSellingAmount, setMaxSellingAmount] = useState('0');
@@ -15,9 +19,26 @@ export default function MarketMakingDeployment({project}) {
     const [paused, setPaused] = useState(false);
 
     const deployMarketMakingPool = async () => {
-        await helper.web3.marketMaker.deploy(wallet, project.token, pairedToken, revocable, paused, project.slug, volume, maxBuyingAmount, maxSellingAmount);
+        await helper.web3.marketMaker.deploy(wallet, project.token, pairedTokenCheckSum, revocable, paused, project.slug, volume, maxBuyingAmount, maxSellingAmount);
         location.reload();
     };
+
+    useEffect(() => {
+        if (pairedToken.length === 42 && wallet.status === "connected") {
+            let checkSum = pairedToken;
+            try {
+                checkSum = ethers.utils.getAddress(pairedToken.toLowerCase())
+            } catch (e) {
+                console.log('checkSum error', e);
+            }
+            setPairedTokenCheckSum(checkSum)
+            if (PAIRED_TOKEN_OPTIONS[wallet.chainId][checkSum]) {
+                setPairedTokenImage(PAIRED_TOKEN_OPTIONS[wallet.chainId][checkSum])
+            } else {
+                setPairedTokenImage(PAIRED_TOKEN_DEFAULT_IMAGE)
+            }
+        }
+    }, [pairedToken]);
 
 
     return (
@@ -33,6 +54,7 @@ export default function MarketMakingDeployment({project}) {
                     placeholder="0x..."
                     setValue={setPairedToken}
                     value={pairedToken}
+                    image={pairedTokenImage}
                 />
             </div>
             {/* Max buying amount & Max selling amount */}
@@ -46,6 +68,7 @@ export default function MarketMakingDeployment({project}) {
                         placeholder="0"
                         setValue={setMaxBuyingAmount}
                         value={maxBuyingAmount}
+                        image={pairedTokenImage}
                     />
                 </div>
                 <div className="w-full space-y-2.5">
