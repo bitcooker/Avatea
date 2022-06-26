@@ -3,7 +3,7 @@ import InputWithIcon from "../core/Input/InputWithIcon";
 import {useEffect, useState} from "react";
 import {useWallet} from "use-wallet";
 import helper from "../../../src/helpers";
-import {PAIRED_TOKEN_DEFAULT_IMAGE, PAIRED_TOKEN_OPTIONS} from "../../helpers/constants";
+import {PAIRED_TOKEN_DEFAULT_IMAGE, PAIRED_TOKEN_IMAGES} from "../../helpers/constants";
 import {ethers} from "ethers";
 
 export default function MarketMakingDeployment({project}) {
@@ -24,7 +24,7 @@ export default function MarketMakingDeployment({project}) {
     };
 
     useEffect(() => {
-        if (pairedToken.length === 42 && wallet.status === "connected") {
+        if (pairedToken.length === 42) {
             let checkSum = pairedToken;
             try {
                 checkSum = ethers.utils.getAddress(pairedToken.toLowerCase())
@@ -32,8 +32,8 @@ export default function MarketMakingDeployment({project}) {
                 console.log('checkSum error', e);
             }
             setPairedTokenCheckSum(checkSum)
-            if (PAIRED_TOKEN_OPTIONS[wallet.chainId][checkSum]) {
-                setPairedTokenImage(PAIRED_TOKEN_OPTIONS[wallet.chainId][checkSum])
+            if (PAIRED_TOKEN_IMAGES[checkSum]) {
+                setPairedTokenImage(PAIRED_TOKEN_IMAGES[checkSum])
             } else {
                 setPairedTokenImage(PAIRED_TOKEN_DEFAULT_IMAGE)
             }
