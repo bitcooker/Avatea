@@ -26,6 +26,7 @@
     "sass": "^1.51.0",
     "sweetalert2": "^11.4.18",
     "uploader": "^1.45.14",
+    "use-local-storage": "^2.3.6",
     "use-wallet": "0.13.4"
   },
   "devDependencies": {

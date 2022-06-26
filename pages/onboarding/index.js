@@ -1,6 +1,7 @@
 import * as React from "react";
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/router'
+import useLocalStorage from "use-local-storage";
 
 // core components
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
@@ -12,13 +13,6 @@ import Step from "../../src/components/pages/Linked/Step";
 import ImageDropdown from "../../src/components/pages/Linked/ImageDropdown";
 import SocialItem from "../../src/components/pages/Linked/SocialItem";
 
-// social icons without background
-import {
-    socialFacebookWithOutBG,
-    socialTwitterWithOutBG,
-    socialLinkedInWithOutBG,
-    socialTelegramWithOutBG,
-} from "../../src/components/SVG";
 
 import Button from "../../src/components/core/Button/Button";
 import helpers from "../../src/helpers";
@@ -27,49 +21,53 @@ import {API_URL} from "../../src/helpers/constants";
 import {useWallet} from "use-wallet";
 import {useCallback, useState} from "react";
 import {ethers} from "ethers";
+import {toast} from "react-toastify";
 
 const SOCIALDATA = [
-    {name: "LinkedIn", value: "social_linkedin", "icon": socialLinkedInWithOutBG, "color": "bg-indigo-400"},
-    {name: "Facebook", value: "social_facebook", "icon": socialFacebookWithOutBG, "color": "bg-indigo-400"},
-    {name: "Github", value: "social_github", "icon": socialLinkedInWithOutBG, "color": "bg-indigo-400"},
-    {name: "Telegram", value: "social_telegram", "icon": socialTelegramWithOutBG, "color": "bg-sky-400"},
-    {name: "Discord", value: "social_discord", "icon": socialLinkedInWithOutBG, "color": "bg-indigo-400"},
-    {name: "Medium", value: "social_medium", "icon": socialLinkedInWithOutBG, "color": "bg-indigo-400"},
-    {name: "Twitter", value: "social_twitter", "icon": socialTwitterWithOutBG, "color": "bg-sky-400"},
+    {name: "LinkedIn", value: "social_linkedin", "icon": 'linkedin', "color": "bg-indigo-400"},
+    {name: "Facebook", value: "social_facebook", "icon": 'facebook', "color": "bg-indigo-400"},
+    {name: "Github", value: "social_github", "icon": 'github', "color": "bg-indigo-400"},
+    {name: "Telegram", value: "social_telegram", "icon": 'telegram', "color": "bg-sky-400"},
+    {name: "Discord", value: "social_discord", "icon": 'discord', "color": "bg-indigo-400"},
+    {name: "Medium", value: "social_medium", "icon": 'medium', "color": "bg-indigo-400"},
+    {name: "Twitter", value: "social_twitter", "icon": 'twitter', "color": "bg-sky-400"},
 ]
 
 export default function Linked(props) {
     const wallet = useWallet();
     const router = useRouter();
 
-    const [step, setStep] = React.useState(1);
-    const [projectName, setProjectName] = React.useState("");
-    const [website, setWebsite] = React.useState("");
-    const [whitepaper, setWhitepaper] = React.useState("");
-    const [audit, setAudit] = React.useState("");
-    const [description, setDescription] = React.useState("");
-    const [tokenTicker, setTokenTicker] = React.useState("");
-    const [tokenAddress, setTokenAddress] = React.useState("");
-    const [socials, setSocials] = React.useState([]);
-    const [socialIndex, setSocialIndex] = React.useState(0);
-    const [companyName, setCompanyName] = React.useState("");
-    const [streetAddress, setStreetAddress] = React.useState("");
-    const [city, setCity] = React.useState("");
-    const [companyState, setCompanyState] = React.useState("");
-    const [postalCode, setPostalCode] = React.useState("");
-    const [country, setCountry] = React.useState("");
-    const [firstName, setFirstName] = React.useState("");
-    const [lastName, setLastName] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [phoneNumber, setPhoneNumber] = React.useState("");
-    const [telegram, setTelegram] = React.useState("");
-    const [url, setUrl] = React.useState("");
+    const [step, setStep] = useLocalStorage('step',1);
+    const [projectName, setProjectName] = useLocalStorage('projectName',"");
+    const [website, setWebsite] = useLocalStorage("website","");
+    const [whitepaper, setWhitepaper] = useLocalStorage("whitepaper","");
+    const [audit, setAudit] = useLocalStorage("audit","");
+    const [description, setDescription] = useLocalStorage("description","");
+    const [tokenTicker, setTokenTicker] = useLocalStorage("tokenTicker","");
+    const [tokenAddress, setTokenAddress] = useLocalStorage("tokenAddress","");
+    const [socials, setSocials] = useLocalStorage("socials",[]);
+    const [socialIndex, setSocialIndex] = useLocalStorage("socialIndex",0);
+    const [companyName, setCompanyName] = useLocalStorage("companyName","");
+    const [streetAddress, setStreetAddress] = useLocalStorage("streetAddress","");
+    const [city, setCity] = useLocalStorage("city","");
+    const [companyState, setCompanyState] = useLocalStorage("companyState","");
+    const [postalCode, setPostalCode] = useLocalStorage("postalCode","");
+    const [country, setCountry] = useLocalStorage("country","");
+    const [firstName, setFirstName] = useLocalStorage("firstName","");
+    const [lastName, setLastName] = useLocalStorage("lastName","");
+    const [email, setEmail] = useLocalStorage("email","");
+    const [phoneNumber, setPhoneNumber] = useLocalStorage("phoneNumber","");
+    const [telegram, setTelegram] = useLocalStorage("telegram","");
+    const [url, setUrl] = useLocalStorage("url","");
     const [image, setImage] = React.useState("");
     const [banner, setBanner] = React.useState("");
     const [validationClass, setValidationClass] = useState({
         projectName: false,
         tokenTicker: false,
         tokenAddress: false,
+        website: false,
+        audit: false,
+        whitepaper: false,
         description: false,
         firstName: false,
         lastName: false,
@@ -172,12 +170,50 @@ export default function Linked(props) {
     },[projectName,tokenAddress,tokenTicker])
 
     const validateSecondStep = useCallback(() => {
-        return false;
+        if (!banner || !image) {
+            toast.error(`The token image and banner image are both required.`);
+            return true;
+        }
     },[banner,image])
 
     const validateThirdStep = useCallback(() => {
 
         let valueInvalid = false;
+        if(website) {
+            if (!helpers.validator.validateUrl(website)) {
+                validationHelper('website', true)
+                valueInvalid = true;
+            } else {
+                validationHelper('website', false);
+            }
+        } else {
+            validationHelper('website', true)
+            valueInvalid = true;
+        }
+
+        if(whitepaper) {
+            if (!helpers.validator.validateUrl(whitepaper)) {
+                validationHelper('whitepaper', true)
+                valueInvalid = true;
+            } else {
+                validationHelper('whitepaper', false);
+            }
+        } else {
+            validationHelper('whitepaper', false);
+        }
+
+
+        if(audit) {
+            if (!helpers.validator.validateUrl(audit)) {
+                validationHelper('audit', true)
+                valueInvalid = true;
+            } else {
+                validationHelper('audit', false);
+            }
+        } else {
+            validationHelper('audit', false);
+        }
+
 
         if(!description) {
             validationHelper('description', true)
@@ -187,7 +223,7 @@ export default function Linked(props) {
         }
 
         return valueInvalid;
-    },[description])
+    },[description,website,whitepaper,audit])
 
     const validateFifthStep = useCallback(() => {
 
@@ -274,16 +310,20 @@ export default function Linked(props) {
         return valueInvalid;
     },[companyName,streetAddress,city,postalCode,country,companyState])
 
-    const addSocial = async () => {
-        if (socials.some(e => e.name === SOCIALDATA[socialIndex].name)) return
+    const addSocial = useCallback( () => {
+        if (socials.some(e => e.name === SOCIALDATA[socialIndex].name)) return;
         let value = SOCIALDATA[socialIndex]
         value["URL"] = url
+        if(!helpers.validator.validateUrl(url)){
+            toast.error(`Enter a valid URL that starts with https:// for your ${SOCIALDATA[socialIndex]['name']} profile`)
+            return;
+        }
         let newArray = [...socials, value];
         setSocials(newArray)
         setUrl("")
-    };
+    },[socials,url]);
 
-    const removeSocial = async (name) => {
+    const removeSocial = useCallback((name) => {
         let array = []
         for (var i = 0; i < socials.length; i++) {
             if (socials[i].name !== name) {
@@ -291,7 +331,7 @@ export default function Linked(props) {
             }
         }
         setSocials(array)
-    };
+    },[socials]);
 
     return (
         <div className="flex flex-row w-full min-h-[80vh] md-lg:h-[85vh] bg-white rounded-3xl">
@@ -415,9 +455,15 @@ export default function Linked(props) {
                                     name="website"
                                     placeholder="Enter Your Website"
                                     value={website}
+                                    classNames={validationClass.website ? 'border-2 border-red-600' : ''}
                                     setValue={setWebsite}
                                 />
                             </div>
+                            {
+                                validationClass.website ? (
+                                    <small className={'text-red-600'}>Enter a valid URL starting with https://.</small>
+                                ) : ""
+                            }
                             <div className="grid md-lg:grid-cols-2 gap-5">
                                 <div className="flex flex-col space-y-3.75">
                                     <h1 className="text-xl">Whitepaper</h1>
@@ -426,9 +472,15 @@ export default function Linked(props) {
                                         name="Whitepager"
                                         placeholder="Whitepager"
                                         value={whitepaper}
+                                        classNames={validationClass.whitepaper ? 'border-2 border-red-600' : ''}
                                         setValue={setWhitepaper}
                                     />
                                 </div>
+                                {
+                                    validationClass.whitepaper ? (
+                                        <small className={'text-red-600'}>Enter a valid URL starting with https://.</small>
+                                    ) : ""
+                                }
                                 <div className="flex flex-col space-y-3.75">
                                     <h1 className="text-xl">Audit</h1>
                                     <InputEmpty
@@ -436,10 +488,16 @@ export default function Linked(props) {
                                         name="Audit"
                                         placeholder="Audit"
                                         value={audit}
+                                        classNames={validationClass.audit ? 'border-2 border-red-600' : ''}
                                         setValue={setAudit}
                                     />
                                 </div>
                             </div>
+                            {
+                                validationClass.audit ? (
+                                    <small className={'text-red-600'}>Enter a valid URL starting with https://.</small>
+                                ) : ""
+                            }
                             <div className="flex flex-col space-y-3.75">
                                 <h1 className="text-xl">Description</h1>
                                 <TextArea

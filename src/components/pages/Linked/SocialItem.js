@@ -1,12 +1,10 @@
 import * as React from "react";
 
-import { socialFacebook, socialTwitter } from "../../SVG";
-
 export default function SocialItem(props) {
   return (
     <div
       className={
-        "relative flex items-center justify-center -mr-1 w-[67px] h-[67px] rounded-full " +
+        "relative flex items-center justify-center mr-1 w-[67px] h-[67px] rounded-full " +
         props.bgColor
       }
     >
