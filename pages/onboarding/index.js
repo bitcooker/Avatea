@@ -39,7 +39,7 @@ export default function Linked(props) {
     const wallet = useWallet();
     const router = useRouter();
 
-    const [step, setStep] = useLocalStorage('step',1);
+    const [step, setStep] = React.useState(1);
     const [projectName, setProjectName] = useLocalStorage('projectName',"");
     const [website, setWebsite] = useLocalStorage("website","");
     const [whitepaper, setWhitepaper] = useLocalStorage("whitepaper","");
