@@ -2,6 +2,7 @@ import * as React from "react";
 import Swal from 'sweetalert2'
 import { useRouter } from 'next/router'
 import useLocalStorage from "use-local-storage";
+import ReactFlagsSelect from "react-flags-select";
 
 // core components
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
@@ -52,7 +53,7 @@ export default function Linked(props) {
     const [city, setCity] = useLocalStorage("city","");
     const [companyState, setCompanyState] = useLocalStorage("companyState","");
     const [postalCode, setPostalCode] = useLocalStorage("postalCode","");
-    const [country, setCountry] = useLocalStorage("country","");
+    const [country, setCountry] = React.useState("");
     const [firstName, setFirstName] = useLocalStorage("firstName","");
     const [lastName, setLastName] = useLocalStorage("lastName","");
     const [email, setEmail] = useLocalStorage("email","");
@@ -748,13 +749,11 @@ export default function Linked(props) {
                                 </div>
                                 <div className="flex flex-col space-y-3.75">
                                     <h1 className="text-xl">Country</h1>
-                                    <InputEmpty
-                                        id="country"
-                                        name="country"
-                                        placeholder="Country"
-                                        value={country}
-                                        setValue={setCountry}
-                                        classNames={validationClass.country ? 'border-2 border-red-600' : ''}
+                                    <ReactFlagsSelect
+                                        selected={country}
+                                        onSelect={(code) => setCountry(code)}
+                                        placeholder="Select Country"
+                                        searchable
                                     />
                                     {
                                         validationClass.country ? (
