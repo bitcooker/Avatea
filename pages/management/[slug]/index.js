@@ -161,7 +161,7 @@ export default function VaultsDetail(props) {
                             name="socialName"
                             placeholder="Social Name"
                             options={[
-                                {name:'Test'}
+                                {name: 'Test'}
                             ]}
                         />
                     </div>
@@ -254,156 +254,172 @@ export default function VaultsDetail(props) {
         <div className="space-y-7.5">
             <Banner {...project} />
 
-            <div className="grid md-lg:grid-cols-2 gap-3.75">
+            {!project.signed_contract ?
                 <Card>
-                    {vault.address ? <div className="flex flex-col p-3.75 space-y-4">
-                        <h1 className="text-base text-center">Vault</h1>
-                        <div className="flex justify-between">
-                            <span className="text-sm"><i className="fa-solid fa-money-bill-transfer"/> TVL</span>
-                            <span className="flex text-base font-medium">
+                    <div className="card-header mb-5">
+                        <h1 className="text-2xl">First you need to verify the contract which has bent sent to your email.</h1>
+                    </div>
+                    <div className="w-full space-y-3.75">
+                        {/* Edit Button */}
+                        <Button
+                            name="Contact support"
+                        />
+                    </div>
+                </Card>
+                :
+                <div className="space-y-7.5">
+                    <div className="grid md-lg:grid-cols-2 gap-3.75">
+                        <Card>
+                            {vault.address ? <div className="flex flex-col p-3.75 space-y-4">
+                                <h1 className="text-base text-center">Vault</h1>
+                                <div className="flex justify-between">
+                                    <span className="text-sm"><i className="fa-solid fa-money-bill-transfer"/> TVL</span>
+                                    <span className="flex text-base font-medium">
                                     <img
                                         src="/public/avatea-token.png"
                                         className="w-6 h-6 ml-2.5 mr-2.5"
                                     /> {vaultTLV}
                             </span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span className="text-sm"><i className="fa-solid fa-hands-holding-dollar"/> Reward Per Avatea Token Per Day</span>
-                            <span className="flex text-base font-medium">
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm"><i className="fa-solid fa-hands-holding-dollar"/> Reward Per Avatea Token Per Day</span>
+                                    <span className="flex text-base font-medium">
                                     <img
                                         src={project.image}
                                         className="w-6 h-6 ml-2.5 mr-2.5"
                                     /> {rewardPerToken}
                             </span>
-                        </div>
+                                </div>
 
-                        <div className="flex flex-row items-center justify-between text-base">
-                            <div>
-                                <i className="fa-solid fa-coin"/> Add rewards
-                            </div>
-                            <span>
+                                <div className="flex flex-row items-center justify-between text-base">
+                                    <div>
+                                        <i className="fa-solid fa-coin"/> Add rewards
+                                    </div>
+                                    <span>
                         {baseTokenWalletBalance} &nbsp;
-                                <MaxButton
-                                    handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}
-                                />
+                                        <MaxButton
+                                            handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}
+                                        />
                       </span>
-                        </div>
-                        <InputApproveWithIconSubmit
-                            id="cash"
-                            name="cash"
-                            type="number"
-                            icon="fa-light fa-circle-plus"
-                            submitName="Deposit"
-                            image={project.image}
-                            submitFunction={addReward}
-                            value={amountBaseTokenToStake}
-                            setValue={setAmountBaseTokenToStake}
-                            address={vault.address}
-                            token={project.token}
-                        />
+                                </div>
+                                <InputApproveWithIconSubmit
+                                    id="cash"
+                                    name="cash"
+                                    type="number"
+                                    icon="fa-light fa-circle-plus"
+                                    submitName="Deposit"
+                                    image={project.image}
+                                    submitFunction={addReward}
+                                    value={amountBaseTokenToStake}
+                                    setValue={setAmountBaseTokenToStake}
+                                    address={vault.address}
+                                    token={project.token}
+                                />
 
 
-                    </div> : <div className="flex flex-col p-3.75 space-y-4">
-                        <h1 className="text-base text-center">No Vault created</h1>
-                        <Button name="Request a vault"/>
-                    </div>}
-                </Card>
-                <Card>
-                    {marketMakingPool.address ? <div className="flex flex-col p-3.75 space-y-4">
-                            <h1 className="text-base text-center">Market Making Pool</h1>
-                            <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-money-bill-transfer"/> TVL</span>
-                                <span className="flex text-base font-medium">
+                            </div> : <div className="flex flex-col p-3.75 space-y-4">
+                                <h1 className="text-base text-center">No Vault created</h1>
+                                <Button name="Request a vault"/>
+                            </div>}
+                        </Card>
+                        <Card>
+                            {marketMakingPool.address ? <div className="flex flex-col p-3.75 space-y-4">
+                                    <h1 className="text-base text-center">Market Making Pool</h1>
+                                    <div className="flex justify-between">
+                                        <span className="text-sm"><i className="fa-solid fa-money-bill-transfer"/> TVL</span>
+                                        <span className="flex text-base font-medium">
                                     <img
                                         src={project.image}
                                         className="w-6 h-6 mr-2.5"
                                     />
-                                    {baseTokenBalance}
-                                    <img
-                                        src={marketMakingPool.paired_token_image}
-                                        className="w-6 h-6 ml-2.5 mr-2.5"
-                                    /> {pairedTokenBalance}
+                                            {baseTokenBalance}
+                                            <img
+                                                src={marketMakingPool.paired_token_image}
+                                                className="w-6 h-6 ml-2.5 mr-2.5"
+                                            /> {pairedTokenBalance}
                             </span>
-                            </div>
-                            <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
-                                <div className="w-full space-y-2.5">
-                                    <span className="text-base">Max Buying Amount per day</span>
-                                    <InputWithIcon
-                                        id="editMaxBuyingAmount"
-                                        name="editMaxBuyingAmount"
-                                        type="number"
-                                        value={maxBuyingAmount}
-                                        setValue={setMaxBuyingAmount}
-                                        image={marketMakingPool.paired_token_image}
+                                    </div>
+                                    <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
+                                        <div className="w-full space-y-2.5">
+                                            <span className="text-base">Max Buying Amount per day</span>
+                                            <InputWithIcon
+                                                id="editMaxBuyingAmount"
+                                                name="editMaxBuyingAmount"
+                                                type="number"
+                                                value={maxBuyingAmount}
+                                                setValue={setMaxBuyingAmount}
+                                                image={marketMakingPool.paired_token_image}
+                                            />
+                                        </div>
+                                        <div className="w-full space-y-2.5">
+                                            <span className="text-base">Max Selling Amount per day</span>
+                                            <InputWithIcon
+                                                id="editMaxSellingAmount"
+                                                name="editMaxSellingAmount"
+                                                type="number"
+                                                value={maxSellingAmount}
+                                                setValue={setMaxSellingAmount}
+                                                image={project.image}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="w-full space-y-2.5">
+                                        <span className="text-base">Volume</span>
+                                        <InputWithIcon
+                                            id="editPairToken"
+                                            name="editPairToken"
+                                            type="number"
+                                            value={volume}
+                                            setValue={setVolume}
+                                            image={project.image}/>
+                                    </div>
+                                    <Button
+                                        name="Update Market Making Pool"
+                                        handleClick={updateMarketMakingPool}
+                                    />
+                                    {/* Edit Button */}
+                                    <Button
+                                        name="Create Vesting schedules"
+                                    />
+                                    <Button
+                                        name="Stake for participants"
+                                    />
+                                </div> :
+                                <div className="flex flex-col p-3.75 space-y-4">
+                                    <h1 className="text-base text-center">No Market Making Pool created</h1>
+                                    <Button
+                                        name="Create Market Making Pool"
+                                        handleClick={() => setCreateMMPool(true)}
                                     />
                                 </div>
-                                <div className="w-full space-y-2.5">
-                                    <span className="text-base">Max Selling Amount per day</span>
-                                    <InputWithIcon
-                                        id="editMaxSellingAmount"
-                                        name="editMaxSellingAmount"
-                                        type="number"
-                                        value={maxSellingAmount}
-                                        setValue={setMaxSellingAmount}
-                                        image={project.image}
-                                    />
-                                </div>
-                            </div>
-                            <div className="w-full space-y-2.5">
-                                <span className="text-base">Volume</span>
-                                <InputWithIcon
-                                    id="editPairToken"
-                                    name="editPairToken"
-                                    type="number"
-                                    value={volume}
-                                    setValue={setVolume}
-                                    image={project.image}/>
-                            </div>
-                            <Button
-                                name="Update Market Making Pool"
-                                handleClick={updateMarketMakingPool}
-                            />
+
+                            }
+                        </Card>
+                    </div>
+                    <Card>
+                        <div className="card-header mb-5">
+                            <h1 className="text-2xl">Manage Project</h1>
+                        </div>
+                        <div className="w-full space-y-3.75">
                             {/* Edit Button */}
                             <Button
-                                name="Create Vesting schedules"
+                                name="Edit Information"
+                                handleClick={() => setOpenEditProject(true)}
                             />
                             <Button
-                                name="Stake for participants"
+                                name="Edit Articles"
                             />
-                        </div> :
-                        <div className="flex flex-col p-3.75 space-y-4">
-                            <h1 className="text-base text-center">No Market Making Pool created</h1>
-                            <Button
-                                name="Create Market Making Pool"
-                                handleClick={() => setCreateMMPool(true)}
-                            />
+
                         </div>
-
-                    }
-                </Card>
-            </div>
-
-            <Card>
-                <div className="card-header mb-5">
-                    <h1 className="text-2xl">Manage Project</h1>
+                    </Card>
                 </div>
-                <div className="w-full space-y-3.75">
-                    {/* Edit Button */}
-                    <Button
-                        name="Edit Information"
-                        handleClick={() => setOpenEditProject(true)}
-                    />
-                    <Button
-                        name="Edit Articles"
-                    />
+            }
 
-                </div>
-            </Card>
 
         </div>
     </div>);
 }
 
 export async function getServerSideProps(context) {
-   return await helper.project.getProjectServerSide(context);
+    return await helper.project.getProjectServerSide(context);
 }
