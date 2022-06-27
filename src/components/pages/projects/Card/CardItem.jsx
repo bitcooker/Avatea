@@ -2,13 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-import BannerSocialButton from "../../projectDetail/Banner/BannerSocialButton";
-import {
-  socialFacebook,
-  socialLinked,
-  socialTelegram,
-  socialTwitter,
-} from "../../../SVG";
+// core components
+import Spinner from "../../../core/Spinner";
 
 export default function CardItem(props) {
   const socials = Object.entries(
@@ -24,7 +19,7 @@ export default function CardItem(props) {
           key={social[0]}
           href={social[1]}
           target={"_blank"}
-          rel={"noreferrer"}
+          rel={"noReferrer"}
         >
           <div className="w-10 h-10 bg-indigo-500 hover:bg-indigo-500/80 rounded-full px-3 py-3 flex items-center justify-center">
             <i
@@ -97,15 +92,11 @@ export const CardImage = (props) => {
   });
 
   return (
-    <div className={`cardItem__image ${load ? "" : "spinner"}`}>
+    <div className={`relative flex items-center justify-center bg-white w-full h-[260px]`}>
       {!load && (
-        <div className="ldspinner">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+        <div className="absolute"><Spinner size={5}/></div>
       )}
-      <img src={props.image} alt={props.slug} ref={image} />
+      <img src={props.image} alt={props.slug} ref={image} className={`w-full h-full cover-fill ${!load && 'opacity-0'}`} />
     </div>
   );
 };
