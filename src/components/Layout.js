@@ -6,17 +6,12 @@ import Header from "./Header";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import Script from "next/script";
+import Sidebar from "./Sidebar";
 const SidebarWithNoSSR = dynamic(() => import("./Sidebar"), { ssr: false });
 
 export default function Layout({ children }) {
   const [menu, setMenu] = useState(false);
   const [title, setTitle] = useState("Home");
-
-  // const { pathname } = useLocation();
-  //
-  // useEffect(() => {
-  //     window.scrollTo(0, 1);
-  // }, [pathname]);
 
   return (
     <>
@@ -42,7 +37,7 @@ export default function Layout({ children }) {
         pollBlockNumberInterval={3000}
         pollBalanceInterval={3000}
       >
-        <SidebarWithNoSSR menu={menu} setMenu={setMenu} setTitle={setTitle} />
+        <Sidebar menu={menu} setMenu={setMenu} setTitle={setTitle} />
         <main>
           <div className="px-[15px] lg-xl:px-5 lg-xl:pl-[220px] xl-2xl:pr-5 xl-2xl:pl-[295px]">
             <Header menu={menu} setMenu={setMenu} title={title} />

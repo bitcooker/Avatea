@@ -16,7 +16,7 @@ export default function Vesting(props) {
       <div className="grow space-y-3.75 overflow-hidden overflow-y-auto">
         <ListItem projectImage="/coins/ethImage.png" projectName="Ethereum" />
         <ListItem projectImage="/coins/dotImage.png" projectName="Dot" />
-        <ListItem projectImage="/coins/bnbImage.png" projectName="BNB" />
+        <ListItegit m projectImage="/coins/bnbImage.png" projectName="BNB" />
         <ListItem projectImage="/coins/avaxImage.png" projectName="Avax" />
         <ListItem projectImage="/coins/ftmImage.png" projectName="FTM" />
         <ListItem projectImage="/coins/maticImage.png" projectName="Matic" />
