@@ -2,7 +2,7 @@ import * as React from "react";
 import { Uploader } from "uploader";
 import { UploadDropzone } from "react-uploader";
 
-import ButtonFit from "../../src/components/core/Button/ButtonFit";
+import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 
 export default function VestingAdd(props) {
   const [isSSR, setIsSSR] = React.useState(true);

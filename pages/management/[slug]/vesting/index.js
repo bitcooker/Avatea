@@ -1,10 +1,10 @@
 import * as React from "react";
 
 // core components
-import ButtonFit from "../../src/components/core/Button/ButtonFit";
+import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 
 // vesting components
-import ListItem from "../../src/components/pages/vesting/List/ListItem";
+import ListItem from "../../../../src/components/pages/vesting/List/ListItem";
 
 export default function Vesting(props) {
   return (

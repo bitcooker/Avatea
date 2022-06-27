@@ -1,8 +1,8 @@
 import * as React from "react";
 
 // core components
-import Table from "../../src/components/core/table/Table";
-import ButtonFit from "../../src/components/core/Button/ButtonFit";
+import Table from "../../../../src/components/core/table/Table";
+import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 
 export default function VestingOverview(props) {
   return (
