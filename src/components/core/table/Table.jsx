@@ -1,5 +1,8 @@
 import * as React from "react";
 
+// core components
+import Checkbox from "../Checkbox/Checkbox";
+
 const data = [
   {
     address: "Ethereum (ETH)",
@@ -58,7 +61,7 @@ export default function Table(props) {
     <div className="table flex flex-col w-full h-full">
       <div className="table-header grid grid-cols-3 md-lg:grid-cols-12 px-2 mb-5 w-full">
         <TableCol className="flex flex-row items-center space-x-5 col-span-2 md-lg:col-span-4">
-          <TableCheckBox />
+          <Checkbox />
           <div className="flex flex-row items-center space-x-1 hover:cursor-pointer">
             <h1 className="text-base">Address</h1>
             <i className="fa-solid fa-chevron-down" />
@@ -81,7 +84,7 @@ export default function Table(props) {
         {data.map((row, index) => (
           <TableRow key={index}>
             <TableCol className="flex flex-row space-x-5 items-center col-span-2 md-lg:col-span-4">
-              <TableCheckBox />
+              <Checkbox />
               <span className="text-base font-medium">{row.address}</span>
             </TableCol>
             <TableCol className="col-span-1 md-lg:col-span-4">
@@ -113,23 +116,6 @@ export const TableRow = (props) => {
 
 export const TableCol = (props) => {
   return <div className={props.className}>{props.children}</div>;
-};
-
-export const TableCheckBox = (props) => {
-  const [isChecked, setIsChecked] = React.useState(false);
-  return isChecked ? (
-    <div
-      className="flex items-center justify-center w-6 h-6 border border-indigo-500 rounded-md bg-indigo-500 hover:ring-2 hover:ring-indigo-500/50 hover:cursor-pointer transition"
-      onClick={() => setIsChecked(!isChecked)}
-    >
-      <i className="fa-regular fa-check text-white mt-1" />
-    </div>
-  ) : (
-    <div
-      className="w-6 h-6 border border-indigo-500 rounded-md hover:ring-2 hover:ring-indigo-500/50 hover:cursor-pointer transition"
-      onClick={() => setIsChecked(!isChecked)}
-    ></div>
-  );
 };
 
 export const TableActionEditButton = (props) => {

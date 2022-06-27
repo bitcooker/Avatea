@@ -1,10 +1,14 @@
 import * as React from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import Link from "next/link";
 
 import ButtonFit from "../../../core/Button/ButtonFit";
 
 export default function NewsCard(props) {
+  const router = useRouter();
+  const { slug } = router.query;
+
   return (
     <div className="relative flex flex-col w-full bg-white rounded-lg overflow-hidden shadow-lg">
       <Image
@@ -23,7 +27,7 @@ export default function NewsCard(props) {
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
           {props.news.date}
         </span>
-        <Link href={`news/${props.news.id}`} passHref>
+        <Link href={`/management/${slug}/news/${props.news.id}`} passHref>
           <a>
             <ButtonFit name="Edit" icon="fa-solid fa-edit" />
           </a>
