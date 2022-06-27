@@ -69,10 +69,20 @@ const getArticles = async (slug) => {
     }
 }
 
+const getVestingBatches = async (slug) => {
+    try {
+        const data = await axios.get(`${API_URL}VestingBatch/?project=${slug}`);
+        return data
+    } catch (e) {
+        console.log('getVestingBatches error:', e);
+    }
+}
+
 
 export default {
     getProjects,
     getProject,
     getArticles,
-    getProjectServerSide
+    getProjectServerSide,
+    getVestingBatches
 }

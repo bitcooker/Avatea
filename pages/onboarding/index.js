@@ -11,7 +11,7 @@ import TextArea from "../../src/components/core/TextArea/TextArea";
 
 // step components
 import Step from "../../src/components/pages/Linked/Step";
-import ImageDropdown from "../../src/components/pages/Linked/ImageDropdown";
+import FileInput from "../../src/components/pages/Linked/fileInput";
 import SocialItem from "../../src/components/pages/Linked/SocialItem";
 
 import Button from "../../src/components/core/Button/Button";
@@ -497,8 +497,8 @@ export default function Linked(props) {
             >
               <div className="flex flex-col space-y-6.25">
                 <div className="grid md-lg:grid-cols-2 gap-5">
-                  <ImageDropdown label="Token Image" setValue={setImage} />
-                  <ImageDropdown label="Banner Image" setValue={setBanner} />
+                  <FileInput label="Token Image" setValue={setImage} type={"image/*"} />
+                  <FileInput label="Banner Image" setValue={setBanner} type={"image/*"}  />
                 </div>
               </div>
             </Step>
