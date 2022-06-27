@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 
 // core components
@@ -52,17 +53,20 @@ const news = [
 ];
 
 export default function NewsList(props) {
+  const router = useRouter();
+  const { slug } = router.query;
+
   return (
     <div className="w-full">
       <div className="flex flex-row items-center justify-between">
         <h1 className="text-2xl">News List</h1>
-        <Link href="news/add" passHref>
+        <Link href={`/management/${slug}/news/add`} passHref>
           <a>
             <ButtonFit name="Add News" icon="fa-regular fa-plus-large" />
           </a>
         </Link>
       </div>
-      <div className="grid md-lg:grid-cols-2 lg-xl:grid-cols-4 gap-4 m-2">
+      <div className="grid md-lg:grid-cols-2 xl-2xl:grid-cols-3 2xl-3xl:grid-cols-4 gap-4 m-2">
         {news.map((news, index) => (
           <NewsCard news={news} key={index} />
         ))}
