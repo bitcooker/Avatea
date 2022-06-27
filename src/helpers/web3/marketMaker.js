@@ -332,15 +332,48 @@ const release = async (wallet, marketMakerAddress, full_withdrawal, callback) =>
     }
 }
 
-
-const computeReleasableAmount = async (wallet, marketMakerAddress) => {
+const revoke = async (wallet, marketMakerAddress, user_address, callback) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
-        const result = await marketMakerContract.computeReleasableAmount(wallet.account);
-        return result
+
+        const tx = await marketMakerContract.revoke(user_address);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        const receipt = await tx.wait();
+        console.log(receipt);
+        await helpers.callback.hook({
+            type: "MMVR",
+            data: {
+                receipt,
+                wallet,
+                full_withdrawal: true
+            }
+        })
+        console.log('release success')
+        return true;
+    } catch (e) {
+        console.log('release error', e);
+        return false;
+    }
+}
+
+
+const computeReleasableAmount = async (wallet, marketMakerAddress, userAddress) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
+        const result = await marketMakerContract.computeReleasableAmount(userAddress);
         console.log('computeReleasableAmount success')
+        return result
     } catch (e) {
         console.log('computeReleasableAmount error', e);
         return 0;
@@ -359,12 +392,12 @@ const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, 
     }
 }
 
-const fetchHoldersMapping = async (wallet, marketMakerAddress) => {
+const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
-        const data = await marketMakerContract.holdersMapping(wallet.account);
+        const data = await marketMakerContract.holdersMapping(address);
         const {
             available,
             amountVested,
@@ -413,5 +446,6 @@ export default {
     deploy,
     fetchHoldersMapping,
     createVesting,
-    stakeBatch
+    stakeBatch,
+    revoke
 }

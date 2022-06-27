@@ -4,8 +4,12 @@ import {useRouter} from "next/router";
 
 export default function VestingTable(props) {
 
-        const goToVesting = async (user_address) => {
-        console.log(user_address)
+        const router = useRouter();
+
+        const {slug} = router.query;
+
+        const goToVesting = async (userAddress) => {
+                        router.push(`/management/${slug}/vesting/userVesting?userAddress=${userAddress}`);
     };
 
     return (
@@ -31,7 +35,7 @@ export default function VestingTable(props) {
                             <span className="text-base font-medium">{row.user_address}</span>
                         </TableCol>
                         <TableCol className="hidden md-lg:flex flex-row items-center space-x-5 col-span-2">
-                            <TableActionEditButton user_address={row.user_address} setValue={goToVesting}/>
+                            <TableActionEditButton userAddress={row.user_address} setValue={goToVesting}/>
                         </TableCol>
                     </TableRow>
                 ))}
@@ -56,7 +60,7 @@ export const TableCol = (props) => {
 export const TableActionEditButton = (props) => {
 
     return (
-        <div onClick={() => props.setValue(props.user_address)}
+        <div onClick={() => props.setValue(props.userAddress)}
              className="flex items-center justify-center w-9 h-9 rounded-full bg-red-100/50 hover:ring-2 hover:ring-red-200/50 hover:cursor-pointer transition">
             <i className="fa-solid fa-pen-line text-red-500"/>
         </div>
