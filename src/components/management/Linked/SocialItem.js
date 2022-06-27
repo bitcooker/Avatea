@@ -1,19 +1,18 @@
 import * as React from "react";
 
+import { socialFacebook, socialTwitter } from "../../SVG";
+
 export default function SocialItem(props) {
   return (
     <div
       className={
-        "relative flex items-center justify-center mr-1 w-[67px] h-[67px] rounded-full " +
+        "relative flex items-center justify-center -mr-1 w-[67px] h-[67px] rounded-full " +
         props.bgColor
       }
     >
-      <i className={`fa-brands fa-${props.icon} text-white text-3xl`} />
+      {props.icon}
 
-      <div
-        onClick={() => props.deleteValue(props.name)}
-        className="absolute flex items-center justify-center top-0 right-0 w-[22px] h-[22px] rounded-full bg-rose-500 ring ring-white ring-offset-0 hover:cursor-pointer hover:ring-rose-500/50 transition"
-      >
+      <div onClick={() => props.deleteValue(props.name)} className="absolute flex items-center justify-center top-0 right-0 w-[22px] h-[22px] rounded-full bg-rose-500 ring ring-white ring-offset-0 hover:cursor-pointer hover:ring-rose-500/50 transition">
         <svg
           width="10"
           height="10"

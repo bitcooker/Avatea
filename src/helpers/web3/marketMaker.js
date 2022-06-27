@@ -2,17 +2,18 @@ import {ethers} from 'ethers';
 import marketMaker from '../../abi/MarketMaker.json';
 import {toast} from "react-toastify";
 import helpers from "../index";
-import {API_URL, MARKET_MAKER_DEPLOYER_ADDRESS} from "../constants";
+import {API_URL, DEPLOYMENT_GAS_COST, MARKET_MAKER_DEPLOYER_ADDRESS} from "../constants";
 import MarketMakerDeployer from "../../abi/MarketMakerDeployer.json";
 import axios from "axios";
 
-const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project) => {
+const deploy = async (wallet, baseToken, pairedToken, revocable, paused, projectSlug, volume, maxBuyingAmount, maxSellingAmount) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
-    const MarketMakerDeployerContract = await new ethers.Contract(MARKET_MAKER_DEPLOYER_ADDRESS, MarketMakerDeployer.abi, signer);
+    const options = {value: ethers.utils.parseEther(DEPLOYMENT_GAS_COST)}
+    const MarketMakerDeployerContract = await new ethers.Contract(MARKET_MAKER_DEPLOYER_ADDRESS[wallet.chainId], MarketMakerDeployer.abi, signer);
 
     try {
-        const tx = await MarketMakerDeployerContract.createMarketMaker(baseToken, pairedToken, revocable, paused);
+        const tx = await MarketMakerDeployerContract.createMarketMaker(baseToken, pairedToken, revocable, paused, options);
         toast.promise(
             tx.wait(),
             {
@@ -23,21 +24,20 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
         )
         const receipt = await tx.wait();
 
-        const {_controllerWallet, _marketMaker} = data.receipt.events.find(x => x.event === "CreatedMarketMakingContract").args;
+        const {_controllerWallet, _marketMaker} = receipt.events.find(x => x.event === "CreatedMarketMakingContract").args;
 
-        await axios(
-            {
-                method: 'post',
-                url: `${API_URL}MarketMakingPool`,
-                data: {
-                    address: _marketMaker,
-                    controller_wallet: _controllerWallet,
-                    paired_token: pairedToken,
-                    project: project,
-                    live: !paused
-                }
-            }
-        )
+        await axios.post(`${API_URL}MarketMakingPool/`, {
+            address: _marketMaker,
+            controller_wallet: _controllerWallet,
+            paired_token: pairedToken,
+            project: projectSlug,
+            network: String(wallet.chainId),
+            max_selling_amount: maxSellingAmount,
+            max_buying_amount: maxBuyingAmount,
+            volume,
+            live: !paused
+        })
+
         await helpers.callback.hook({
             type: "MMCD",
             data: {
@@ -46,10 +46,10 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
             }
         })
 
-        console.log('stake success')
+        console.log('deploy success')
         return true;
     } catch (e) {
-        console.log('stake error', e);
+        console.log('deploy error', e);
         return false;
     }
 }
@@ -121,7 +121,7 @@ const stakeBatch = async (wallet, marketMakerAddress, user_addresses, amounts, c
     }
 }
 
-const createVesting = async (wallet, marketMakerAddress, user_addresses, start, cliff, duration, slicePeriodSeconds, revocable, amountsInWei, amounts, callback) => {
+const createVesting = async (wallet, marketMakerAddress, user_addresses, start, cliff, duration, slicePeriodSeconds, revocable, amountsInWei, amounts, batchName, projectName) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
@@ -153,7 +153,14 @@ const createVesting = async (wallet, marketMakerAddress, user_addresses, start, 
                 receipt,
                 wallet,
                 user_addresses,
-                amounts
+                amounts,
+                start,
+                cliff,
+                duration,
+                slicePeriodSeconds,
+                revocable,
+                batchName,
+                projectName
             }
         })
         console.log('createVesting success')

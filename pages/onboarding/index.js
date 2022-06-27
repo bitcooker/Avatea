@@ -1,6 +1,8 @@
 import * as React from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/router";
+import useLocalStorage from "use-local-storage";
+import ReactFlagsSelect from "react-flags-select";
 
 // core components
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
@@ -12,14 +14,6 @@ import Step from "../../src/components/pages/Linked/Step";
 import ImageDropdown from "../../src/components/pages/Linked/ImageDropdown";
 import SocialItem from "../../src/components/pages/Linked/SocialItem";
 
-// social icons without background
-import {
-  socialFacebookWithOutBG,
-  socialTwitterWithOutBG,
-  socialLinkedInWithOutBG,
-  socialTelegramWithOutBG,
-} from "../../src/components/SVG";
-
 import Button from "../../src/components/core/Button/Button";
 import helpers from "../../src/helpers";
 import axios from "axios";
@@ -27,48 +21,50 @@ import { API_URL } from "../../src/helpers/constants";
 import { useWallet } from "use-wallet";
 import { useCallback, useState } from "react";
 import { ethers } from "ethers";
+import { toast } from "react-toastify";
+import NoSsr from "../../src/components/NoSsr";
 
 const SOCIALDATA = [
   {
     name: "LinkedIn",
     value: "social_linkedin",
-    icon: socialLinkedInWithOutBG,
+    icon: "linkedin",
     color: "bg-indigo-400",
   },
   {
     name: "Facebook",
     value: "social_facebook",
-    icon: socialFacebookWithOutBG,
+    icon: "facebook",
     color: "bg-indigo-400",
   },
   {
     name: "Github",
     value: "social_github",
-    icon: socialLinkedInWithOutBG,
+    icon: "github",
     color: "bg-indigo-400",
   },
   {
     name: "Telegram",
     value: "social_telegram",
-    icon: socialTelegramWithOutBG,
+    icon: "telegram",
     color: "bg-sky-400",
   },
   {
     name: "Discord",
     value: "social_discord",
-    icon: socialLinkedInWithOutBG,
+    icon: "discord",
     color: "bg-indigo-400",
   },
   {
     name: "Medium",
     value: "social_medium",
-    icon: socialLinkedInWithOutBG,
+    icon: "medium",
     color: "bg-indigo-400",
   },
   {
     name: "Twitter",
     value: "social_twitter",
-    icon: socialTwitterWithOutBG,
+    icon: "twitter",
     color: "bg-sky-400",
   },
 ];
@@ -78,33 +74,39 @@ export default function Linked(props) {
   const router = useRouter();
 
   const [step, setStep] = React.useState(1);
-  const [projectName, setProjectName] = React.useState("");
-  const [website, setWebsite] = React.useState("");
-  const [whitepaper, setWhitepaper] = React.useState("");
-  const [audit, setAudit] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [tokenTicker, setTokenTicker] = React.useState("");
-  const [tokenAddress, setTokenAddress] = React.useState("");
-  const [socials, setSocials] = React.useState([]);
-  const [socialIndex, setSocialIndex] = React.useState(0);
-  const [companyName, setCompanyName] = React.useState("");
-  const [streetAddress, setStreetAddress] = React.useState("");
-  const [city, setCity] = React.useState("");
-  const [companyState, setCompanyState] = React.useState("");
-  const [postalCode, setPostalCode] = React.useState("");
+  const [projectName, setProjectName] = useLocalStorage("projectName", "");
+  const [website, setWebsite] = useLocalStorage("website", "");
+  const [whitepaper, setWhitepaper] = useLocalStorage("whitepaper", "");
+  const [audit, setAudit] = useLocalStorage("audit", "");
+  const [description, setDescription] = useLocalStorage("description", "");
+  const [tokenTicker, setTokenTicker] = useLocalStorage("tokenTicker", "");
+  const [tokenAddress, setTokenAddress] = useLocalStorage("tokenAddress", "");
+  const [socials, setSocials] = useLocalStorage("socials", []);
+  const [socialIndex, setSocialIndex] = useLocalStorage("socialIndex", 0);
+  const [companyName, setCompanyName] = useLocalStorage("companyName", "");
+  const [streetAddress, setStreetAddress] = useLocalStorage(
+    "streetAddress",
+    ""
+  );
+  const [city, setCity] = useLocalStorage("city", "");
+  const [companyState, setCompanyState] = useLocalStorage("companyState", "");
+  const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
   const [country, setCountry] = React.useState("");
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [phoneNumber, setPhoneNumber] = React.useState("");
-  const [telegram, setTelegram] = React.useState("");
-  const [url, setUrl] = React.useState("");
+  const [firstName, setFirstName] = useLocalStorage("firstName", "");
+  const [lastName, setLastName] = useLocalStorage("lastName", "");
+  const [email, setEmail] = useLocalStorage("email", "");
+  const [phoneNumber, setPhoneNumber] = useLocalStorage("phoneNumber", "");
+  const [telegram, setTelegram] = useLocalStorage("telegram", "");
+  const [url, setUrl] = useLocalStorage("url", "");
   const [image, setImage] = React.useState("");
   const [banner, setBanner] = React.useState("");
   const [validationClass, setValidationClass] = useState({
     projectName: false,
     tokenTicker: false,
     tokenAddress: false,
+    website: false,
+    audit: false,
+    whitepaper: false,
     description: false,
     firstName: false,
     lastName: false,
@@ -205,11 +207,47 @@ export default function Linked(props) {
   }, [projectName, tokenAddress, tokenTicker]);
 
   const validateSecondStep = useCallback(() => {
-    return false;
+    if (!banner || !image) {
+      toast.error(`The token image and banner image are both required.`);
+      return true;
+    }
   }, [banner, image]);
 
   const validateThirdStep = useCallback(() => {
     let valueInvalid = false;
+    if (website) {
+      if (!helpers.validator.validateUrl(website)) {
+        validationHelper("website", true);
+        valueInvalid = true;
+      } else {
+        validationHelper("website", false);
+      }
+    } else {
+      validationHelper("website", true);
+      valueInvalid = true;
+    }
+
+    if (whitepaper) {
+      if (!helpers.validator.validateUrl(whitepaper)) {
+        validationHelper("whitepaper", true);
+        valueInvalid = true;
+      } else {
+        validationHelper("whitepaper", false);
+      }
+    } else {
+      validationHelper("whitepaper", false);
+    }
+
+    if (audit) {
+      if (!helpers.validator.validateUrl(audit)) {
+        validationHelper("audit", true);
+        valueInvalid = true;
+      } else {
+        validationHelper("audit", false);
+      }
+    } else {
+      validationHelper("audit", false);
+    }
 
     if (!description) {
       validationHelper("description", true);
@@ -219,7 +257,7 @@ export default function Linked(props) {
     }
 
     return valueInvalid;
-  }, [description]);
+  }, [description, website, whitepaper, audit]);
 
   const validateFifthStep = useCallback(() => {
     let valueInvalid = false;
@@ -303,504 +341,564 @@ export default function Linked(props) {
     return valueInvalid;
   }, [companyName, streetAddress, city, postalCode, country, companyState]);
 
-  const addSocial = async () => {
+  const addSocial = useCallback(() => {
     if (socials.some((e) => e.name === SOCIALDATA[socialIndex].name)) return;
     let value = SOCIALDATA[socialIndex];
     value["URL"] = url;
+    if (!helpers.validator.validateUrl(url)) {
+      toast.error(
+        `Enter a valid URL that starts with https:// for your ${SOCIALDATA[socialIndex]["name"]} profile`
+      );
+      return;
+    }
     let newArray = [...socials, value];
     setSocials(newArray);
     setUrl("");
-  };
+  }, [socials, url]);
 
-  const removeSocial = async (name) => {
-    let array = [];
-    for (var i = 0; i < socials.length; i++) {
-      if (socials[i].name !== name) {
-        array.push(socials[i]);
+  const removeSocial = useCallback(
+    (name) => {
+      let array = [];
+      for (var i = 0; i < socials.length; i++) {
+        if (socials[i].name !== name) {
+          array.push(socials[i]);
+        }
       }
-    }
-    setSocials(array);
-  };
+      setSocials(array);
+    },
+    [socials]
+  );
 
   return (
-    <div className="flex flex-row w-full min-h-[80vh] md-lg:min-h-[85vh] bg-white rounded-3xl">
-      {/* Background */}
-      <div className="hidden md-lg:block md-lg:relative md-lg:w-1/2 md-lg:h-full">
-        <div className="absolute w-full h-full">
-          <svg
-            width="100%"
-            height="100%"
-            viewBox="0 0 100% 100%"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M22.8714 0C7.5 0 0 8.5 0 23.8714V418.283H2.45327V193.416C2.45327 87.9498 87.9498 2.45327 193.416 2.45327L559.792 2.00719L559.346 0L22.8714 0Z"
-              fill="#E6E6E6"
-            />
-          </svg>
+    <NoSsr>
+      <div className="flex flex-row w-full min-h-[80vh] md-lg:h-[85vh] bg-white rounded-3xl">
+        {/* Background */}
+        <div className="hidden md-lg:block md-lg:relative md-lg:w-1/2 md-lg:h-full">
+          <div className="absolute w-full h-full">
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 100% 100%"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M22.8714 0C7.5 0 0 8.5 0 23.8714V418.283H2.45327V193.416C2.45327 87.9498 87.9498 2.45327 193.416 2.45327L559.792 2.00719L559.346 0L22.8714 0Z"
+                fill="#E6E6E6"
+              />
+            </svg>
+          </div>
+          <img src="/linked/bg.svg" style={{ height: "100%" }} />
+          <div className="absolute bottom-0 flex justify-center w-full">
+            <svg
+              width="90%"
+              height="3"
+              viewBox="0 0 90% 3"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0.689453 1.57147C0.689453 2.36372 1.32567 2.99987 2.11792 2.99987H486.2C486.993 2.99987 487.629 2.36372 487.629 1.57147C487.629 0.779282 486.993 0.143066 486.2 0.143066H2.11792C1.32567 0.143066 0.689453 0.779282 0.689453 1.57147Z"
+                fill="#CCCCCC"
+              />
+            </svg>
+          </div>
         </div>
-        <img src="/linked/bg.svg" style={{ height: "100%" }} />
-        <div className="absolute bottom-0 flex justify-center w-full">
-          <svg
-            width="90%"
-            height="3"
-            viewBox="0 0 90% 3"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0.689453 1.57147C0.689453 2.36372 1.32567 2.99987 2.11792 2.99987H486.2C486.993 2.99987 487.629 2.36372 487.629 1.57147C487.629 0.779282 486.993 0.143066 486.2 0.143066H2.11792C1.32567 0.143066 0.689453 0.779282 0.689453 1.57147Z"
-              fill="#CCCCCC"
-            />
-          </svg>
-        </div>
-      </div>
-      {/* Step */}
-      <div className="flex flex-col w-full md-lg:w-1/2 px-6.25 py-7.5">
-        {/* Step header */}
-        <h1 className="text-2xl mb-10">Create a New Project</h1>
-        {/* Step 1 */}
-        {step == 1 && (
-          <Step
-            validateStep={validateFirstStep}
-            title="Create Your Project"
-            step={step}
-            setStep={setStep}
-          >
-            <div className="flex flex-col space-y-6.25">
-              <div className="flex flex-col space-y-3.75">
-                <h1 className="text-xl">Project Name</h1>
-                <InputEmpty
-                  id="projectName"
-                  name="projectName"
-                  type="text"
-                  placeholder="Enter Your Project Name"
-                  value={projectName}
-                  setValue={setProjectName}
-                  classNames={
-                    validationClass.projectName ? "border-2 border-red-600" : ""
-                  }
-                />
-                {validationClass.projectName ? (
-                  <small className={"text-red-600"}>
-                    Project Name is required.
-                  </small>
-                ) : (
-                  ""
-                )}
-              </div>
-              <div className="flex flex-col space-y-3.75">
-                <h1 className="text-xl">Token Ticker</h1>
-                <InputEmpty
-                  id="tokenTicker"
-                  name="tokenTicker"
-                  placeholder="Token Ticker"
-                  value={tokenTicker}
-                  setValue={setTokenTicker}
-                  classNames={
-                    validationClass.tokenTicker ? "border-2 border-red-600" : ""
-                  }
-                />
-                {validationClass.tokenTicker ? (
-                  <small className={"text-red-600"}>
-                    Token Ticker is required.
-                  </small>
-                ) : (
-                  ""
-                )}
-              </div>
-              <div className="flex flex-col space-y-3.75">
-                <h1 className="text-xl">Token Address</h1>
-                <InputEmpty
-                  id="tokenAddress"
-                  name="tokenAddress"
-                  placeholder="Token Address"
-                  value={tokenAddress}
-                  classNames={
-                    validationClass.tokenAddress
-                      ? "border-2 border-red-600"
-                      : ""
-                  }
-                  setValue={setTokenAddress}
-                />
-                {validationClass.tokenAddress ? (
-                  <small className={"text-red-600"}>
-                    Enter a valid token address.
-                  </small>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
-          </Step>
-        )}
-        {/* Step 2 */}
-        {step == 2 && (
-          <Step
-            validateStep={validateSecondStep}
-            title="Create Your Project"
-            step={step}
-            setStep={setStep}
-          >
-            <div className="flex flex-col space-y-6.25">
-              <div className="grid md-lg:grid-cols-2 gap-5">
-                <ImageDropdown label="Token Image" setValue={setImage} />
-                <ImageDropdown label="Banner Image" setValue={setBanner} />
-              </div>
-            </div>
-          </Step>
-        )}
-        {/* Step 3 */}
-        {step == 3 && (
-          <Step
-            title="Add Your Project Information"
-            step={step}
-            setStep={setStep}
-            validateStep={validateThirdStep}
-          >
-            <div className="flex flex-col space-y-6.25">
-              <div className="flex flex-col space-y-3.75">
-                <h1 className="text-xl">Website</h1>
-                <InputEmpty
-                  id="website"
-                  name="website"
-                  placeholder="Enter Your Website"
-                  value={website}
-                  setValue={setWebsite}
-                />
-              </div>
-              <div className="grid md-lg:grid-cols-2 gap-5">
+        {/* Step */}
+        <div className="flex flex-col w-full md-lg:w-1/2 px-6.25 py-7.5">
+          {/* Step header */}
+          <h1 className="text-2xl mb-10">Create a New Project</h1>
+          {/* Step 1 */}
+          {step == 1 && (
+            <Step
+              validateStep={validateFirstStep}
+              title="Create Your Project"
+              step={step}
+              setStep={setStep}
+            >
+              <div className="flex flex-col space-y-6.25">
                 <div className="flex flex-col space-y-3.75">
-                  <h1 className="text-xl">Whitepaper</h1>
+                  <h1 className="text-xl">Project Name</h1>
                   <InputEmpty
-                    id="Whitepager"
-                    name="Whitepager"
-                    placeholder="Whitepager"
-                    value={whitepaper}
-                    setValue={setWhitepaper}
-                  />
-                </div>
-                <div className="flex flex-col space-y-3.75">
-                  <h1 className="text-xl">Audit</h1>
-                  <InputEmpty
-                    id="Audit"
-                    name="Audit"
-                    placeholder="Audit"
-                    value={audit}
-                    setValue={setAudit}
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col space-y-3.75">
-                <h1 className="text-xl">Description</h1>
-                <TextArea
-                  id="description"
-                  name="description"
-                  placeholder="Type here"
-                  value={description}
-                  setValue={setDescription}
-                  classNames={
-                    validationClass.description ? "border-2 border-red-600" : ""
-                  }
-                />
-                {validationClass.description ? (
-                  <small className={"text-red-600"}>
-                    Description is required.
-                  </small>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
-          </Step>
-        )}
-        {step == 4 && (
-          <Step
-            title="Add Your Social Information"
-            step={step}
-            setStep={setStep}
-            validateStep={() => false}
-          >
-            <div className="flex flex-col space-y-6.25">
-              <div className="flex flex-col space-y-3.75">
-                <h1 className="text-xl">Add Social Information</h1>
-                <Select
-                  id="socialName"
-                  name="socialName"
-                  placeholder="Social Name"
-                  options={SOCIALDATA}
-                  setValue={setSocialIndex}
-                />
-                <InputEmpty
-                  id="URL"
-                  name="URL"
-                  placeholder="URL"
-                  value={url}
-                  setValue={setUrl}
-                />
-                <Button name="Add" handleClick={addSocial} />
-              </div>
-              <div className="flex flex-row gap-3.75">
-                {socials.map((social) => (
-                  <SocialItem
-                    icon={social.icon}
-                    bgColor={social.color}
-                    key={social.name}
-                    name={social.name}
-                    deleteValue={removeSocial}
-                  />
-                ))}
-              </div>
-            </div>
-          </Step>
-        )}
-        {step == 5 && (
-          <Step
-            title="Add Contact Information"
-            step={step}
-            setStep={setStep}
-            validateStep={validateFifthStep}
-          >
-            <div className="flex flex-col space-y-6.25">
-              <div className="grid md-lg:grid-cols-2 gap-5">
-                <div className="flex flex-col space-y-3.75">
-                  <h1 className="text-xl">First Name</h1>
-                  <InputEmpty
-                    id="firstName"
-                    name="firstName"
-                    placeholder="First Name"
-                    value={firstName}
-                    setValue={setFirstName}
+                    id="projectName"
+                    name="projectName"
+                    type="text"
+                    placeholder="Enter Your Project Name"
+                    value={projectName}
+                    setValue={setProjectName}
                     classNames={
-                      validationClass.firstName ? "border-2 border-red-600" : ""
-                    }
-                  />
-                  {validationClass.firstName ? (
-                    <small className={"text-red-600"}>
-                      First Name is required.
-                    </small>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="flex flex-col space-y-3.75">
-                  <h1 className="text-xl">Last Name</h1>
-                  <InputEmpty
-                    id="lastName"
-                    name="lastName"
-                    placeholder="Last Name"
-                    value={lastName}
-                    setValue={setLastName}
-                    classNames={
-                      validationClass.lastName ? "border-2 border-red-600" : ""
-                    }
-                  />
-                  {validationClass.lastName ? (
-                    <small className={"text-red-600"}>
-                      Last Name is required.
-                    </small>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </div>
-              <div className="flex flex-col space-y-3.75">
-                <h1 className="text-xl">Email</h1>
-                <InputEmpty
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                  value={email}
-                  setValue={setEmail}
-                  classNames={
-                    validationClass.email ? "border-2 border-red-600" : ""
-                  }
-                />
-                {validationClass.email ? (
-                  <small className={"text-red-600"}>
-                    Valid e-mail is required.
-                  </small>
-                ) : (
-                  ""
-                )}
-              </div>
-
-              <div className="flex flex-col space-y-3.75">
-                <h1 className="text-xl">Phone Number</h1>
-                <InputEmpty
-                  id="website"
-                  name="website"
-                  placeholder="Phone Number"
-                  value={phoneNumber}
-                  setValue={setPhoneNumber}
-                  classNames={
-                    validationClass.phoneNumber ? "border-2 border-red-600" : ""
-                  }
-                />
-                {validationClass.phoneNumber ? (
-                  <small className={"text-red-600"}>
-                    Valid phone number is required.
-                  </small>
-                ) : (
-                  ""
-                )}
-              </div>
-
-              <div className="flex flex-col space-y-3.75">
-                <h1 className="text-xl">Telegram</h1>
-                <InputEmpty
-                  id="telegram"
-                  name="telegram"
-                  placeholder="Telegram"
-                  value={telegram}
-                  setValue={setTelegram}
-                />
-              </div>
-            </div>
-          </Step>
-        )}
-        {step == 6 && (
-          <Step
-            title="Add Company Information"
-            step={step}
-            setStep={setStep}
-            handleClick={postProject}
-            validateStep={validateSixthStep}
-          >
-            <div className="flex flex-col space-y-6.25">
-              <div className="flex flex-col space-y-3.75">
-                <h1 className="text-xl">Company Name</h1>
-                <InputEmpty
-                  id="companyName"
-                  name="companyName"
-                  placeholder="Company Name"
-                  value={companyName}
-                  setValue={setCompanyName}
-                  classNames={
-                    validationClass.companyName ? "border-2 border-red-600" : ""
-                  }
-                />
-                {validationClass.companyName ? (
-                  <small className={"text-red-600"}>
-                    Company Name is required.
-                  </small>
-                ) : (
-                  ""
-                )}
-              </div>
-              <div className="flex flex-col space-y-3.75">
-                <h1 className="text-xl">Street Address</h1>
-                <InputEmpty
-                  id="streetAddress"
-                  name="streetAddress"
-                  placeholder="Street Address"
-                  value={streetAddress}
-                  setValue={setStreetAddress}
-                  classNames={
-                    validationClass.streetAddress
-                      ? "border-2 border-red-600"
-                      : ""
-                  }
-                />
-                {validationClass.streetAddress ? (
-                  <small className={"text-red-600"}>
-                    Street Address is required.
-                  </small>
-                ) : (
-                  ""
-                )}
-              </div>
-
-              <div className="grid md-lg:grid-cols-2 gap-5">
-                <div className="flex flex-col space-y-3.75">
-                  <h1 className="text-xl">City</h1>
-                  <InputEmpty
-                    id="city"
-                    name="city"
-                    placeholder="City"
-                    value={city}
-                    setValue={setCity}
-                    classNames={
-                      validationClass.city ? "border-2 border-red-600" : ""
-                    }
-                  />
-                  {validationClass.city ? (
-                    <small className={"text-red-600"}>City is required.</small>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="flex flex-col space-y-3.75">
-                  <h1 className="text-xl">State</h1>
-                  <InputEmpty
-                    id="State"
-                    name="State"
-                    placeholder="State"
-                    value={companyState}
-                    setValue={setCompanyState}
-                    classNames={
-                      validationClass.companyState
+                      validationClass.projectName
                         ? "border-2 border-red-600"
                         : ""
                     }
                   />
-                  {validationClass.companyState ? (
-                    <small className={"text-red-600"}>State is required.</small>
+                  {validationClass.projectName ? (
+                    <small className={"text-red-600"}>
+                      Project Name is required.
+                    </small>
                   ) : (
                     ""
                   )}
                 </div>
-              </div>
-
-              <div className="grid md-lg:grid-cols-2 gap-5">
                 <div className="flex flex-col space-y-3.75">
-                  <h1 className="text-xl">Postal Code</h1>
+                  <h1 className="text-xl">Token Ticker</h1>
                   <InputEmpty
-                    id="postalCode"
-                    name="postalCode"
-                    placeholder="Postal Code"
-                    value={postalCode}
-                    setValue={setPostalCode}
+                    id="tokenTicker"
+                    name="tokenTicker"
+                    placeholder="Token Ticker"
+                    value={tokenTicker}
+                    setValue={setTokenTicker}
                     classNames={
-                      validationClass.postalCode
+                      validationClass.tokenTicker
                         ? "border-2 border-red-600"
                         : ""
                     }
                   />
-                  {validationClass.postalCode ? (
+                  {validationClass.tokenTicker ? (
                     <small className={"text-red-600"}>
-                      Postal Code is required.
+                      Token Ticker is required.
                     </small>
                   ) : (
                     ""
                   )}
                 </div>
                 <div className="flex flex-col space-y-3.75">
-                  <h1 className="text-xl">Country</h1>
+                  <h1 className="text-xl">Token Address</h1>
                   <InputEmpty
-                    id="country"
-                    name="country"
-                    placeholder="Country"
-                    value={country}
-                    setValue={setCountry}
+                    id="tokenAddress"
+                    name="tokenAddress"
+                    placeholder="Token Address"
+                    value={tokenAddress}
                     classNames={
-                      validationClass.country ? "border-2 border-red-600" : ""
+                      validationClass.tokenAddress
+                        ? "border-2 border-red-600"
+                        : ""
                     }
+                    setValue={setTokenAddress}
                   />
-                  {validationClass.country ? (
+                  {validationClass.tokenAddress ? (
                     <small className={"text-red-600"}>
-                      Country is required.
+                      Enter a valid token address.
                     </small>
                   ) : (
                     ""
                   )}
                 </div>
               </div>
-            </div>
-          </Step>
-        )}
+            </Step>
+          )}
+          {/* Step 2 */}
+          {step == 2 && (
+            <Step
+              validateStep={validateSecondStep}
+              title="Create Your Project"
+              step={step}
+              setStep={setStep}
+            >
+              <div className="flex flex-col space-y-6.25">
+                <div className="grid md-lg:grid-cols-2 gap-5">
+                  <ImageDropdown label="Token Image" setValue={setImage} />
+                  <ImageDropdown label="Banner Image" setValue={setBanner} />
+                </div>
+              </div>
+            </Step>
+          )}
+          {/* Step 3 */}
+          {step == 3 && (
+            <Step
+              title="Add Your Project Information"
+              step={step}
+              setStep={setStep}
+              validateStep={validateThirdStep}
+            >
+              <div className="flex flex-col space-y-6.25">
+                <div className="flex flex-col space-y-3.75">
+                  <h1 className="text-xl">Website</h1>
+                  <InputEmpty
+                    id="website"
+                    name="website"
+                    placeholder="Enter Your Website"
+                    value={website}
+                    classNames={
+                      validationClass.website ? "border-2 border-red-600" : ""
+                    }
+                    setValue={setWebsite}
+                  />
+                </div>
+                {validationClass.website ? (
+                  <small className={"text-red-600"}>
+                    Enter a valid URL starting with https://.
+                  </small>
+                ) : (
+                  ""
+                )}
+                <div className="grid md-lg:grid-cols-2 gap-5">
+                  <div className="flex flex-col space-y-3.75">
+                    <h1 className="text-xl">Whitepaper</h1>
+                    <InputEmpty
+                      id="Whitepager"
+                      name="Whitepager"
+                      placeholder="Whitepager"
+                      value={whitepaper}
+                      classNames={
+                        validationClass.whitepaper
+                          ? "border-2 border-red-600"
+                          : ""
+                      }
+                      setValue={setWhitepaper}
+                    />
+                  </div>
+                  {validationClass.whitepaper ? (
+                    <small className={"text-red-600"}>
+                      Enter a valid URL starting with https://.
+                    </small>
+                  ) : (
+                    ""
+                  )}
+                  <div className="flex flex-col space-y-3.75">
+                    <h1 className="text-xl">Audit</h1>
+                    <InputEmpty
+                      id="Audit"
+                      name="Audit"
+                      placeholder="Audit"
+                      value={audit}
+                      classNames={
+                        validationClass.audit ? "border-2 border-red-600" : ""
+                      }
+                      setValue={setAudit}
+                    />
+                  </div>
+                </div>
+                {validationClass.audit ? (
+                  <small className={"text-red-600"}>
+                    Enter a valid URL starting with https://.
+                  </small>
+                ) : (
+                  ""
+                )}
+                <div className="flex flex-col space-y-3.75">
+                  <h1 className="text-xl">Description</h1>
+                  <TextArea
+                    id="description"
+                    name="description"
+                    placeholder="Type here"
+                    value={description}
+                    setValue={setDescription}
+                    classNames={
+                      validationClass.description
+                        ? "border-2 border-red-600"
+                        : ""
+                    }
+                  />
+                  {validationClass.description ? (
+                    <small className={"text-red-600"}>
+                      Description is required.
+                    </small>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+            </Step>
+          )}
+          {step == 4 && (
+            <Step
+              title="Add Your Social Information"
+              step={step}
+              setStep={setStep}
+              validateStep={() => false}
+            >
+              <div className="flex flex-col space-y-6.25">
+                <div className="flex flex-col space-y-3.75">
+                  <h1 className="text-xl">Add Social Information</h1>
+                  <Select
+                    id="socialName"
+                    name="socialName"
+                    placeholder="Social Name"
+                    options={SOCIALDATA}
+                    setValue={setSocialIndex}
+                  />
+                  <InputEmpty
+                    id="URL"
+                    name="URL"
+                    placeholder="URL"
+                    value={url}
+                    setValue={setUrl}
+                  />
+                  <Button name="Add" handleClick={addSocial} />
+                </div>
+                <div className="flex flex-row gap-3.75">
+                  {socials.map((social) => (
+                    <SocialItem
+                      icon={social.icon}
+                      bgColor={social.color}
+                      key={social.name}
+                      name={social.name}
+                      deleteValue={removeSocial}
+                    />
+                  ))}
+                </div>
+              </div>
+            </Step>
+          )}
+          {step == 5 && (
+            <Step
+              title="Add Contact Information"
+              step={step}
+              setStep={setStep}
+              validateStep={validateFifthStep}
+            >
+              <div className="flex flex-col space-y-6.25">
+                <div className="grid md-lg:grid-cols-2 gap-5">
+                  <div className="flex flex-col space-y-3.75">
+                    <h1 className="text-xl">First Name</h1>
+                    <InputEmpty
+                      id="firstName"
+                      name="firstName"
+                      placeholder="First Name"
+                      value={firstName}
+                      setValue={setFirstName}
+                      classNames={
+                        validationClass.firstName
+                          ? "border-2 border-red-600"
+                          : ""
+                      }
+                    />
+                    {validationClass.firstName ? (
+                      <small className={"text-red-600"}>
+                        First Name is required.
+                      </small>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="flex flex-col space-y-3.75">
+                    <h1 className="text-xl">Last Name</h1>
+                    <InputEmpty
+                      id="lastName"
+                      name="lastName"
+                      placeholder="Last Name"
+                      value={lastName}
+                      setValue={setLastName}
+                      classNames={
+                        validationClass.lastName
+                          ? "border-2 border-red-600"
+                          : ""
+                      }
+                    />
+                    {validationClass.lastName ? (
+                      <small className={"text-red-600"}>
+                        Last Name is required.
+                      </small>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-col space-y-3.75">
+                  <h1 className="text-xl">Email</h1>
+                  <InputEmpty
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    value={email}
+                    setValue={setEmail}
+                    classNames={
+                      validationClass.email ? "border-2 border-red-600" : ""
+                    }
+                  />
+                  {validationClass.email ? (
+                    <small className={"text-red-600"}>
+                      Valid e-mail is required.
+                    </small>
+                  ) : (
+                    ""
+                  )}
+                </div>
+
+                <div className="flex flex-col space-y-3.75">
+                  <h1 className="text-xl">Phone Number</h1>
+                  <InputEmpty
+                    id="website"
+                    name="website"
+                    placeholder="Phone Number"
+                    value={phoneNumber}
+                    setValue={setPhoneNumber}
+                    classNames={
+                      validationClass.phoneNumber
+                        ? "border-2 border-red-600"
+                        : ""
+                    }
+                  />
+                  {validationClass.phoneNumber ? (
+                    <small className={"text-red-600"}>
+                      Valid phone number is required.
+                    </small>
+                  ) : (
+                    ""
+                  )}
+                </div>
+
+                <div className="flex flex-col space-y-3.75">
+                  <h1 className="text-xl">Telegram</h1>
+                  <InputEmpty
+                    id="telegram"
+                    name="telegram"
+                    placeholder="Telegram"
+                    value={telegram}
+                    setValue={setTelegram}
+                  />
+                </div>
+              </div>
+            </Step>
+          )}
+          {step == 6 && (
+            <Step
+              title="Add Company Information"
+              step={step}
+              setStep={setStep}
+              handleClick={postProject}
+              validateStep={validateSixthStep}
+            >
+              <div className="flex flex-col space-y-6.25">
+                <div className="flex flex-col space-y-3.75">
+                  <h1 className="text-xl">Company Name</h1>
+                  <InputEmpty
+                    id="companyName"
+                    name="companyName"
+                    placeholder="Company Name"
+                    value={companyName}
+                    setValue={setCompanyName}
+                    classNames={
+                      validationClass.companyName
+                        ? "border-2 border-red-600"
+                        : ""
+                    }
+                  />
+                  {validationClass.companyName ? (
+                    <small className={"text-red-600"}>
+                      Company Name is required.
+                    </small>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div className="flex flex-col space-y-3.75">
+                  <h1 className="text-xl">Street Address</h1>
+                  <InputEmpty
+                    id="streetAddress"
+                    name="streetAddress"
+                    placeholder="Street Address"
+                    value={streetAddress}
+                    setValue={setStreetAddress}
+                    classNames={
+                      validationClass.streetAddress
+                        ? "border-2 border-red-600"
+                        : ""
+                    }
+                  />
+                  {validationClass.streetAddress ? (
+                    <small className={"text-red-600"}>
+                      Street Address is required.
+                    </small>
+                  ) : (
+                    ""
+                  )}
+                </div>
+
+                <div className="grid md-lg:grid-cols-2 gap-5">
+                  <div className="flex flex-col space-y-3.75">
+                    <h1 className="text-xl">City</h1>
+                    <InputEmpty
+                      id="city"
+                      name="city"
+                      placeholder="City"
+                      value={city}
+                      setValue={setCity}
+                      classNames={
+                        validationClass.city ? "border-2 border-red-600" : ""
+                      }
+                    />
+                    {validationClass.city ? (
+                      <small className={"text-red-600"}>
+                        City is required.
+                      </small>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="flex flex-col space-y-3.75">
+                    <h1 className="text-xl">State</h1>
+                    <InputEmpty
+                      id="State"
+                      name="State"
+                      placeholder="State"
+                      value={companyState}
+                      setValue={setCompanyState}
+                      classNames={
+                        validationClass.companyState
+                          ? "border-2 border-red-600"
+                          : ""
+                      }
+                    />
+                    {validationClass.companyState ? (
+                      <small className={"text-red-600"}>
+                        State is required.
+                      </small>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid md-lg:grid-cols-2 gap-5">
+                  <div className="flex flex-col space-y-3.75">
+                    <h1 className="text-xl">Postal Code</h1>
+                    <InputEmpty
+                      id="postalCode"
+                      name="postalCode"
+                      placeholder="Postal Code"
+                      value={postalCode}
+                      setValue={setPostalCode}
+                      classNames={
+                        validationClass.postalCode
+                          ? "border-2 border-red-600"
+                          : ""
+                      }
+                    />
+                    {validationClass.postalCode ? (
+                      <small className={"text-red-600"}>
+                        Postal Code is required.
+                      </small>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="flex flex-col space-y-3.75">
+                    <h1 className="text-xl">Country</h1>
+                    <ReactFlagsSelect
+                      selected={country}
+                      onSelect={(code) => setCountry(code)}
+                      placeholder="Select Country"
+                      searchable
+                      selectButtonClassName={
+                        validationClass.country ? "border-2 border-red-600" : ""
+                      }
+                    />
+                    {validationClass.country ? (
+                      <small className={"text-red-600"}>
+                        Country is required.
+                      </small>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Step>
+          )}
+        </div>
       </div>
-    </div>
+    </NoSsr>
   );
 }

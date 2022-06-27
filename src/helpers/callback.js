@@ -3,7 +3,10 @@ import {API_URL} from "./constants";
 import {ethers} from 'ethers';
 
 //@Todo check register method, temp done with extra fields because of error
-const hook = async ({type, data, callback = () => {}}) => {
+const hook = async ({
+                        type, data, callback = () => {
+    }
+                    }) => {
     try {
         let event;
         switch (type) {
@@ -162,7 +165,10 @@ const hook = async ({type, data, callback = () => {}}) => {
     }
 }
 
-const batchHook = async ({type, data, callback = () => {}}) => {
+const batchHook = async ({
+                             type, data, callback = () => {
+    }
+                         }) => {
     try {
         switch (type) {
             case 'MMBD':
@@ -183,7 +189,15 @@ const batchHook = async ({type, data, callback = () => {}}) => {
                     contract: data.receipt.to,
                     amounts: data.amounts,
                     user_addresses: data.user_addresses,
-                    network: data.wallet.chainId
+                    network: data.wallet.chainId,
+                    vesting_batch_start: data.start,
+                    vesting_batch_cliff: data.cliff,
+                    vesting_batch_duration: data.duration,
+                    vesting_batch_slice: data.slicePeriodSeconds,
+                    vesting_batch_revocable: data.revocable,
+                    vesting_batch_name: data.batchName,
+                    vesting_batch_created_by: data.receipt.from,
+                    vesting_batch_project_id: data.projectName
                 })
                 callback()
                 break;
