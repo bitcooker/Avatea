@@ -371,9 +371,9 @@ export default function Linked(props) {
 
   return (
     <NoSsr>
-      <div className="flex flex-row w-full min-h-[80vh] md-lg:h-[85vh] bg-white rounded-3xl">
+      <div className="flex flex-row w-full min-h-[80vh] md-lg:min-h-[85vh] bg-white rounded-3xl">
         {/* Background */}
-        <div className="hidden md-lg:block md-lg:relative md-lg:w-1/2 md-lg:h-full">
+        <div className="hidden md-lg:block md-lg:relative md-lg:w-1/2 md-lg:grow">
           <div className="absolute w-full h-full">
             <svg
               width="100%"
@@ -388,7 +388,7 @@ export default function Linked(props) {
               />
             </svg>
           </div>
-          <img src="/linked/bg.svg" style={{ height: "100%" }} />
+          <img src="/linked/bg.svg" className="h-[85vh]" />
           <div className="absolute bottom-0 flex justify-center w-full">
             <svg
               width="90%"
