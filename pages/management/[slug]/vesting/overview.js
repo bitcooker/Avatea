@@ -45,7 +45,7 @@ export default function VestingOverview(props) {
                 <ButtonFit name="Submit Vesting" icon="fa-solid fa-cloud-arrow-up"/>
             </div>
             <div className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
-                <VestingBatchTable vestingBatches={vestingBatches}/>
+                <VestingBatchTable vestingBatches={vestingBatches} project={project}/>
             </div>
         </div>
     );

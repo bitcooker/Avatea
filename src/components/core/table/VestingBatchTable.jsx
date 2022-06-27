@@ -1,4 +1,7 @@
 import * as React from "react";
+import helper from "../../../helpers";
+import Swal from "sweetalert2";
+import {useRouter} from "next/router";
 
 
 export default function VestingBatchTable(props) {
@@ -40,7 +43,7 @@ export default function VestingBatchTable(props) {
               <span className="text-base font-medium">{row.duration} Seconds</span>
             </TableCol>
             <TableCol className="hidden md-lg:flex flex-row items-center space-x-5 col-span-2">
-              <TableActionEditButton />
+              <TableActionEditButton batchID={row.id} project={props.project} />
             </TableCol>
           </TableRow>
         ))}
@@ -62,8 +65,14 @@ export const TableCol = (props) => {
 };
 
 export const TableActionEditButton = (props) => {
+  const router = useRouter();
+
+    const goToBatch = async (id) => {
+            router.push(`/management/${props.project.slug}/vesting/${id}`);
+    };
+
   return (
-    <div className="flex items-center justify-center w-9 h-9 rounded-full bg-red-100/50 hover:ring-2 hover:ring-red-200/50 hover:cursor-pointer transition">
+    <div onClick={() => goToBatch(props.batchID)} className="flex items-center justify-center w-9 h-9 rounded-full bg-red-100/50 hover:ring-2 hover:ring-red-200/50 hover:cursor-pointer transition">
       <i className="fa-solid fa-pen-line text-red-500" />
     </div>
   );
