@@ -68,7 +68,7 @@ export default function ProjectDetail(props) {
   }, [wallet, marketMakingPool]);
 
   return (
-    <div className="space-y-7.5 mb-5">
+    <div className="space-y-7.5">
       <Banner {...project} />
       {/* Tab menu */}
       <div className="flex justify-center">
