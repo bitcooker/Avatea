@@ -70,7 +70,7 @@ const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh})
             await axios(
                 {
                     method: 'post',
-                    url: `${API_URL}UserSettings`,
+                    url: `${API_URL}UserSettings/`,
                     data: {
                         market_making_type: marketMakingType,
                         amount: amountSettings,
