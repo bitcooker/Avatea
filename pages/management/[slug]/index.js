@@ -155,8 +155,8 @@ export default function VaultsDetail(props) {
   const updateMarketMakingPool = async () => {
     const settings = {
       volume: volume,
-      max_selling_amount: maxBuyingAmount,
-      max_buying_amount: maxSellingAmount,
+      max_selling_amount: maxSellingAmount,
+      max_buying_amount: maxBuyingAmount,
       id: marketMakingPool.id,
     };
 
