@@ -8,8 +8,12 @@ import InputEmpty from "../../../../src/components/core/Input/InputEmpty";
 import RichEditor from "../../../../src/components/core/RichEditor/RichEditor";
 import Tooltip from "../../../../src/components/core/Tooltip/Tooltip";
 
+// onboarding components
+import ImageDropdown from "../../../../src/components/pages/Linked/ImageDropdown";
+
 export default function News(props) {
   const router = useRouter();
+  const [newsImage, setNewsImage] = React.useState("");
 
   return (
     <div className="flex flex-col min-h-[80vh] md-lg:min-h-[85vh] space-y-7.5">
@@ -26,9 +30,10 @@ export default function News(props) {
               </span>
           </div>
           <InputEmpty id="title" name="title" placeholder="Enter News title"/>
+          <ImageDropdown label="News Image" setValue={setNewsImage} />
         </div>
         <div className="grow">
-          <RichEditor wrapperClassName="min-h-[50vh]"/>
+          <RichEditor wrapperClassName="min-h-[15vh]"/>
         </div>
         <div className="flex flex-row justify-end gap-3.75">
           <ButtonFit name="Add" icon="fa-regular fa-plus" />
