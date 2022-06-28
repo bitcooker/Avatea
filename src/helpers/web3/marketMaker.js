@@ -351,17 +351,17 @@ const revoke = async (wallet, marketMakerAddress, user_address, callback) => {
         const receipt = await tx.wait();
         console.log(receipt);
         await helpers.callback.hook({
-            type: "MMVR",
+            type: "MMRT",
             data: {
                 receipt,
                 wallet,
-                full_withdrawal: true
+                user_address
             }
         })
-        console.log('release success')
+        console.log('revoke success')
         return true;
     } catch (e) {
-        console.log('release error', e);
+        console.log('revoke error', e);
         return false;
     }
 }
