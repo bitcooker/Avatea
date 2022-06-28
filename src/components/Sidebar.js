@@ -88,34 +88,7 @@ export default function Sidebar({ menu, setMenu, setTitle }) {
               />
             ))}
           </div>
-          <div className="pt-7.5 pb-8">
-            <div className="relative w-100 mx-auto max-w-42.5 px-5 pb-5 box-border rounded-2xl before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-2xl before:bg-gradient-to-t before:from-indigo-500 after:absolute after:content-[''] after:top-0.5 after:left-0.5 after:w-[98%] after:h-[98%] after:rounded-2xl after:bg-slate-100">
-              <div className="relative z-10">
-                <div className="flex items-center w-20 mx-auto -mb-5">
-                  <img
-                    src={"/shapes/shapePlan.svg"}
-                    alt="plan"
-                    className="relative w-full -top-7.5"
-                  />
-                </div>
 
-                <div className="mb-5 font-medium text-base text-center tracking-wider">
-                  Claimable Dividend <br />
-                  &nbsp;
-                  {wallet.isConnected() ? (
-                    <p>{claimableDividend}</p>
-                  ) : (
-                    "Connect your wallet"
-                  )}
-                </div>
-                <Button
-                  handleClick={() => claimDividend()}
-                  name="
-                  Claim Dividend"
-                />
-              </div>
-            </div>
-          </div>
         </nav>
       </div>
     </div>
