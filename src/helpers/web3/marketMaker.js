@@ -398,6 +398,7 @@ const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
         const data = await marketMakerContract.holdersMapping(address);
+
         const {
             available,
             amountVested,
@@ -429,7 +430,7 @@ const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
             revocable
         }
     } catch (e) {
-        console.log('fetchVesting error', e);
+        console.log('holdersMapping error', e);
         return 0;
     }
 }

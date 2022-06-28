@@ -507,17 +507,17 @@ export default function Linked(props) {
                                 <div className="grid md-lg:grid-cols-2 gap-5">
                                     <FileInput label="Token Image" setValue={setImage} type={"image/*"}/>
                                     <FileInput label="Banner Image" setValue={setBanner} type={"image/*"}/>
-                                    {
-                                        banner ?  <ReactCrop crop={crop} onChange={c => setCrop(c)}>
-                                            <img src={URL.createObjectURL(banner)} />
-                                        </ReactCrop> : ""
-                                    }
+                                    {/*{*/}
+                                    {/*    banner ?  <ReactCrop crop={crop} onChange={c => setCrop(c)}>*/}
+                                    {/*        <img src={URL.createObjectURL(banner)} />*/}
+                                    {/*    </ReactCrop> : ""*/}
+                                    {/*}*/}
 
-                                    <div>
-                                        <ReactCrop crop={crop} onChange={c => setCrop(c)}>
-                                            <img src={image.mozFullPath} />
-                                        </ReactCrop>
-                                    </div>
+                                    {/*<div>*/}
+                                    {/*    <ReactCrop crop={crop} onChange={c => setCrop(c)}>*/}
+                                    {/*        <img src={image.mozFullPath} />*/}
+                                    {/*    </ReactCrop>*/}
+                                    {/*</div>*/}
 
 
                                 </div>
