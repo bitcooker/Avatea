@@ -5,6 +5,7 @@ import {useWallet} from "use-wallet";
 import helper from "../../../src/helpers";
 import {PAIRED_TOKEN_DEFAULT_IMAGE, PAIRED_TOKEN_IMAGES} from "../../helpers/constants";
 import {ethers} from "ethers";
+import Checkbox from "../core/Checkbox/Checkbox";
 
 export default function MarketMakingDeployment({project}) {
 
@@ -19,7 +20,7 @@ export default function MarketMakingDeployment({project}) {
     const [paused, setPaused] = useState(false);
 
     const deployMarketMakingPool = async () => {
-        await helper.web3.marketMaker.deploy(wallet, project.token, pairedTokenCheckSum, revocable, paused, project.slug, volume, maxBuyingAmount, maxSellingAmount);
+        await helper.web3.marketMaker.deploy(wallet, project.token, pairedTokenCheckSum, revocable, paused, project.slug, volume, maxBuyingAmount, maxSellingAmount, pairedTokenImage);
         location.reload();
     };
 
@@ -96,8 +97,14 @@ export default function MarketMakingDeployment({project}) {
                     value={volume}
                 />
             </div>
-
-
+            <div className="w-full space-y-2.5">
+                <span className="text-base">Make vesting of users revocable by project owner </span>
+                <Checkbox setValue={setRevocable}/>
+            </div>
+            <div className="w-full space-y-2.5">
+                <span className="text-base">Deploy contract in paused state</span>
+                <Checkbox setValue={setPaused}/>
+            </div>
             <Button name="Deploy" handleClick={deployMarketMakingPool}/>
         </div>
 

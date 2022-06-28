@@ -6,7 +6,7 @@ import {API_URL, DEPLOYMENT_GAS_COST, MARKET_MAKER_DEPLOYER_ADDRESS} from "../co
 import MarketMakerDeployer from "../../abi/MarketMakerDeployer.json";
 import axios from "axios";
 
-const deploy = async (wallet, baseToken, pairedToken, revocable, paused, projectSlug, volume, maxBuyingAmount, maxSellingAmount) => {
+const deploy = async (wallet, baseToken, pairedToken, revocable, paused, projectSlug, volume, maxBuyingAmount, maxSellingAmount,pairedTokenImage) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const options = {value: ethers.utils.parseEther(DEPLOYMENT_GAS_COST)}
@@ -34,6 +34,7 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
             network: String(wallet.chainId),
             max_selling_amount: maxSellingAmount,
             max_buying_amount: maxBuyingAmount,
+            paired_token_image:pairedTokenImage,
             volume,
             live: !paused
         })

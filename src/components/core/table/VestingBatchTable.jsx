@@ -44,6 +44,7 @@ export default function VestingBatchTable(props) {
             </TableCol>
             <TableCol className="hidden md-lg:flex flex-row items-center space-x-5 col-span-2">
               <TableActionEditButton batchID={row.id} project={props.project} />
+                 {row.revocable?'revocable':" not revocable"}
             </TableCol>
           </TableRow>
         ))}
