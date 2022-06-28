@@ -14,6 +14,7 @@ import Vesting from "../../src/components/pages/projects/Vesting";
 import NoVesting from "../../src/components/pages/projects/NoVesting";
 
 import SkeletonVault from "../../src/components/pages/projects/Skeleton/SkeletonVault";
+import SkeletonMarketMaking from "../../src/components/pages/projects/Skeleton/SkeletonMarketMaking";
 
 const tabItems = ["Vault", "Market Making", "Vesting"];
 
@@ -94,12 +95,12 @@ export default function ProjectDetail(props) {
 
       {/* Activity & Settings */}
       {tab == 1 && (
-        <MarketMaking
-          wallet={wallet}
-          marketMakingPool={marketMakingPool}
-          vault={vault}
-          project={project}
-        />
+        !load ? <SkeletonMarketMaking /> : <MarketMaking
+        wallet={wallet}
+        marketMakingPool={marketMakingPool}
+        vault={vault}
+        project={project}
+      />
       )}
 
       {tab == 2 &&
