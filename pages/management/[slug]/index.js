@@ -303,7 +303,7 @@ export default function VaultsDetail(props) {
                       </span>
                       <span className="flex text-base font-medium">
                         <img
-                          src="/public/avatea-token.png"
+                          src="/avatea-token.png"
                           className="w-6 h-6 ml-2.5 mr-2.5"
                         />{" "}
                         {vaultTLV}
@@ -457,19 +457,7 @@ export default function VaultsDetail(props) {
         )}
       </div>
 
-      <Card>
-        <div className="card-header mb-5">
-          <h1 className="text-2xl">Manage Project</h1>
-        </div>
-        <div className="w-full space-y-3.75">
-          {/* Edit Button */}
-          <Button
-            name="Edit Information"
-            handleClick={() => setOpenEditProject(true)}
-          />
-          <Button name="Edit Articles" />
-        </div>
-      </Card>
+
     </div>
   );
 }
