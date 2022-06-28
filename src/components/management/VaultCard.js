@@ -50,10 +50,10 @@ export default function VaultCard({ project, vault }) {
 
     return (
 
-        <Card>
+        <Card className={'col-span-full md:col-span-1'}>
             {vault.address ? (
                 <div className="flex flex-col p-3.75 space-y-4">
-                    <h1 className="text-2xl"><i className="fa-solid fa-nfc-lock"/> Vault</h1>
+                    <h2 className="text-2xl"><i className="fa-solid fa-nfc-lock"/> Vault</h2>
                     <div className="flex justify-between">
                       <span className="text-sm">
                         <i className="fa-solid fa-money-bill-transfer" /> TVL
@@ -113,7 +113,11 @@ export default function VaultCard({ project, vault }) {
                 </div>
             ) : (
                 <div className="flex flex-col p-3.75 space-y-4">
-                    <h1 className="text-base text-center">No Vault created</h1>
+                    <h1 className="text-2xl text-center"><i className="fa-solid fa-nfc-lock"/> Vault</h1>
+                    <div className="bg-gray-200 border border-gray-400 px-4 py-3 rounded relative text-center" role="alert">
+                        <span>No vault created yet</span>
+
+                    </div>
                     <Button name="Request a vault" />
                 </div>
             )}
