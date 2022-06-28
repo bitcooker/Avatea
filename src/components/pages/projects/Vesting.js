@@ -18,6 +18,7 @@ export default function Vesting({
     const [cliff, setCliff] = useState("0");
     const [start, setStart] = useState("0");
     const [duration, setDuration] = useState("0");
+    const [revocable, setRevocable] = useState(false);
     const [slicePeriodSeconds, setSlicePeriodSeconds] = useState("0");
 
 
@@ -120,16 +121,18 @@ export default function Vesting({
                 ticker={project.ticker}
             />
             <div className="pt-9">
-                {setAction === 'revoke' ?
+                {(setAction === 'revoke' && revocable) &&
                     <Button name="Revoke Tokens" handleClick={revokeVesting}>
                         {" "}
                         <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/>
                     </Button>
-                    :
+                }
+                {(setAction !== 'revoke') &&
                     <Button name="Release Tokens" handleClick={releaseVesting}>
                         {" "}
                         <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/>
-                    </Button>}
+                    </Button>
+                }
             </div>
         </Card>
     );
