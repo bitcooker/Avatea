@@ -6,8 +6,6 @@ import helper from "../helpers/";
 import { useWallet } from "use-wallet";
 import { ethers } from "ethers";
 
-import Button from "../components/core/Button/Button";
-
 const menus = [
   {
     label: "Home",
