@@ -6,10 +6,12 @@ import helper from "../../helpers";
 import InputWithIcon from "../core/Input/InputWithIcon";
 import MarketMakingDeployment from "./MarketMakingDeployment";
 import Modal from "../core/modal/Modal";
+import {useRouter} from "next/router";
 
-export default function MarketMakingCard({ project, marketMakingPool }) {
+export default function MarketMakingCard({project, marketMakingPool}) {
 
     const wallet = useWallet();
+    const router = useRouter();
     const [baseTokenBalance, setBaseTokenBalance] = useState("0");
     const [pairedTokenBalance, setPairedTokenBalance] = useState("0");
     const [maxBuyingAmount, setMaxBuyingAmount] = useState("0");
@@ -55,7 +57,7 @@ export default function MarketMakingCard({ project, marketMakingPool }) {
             settings,
             wallet,
         });
-    },[volume,maxBuyingAmount,maxSellingAmount,marketMakingPool,wallet]);
+    }, [volume, maxBuyingAmount, maxSellingAmount, marketMakingPool, wallet]);
 
 
     useEffect(() => {
@@ -63,7 +65,6 @@ export default function MarketMakingCard({ project, marketMakingPool }) {
         setMaxBuyingAmount(marketMakingPool?.max_buying_amount);
         setVolume(marketMakingPool?.volume);
     }, [marketMakingPool]);
-
 
 
     return (
@@ -75,7 +76,7 @@ export default function MarketMakingCard({ project, marketMakingPool }) {
                 open={createMMPool}
                 handleClose={() => setCreateMMPool(false)}
             >
-                <MarketMakingDeployment project={project} />
+                <MarketMakingDeployment project={project}/>
             </Modal>
             {marketMakingPool?.address ? (
                 <div className="flex flex-col p-3.75 space-y-4">
@@ -83,10 +84,10 @@ export default function MarketMakingCard({ project, marketMakingPool }) {
 
                     <div className="flex justify-between">
                       <span className="text-sm">
-                        <i className="fa-solid fa-money-bill-transfer" /> TVL
+                        <i className="fa-solid fa-money-bill-transfer"/> TVL
                       </span>
                         <span className="flex text-base font-medium">
-                        <img src={project.image} className="w-6 h-6 mr-2.5" />
+                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
                             {baseTokenBalance}
                             <img
                                 src={marketMakingPool.paired_token_image}
@@ -135,17 +136,26 @@ export default function MarketMakingCard({ project, marketMakingPool }) {
                         />
                     </div>
                     <Button
-                        name="Update Market Making Pool"
+                        name="Update Market Making Pool Settings"
                         handleClick={updateMarketMakingPool}
                     />
                     {/* Edit Button */}
-                    <Button name="Create Vesting schedules" />
-                    <Button name="Stake for participants" />
+                    <Button name="Stake for participants"/>
+                    <div className="w-full space-x-3.75 grid grid-cols-2">
+                        {/* Edit Button */}
+                        <Button name="Create Vesting schedules" handleClick={(e) => {
+                            router.push(`${project.slug}/vesting/add`)
+                        }}/>
+                        <Button name="View Vesting schedules" handleClick={(e) => {
+                            router.push(`${project.slug}/vesting/overview`)
+                        }}/>
+                    </div>
                 </div>
             ) : (
                 <div className="flex flex-col p-3.75 space-y-4">
                     <h1 className="text-2xl"><i className="fa-solid fa-sliders"/> Settings</h1>
-                    <div className="bg-gray-200 border border-gray-400 px-4 py-3 rounded relative text-center" role="alert">
+                    <div className="bg-gray-200 border border-gray-400 px-4 py-3 rounded relative text-center"
+                         role="alert">
                         <span>No market making pool created yet</span>
 
                     </div>
