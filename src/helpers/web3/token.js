@@ -12,7 +12,7 @@ const fetchTotalSupply = async (wallet, tokenAddress) => {
     try {
         return await tokenContract.totalSupply();
     } catch (e) {
-        alert(e)
+        toast.error(e.reason);
         console.log('fetchTotalSupply error', e);
     }
 }
@@ -24,7 +24,7 @@ const balanceOf = async (wallet, tokenAddress, address) => {
     try {
         return await tokenContract.balanceOf(address);
     } catch (e) {
-        alert(e)
+        toast.error(e.reason);
         console.log('balanceOf error', e);
     }
 }
@@ -36,7 +36,7 @@ const fetchApprovedAmount = async (wallet,addressToApprove, tokenAddress) => {
     try {
         return await tokenContract.allowance(wallet.account, addressToApprove);
     } catch (e) {
-        alert(e)
+        toast.error(e.reason);
         console.log('fetchApprovedAmount error', e);
     }
 }
@@ -65,7 +65,7 @@ const approveToken = async (wallet, addressToApprove, supplyToApprove) => {
             }
         )
     } catch (e) {
-        alert(e.message)
+        toast.error(e.reason);
         console.log('approveToken error', e);
     }
 }
@@ -93,7 +93,7 @@ const approveCustomToken = async (wallet, addressToApprove, supplyToApprove, tok
             }
         )
     } catch (e) {
-        alert(e.message)
+        toast.error(e.reason);
         console.log('approveToken error', e);
     }
 }

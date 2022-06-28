@@ -32,6 +32,7 @@ const stake = async (wallet, vaultAddress, amount, callback) => {
     } catch (e) {
         alert(e)
         console.log('stake error', e);
+        toast.error(e.reason);
     }
 }
 
@@ -64,6 +65,7 @@ const withdraw = async (wallet, vaultAddress, amount, full_withdrawal) => {
     } catch (e) {
         alert(e)
         console.log('withdraw error', e);
+        toast.error(e.reason);
     }
 }
 
@@ -95,6 +97,7 @@ const getReward = async (wallet, vaultAddress, callback) => {
     } catch (e) {
         alert(e)
         console.log('getReward error', e);
+        toast.error(e.reason);
     }
 }
 
@@ -126,6 +129,7 @@ const exit = async (wallet, vaultAddress, callback) => {
     } catch (e) {
         alert(e)
         console.log('exit error', e);
+        toast.error(e.reason);
     }
 }
 
@@ -158,6 +162,7 @@ const addReward = async (wallet, vaultAddress, amount, callback) => {
     } catch (e) {
         alert(e)
         console.log('addReward error', e);
+        toast.error(e.reason);
     }
 }
 
@@ -169,6 +174,7 @@ const balanceOf = async (wallet, vaultAddress, address) => {
         return await vaultContract.balanceOf(address);
     } catch (e) {
         console.log('balanceOf error', e);
+        toast.error(e.reason);
         return 0;
     }
 }
@@ -181,6 +187,7 @@ const earned = async (wallet, vaultAddress, address) => {
         return await vaultContract.earned(address);
     } catch (e) {
         console.log('earned error', e);
+        toast.error(e.reason);
         return 0;
     }
 }
@@ -193,6 +200,7 @@ const totalSupply = async (wallet, vaultAddress) => {
         return await vaultContract.totalSupply();
     } catch (e) {
         console.log('totalSupply error', e);
+        toast.error(e.reason);
         return 0;
     }
 }
@@ -208,6 +216,7 @@ const rewardPerToken = async (wallet, vaultAddress) => {
         return daily_reward.toFixed(2);
     } catch (e) {
         console.log('rewardPerToken error', e);
+        toast.error(e.reason);
         return 0;
     }
 }

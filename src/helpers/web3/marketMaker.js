@@ -51,6 +51,7 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
         return true;
     } catch (e) {
         console.log('deploy error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -83,6 +84,7 @@ const stake = async (wallet, marketMakerAddress, amount, callback) => {
         return true;
     } catch (e) {
         console.log('stake error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -118,6 +120,7 @@ const stakeBatch = async (wallet, marketMakerAddress, user_addresses, amounts, c
         return true;
     } catch (e) {
         console.log('stakeBatch error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -168,6 +171,7 @@ const createVesting = async (wallet, marketMakerAddress, user_addresses, start, 
         return true;
     } catch (e) {
         console.log('createVesting error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -199,6 +203,7 @@ const stakePairedToken = async (wallet, marketMakerAddres, amount, callback) => 
         return true;
     } catch (e) {
         console.log('stakePairedToken error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -230,6 +235,7 @@ const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount, callbac
         return true;
     } catch (e) {
         console.log('stakePairedTokenInETH error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -262,6 +268,7 @@ const withdrawBaseToken = async (wallet, marketMakerAddress, amount, full_withdr
         return true;
     } catch (e) {
         console.log('withdrawBaseToken error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -295,6 +302,7 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, full_withdr
         return true;
     } catch (e) {
         console.log('withdrawPairedToken error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -329,6 +337,7 @@ const release = async (wallet, marketMakerAddress, full_withdrawal, callback) =>
         return true;
     } catch (e) {
         console.log('release error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -362,6 +371,7 @@ const revoke = async (wallet, marketMakerAddress, user_address, callback) => {
         return true;
     } catch (e) {
         console.log('revoke error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -377,6 +387,7 @@ const computeReleasableAmount = async (wallet, marketMakerAddress, userAddress) 
         return result
     } catch (e) {
         console.log('computeReleasableAmount error', e);
+        toast.error(e.reason);
         return 0;
     }
 }
@@ -389,6 +400,7 @@ const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, 
         return await marketMakerContract.getWithdrawablePairedTokens(address);
     } catch (e) {
         console.log('getWithdrawablePairedTokens error', e);
+        toast.error(e.reason);
         return 0;
     }
 }
@@ -432,6 +444,7 @@ const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
         }
     } catch (e) {
         console.log('holdersMapping error', e);
+        toast.error(e.reason);
         return 0;
     }
 }
