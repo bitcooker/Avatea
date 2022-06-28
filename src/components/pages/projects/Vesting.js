@@ -55,6 +55,7 @@ export default function Vesting({
                 setStart(start);
                 setDuration(duration);
                 setSlicePeriodSeconds(slicePeriodSeconds);
+                setRevocable(revocable);
             };
             initWalletConnected();
         }
