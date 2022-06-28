@@ -13,6 +13,8 @@ import MarketMaking from "../../src/components/pages/projects/MarketMaking";
 import Vesting from "../../src/components/pages/projects/Vesting";
 import NoVesting from "../../src/components/pages/projects/NoVesting";
 
+import SkeletonVault from "../../src/components/pages/projects/Skeleton/SkeletonVault";
+
 const tabItems = ["Vault", "Market Making", "Vesting"];
 
 export default function ProjectDetail(props) {
@@ -25,6 +27,7 @@ export default function ProjectDetail(props) {
   const [marketMakingPool, setMarketMakingPool] = useState({});
   const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
   const [holdersMapping, setHoldersMapping] = useState({});
+  const [load, setLoad] = useState(false);
 
   useEffect(() => {
     if (props.projectDetail) setProject(props.projectDetail);
@@ -55,6 +58,11 @@ export default function ProjectDetail(props) {
   }, [props.projectDetail]);
 
   useEffect(() => {
+    setLoad(false);
+    return () => setTimeout(() => setLoad(true), 2000);
+  }, [tab])
+
+  useEffect(() => {
     if (wallet.status === "connected" && marketMakingPool.paired_token) {
       const initWalletConnected = async () => {
         const results = await helper.web3.marketMaker.fetchHoldersMapping(
@@ -75,14 +83,14 @@ export default function ProjectDetail(props) {
         <Tab items={tabItems} tab={tab} setTab={setTab} />
       </div>
       {/* Staked Avatea in vaults & News Feed */}
-      {tab == 0 && (
-        <Vault
-          vault={vault}
-          wallet={wallet}
-          project={project}
-          marketMakingPool={marketMakingPool}
-        />
-      )}
+      {tab == 0 && 
+        (!load ? <SkeletonVault /> : <Vault
+        vault={vault}
+        wallet={wallet}
+        project={project}
+        marketMakingPool={marketMakingPool}
+      />)
+      }
 
       {/* Activity & Settings */}
       {tab == 1 && (
