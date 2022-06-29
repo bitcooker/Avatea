@@ -147,7 +147,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
         const wei = ethers.utils.parseEther(amountBaseTokenToStake);
         let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
         if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
-    },[amountBaseTokenBalance,amountBaseTokenToStake,wallet,marketMakingPool,wallet]);
+    },[amountBaseTokenBalance,amountBaseTokenToStake,wallet,marketMakingPool,wallet,updateSettings]);
 
     return (
         <div className="grid md-lg:grid-cols-2 gap-7.5">

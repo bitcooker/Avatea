@@ -31,7 +31,7 @@ export default function Input(props) {
     const fetchApproval = useCallback(async () => {
         const result = await getApprovedAmount(props.address, props.token);
         setApproved(result);
-    },[props,approved,getApprovedAmount]);
+    },[props,getApprovedAmount]);
 
     const approve = useCallback(async (address, tokenAddress) => {
         const totalSupply = await helper.token.fetchTotalSupply(wallet, tokenAddress);

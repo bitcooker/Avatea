@@ -45,7 +45,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
             };
             initWalletConnected();
         }
-    }, [wallet, vault, marketMakingPool]);
+    }, [wallet, vault, marketMakingPool,project]);
 
     useEffect(() => {
         if (wallet.status === "connected") {
@@ -67,7 +67,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
             };
             initWalletConnected();
         }
-    }, [wallet]);
+    }, [wallet,project]);
 
     useEffect(() => {
         if (parseFloat(pressure) === 0) {
