@@ -1,18 +1,29 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
-import FileInput from "../../../../src/components/pages/Linked/fileInput";
 import Papa from "papaparse";
 import {ethers} from "ethers";
-import helper from "../../../../src/helpers";
-import Button from "../../../../src/components/core/Button/Button";
-import AddressAndAmountTable from "../../../../src/components/core/table/AddressAndAmountTable";
 import {useWallet} from "use-wallet";
-import InputEmpty from "../../../../src/components/core/Input/InputEmpty";
-import {Chart} from "../../../../src/components/pages/projects/Vesting/Chart";
-import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
 import Swal from "sweetalert2";
 import {useRouter} from "next/router";
+
+import helper from "../../../../src/helpers";
+// core components
+import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
+import Button from "../../../../src/components/core/Button/Button";
+import InputEmpty from "../../../../src/components/core/Input/InputEmpty";
+import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
+import AddressAndAmountTable from "../../../../src/components/management/vesting/table/AddressAndAmountTable";
+
+// page components
+import FileInput from "../../../../src/components/pages/Linked/fileInput";
+import {Chart} from "../../../../src/components/pages/projects/Vesting/Chart";
+
+const vestings = [
+    {
+        address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
+        amount: 10
+    }
+]
 
 export default function VestingAdd(props) {
 
@@ -117,7 +128,7 @@ export default function VestingAdd(props) {
                 }
                 {step === 2 &&
                     <div className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
-                        <AddressAndAmountTable addresses={addresses} amounts={amounts} project={project}/>
+                        <AddressAndAmountTable vestings={vestings}/>
                     </div>
                 }
                 {step === 3 &&
