@@ -29,7 +29,7 @@ export default function NewsList(props) {
         <div className="w-full">
             <div className="flex flex-row items-center justify-between">
                 <h1 className="text-2xl">News List</h1>
-                <Link href="news/add" passHref>
+                <Link href={`/management/${props.slug}/news/add`} passHref>
                     <a>
                         <ButtonFit name="Add News" icon="fa-regular fa-plus-large"/>
                     </a>

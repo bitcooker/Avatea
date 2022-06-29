@@ -9,7 +9,7 @@ import RichEditor from "../../../../src/components/core/RichEditor/RichEditor";
 import Tooltip from "../../../../src/components/core/Tooltip/Tooltip";
 
 // onboarding components
-import ImageDropdown from "../../../../src/components/pages/Linked/ImageDropdown";
+import ImageDropdown from "../../../../src/components/management/Linked/ImageDropdown";
 
 export default function News(props) {
   const router = useRouter();
