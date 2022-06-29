@@ -39,7 +39,7 @@ export default function Layout({ children }) {
       >
         <Sidebar menu={menu} setMenu={setMenu} setTitle={setTitle} />
         <main>
-          <div className="px-[15px] lg-xl:px-5 lg-xl:pl-[220px] xl-2xl:pr-5 xl-2xl:pl-[295px]">
+          <div className="pb-5 px-[15px] lg-xl:px-5 lg-xl:pl-[220px] xl-2xl:pr-5 xl-2xl:pl-[295px]">
             <Header menu={menu} setMenu={setMenu} title={title} />
             {children}
             <ToastContainer

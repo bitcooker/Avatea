@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useState} from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 
 // core components
@@ -8,12 +8,10 @@ import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 // news component
 import NewsCard from "../../../../src/components/pages/management/news/NewsCard";
 import helper from "../../../../src/helpers";
-import {useRouter} from "next/router";
 
 
 export default function NewsList(props) {
-
-    const [articles, setArticles] = useState([]);
+    const [articles, setArticles] = React.useState([]);
     const router = useRouter();
     const {slug} = router.query;
 
@@ -25,7 +23,6 @@ export default function NewsList(props) {
         }
     };
     fetchArticles();
-
 
     return (
         <div className="w-full">
