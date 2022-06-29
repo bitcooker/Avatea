@@ -5,7 +5,7 @@ import useLocalStorage from "use-local-storage";
 import ReactFlagsSelect from "react-flags-select";
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
-
+import { SOCIALDATA } from "../../src/helpers/constants";
 // core components
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
 import Select from "../../src/components/core/Select/Select";
@@ -25,51 +25,6 @@ import {useCallback, useState} from "react";
 import {ethers} from "ethers";
 import {toast} from "react-toastify";
 import NoSsr from "../../src/components/NoSsr";
-
-const SOCIALDATA = [
-    {
-        name: "LinkedIn",
-        value: "social_linkedin",
-        icon: "linkedin",
-        color: "bg-indigo-400",
-    },
-    {
-        name: "Facebook",
-        value: "social_facebook",
-        icon: "facebook",
-        color: "bg-indigo-400",
-    },
-    {
-        name: "Github",
-        value: "social_github",
-        icon: "github",
-        color: "bg-indigo-400",
-    },
-    {
-        name: "Telegram",
-        value: "social_telegram",
-        icon: "telegram",
-        color: "bg-sky-400",
-    },
-    {
-        name: "Discord",
-        value: "social_discord",
-        icon: "discord",
-        color: "bg-indigo-400",
-    },
-    {
-        name: "Medium",
-        value: "social_medium",
-        icon: "medium",
-        color: "bg-indigo-400",
-    },
-    {
-        name: "Twitter",
-        value: "social_twitter",
-        icon: "twitter",
-        color: "bg-sky-400",
-    },
-];
 
 export default function Linked(props) {
     const wallet = useWallet();
@@ -121,6 +76,7 @@ export default function Linked(props) {
 
     const [crop, setCrop] = useState();
 
+    console.log(socials)
 
     const postProject = async () => {
         const signature = await helpers.web3.authentication.getSignature(wallet);

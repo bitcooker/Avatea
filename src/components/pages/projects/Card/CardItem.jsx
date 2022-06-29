@@ -87,7 +87,7 @@ export const CardImage = (props) => {
     if (image.current) {
       // image.current.onload = () => setLoad(true);
       // this one for test purposes
-      image.current.onload = () => setTimeout(() => setLoad(true), 3000);
+      image.current.onload = () => setTimeout(() => setLoad(true), 2000);
     }
   });
 

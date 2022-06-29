@@ -2,6 +2,8 @@ import axios from 'axios';
 import {ethers} from 'ethers';
 import TokenContract from '../abi/Token.json';
 import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
+import helpers from "./index";
+import Swal from "sweetalert2";
 
 
 const getProjects = async ({live = 'True', network = DEFAULT_CHAIN_ID} = {}) => {
@@ -87,8 +89,32 @@ const getVesting = async (id) => {
     }
 }
 
+const updateProjectInformation = async (formData,projectId,wallet) => {
+    const signature = await helpers.web3.authentication.getSignature(wallet);
+    formData.append("signature", signature);
+    try {
+        const response = await axios({
+            method: "put",
+            url: `${API_URL}Project/${projectId}/`,
+            data: formData,
+            headers: {"Content-Type": "multipart/form-data"},
+        });
+        if (response.status === 200) {
+            await Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Your project has been updated",
+                showConfirmButton: false,
+                timer: 3000,
+            });
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 export default {
+    updateProjectInformation,
     getProjects,
     getProject,
     getArticles,
