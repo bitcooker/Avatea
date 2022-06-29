@@ -94,7 +94,7 @@ const updateProjectInformation = async (formData,projectId,wallet) => {
     formData.append("signature", signature);
     try {
         const response = await axios({
-            method: "put",
+            method: "patch",
             url: `${API_URL}Project/${projectId}/`,
             data: formData,
             headers: {"Content-Type": "multipart/form-data"},

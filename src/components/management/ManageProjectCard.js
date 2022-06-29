@@ -57,12 +57,6 @@ export default function ManageProjectCard({project}) {
         formData.append("social_telegram", telegram);
         formData.append("social_discord", discord);
         formData.append("social_medium", medium);
-        formData.append("name", project.name);
-        formData.append("token", project.token);
-        formData.append("ticker", project.ticker);
-        formData.append("owner", wallet.account);
-        formData.append("signed_contract", true);
-        formData.append("live", true);
 
 
         await helpers.project.updateProjectInformation(formData,project.slug,wallet);
