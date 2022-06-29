@@ -13,7 +13,7 @@ export default function Card({ projectProps }) {
       if (!projectProps) setProjects(await helper.project.getProjects());
     };
     initProjects();
-  }, []);
+  }, [projectProps]);
 
   return (
     <div>

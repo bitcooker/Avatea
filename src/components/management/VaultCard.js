@@ -37,7 +37,7 @@ export default function VaultCard({ project, vault }) {
             };
             initWalletConnected();
         }
-    }, [wallet, vault]);
+    }, [wallet, vault,project]);
 
     const addReward = useCallback(async () => {
         const wei = ethers.utils.parseEther(amountBaseTokenToStake);

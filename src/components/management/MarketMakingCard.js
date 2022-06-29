@@ -43,7 +43,7 @@ export default function MarketMakingCard({project, marketMakingPool}) {
             };
             initWalletConnected();
         }
-    }, [wallet, marketMakingPool]);
+    }, [wallet, marketMakingPool,project]);
 
     const updateMarketMakingPool = useCallback(async () => {
         const settings = {

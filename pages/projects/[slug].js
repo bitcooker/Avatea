@@ -56,7 +56,7 @@ export default function ProjectDetail(props) {
             };
             fetchProject();
         }
-    }, [props.projectDetail]);
+    }, [project]);
 
   useEffect(() => {
     setLoad(false);

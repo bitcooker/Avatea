@@ -45,7 +45,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
             };
             initWalletConnected();
         }
-    }, [wallet, vault, marketMakingPool]);
+    }, [wallet, vault, marketMakingPool,project]);
 
     useEffect(() => {
         if (wallet.status === "connected") {
@@ -67,7 +67,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
             };
             initWalletConnected();
         }
-    }, [wallet]);
+    }, [wallet,project]);
 
     useEffect(() => {
         if (parseFloat(pressure) === 0) {
@@ -98,31 +98,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
 
     const handleSetMode = useCallback((mode) => {
         setMode(mode);
-    }, [mode]);
-
-    const stakePairedToken = useCallback(async () => {
-        const wei = ethers.utils.parseEther(amountPairTokenToStake);
-        let success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
-        if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
-    },[amountPairTokenToStake,wallet,marketMakingPool,amountPairTokenBalance]);
-
-    const withdrawPairToken = useCallback(async () => {
-        let full_withdrawal = parseFloat(amountPairTokenToWithdraw) === parseFloat(amountPairTokenBalance) && parseFloat(amountBaseTokenBalance) === 0;
-        const wei = ethers.utils.parseEther(amountPairTokenToWithdraw);
-        let success = await helper.web3.marketMaker.withdrawPairToken(wallet, marketMakingPool.address, wei, full_withdrawal);
-        if (mode === 'buy' && success) {
-            await updateSettings((parseFloat(amountPairTokenBalance) - parseFloat(amountPairTokenToWithdraw)))
-        }
-    },[mode,amountPairTokenToWithdraw,amountPairTokenBalance,amountBaseTokenBalance,wallet,marketMakingPool]);
-
-    const withdrawBaseToken = useCallback(async () => {
-        let full_withdrawal = parseFloat(amountBaseTokenToWithdraw) === parseFloat(amountBaseTokenBalance) && parseFloat(amountPairTokenBalance) === 0;
-        const wei = ethers.utils.parseEther(amountBaseTokenToWithdraw);
-        let success = await helper.marketMaker.withdrawBaseToken(wallet, marketMakingPool.address, wei, full_withdrawal);
-        if (mode === 'sell' && success) {
-            await updateSettings((parseFloat(amountBaseTokenBalance) - parseFloat(amountBaseTokenToWithdraw)));
-        }
-    },[mode,amountBaseTokenToWithdraw,amountBaseTokenBalance,amountPairTokenBalance,wallet,marketMakingPool]);
+    }, []);
 
     const updateSettings = useCallback(async (amount = 0) => {
         const marketMakingSettings = {
@@ -138,6 +114,33 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
             marketMakingSettings, wallet, fresh
         });
     },[mode, pressure, priceLimit, marketMakingPool, marketMakingSettingsId, wallet,fresh]);
+
+
+    const withdrawPairToken = useCallback(async () => {
+        let full_withdrawal = parseFloat(amountPairTokenToWithdraw) === parseFloat(amountPairTokenBalance) && parseFloat(amountBaseTokenBalance) === 0;
+        const wei = ethers.utils.parseEther(amountPairTokenToWithdraw);
+        let success = await helper.web3.marketMaker.withdrawPairToken(wallet, marketMakingPool.address, wei, full_withdrawal);
+        if (mode === 'buy' && success) {
+            await updateSettings((parseFloat(amountPairTokenBalance) - parseFloat(amountPairTokenToWithdraw)))
+        }
+    },[mode,amountPairTokenToWithdraw,amountPairTokenBalance,amountBaseTokenBalance,wallet,marketMakingPool, updateSettings]);
+
+    const withdrawBaseToken = useCallback(async () => {
+        let full_withdrawal = parseFloat(amountBaseTokenToWithdraw) === parseFloat(amountBaseTokenBalance) && parseFloat(amountPairTokenBalance) === 0;
+        const wei = ethers.utils.parseEther(amountBaseTokenToWithdraw);
+        let success = await helper.marketMaker.withdrawBaseToken(wallet, marketMakingPool.address, wei, full_withdrawal);
+        if (mode === 'sell' && success) {
+            await updateSettings((parseFloat(amountBaseTokenBalance) - parseFloat(amountBaseTokenToWithdraw)));
+        }
+    },[mode,amountBaseTokenToWithdraw,amountBaseTokenBalance,amountPairTokenBalance,wallet,marketMakingPool, updateSettings]);
+
+
+    const stakePairedToken = useCallback(async () => {
+        const wei = ethers.utils.parseEther(amountPairTokenToStake);
+        let success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
+        if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
+    },[amountPairTokenToStake,wallet,marketMakingPool,amountPairTokenBalance,updateSettings]);
+
 
     const stakeMarketMaker = useCallback(async () => {
         console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))

@@ -8,7 +8,7 @@ export default function Progress(props) {
     if (!init) setInit(true);
     else setPercentage(props.percentage);
     return () => {};
-  }, [init]);
+  }, [init,props]);
 
   // Size of the enclosing square
   const sqSize = props.sqSize;

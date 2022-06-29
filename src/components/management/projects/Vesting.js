@@ -43,7 +43,7 @@ export default function Vesting({  wallet, project, marketMakingPool, holdersMap
             };
             initWalletConnected();
         }
-    }, [wallet, marketMakingPool]);
+    }, [wallet, marketMakingPool,holdersMapping]);
 
 
     const releaseVesting = useCallback(async () => {
@@ -53,7 +53,7 @@ export default function Vesting({  wallet, project, marketMakingPool, holdersMap
             marketMakingPool.address,
             full_withdrawal
         );
-    },[amountVested,amountReleased,releaseAbleAmount]);
+    },[amountVested,amountReleased,releaseAbleAmount,wallet,marketMakingPool]);
 
     return ( <Card>
         <div className="vesting-header">

@@ -166,7 +166,7 @@ export default function Linked(props) {
             toast.error(`The token image and banner image are both required.`);
             return true;
         }
-    }, [banner, image,validationHelper]);
+    }, [banner, image]);
 
     const validateThirdStep = useCallback(() => {
         let valueInvalid = false;
@@ -246,7 +246,7 @@ export default function Linked(props) {
         }
 
         return valueInvalid;
-    }, [firstName, lastName, email, phoneNumber, telegram,validationHelper]);
+    }, [firstName, lastName, email, phoneNumber,validationHelper]);
 
     const validateSixthStep = useCallback(() => {
         let valueInvalid = false;
@@ -309,7 +309,7 @@ export default function Linked(props) {
         let newArray = [...socials, value];
         setSocials(newArray);
         setUrl("");
-    }, [socials, url,setSocials,setUrl,url,socialIndex]);
+    }, [socials, url,setSocials,setUrl,socialIndex]);
 
     const removeSocial = useCallback(
         (name) => {
