@@ -1,8 +1,21 @@
 import * as React from "react";
+
 import {useRouter} from "next/router";
+
+// core components
+import TableRow from "../../../core/table/TableRow";
+import TableCol from "../../../core/table/TableCol";
+import {TableActionEditButton} from "../../../core/table/TableActionButtons";
 
 
 export default function VestingBatchTable(props) {
+  const router = useRouter();
+  const { slug } = router.query;
+
+  const goToBatch = async (id) => {
+    router.push(`/management/${slug}/vesting/${id}`);
+  };
+
   return (
     <div className="table flex flex-col w-full h-full">
       <div className="table-header grid grid-cols-3 md-lg:grid-cols-12 px-2 mb-5 w-full">
@@ -41,7 +54,7 @@ export default function VestingBatchTable(props) {
               <span className="text-base font-medium">{row.duration} Seconds</span>
             </TableCol>
             <TableCol className="hidden md-lg:flex flex-row items-center space-x-5 col-span-2">
-              <TableActionEditButton batchID={row.id} project={props.project} />
+              <TableActionEditButton handleClick={() => goToBatch(row.id)} />
                  {row.revocable?'revocable':" not revocable"}
             </TableCol>
           </TableRow>
@@ -50,31 +63,5 @@ export default function VestingBatchTable(props) {
     </div>
   );
 }
-
-export const TableRow = (props) => {
-  return (
-    <div className="grid grid-cols-3 md-lg:grid-cols-12 items-center w-full h-19 px-2 border-b hover:border-0 hover:shadow-[1px_17px_44px_rgba(0,22,42,0.06)] hover:rounded-2xl">
-      {props.children}
-    </div>
-  );
-};
-
-export const TableCol = (props) => {
-  return <div className={props.className}>{props.children}</div>;
-};
-
-export const TableActionEditButton = (props) => {
-  const router = useRouter();
-
-    const goToBatch = async (id) => {
-            router.push(`/management/${props.project.slug}/vesting/${id}`);
-    };
-
-  return (
-    <div onClick={() => goToBatch(props.batchID)} className="flex items-center justify-center w-9 h-9 rounded-full bg-red-100/50 hover:ring-2 hover:ring-red-200/50 hover:cursor-pointer transition">
-      <i className="fa-solid fa-pen-line text-red-500" />
-    </div>
-  );
-};
 
 

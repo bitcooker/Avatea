@@ -1,18 +1,29 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
-import FileInput from "../../../../src/components/pages/Linked/fileInput";
 import Papa from "papaparse";
 import {ethers} from "ethers";
-import helper from "../../../../src/helpers";
-import Button from "../../../../src/components/core/Button/Button";
-import AddressAndAmountTable from "../../../../src/components/core/table/AddressAndAmountTable";
 import {useWallet} from "use-wallet";
-import InputEmpty from "../../../../src/components/core/Input/InputEmpty";
-import {Chart} from "../../../../src/components/pages/projects/Vesting/Chart";
-import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
 import Swal from "sweetalert2";
 import {useRouter} from "next/router";
+
+import helper from "../../../../src/helpers";
+// core components
+import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
+import Button from "../../../../src/components/core/Button/Button";
+import InputEmpty from "../../../../src/components/core/Input/InputEmpty";
+import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
+import AddressAndAmountTable from "../../../../src/components/management/vesting/Table/AddressAndAmountTable";
+
+// page components
+import FileInput from "../../../../src/components/pages/Linked/fileInput";
+import {Chart} from "../../../../src/components/pages/projects/Vesting/Chart";
+
+const vestings = [
+    {
+        address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
+        amount: 10
+    }
+]
 
 export default function VestingAdd(props) {
 
@@ -100,21 +111,24 @@ export default function VestingAdd(props) {
         <div className="relative flex flex-col h-[70vh] md-lg:h-[85vh] space-y-7.5">
             <div className="flex flex-row items-center justify-between">
                 <h1 className="text-2xl">Vesting Overview</h1>
-                <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
-                    <ButtonFit
-                        name="Download CSV Template"
-                        icon="fa-solid fa-cloud-arrow-up"
-                    />
-                </div>
+                {step === 1 && 
+                    <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
+                        <ButtonFit
+                            name="Download CSV Template"
+                            icon="fa-solid fa-cloud-arrow-up"
+                        />
+                    </div>
+                }
             </div>
-            <div className="grow space-y-3.75 bg-white rounded-2xl">
+            <div className="flex flex-col grow p-5 space-y-3.75 bg-white rounded-2xl">
+                <div className="grow">
                 {step === 1 &&
                     <FileInput label="Upload vesting distribution" setValue={handleFileSelect}
                                type={[".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values"]}/>
                 }
                 {step === 2 &&
                     <div className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
-                        <AddressAndAmountTable addresses={addresses} amounts={amounts} project={project}/>
+                        <AddressAndAmountTable vestings={vestings}/>
                     </div>
                 }
                 {step === 3 &&
@@ -176,22 +190,24 @@ export default function VestingAdd(props) {
                         />
                         <Button name="Create Vesting" handleClick={createVesting}/></div>
                 }
-
+                </div>
+                <div className="flex flex-row space-x-5">
+                    {step > 1 &&
+                        <Button
+                            name="Previous"
+                            handleClick={() => {
+                                setStep(step - 1)
+                            }}
+                        />
+                    }
+                    <Button
+                        name="Next"
+                        handleClick={() => {
+                            setStep(step + 1)
+                        }}
+                    />
+                </div>
             </div>
-            <Button
-                name="Next"
-                handleClick={() => {
-                    setStep(step + 1)
-                }}
-            />
-            {step > 1 &&
-                <Button
-                    name="Previous"
-                    handleClick={() => {
-                        setStep(step - 1)
-                    }}
-                />
-            }
         </div>
     );
 }
