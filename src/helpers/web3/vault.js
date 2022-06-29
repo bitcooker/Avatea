@@ -30,7 +30,6 @@ const stake = async (wallet, vaultAddress, amount, callback) => {
         })
         console.log('stake success')
     } catch (e) {
-        alert(e)
         console.log('stake error', e);
         toast.error(e.reason);
     }
@@ -63,7 +62,6 @@ const withdraw = async (wallet, vaultAddress, amount, full_withdrawal) => {
         })
         console.log('withdraw success')
     } catch (e) {
-        alert(e)
         console.log('withdraw error', e);
         toast.error(e.reason);
     }
@@ -95,7 +93,6 @@ const getReward = async (wallet, vaultAddress, callback) => {
         })
         console.log('getReward success')
     } catch (e) {
-        alert(e)
         console.log('getReward error', e);
         toast.error(e.reason);
     }
@@ -127,7 +124,6 @@ const exit = async (wallet, vaultAddress, callback) => {
         })
         console.log('exit success')
     } catch (e) {
-        alert(e)
         console.log('exit error', e);
         toast.error(e.reason);
     }
@@ -160,7 +156,6 @@ const addReward = async (wallet, vaultAddress, amount, callback) => {
         })
         console.log('addReward success')
     } catch (e) {
-        alert(e)
         console.log('addReward error', e);
         toast.error(e.reason);
     }
