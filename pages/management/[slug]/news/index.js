@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useRouter } from "next/router";
+import {useEffect, useState} from "react";
 import Link from "next/link";
 
 // core components
@@ -11,18 +11,19 @@ import helper from "../../../../src/helpers";
 
 
 export default function NewsList(props) {
-    const [articles, setArticles] = React.useState([]);
-    const router = useRouter();
-    const {slug} = router.query;
 
-    const fetchArticles = async () => {
-        if (slug) {
+    const [articles, setArticles] = useState([]);
+
+    useEffect(() => {
+        const fetchArticles = async () => {
+
             setArticles(
-                await helper.article.getArticles({project: slug})
+                await helper.article.getArticles({project: props.slug})
             );
-        }
-    };
-    fetchArticles();
+        };
+        fetchArticles();
+    }, []);
+
 
     return (
         <div className="w-full">
@@ -41,4 +42,9 @@ export default function NewsList(props) {
             </div>
         </div>
     );
+}
+
+export async function getServerSideProps(context) {
+    const {slug} = context.query;
+    return {props: {slug: slug}}
 }
