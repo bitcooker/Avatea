@@ -68,7 +68,8 @@ export default function ProjectDetail(props) {
       const initWalletConnected = async () => {
         const results = await helper.web3.marketMaker.fetchHoldersMapping(
           wallet,
-          marketMakingPool.address
+          marketMakingPool.address,
+            wallet.account
         );
         setHoldersMapping(results);
       };
