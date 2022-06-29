@@ -13,7 +13,7 @@ export default function NewsCard(props) {
     <div className="relative flex flex-col w-full bg-white rounded-lg overflow-hidden shadow-lg">
       <Image
         className="w-full"
-        src="/projects/default_banner.png"
+        src={props.news.image}
         alt="Mountain"
         layout="responsive"
         width="100%"
@@ -25,7 +25,7 @@ export default function NewsCard(props) {
       </div>
       <div className="flex items-center justify-between px-6 pt-4 pb-2">
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
-          {props.news.date}
+          {props.news.created_at.split("T")[0]}
         </span>
         <Link href={`/management/${slug}/news/${props.news.id}`} passHref>
           <a>

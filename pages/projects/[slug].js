@@ -1,6 +1,6 @@
-import { useWallet } from "use-wallet";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import {useWallet} from "use-wallet";
+import {useEffect, useState} from "react";
+import {useRouter} from "next/router";
 import helper from "../../src/helpers";
 
 // core components
@@ -30,33 +30,33 @@ export default function ProjectDetail(props) {
   const [holdersMapping, setHoldersMapping] = useState({});
   const [load, setLoad] = useState(false);
 
-  useEffect(() => {
-    if (props.projectDetail) setProject(props.projectDetail);
-    if (props.marketMakingPool) setMarketMakingPool(props.marketMakingPool);
-    if (props.vault) setVault(props.vault);
-    else {
-      const fetchProject = async () => {
-        const result = await helper.project.getProject(slug);
-        setProject(result?.project);
-        setMarketMakingPool(result?.marketMakingPool);
-        setVault(result?.vault);
-      };
-      fetchProject();
-    }
-  }, []);
+    useEffect(() => {
+        if (props.projectDetail) setProject(props.projectDetail);
+        if (props.marketMakingPool) setMarketMakingPool(props.marketMakingPool);
+        if (props.vault) setVault(props.vault);
+        else {
+            const fetchProject = async () => {
+                const result = await helper.project.getProject(slug);
+                setProject(result?.project);
+                setMarketMakingPool(result?.marketMakingPool);
+                setVault(result?.vault);
+            };
+            fetchProject();
+        }
+    }, []);
 
-  useEffect(() => {
-    //@TODO Error handling if empty market making pool or vault
-    if (Object.keys(project).length !== 0) {
-      const fetchProject = async () => {
-        const result = await helper.project.getProject(project.slug);
+    useEffect(() => {
+        //@TODO Error handling if empty market making pool or vault
+        if (Object.keys(project).length !== 0) {
+            const fetchProject = async () => {
+                const result = await helper.project.getProject(project.slug);
 
-        setMarketMakingPool(result?.marketMakingPool);
-        setVault(result?.vault);
-      };
-      fetchProject();
-    }
-  }, [props.projectDetail]);
+                setMarketMakingPool(result?.marketMakingPool);
+                setVault(result?.vault);
+            };
+            fetchProject();
+        }
+    }, [props.projectDetail]);
 
   useEffect(() => {
     setLoad(false);
@@ -103,23 +103,23 @@ export default function ProjectDetail(props) {
       />
       )}
 
-      {tab == 2 &&
-        Object.keys(holdersMapping).length !== 0 &&
-        holdersMapping?.amountVested.gt(0) && (
-          <Vesting
-            wallet={wallet}
-            marketMakingPool={marketMakingPool}
-            project={project}
-            holdersMapping={holdersMapping}
-          />
-        )}
-      {tab == 2 &&
-        Object.keys(holdersMapping).length !== 0 &&
-        holdersMapping?.amountVested.eq(0) && <NoVesting />}
-    </div>
-  );
+            {tab == 2 &&
+                Object.keys(holdersMapping).length !== 0 &&
+                holdersMapping?.amountVested.gt(0) && (
+                    <Vesting
+                        wallet={wallet}
+                        marketMakingPool={marketMakingPool}
+                        project={project}
+                        holdersMapping={holdersMapping}
+                    />
+                )}
+            {tab == 2 &&
+                Object.keys(holdersMapping).length !== 0 &&
+                holdersMapping?.amountVested.eq(0) && <NoVesting/>}
+        </div>
+    );
 }
 
 export async function getServerSideProps(context) {
-  return await helper.project.getProjectServerSide(context);
+    return await helper.project.getProjectServerSide(context);
 }

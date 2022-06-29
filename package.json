@@ -22,6 +22,7 @@
     "react-dom": "18.1.0",
     "react-draft-wysiwyg": "^1.14.7",
     "react-drag-drop-files": "^2.3.7",
+    "react-easy-crop": "^4.4.0",
     "react-flags-select": "^2.2.3",
     "react-image-crop": "^10.0.4",
     "react-toastify": "^9.0.1",

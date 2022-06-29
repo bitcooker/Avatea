@@ -52,6 +52,7 @@ const getClaimableAmount = async (wallet, address) => {
         return await avateaToken.getClaimableAmount(address);
     } catch (e) {
         console.log('fetchTotalSupply error', e);
+        toast.error(e.reason);
         return 0;
     }
 }

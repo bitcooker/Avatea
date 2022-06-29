@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { uploadIcon } from "../../SVG";
 
-export default function ImageDropdown(props) {
+export default function FileInput(props) {
   const [fileName, setFileName] = React.useState("");
 
   const handleFileSelect = (event) => {
@@ -20,7 +20,7 @@ export default function ImageDropdown(props) {
           <input
             id={props.id}
             type="file"
-            accept="image/*"
+            accept={props.type}
             className="hidden"
             onChange={handleFileSelect}
           />

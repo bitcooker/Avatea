@@ -6,7 +6,7 @@ import {API_URL, DEPLOYMENT_GAS_COST, MARKET_MAKER_DEPLOYER_ADDRESS} from "../co
 import MarketMakerDeployer from "../../abi/MarketMakerDeployer.json";
 import axios from "axios";
 
-const deploy = async (wallet, baseToken, pairedToken, revocable, paused, projectSlug, volume, maxBuyingAmount, maxSellingAmount) => {
+const deploy = async (wallet, baseToken, pairedToken, revocable, paused, projectSlug, volume, maxBuyingAmount, maxSellingAmount,pairedTokenImage) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const options = {value: ethers.utils.parseEther(DEPLOYMENT_GAS_COST)}
@@ -34,6 +34,7 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
             network: String(wallet.chainId),
             max_selling_amount: maxSellingAmount,
             max_buying_amount: maxBuyingAmount,
+            paired_token_image:pairedTokenImage,
             volume,
             live: !paused
         })
@@ -50,6 +51,7 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
         return true;
     } catch (e) {
         console.log('deploy error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -82,6 +84,7 @@ const stake = async (wallet, marketMakerAddress, amount, callback) => {
         return true;
     } catch (e) {
         console.log('stake error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -117,6 +120,7 @@ const stakeBatch = async (wallet, marketMakerAddress, user_addresses, amounts, c
         return true;
     } catch (e) {
         console.log('stakeBatch error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -167,6 +171,7 @@ const createVesting = async (wallet, marketMakerAddress, user_addresses, start, 
         return true;
     } catch (e) {
         console.log('createVesting error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -198,6 +203,7 @@ const stakePairedToken = async (wallet, marketMakerAddres, amount, callback) => 
         return true;
     } catch (e) {
         console.log('stakePairedToken error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -229,6 +235,7 @@ const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount, callbac
         return true;
     } catch (e) {
         console.log('stakePairedTokenInETH error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -261,6 +268,7 @@ const withdrawBaseToken = async (wallet, marketMakerAddress, amount, full_withdr
         return true;
     } catch (e) {
         console.log('withdrawBaseToken error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -294,6 +302,7 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, full_withdr
         return true;
     } catch (e) {
         console.log('withdrawPairedToken error', e);
+        toast.error(e.reason);
         return false;
     }
 }
@@ -328,21 +337,57 @@ const release = async (wallet, marketMakerAddress, full_withdrawal, callback) =>
         return true;
     } catch (e) {
         console.log('release error', e);
+        toast.error(e.reason);
+        return false;
+    }
+}
+
+const revoke = async (wallet, marketMakerAddress, user_address, callback) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
+
+        const tx = await marketMakerContract.revoke(user_address);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        const receipt = await tx.wait();
+        console.log(receipt);
+        await helpers.callback.hook({
+            type: "MMRT",
+            data: {
+                receipt,
+                wallet,
+                user_address
+            }
+        })
+        console.log('revoke success')
+        return true;
+    } catch (e) {
+        console.log('revoke error', e);
+        toast.error(e.reason);
         return false;
     }
 }
 
 
-const computeReleasableAmount = async (wallet, marketMakerAddress) => {
+const computeReleasableAmount = async (wallet, marketMakerAddress, userAddress) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
-        const result = await marketMakerContract.computeReleasableAmount(wallet.account);
-        return result
+        const result = await marketMakerContract.computeReleasableAmount(userAddress);
         console.log('computeReleasableAmount success')
+        return result
     } catch (e) {
         console.log('computeReleasableAmount error', e);
+        toast.error(e.reason);
         return 0;
     }
 }
@@ -355,16 +400,18 @@ const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, 
         return await marketMakerContract.getWithdrawablePairedTokens(address);
     } catch (e) {
         console.log('getWithdrawablePairedTokens error', e);
+        toast.error(e.reason);
         return 0;
     }
 }
 
-const fetchHoldersMapping = async (wallet, marketMakerAddress) => {
+const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
-        const data = await marketMakerContract.holdersMapping(wallet.account);
+        const data = await marketMakerContract.holdersMapping(address);
+
         const {
             available,
             amountVested,
@@ -396,7 +443,8 @@ const fetchHoldersMapping = async (wallet, marketMakerAddress) => {
             revocable
         }
     } catch (e) {
-        console.log('fetchVesting error', e);
+        console.log('holdersMapping error', e);
+        toast.error(e.reason);
         return 0;
     }
 }
@@ -413,5 +461,6 @@ export default {
     deploy,
     fetchHoldersMapping,
     createVesting,
-    stakeBatch
+    stakeBatch,
+    revoke
 }

@@ -146,6 +146,18 @@ const hook = async ({
                 })
                 callback()
                 break;
+            case 'MMRT':
+                event = data.receipt.events.find(x => x.event === "VestingRevoked").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount: ethers.utils.formatEther(event._amount),
+                    user_address: data.user_address,
+                    network: data.wallet.chainId,
+                })
+                callback()
+                break;
             case 'MMCD':
                 await axios.post(`${API_URL}Transaction/`, {
                     hash: data.receipt.transactionHash,

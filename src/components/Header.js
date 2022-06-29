@@ -1,22 +1,26 @@
 import Image from "next/image";
 import { useWallet } from "use-wallet";
 import helpers from "../helpers";
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import hashicon from "hashicon";
 import networks from "./../network/network.json";
 import SwitchNetwork from "../components/core/SwitchNetwork";
 import {ethers} from "ethers";
+import useLocalStorage from "use-local-storage";
 
 export default function Header({ menu, setMenu, title }) {
   const wallet = useWallet();
+  const [isRegistered,setIsRegistered] = useLocalStorage('isRegistered', false);
 
   //@TODO Optimize Register not to fire every time
   useEffect(() => {
-    if (wallet.isConnected()) {
+    if (wallet.isConnected() && !isRegistered) {
       const initWallet = async () => {
-        await helpers.user.registerUser(wallet);
+        await helpers.user.registerUser(wallet,setIsRegistered);
       };
       initWallet();
+    } else if(wallet.status === "disconnected") {
+        setIsRegistered(false);
     }
   }, [wallet]);
 
