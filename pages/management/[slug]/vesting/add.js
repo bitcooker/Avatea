@@ -100,14 +100,17 @@ export default function VestingAdd(props) {
         <div className="relative flex flex-col h-[70vh] md-lg:h-[85vh] space-y-7.5">
             <div className="flex flex-row items-center justify-between">
                 <h1 className="text-2xl">Vesting Overview</h1>
-                <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
-                    <ButtonFit
-                        name="Download CSV Template"
-                        icon="fa-solid fa-cloud-arrow-up"
-                    />
-                </div>
+                {step === 1 && 
+                    <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
+                        <ButtonFit
+                            name="Download CSV Template"
+                            icon="fa-solid fa-cloud-arrow-up"
+                        />
+                    </div>
+                }
             </div>
-            <div className="grow space-y-3.75 bg-white rounded-2xl">
+            <div className="flex flex-col grow p-5 space-y-3.75 bg-white rounded-2xl">
+                <div className="grow">
                 {step === 1 &&
                     <FileInput label="Upload vesting distribution" setValue={handleFileSelect}
                                type={[".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values"]}/>
@@ -176,22 +179,24 @@ export default function VestingAdd(props) {
                         />
                         <Button name="Create Vesting" handleClick={createVesting}/></div>
                 }
-
+                </div>
+                <div className="flex flex-row space-x-5">
+                    {step > 1 &&
+                        <Button
+                            name="Previous"
+                            handleClick={() => {
+                                setStep(step - 1)
+                            }}
+                        />
+                    }
+                    <Button
+                        name="Next"
+                        handleClick={() => {
+                            setStep(step + 1)
+                        }}
+                    />
+                </div>
             </div>
-            <Button
-                name="Next"
-                handleClick={() => {
-                    setStep(step + 1)
-                }}
-            />
-            {step > 1 &&
-                <Button
-                    name="Previous"
-                    handleClick={() => {
-                        setStep(step - 1)
-                    }}
-                />
-            }
         </div>
     );
 }
