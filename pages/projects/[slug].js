@@ -43,7 +43,7 @@ export default function ProjectDetail(props) {
             };
             fetchProject();
         }
-    }, []);
+    }, [props,slug]);
 
     useEffect(() => {
         //@TODO Error handling if empty market making pool or vault

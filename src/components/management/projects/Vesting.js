@@ -2,7 +2,7 @@ import Card from "../projectDetail/Card/Card";
 import {Chart} from "./Vesting/Chart";
 import Button from "../../core/Button/Button";
 import helper from "../../../helpers";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 export default function Vesting({  wallet, project, marketMakingPool, holdersMapping }) {
 
@@ -46,14 +46,14 @@ export default function Vesting({  wallet, project, marketMakingPool, holdersMap
     }, [wallet, marketMakingPool]);
 
 
-    const releaseVesting = async () => {
+    const releaseVesting = useCallback(async () => {
         let full_withdrawal = parseFloat(amountVested) === parseFloat(amountReleased) + parseFloat(releaseAbleAmount);
         await helper.marketMaker.release(
             wallet,
             marketMakingPool.address,
             full_withdrawal
         );
-    };
+    },[amountVested,amountReleased,releaseAbleAmount]);
 
     return ( <Card>
         <div className="vesting-header">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -35,29 +35,6 @@ const menus = [
 ];
 
 export default function Sidebar({ menu, setMenu, setTitle }) {
-  const wallet = useWallet();
-  const [claimableDividend, setClaimableDividend] = useState(0);
-
-  useEffect(() => {
-    if (wallet.isConnected()) {
-      const fetchClaimableDividend = async () => {
-        const result = await helper.avateaToken.getClaimableAmount(
-          wallet,
-          wallet.account
-        );
-        setClaimableDividend(ethers.utils.formatEther(result));
-      };
-      fetchClaimableDividend();
-    }
-  }, [wallet]);
-
-  const claimDividend = async () => {
-    if (wallet.isConnected()) {
-      await helper.avateaToken.claim(wallet);
-    } else {
-      alert("Wallet is not connected");
-    }
-  };
 
   return (
     <div

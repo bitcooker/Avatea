@@ -22,7 +22,7 @@ export default function NewsList(props) {
             );
         };
         fetchArticles();
-    }, []);
+    }, [props]);
 
 
     return (

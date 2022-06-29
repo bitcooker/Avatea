@@ -27,7 +27,7 @@ export default function ProjectDetail(props) {
             };
             fetchProject();
         }
-    }, []);
+    }, [props]);
 
     useEffect(() => {
         //@TODO Error handling if empty market making pool or vault
@@ -39,7 +39,7 @@ export default function ProjectDetail(props) {
             };
             fetchProject();
         }
-    }, [props.projectDetail]);
+    }, [project]);
 
     useEffect(() => {
         if (wallet.status === "connected" && marketMakingPool.paired_token) {
@@ -53,7 +53,7 @@ export default function ProjectDetail(props) {
             };
             initWalletConnected();
         }
-    }, [wallet, marketMakingPool.paired_token]);
+    }, [wallet, marketMakingPool,userAddress]);
 
     return (
         <div className="space-y-7.5 mb-5">

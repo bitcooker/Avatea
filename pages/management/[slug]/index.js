@@ -77,7 +77,7 @@ export default function VaultsDetail(props) {
             };
             fetchProject();
         }
-    }, []);
+    }, [props]);
 
     return (
         <div>

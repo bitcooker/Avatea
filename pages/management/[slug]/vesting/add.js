@@ -32,7 +32,7 @@ export default function VestingAdd(props) {
             };
             fetchProject();
         }
-    }, []);
+    }, [props]);
 
     const [step, setStep] = React.useState(1);
     const [addresses, setAddresses] = useState([]);

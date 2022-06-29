@@ -2,7 +2,6 @@ import axios from 'axios';
 import {API_URL} from "./constants";
 import {ethers} from 'ethers';
 
-//@Todo check register method, temp done with extra fields because of error
 const hook = async ({
                         type, data, callback = () => {
     }

@@ -7,7 +7,7 @@ import Button from "../../core/Button/Button";
 import Feed from "../projectDetail/Feed/Feed";
 import {ethers} from "ethers";
 import helper from "../../../helpers";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 export default function Vault({ vault, wallet, project, marketMakingPool }) {
 
@@ -58,17 +58,17 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
         fetchArticles();
     }, [project]);
 
-    const setMax = async (amount, setter) => {
+    const setMax = useCallback(async (amount, setter) => {
         setter(amount);
-    };
+    },[]);
 
 
-    const stakeVault = async () => {
+    const stakeVault = useCallback(async () => {
         const wei = ethers.utils.parseEther(amountToVaultStake);
         await helper.web3.vault.stake(wallet, vault.address, wei);
-    };
+    },[amountToVaultStake,wallet,vault]);
 
-    const withdrawVault = async () => {
+    const withdrawVault = useCallback(async () => {
         let full_withdrawal =
             parseFloat(vaultBalance) === parseFloat(stakedVaultBalance);
         const wei = ethers.utils.parseEther(vaultBalance);
@@ -78,15 +78,15 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
             wei,
             full_withdrawal
         );
-    };
+    },[vaultBalance,stakedVaultBalance,wallet,vault]);
 
-    const claimVaultRewards = async () => {
+    const claimVaultRewards = useCallback(async () => {
         await helper.web3.vault.getReward(wallet, vault.address);
-    };
+    },[wallet,vault]);
 
-    const exitVault = async () => {
+    const exitVault = useCallback(async () => {
         await helper.web3.vault.exit(wallet, vault.address);
-    };
+    },[wallet,vault]);
 
     return (
         <div className="grid md-lg:grid-cols-2 gap-7.5">

@@ -98,33 +98,33 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
 
     const handleSetMode = useCallback((mode) => {
         setMode(mode);
-    }, []);
+    }, [mode]);
 
-    const stakePairedToken = async () => {
+    const stakePairedToken = useCallback(async () => {
         const wei = ethers.utils.parseEther(amountPairTokenToStake);
         let success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
         if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
-    };
+    },[amountPairTokenToStake,wallet,marketMakingPool,amountPairTokenBalance]);
 
-    const withdrawPairToken = async () => {
+    const withdrawPairToken = useCallback(async () => {
         let full_withdrawal = parseFloat(amountPairTokenToWithdraw) === parseFloat(amountPairTokenBalance) && parseFloat(amountBaseTokenBalance) === 0;
         const wei = ethers.utils.parseEther(amountPairTokenToWithdraw);
         let success = await helper.web3.marketMaker.withdrawPairToken(wallet, marketMakingPool.address, wei, full_withdrawal);
         if (mode === 'buy' && success) {
             await updateSettings((parseFloat(amountPairTokenBalance) - parseFloat(amountPairTokenToWithdraw)))
         }
-    };
+    },[mode,amountPairTokenToWithdraw,amountPairTokenBalance,amountBaseTokenBalance,wallet,marketMakingPool]);
 
-    const withdrawBaseToken = async () => {
+    const withdrawBaseToken = useCallback(async () => {
         let full_withdrawal = parseFloat(amountBaseTokenToWithdraw) === parseFloat(amountBaseTokenBalance) && parseFloat(amountPairTokenBalance) === 0;
         const wei = ethers.utils.parseEther(amountBaseTokenToWithdraw);
         let success = await helper.marketMaker.withdrawBaseToken(wallet, marketMakingPool.address, wei, full_withdrawal);
         if (mode === 'sell' && success) {
             await updateSettings((parseFloat(amountBaseTokenBalance) - parseFloat(amountBaseTokenToWithdraw)));
         }
-    };
+    },[mode,amountBaseTokenToWithdraw,amountBaseTokenBalance,amountPairTokenBalance,wallet,marketMakingPool]);
 
-    const updateSettings = async (amount = 0) => {
+    const updateSettings = useCallback(async (amount = 0) => {
         const marketMakingSettings = {
             marketMakingType: mode,
             amountSettings: amount,
@@ -137,16 +137,17 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
         await helper.marketMaking.updateMarketMakingSettings({
             marketMakingSettings, wallet, fresh
         });
-    };
+    },[mode, pressure, priceLimit, marketMakingPool, marketMakingSettingsId, wallet,fresh]);
 
-    const stakeMarketMaker = async () => {
+    const stakeMarketMaker = useCallback(async () => {
         console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
         const wei = ethers.utils.parseEther(amountBaseTokenToStake);
         let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
         if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
-    };
+    },[amountBaseTokenBalance,amountBaseTokenToStake,wallet,marketMakingPool,wallet]);
 
-    return (<div className="grid md-lg:grid-cols-2 gap-7.5">
+    return (
+        <div className="grid md-lg:grid-cols-2 gap-7.5">
         <Card title="Activity">
             {/* Card Header */}
             <div className="card-header">

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useWallet } from "use-wallet";
 import helpers from "../helpers";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import hashicon from "hashicon";
 import networks from "./../network/network.json";
 import SwitchNetwork from "../components/core/SwitchNetwork";
@@ -22,16 +22,16 @@ export default function Header({ menu, setMenu, title }) {
     } else if(wallet.status === "disconnected") {
         setIsRegistered(false);
     }
-  }, [wallet]);
+  }, [wallet,isRegistered,setIsRegistered]);
 
-  const shortenAddress = (address) => {
+  const shortenAddress = useCallback((address) => {
     return address != null
       ? `${address.slice(0, 6)}...${address.slice(
           address.length - 4,
           address.length
         )}`
       : "";
-  };
+  },[]);
 
   return (
     <header className="relative pt-5 pb-[95px] md-lg:static md-lg:py-7.5">

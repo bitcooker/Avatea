@@ -6,7 +6,7 @@ export default function Checkbox(props) {
 
     useEffect(() => {
     props.setValue(isChecked);
-  }, [isChecked]);
+  }, [props,isChecked]);
 
   return isChecked ? (
     <div

@@ -1,7 +1,5 @@
 import axios from 'axios';
-import {ethers} from 'ethers';
-import TokenContract from '../abi/Token.json';
-import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
+import {API_URL, DEFAULT_CHAIN_ID} from "./constants";
 import helpers from '../helpers';
 import {toast} from 'react-toastify';
 
@@ -37,8 +35,6 @@ const updateMarketMakingPool = async ({settings, wallet}) => {
     try {
         const {volume, max_selling_amount, max_buying_amount, id} = settings;
         const signature = await helpers.web3.authentication.getSignature(wallet);
-        console.log(wallet.account)
-        console.log(signature)
             await axios(
                 {
                     method: 'patch',

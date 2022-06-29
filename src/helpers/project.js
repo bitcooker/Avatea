@@ -1,6 +1,4 @@
 import axios from 'axios';
-import {ethers} from 'ethers';
-import TokenContract from '../abi/Token.json';
 import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
 import helpers from "./index";
 import Swal from "sweetalert2";

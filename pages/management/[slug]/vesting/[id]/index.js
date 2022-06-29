@@ -20,7 +20,7 @@ export default function VestingOverview(props) {
         };
         fetchVesting();
 
-    }, []);
+    }, [props]);
 
 
     return (

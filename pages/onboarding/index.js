@@ -74,9 +74,6 @@ export default function Linked(props) {
         companyState: false,
     });
 
-    const [crop, setCrop] = useState();
-
-    console.log(socials)
 
     const postProject = async () => {
         const signature = await helpers.web3.authentication.getSignature(wallet);
@@ -162,14 +159,14 @@ export default function Linked(props) {
         }
 
         return valueInvalid;
-    }, [projectName, tokenAddress, tokenTicker]);
+    }, [projectName, tokenAddress, tokenTicker,validationHelper]);
 
     const validateSecondStep = useCallback(() => {
         if (!banner || !image) {
             toast.error(`The token image and banner image are both required.`);
             return true;
         }
-    }, [banner, image]);
+    }, [banner, image,validationHelper]);
 
     const validateThirdStep = useCallback(() => {
         let valueInvalid = false;
@@ -215,7 +212,7 @@ export default function Linked(props) {
         }
 
         return valueInvalid;
-    }, [description, website, whitepaper, audit]);
+    }, [description, website, whitepaper, audit,validationHelper]);
 
     const validateFifthStep = useCallback(() => {
         let valueInvalid = false;
@@ -249,7 +246,7 @@ export default function Linked(props) {
         }
 
         return valueInvalid;
-    }, [firstName, lastName, email, phoneNumber, telegram]);
+    }, [firstName, lastName, email, phoneNumber, telegram,validationHelper]);
 
     const validateSixthStep = useCallback(() => {
         let valueInvalid = false;
@@ -297,7 +294,7 @@ export default function Linked(props) {
         }
 
         return valueInvalid;
-    }, [companyName, streetAddress, city, postalCode, country, companyState]);
+    }, [companyName, streetAddress, city, postalCode, country, companyState,validationHelper]);
 
     const addSocial = useCallback(() => {
         if (socials.some((e) => e.name === SOCIALDATA[socialIndex].name)) return;
@@ -312,7 +309,7 @@ export default function Linked(props) {
         let newArray = [...socials, value];
         setSocials(newArray);
         setUrl("");
-    }, [socials, url]);
+    }, [socials, url,setSocials,setUrl,url,socialIndex]);
 
     const removeSocial = useCallback(
         (name) => {
@@ -324,7 +321,7 @@ export default function Linked(props) {
             }
             setSocials(array);
         },
-        [socials]
+        [socials,setSocials]
     );
 
     const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {

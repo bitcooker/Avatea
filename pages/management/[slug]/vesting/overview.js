@@ -23,7 +23,7 @@ export default function VestingOverview(props) {
             };
             fetchProject();
         }
-    }, []);
+    }, [props]);
 
     useEffect(() => {
         const fetchVestingBatches = async () => {

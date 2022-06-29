@@ -1,6 +1,4 @@
 import * as React from "react";
-import helper from "../../../helpers";
-import Swal from "sweetalert2";
 import {useRouter} from "next/router";
 
 

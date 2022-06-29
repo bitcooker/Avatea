@@ -1,8 +1,5 @@
 import * as React from "react";
 
-// core components
-import Checkbox from "../Checkbox/Checkbox";
-
 const data = [
   {
     address: "Ethereum (ETH)",

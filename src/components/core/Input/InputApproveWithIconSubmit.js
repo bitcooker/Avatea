@@ -1,6 +1,6 @@
 import * as React from "react";
 import InputSubmit from "./InputSubmit";
-import {useState, useEffect} from "react";
+import {useState, useEffect, useCallback} from "react";
 import {useWallet} from "use-wallet";
 import helper from "../../../helpers";
 
@@ -9,14 +9,14 @@ export default function Input(props) {
     const wallet = useWallet();
     const [approved, setApproved] = useState(false);
 
-    const fetchApproval = async () => {
+    const fetchApproval = useCallback(async () => {
         const result = await getApprovedAmount(props.address, props.token);
         setApproved(result);
-    };
+    },[props,approved]);
 
     useEffect(() => {
         if (props.address && props.token && wallet.isConnected()) fetchApproval();
-    }, [props]);
+    }, [props,fetchApproval,wallet]);
 
     const onChange = React.useCallback(
         (e) => {
@@ -25,16 +25,16 @@ export default function Input(props) {
         [props]
     );
 
-    const approve = async (address, tokenAddress) => {
+    const approve = useCallback(async (address, tokenAddress) => {
         const totalSupply = await helper.token.fetchTotalSupply(wallet, tokenAddress);
         await helper.token.approveCustomToken(wallet, address, totalSupply, tokenAddress);
         fetchApproval();
-    }
+    },[wallet])
 
-    const getApprovedAmount = async (address, tokenAddress) => {
+    const getApprovedAmount = useCallback(async (address, tokenAddress) => {
         const approvedAmount = await helper.token.fetchApprovedAmount(wallet, address, tokenAddress);
         return approvedAmount > 0
-    }
+    },[wallet])
 
     return (
         <div className="flex shadow-sm items-center h-12.5 block w-full bg-gray-100 rounded-0.5xl pl-5 pr-3.75 py-2.5">

@@ -9,7 +9,7 @@ export default function RangeSlider(props) {
 
   const handleOnInput = React.useCallback((e) => {
     props.setPercent(e.target.value);
-  }, []);
+  }, [props]);
 
   return (
     <div className="relative group w-full bg-gray-200 h-2.5 rounded-full">
