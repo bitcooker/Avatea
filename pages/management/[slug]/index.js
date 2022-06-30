@@ -13,6 +13,7 @@ import helper from "../../../src/helpers";
 import VaultCard from "../../../src/components/management/VaultCard";
 import MarketMakingCard from "../../../src/components/management/MarketMakingCard";
 import ManageProjectCard from "../../../src/components/management/ManageProjectCard";
+import {useWallet} from "use-wallet";
 
 const SOCIALDATA = [
     {
@@ -59,7 +60,8 @@ const SOCIALDATA = [
     },
 ];
 
-export default function VaultsDetail(props) {
+export default function ManagementIndex(props) {
+    const wallet = useWallet();
     const [project, setProject] = React.useState({});
     const [vault, setVault] = useState({});
     const [marketMakingPool, setMarketMakingPool] = useState({});
@@ -77,39 +79,45 @@ export default function VaultsDetail(props) {
             };
             fetchProject();
         }
+        console.log(project)
     }, [props]);
 
     return (
         <div>
 
+            {
+                wallet.status === "connected" ? (
+                    wallet.account === project.owner ? (
+                        <div className="space-y-7.5">
+                            <Banner {...project} />
 
-            <div className="space-y-7.5">
-                <Banner {...project} />
+                            {!project.signed_contract ? (
+                                <Card>
+                                    <div className="card-header mb-5">
+                                        <h1 className="text-2xl">
+                                            First you need to verify the contract which has bent sent to
+                                            your email.
+                                        </h1>
+                                    </div>
+                                    <div className="w-full space-y-3.75">
+                                        {/* Edit Button */}
+                                        <Button name="Contact support"/>
+                                    </div>
+                                </Card>
+                            ) : (
+                                <div className="space-y-7.5">
+                                    <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-3.75">
+                                        <VaultCard vault={vault} project={project}/>
+                                        <MarketMakingCard project={project} marketMakingPool={marketMakingPool}/>
+                                        <ManageProjectCard project={project} vault={vault}/>
+                                    </div>
 
-                {!project.signed_contract ? (
-                    <Card>
-                        <div className="card-header mb-5">
-                            <h1 className="text-2xl">
-                                First you need to verify the contract which has bent sent to
-                                your email.
-                            </h1>
+                                </div>
+                            )}
                         </div>
-                        <div className="w-full space-y-3.75">
-                            {/* Edit Button */}
-                            <Button name="Contact support"/>
-                        </div>
-                    </Card>
-                ) : (
-                    <div className="space-y-7.5">
-                        <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-3.75">
-                            <VaultCard vault={vault} project={project}/>
-                            <MarketMakingCard project={project} marketMakingPool={marketMakingPool}/>
-                            <ManageProjectCard project={project} vault={vault}/>
-                        </div>
-
-                    </div>
-                )}
-            </div>
+                    ) : <p>You are not the owner</p>
+                ) : <p>Please connect your wallet</p>
+            }
 
 
         </div>
