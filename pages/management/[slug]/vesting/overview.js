@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 import helper from "../../../../src/helpers";
 import {useWallet} from "use-wallet";
-import VestingBatchTable from "../../../../src/components/management/vesting/Table/VestingBatchTable";
+import VestingBatchTable from "../../../../src/components/pages/management/vesting/Table/VestingBatchTable";
 
 
 export default function VestingOverview(props) {

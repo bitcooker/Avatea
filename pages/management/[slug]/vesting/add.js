@@ -12,7 +12,7 @@ import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 import Button from "../../../../src/components/core/Button/Button";
 import InputEmpty from "../../../../src/components/core/Input/InputEmpty";
 import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
-import AddressAndAmountTable from "../../../../src/components/management/vesting/Table/AddressAndAmountTable";
+import AddressAndAmountTable from "../../../../src/components/pages/management/vesting/Table/AddressAndAmountTable";
 
 // page components
 import FileInput from "../../../../src/components/pages/Linked/fileInput";

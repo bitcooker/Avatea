@@ -10,9 +10,9 @@ import Card from "../../../src/components/pages/projectDetail/Card/Card";
 
 // social icons without background
 import helper from "../../../src/helpers";
-import VaultCard from "../../../src/components/management/VaultCard";
-import MarketMakingCard from "../../../src/components/management/MarketMakingCard";
-import ManageProjectCard from "../../../src/components/management/ManageProjectCard";
+import VaultCard from "../../../src/components/pages/management/VaultCard";
+import MarketMakingCard from "../../../src/components/pages/management/MarketMakingCard";
+import ManageProjectCard from "../../../src/components/pages/management/ManageProjectCard";
 import {useWallet} from "use-wallet";
 
 const SOCIALDATA = [

@@ -5,7 +5,7 @@ import {useWallet} from "use-wallet";
 // core components
 import ButtonFit from "../../../../../src/components/core/Button/ButtonFit";
 import helper from "../../../../../src/helpers";
-import VestingTable from "../../../../../src/components/management/vesting/Table/VestingTable";
+import VestingTable from "../../../../../src/components/pages/management/vesting/Table/VestingTable";
 
 export default function VestingOverview(props) {
     const wallet = useWallet();
