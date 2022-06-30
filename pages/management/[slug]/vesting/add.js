@@ -22,7 +22,39 @@ const vestings = [
     {
         address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
         amount: 10
-    }
+    },
+    {
+        address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
+        amount: 10
+    },
+    {
+        address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
+        amount: 232
+    },
+    {
+        address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
+        amount: 232
+    },
+    {
+        address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
+        amount: 3011
+    },
+    {
+        address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
+        amount: 3011
+    },
+    {
+        address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
+        amount: 192
+    },
+    {
+        address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
+        amount: 192
+    },
+    {
+        address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
+        amount: 1111    
+    },
 ]
 
 export default function VestingAdd(props) {
@@ -127,67 +159,84 @@ export default function VestingAdd(props) {
                                type={[".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values"]}/>
                 }
                 {step === 2 &&
-                    <div className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
-                        <AddressAndAmountTable vestings={vestings}/>
+                    <div className="grow h-[60vh] md-lg:h-[70vh] p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
+                        <AddressAndAmountTable vestings={vestings} project={project}/>
                     </div>
                 }
                 {step === 3 &&
                     <div className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
-                        batch name
-                        <InputEmpty
-                            id="start"
-                            name="start"
-                            type="text"
-                            placeholder="batch name"
-                            value={batchName}
-                            setValue={setBatchName}
-                        />
-                        start
-                        <InputEmpty
-                            id="start"
-                            name="start"
-                            type="number"
-                            placeholder="Duration"
-                            value={start}
-                            setValue={setStart}
-                        />
-                        cliff
-                        <InputEmpty
-                            id="cliff"
-                            name="cliff"
-                            type="number"
-                            placeholder="Duration"
-                            value={cliff}
-                            setValue={setCliff}
-                        />
-                        Duration
-                        <InputEmpty
-                            id="duration"
-                            name="duration"
-                            type="number"
-                            placeholder="Duration"
-                            value={duration}
-                            setValue={setDuration}
-                        />
-                        slicePeriodSeconds
-                        <InputEmpty
-                            id="slicePeriodSeconds"
-                            name="slicePeriodSeconds"
-                            type="number"
-                            placeholder="slicePeriodSeconds"
-                            value={slicePeriodSeconds}
-                            setValue={setSlicePeriodSeconds}
-                        />
-                        Revocable
-                        <Checkbox setValue={setRevocable}/>
-                        <Chart
-                            amountVested="100"
-                            cliff={parseInt(cliff) + parseInt(start)}
-                            start={start}
-                            duration={duration}
-                            slicePeriodSeconds={slicePeriodSeconds}
-                            ticker="%"
-                        />
+                        <div className="grid md-lg:grid-cols-2 gap-5">
+                            <div className="flex flex-col space-y-3.75">
+                                <span className="text-base">Batch name</span>
+                                <InputEmpty
+                                    id="start"
+                                    name="start"
+                                    type="text"
+                                    placeholder="batch name"
+                                    value={batchName}
+                                    setValue={setBatchName}
+                                />
+                            </div>
+                            <div className="flex flex-col space-y-3.75">
+                                <span className="text-base">Start</span>
+                                <InputEmpty
+                                    id="start"
+                                    name="start"
+                                    type="number"
+                                    placeholder="Duration"
+                                    value={start}
+                                    setValue={setStart}
+                                />
+                            </div>
+                            <div className="flex flex-col space-y-3.75">
+                                <span className="text-base">Cliff</span>
+                                <InputEmpty
+                                    id="cliff"
+                                    name="cliff"
+                                    type="number"
+                                    placeholder="Duration"
+                                    value={cliff}
+                                    setValue={setCliff}
+                                />
+                            </div>
+                            <div className="flex flex-col space-y-3.75">
+                                <span className="text-base">Duration</span>
+                                <InputEmpty
+                                    id="duration"
+                                    name="duration"
+                                    type="number"
+                                    placeholder="Duration"
+                                    value={duration}
+                                    setValue={setDuration}
+                                />
+                            </div>
+                            <div className="flex flex-col space-y-3.75">
+                                <span className="text-base">SlicePeriodSeconds</span>
+                                <InputEmpty
+                                    id="slicePeriodSeconds"
+                                    name="slicePeriodSeconds"
+                                    type="number"
+                                    placeholder="slicePeriodSeconds"
+                                    value={slicePeriodSeconds}
+                                    setValue={setSlicePeriodSeconds}
+                                />
+                            </div>
+                            <div className="flex flex-col justify-end space-y-3.75">
+                                <div className="flex items-center w-full h-12.5 space-x-2">
+                                    <span className="text-base">Revocable</span><Checkbox setValue={setRevocable}/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="my-5">
+                            <Chart
+                                amountVested="100"
+                                cliff={parseInt(cliff) + parseInt(start)}
+                                start={start}
+                                duration={duration}
+                                slicePeriodSeconds={slicePeriodSeconds}
+                                ticker="%"
+                            />
+                        </div>
                         <Button name="Create Vesting" handleClick={createVesting}/></div>
                 }
                 </div>
