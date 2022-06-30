@@ -97,3 +97,12 @@ input[type="range"]::-webkit-slider-thumb {
 .controls:hover input[type='range']::-moz-range-thumb {
     box-shadow: 0px 0px 0px 8px rgba(63, 81, 181, 0.16);
 }
+
+/*  Avoid making two toolbars in Quill - !the other solution -> next.config.js - we need to change the strict mode into false  */
+.quill > .ql-toolbar:first-child {
+    display: none !important;
+}
+
+.quill > .ql-container {
+    min-height: 100px;
+}
