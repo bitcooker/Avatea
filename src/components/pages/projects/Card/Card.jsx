@@ -22,7 +22,7 @@ export default function Card({ projectProps }) {
           <Spinner size={5} />
         </div>
       ) : (
-        <div className="grid sm-md:grid-cols-2 xl-2xl:grid-cols-3 2xl-3xl:grid-cols-4 gap-5">
+        <div className="grid sm-md:grid-cols-2 xl-2xl:grid-cols-3 gap-5">
           {projects.map((project) => {
             return <CardItem key={project.slug} {...project} />;
           })}

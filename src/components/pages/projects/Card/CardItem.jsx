@@ -4,8 +4,10 @@ import Link from "next/link";
 
 // core components
 import Spinner from "../../../core/Spinner";
+import {useWallet} from "use-wallet";
 
 export default function CardItem(props) {
+    const wallet = useWallet();
   const socials = Object.entries(
     Object.fromEntries(
       Object.entries(props).filter(([key]) => key.includes("social_"))
@@ -74,6 +76,17 @@ export default function CardItem(props) {
             View Project
           </a>
         </Link>
+          {
+              wallet.status === "connected" ? (
+                      props.owner === wallet.account ? (
+                              <Link href={`management/${props.slug}`}>
+                                  <a className="block py-2.5 mt-5 w-full bg-indigo-500 text-white text-center rounded-full hover:bg-indigo-500/80">
+                                      Manage Project
+                                  </a>
+                              </Link>
+                      ) : ""
+              ) : ""
+          }
       </div>
     </div>
   );
