@@ -10,6 +10,7 @@ import helper from "../../../../src/helpers";
 // core components
 import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 import Button from "../../../../src/components/core/Button/Button";
+import ButtonOutline from "../../../../src/components/core/Button/ButtonOutline";
 import InputEmpty from "../../../../src/components/core/Input/InputEmpty";
 import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
 import AddressAndAmountTable from "../../../../src/components/management/vesting/Table/AddressAndAmountTable";
@@ -140,7 +141,7 @@ export default function VestingAdd(props) {
     };
 
     return (
-        <div className="relative flex flex-col h-[70vh] md-lg:h-[85vh] space-y-7.5">
+        <div className="relative flex flex-col min-h-[70vh] md-lg:min-h-[85vh] space-y-7">
             <div className="flex flex-row items-center justify-between">
                 <h1 className="text-2xl">Vesting Overview</h1>
                 {step === 1 && 
@@ -237,7 +238,7 @@ export default function VestingAdd(props) {
                                 ticker="%"
                             />
                         </div>
-                        <Button name="Create Vesting" handleClick={createVesting}/></div>
+                    </div>
                 }
                 </div>
                 <div className="flex flex-row space-x-5">
@@ -249,12 +250,15 @@ export default function VestingAdd(props) {
                             }}
                         />
                     }
-                    <Button
+                    {step === 3 ? 
+                        <ButtonOutline name="Create Vesting" icon="fa-regular fa-check" handleClick={createVesting}/>
+                        : 
+                        <Button
                         name="Next"
                         handleClick={() => {
                             setStep(step + 1)
                         }}
-                    />
+                    />}
                 </div>
             </div>
         </div>
