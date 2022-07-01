@@ -4,10 +4,11 @@ import helpers from '../helpers';
 import {toast} from 'react-toastify';
 
 
-const getMarketMakingPools = async ({invested, saved, live, network = DEFAULT_CHAIN_ID, callback} = {}) => {
+const getMarketMakingPools = async ({invested,vested, saved, live, network = DEFAULT_CHAIN_ID, callback} = {}) => {
 
     let parameters = "?";
     if (invested) parameters += `invested=${invested}&`
+    if (vested) parameters += `vested=${vested}&`
     if (saved) parameters += `saved=${saved}&`
     if (live) parameters += `live=${live}&`
     if (network) parameters += `network=${network}&`
