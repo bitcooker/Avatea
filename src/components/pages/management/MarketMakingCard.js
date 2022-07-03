@@ -48,8 +48,8 @@ export default function MarketMakingCard({project, marketMakingPool}) {
     const updateMarketMakingPool = useCallback(async () => {
         const settings = {
             volume,
-            max_selling_amount: maxBuyingAmount,
-            max_buying_amount: maxSellingAmount,
+            max_selling_amount: maxSellingAmount,
+            max_buying_amount: maxBuyingAmount,
             id: marketMakingPool.id,
         };
 

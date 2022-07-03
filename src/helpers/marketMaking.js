@@ -44,7 +44,8 @@ const updateMarketMakingPool = async ({settings, wallet}) => {
                         volume,
                         max_selling_amount,
                         max_buying_amount,
-                        signature
+                        signature,
+                        user_address:wallet.account
                     }
                 }
             )
