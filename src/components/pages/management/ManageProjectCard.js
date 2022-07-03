@@ -57,6 +57,7 @@ export default function ManageProjectCard({project}) {
         formData.append("social_telegram", telegram);
         formData.append("social_discord", discord);
         formData.append("social_medium", medium);
+        formData.append("user_address", wallet.account);
 
 
         await helpers.project.updateProjectInformation(formData,project.slug,wallet);
