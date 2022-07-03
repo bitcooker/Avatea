@@ -28,7 +28,7 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                             wallet,
                             project.token,
                             marketMakingPool.address
-                        )
+                        ) || '0'
                     )
                 );
                 setPairedTokenBalance(
@@ -37,7 +37,7 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                             wallet,
                             marketMakingPool.paired_token,
                             marketMakingPool.address
-                        )
+                        ) || '0'
                     )
                 );
             };

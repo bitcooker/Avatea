@@ -15,51 +15,7 @@ import MarketMakingCard from "../../../src/components/pages/management/MarketMak
 import ManageProjectCard from "../../../src/components/pages/management/ManageProjectCard";
 import {useWallet} from "use-wallet";
 import {useRouter} from "next/router";
-
-const SOCIALDATA = [
-    {
-        name: "LinkedIn",
-        value: "social_linkedin",
-        icon: "linkedin",
-        color: "bg-indigo-400",
-    },
-    {
-        name: "Facebook",
-        value: "social_facebook",
-        icon: "facebook-f",
-        color: "bg-indigo-400",
-    },
-    {
-        name: "Github",
-        value: "social_github",
-        icon: "github",
-        color: "bg-indigo-400",
-    },
-    {
-        name: "Telegram",
-        value: "social_telegram",
-        icon: "telegram",
-        color: "bg-sky-400",
-    },
-    {
-        name: "Discord",
-        value: "social_discord",
-        icon: "discord",
-        color: "bg-indigo-400",
-    },
-    {
-        name: "Medium",
-        value: "social_medium",
-        icon: "medium",
-        color: "bg-indigo-400",
-    },
-    {
-        name: "Twitter",
-        value: "social_twitter",
-        icon: "twitter",
-        color: "bg-sky-400",
-    },
-];
+import ManagementAuthentication from "../../../src/components/pages/management/ManagementAuthentication";
 
 export default function ManagementIndex(props) {
     const wallet = useWallet();
@@ -86,44 +42,35 @@ export default function ManagementIndex(props) {
     }, [props]);
 
     return (
-        <div>
+            <ManagementAuthentication wallet={wallet} project={project}>
+                <div className="space-y-7.5">
+                    <Banner {...project} />
 
-            {
-                wallet.status === "connected" ? (
-                    wallet.account === project.owner ? (
+                    {!project.signed_contract ? (
+                        <Card>
+                            <div className="card-header mb-5">
+                                <h1 className="text-2xl">
+                                    First you need to verify the contract which has bent sent to
+                                    your email.
+                                </h1>
+                            </div>
+                            <div className="w-full space-y-3.75">
+                                {/* Edit Button */}
+                                <Button name="Contact support"/>
+                            </div>
+                        </Card>
+                    ) : (
                         <div className="space-y-7.5">
-                            <Banner {...project} />
+                            <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-3.75">
+                                <VaultCard vault={vault} project={project}/>
+                                <MarketMakingCard project={project} marketMakingPool={marketMakingPool}/>
+                                <ManageProjectCard project={project} vault={vault}/>
+                            </div>
 
-                            {!project.signed_contract ? (
-                                <Card>
-                                    <div className="card-header mb-5">
-                                        <h1 className="text-2xl">
-                                            First you need to verify the contract which has bent sent to
-                                            your email.
-                                        </h1>
-                                    </div>
-                                    <div className="w-full space-y-3.75">
-                                        {/* Edit Button */}
-                                        <Button name="Contact support"/>
-                                    </div>
-                                </Card>
-                            ) : (
-                                <div className="space-y-7.5">
-                                    <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-3.75">
-                                        <VaultCard vault={vault} project={project}/>
-                                        <MarketMakingCard project={project} marketMakingPool={marketMakingPool}/>
-                                        <ManageProjectCard project={project} vault={vault}/>
-                                    </div>
-
-                                </div>
-                            )}
                         </div>
-                    ) : <p>You are not the owner</p>
-                ) : <p>Please connect your wallet</p>
-            }
-
-
-        </div>
+                    )}
+                </div>
+            </ManagementAuthentication>
     );
 }
 

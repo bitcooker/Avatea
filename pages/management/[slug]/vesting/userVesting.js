@@ -4,6 +4,7 @@ import {useRouter} from "next/router";
 import helper from "../../../../src/helpers";
 
 import Vesting from "../../../../src/components/pages/projects/Vesting";
+import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 
 
 export default function ProjectDetail(props) {
@@ -56,16 +57,18 @@ export default function ProjectDetail(props) {
     }, [wallet, marketMakingPool,userAddress]);
 
     return (
-        <div className="space-y-7.5 mb-5">
-            <Vesting
-                wallet={wallet}
-                marketMakingPool={marketMakingPool}
-                project={project}
-                holdersMapping={holdersMapping}
-                setAction={'revoke'}
-                userAddress={userAddress}
-            />
-        </div>
+        <ManagementAuthentication wallet={wallet} project={project}>
+            <div className="space-y-7.5 mb-5">
+                <Vesting
+                    wallet={wallet}
+                    marketMakingPool={marketMakingPool}
+                    project={project}
+                    holdersMapping={holdersMapping}
+                    setAction={'revoke'}
+                    userAddress={userAddress}
+                />
+            </div>
+        </ManagementAuthentication>
     );
 }
 
