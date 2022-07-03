@@ -49,28 +49,32 @@ export default function CardItem(props) {
         <div className="flex items-center justify-center space-x-1 my-3.5">
           {mapSocials()}
         </div>
-        <div className="flex items-center justify-between mb-2.5">
-          <div className="text-sm text-black/60">Total value locked :</div>
-          <div className="font-semibold text-sm text-right text-black">
-            $ 100.000
-          </div>
-        </div>
-        <div className="flex items-center justify-between mb-2.5">
-          <div className="text-sm text-black/60">Whitepaper :</div>
-          <div className="font-semibold text-sm text-right text-indigo-500">
-            <a href={props.whitepaper} target={"_blank"} rel={"noReferrer"}>
-              View
-            </a>
-          </div>
-        </div>
-        <div className="flex items-center justify-between mb-2.5">
-          <div className="text-sm text-black/60">Website :</div>
-          <div className="font-semibold text-sm text-right text-black">
-            <a href={props.website} target={"_blank"} rel={"noReferrer"}>
-              View
-            </a>
-          </div>
-        </div>
+          {
+              props.disableDetails ? "" : <>
+                  <div className="flex items-center justify-between mb-2.5">
+                      <div className="text-sm text-black/60">Total value locked :</div>
+                      <div className="font-semibold text-sm text-right text-black">
+                          $ 100.000
+                      </div>
+                  </div>
+                  <div className="flex items-center justify-between mb-2.5">
+                      <div className="text-sm text-black/60">Whitepaper :</div>
+                      <div className="font-semibold text-sm text-right text-indigo-500">
+                          <a href={props.whitepaper} target={"_blank"} rel={"noReferrer"}>
+                              View
+                          </a>
+                      </div>
+                  </div>
+                  <div className="flex items-center justify-between mb-2.5">
+                      <div className="text-sm text-black/60">Website :</div>
+                      <div className="font-semibold text-sm text-right text-black">
+                          <a href={props.website} target={"_blank"} rel={"noReferrer"}>
+                              View
+                          </a>
+                      </div>
+                  </div>
+              </>
+          }
         <Link href={`projects/${props.slug}`}>
           <a className="block py-2.5 mt-5 w-full bg-indigo-500 text-white text-center rounded-full hover:bg-indigo-500/80">
             View Project

@@ -14,6 +14,7 @@ import VaultCard from "../../../src/components/pages/management/VaultCard";
 import MarketMakingCard from "../../../src/components/pages/management/MarketMakingCard";
 import ManageProjectCard from "../../../src/components/pages/management/ManageProjectCard";
 import {useWallet} from "use-wallet";
+import {useRouter} from "next/router";
 
 const SOCIALDATA = [
     {
@@ -62,6 +63,8 @@ const SOCIALDATA = [
 
 export default function ManagementIndex(props) {
     const wallet = useWallet();
+    const router = useRouter();
+    const { slug } = router.query;
     const [project, setProject] = React.useState({});
     const [vault, setVault] = useState({});
     const [marketMakingPool, setMarketMakingPool] = useState({});

@@ -15,7 +15,7 @@ const getMarketMakingPools = async ({invested,vested, saved, live, network = DEF
 
     try {
         const {data} = await axios.get(`${API_URL}MarketMakingPool/${parameters}`);
-        callback(data)
+        return data
     } catch (e) {
         console.log('getMarketMakingPools error:', e);
     }

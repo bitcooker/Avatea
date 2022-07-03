@@ -11,6 +11,7 @@ import callback from "./callback";
 import authentication from "./web3/authentication";
 import article from "./article";
 import validator from "./validator";
+import transactions from "./transactions";
 
 
 
@@ -33,5 +34,6 @@ export default {
     vaultRest,
     callback,
     formatting,
-    validator
+    validator,
+    transactions
 }
