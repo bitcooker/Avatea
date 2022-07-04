@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 // core components
@@ -97,23 +98,29 @@ export default function CardItem(props) {
 }
 
 export const CardImage = (props) => {
-  const [load, setLoad] = useState(false);
-  const image = useRef(null);
+    const [imgLoaded, setImgLoaded] = useState(false);
 
-  useEffect(() => {
-    if (image.current) {
-      // image.current.onload = () => setLoad(true);
-      // this one for test purposes
-      image.current.onload = () => setTimeout(() => setLoad(true), 2000);
-    }
-  });
+    const handleImageLoad = (event) => {
+      const target = event.target;
+      if (target.complete) {
+        setTimeout(() => setImgLoaded(true), 2000);
+      }
+    };
 
   return (
-    <div className={`relative flex items-center justify-center bg-white w-full h-[260px]`}>
-      {!load && (
-        <div className="absolute"><Spinner size={5}/></div>
+    <div className={`relative flex flex-col w-full justify-center bg-white`}>
+      {!imgLoaded && (
+        <div className="absolute flex w-full justify-center"><Spinner size={5}/></div>
       )}
-      <img src={props.image} alt={props.slug} ref={image} className={`w-full h-full cover-fill ${!load && 'opacity-0'}`} />
+      <Image 
+        src={props.image} 
+        alt={props.slug}
+        onLoad={handleImageLoad}
+        className={`w-full ${!imgLoaded && 'opacity-0'}`} 
+        layout="responsive"
+        width="100%"
+        height={50}
+      />
     </div>
   );
 };
