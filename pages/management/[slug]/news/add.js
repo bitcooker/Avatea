@@ -33,7 +33,7 @@ export default function News(props) {
           <ImageDropdown label="News Image" setValue={setNewsImage} />
         </div>
         <div className="grow">
-          <RichEditor wrapperClassName="min-h-[15vh]"/>
+          <RichEditor />
         </div>
         <div className="flex flex-row justify-end gap-3.75">
           <ButtonFit name="Add" icon="fa-regular fa-plus" />

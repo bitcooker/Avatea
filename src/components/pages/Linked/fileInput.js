@@ -11,9 +11,9 @@ export default function FileInput(props) {
   };
 
   return (
-    <label htmlFor={props.id} className="flex flex-col space-y-3.75">
+    <label htmlFor={props.id} className="flex flex-col h-full space-y-3.75">
       <h1 className="text-xl">{props.label}</h1>
-      <div className="flex flex-col h-auto p-7.5 items-center border-2 border-dashed border-indigo-500/40 rounded-2.5xl space-y-12.5 hover:cursor-pointer hover:border-solid">
+      <div className="grow flex flex-col h-auto p-7.5 items-center justify-center border-2 border-dashed border-indigo-500/40 rounded-2.5xl space-y-12.5 hover:cursor-pointer hover:border-solid">
         {uploadIcon}
 
         <div className="Crop-Controls">
