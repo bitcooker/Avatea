@@ -55,7 +55,7 @@ export default function MyVaults({wallet}) {
                             removeArrowOnDeviceType={["mobile"]}
                             deviceType="desktop"
                             dotListClass="custom-dot-list-style"
-                            itemClass="p-5 carousel-item-padding-40-px"
+                            itemClass="px-1 py-3 carousel-item-padding-40-px"
                         >
                         {vaults?.map((project) => {
                             return <MyActivityCardItem key={project.project} {...project}></MyActivityCardItem>;

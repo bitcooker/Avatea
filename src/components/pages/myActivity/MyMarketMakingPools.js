@@ -80,8 +80,8 @@ export default function MyMarketMakingPools({wallet}) {
                             containerClass="carousel-container"
                             removeArrowOnDeviceType={["mobile"]}
                             deviceType="desktop"
-                            dotListClass="custom-dot-list-style"
-                            itemClass="p-5 carousel-item-padding-40-px"
+                            dotListClass=""
+                            itemClass="px-1 py-3 carousel-item-padding-40-px"
                         >
                         {projects?.map((project) => {
                             return <MyActivityCardItem key={project.project} {...project}></MyActivityCardItem>;
