@@ -19,6 +19,7 @@ export default function Vesting({
     const [start, setStart] = useState("0");
     const [duration, setDuration] = useState("0");
     const [revocable, setRevocable] = useState(false);
+    const [releasable, setReleasable] = useState(false);
     const [slicePeriodSeconds, setSlicePeriodSeconds] = useState("0");
 
 
@@ -57,6 +58,7 @@ export default function Vesting({
                 setDuration(duration);
                 setSlicePeriodSeconds(slicePeriodSeconds);
                 setRevocable(revocable);
+                setReleasable(allowReleasing);
             };
             initWalletConnected();
         }
@@ -78,6 +80,14 @@ export default function Vesting({
             wallet,
             marketMakingPool.address,
             userAddress
+        );
+    };
+
+    const toggleAutoRelease = async () => {
+        await helper.marketMaker.setAllowReleasing(
+            wallet,
+            marketMakingPool.address,
+            !releasable
         );
     };
 
@@ -125,18 +135,37 @@ export default function Vesting({
                 ticker={project.ticker}
             />
             <div className="pt-9">
-                {(setAction === 'revoke' && revocable) &&
-                    <Button name="Revoke Tokens" handleClick={revokeVesting}>
-                        {" "}
-                        <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/>
-                    </Button>
-                }
-                {(setAction !== 'revoke') &&
-                    <Button name="Release Tokens" handleClick={releaseVesting}>
-                        {" "}
-                        <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/>
-                    </Button>
-                }
+                <div className="flex flex-row space-x-5">
+
+                    {(setAction === 'revoke' && revocable) &&
+                        <Button name="Revoke Tokens" handleClick={revokeVesting}>
+                            {" "}
+                            <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/>
+                        </Button>
+                    }
+                    {(setAction !== 'revoke') &&
+                        <Button name="Release Tokens" handleClick={releaseVesting}>
+                            {" "}
+                            <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/>
+                        </Button>
+                    }
+
+                    {(releasable && setAction === 'revoke') &&
+                        <Button name="Auto release enabled " disabled={true}/>
+                    }
+                    {(releasable && setAction !== 'revoke') &&
+                        <Button name="Disable Auto release " handleClick={toggleAutoRelease}/>
+                    }
+                    {(!releasable && setAction === 'revoke') &&
+                        <Button name="Auto release disabled " disabled={true}/>
+                    }
+                    {(!releasable && setAction !== 'revoke') &&
+                        <Button name="Enable Auto release " handleClick={toggleAutoRelease}/>
+                    }
+
+                </div>
+
+
             </div>
         </Card>
     );

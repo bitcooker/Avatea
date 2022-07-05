@@ -457,7 +457,6 @@ const fetchHoldersVestingMapping = async (wallet, marketMakerAddress, address) =
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
         const data = await marketMakerContract.holdersVestingMapping(address);
-
         const {
             amountVested,
             released,
@@ -507,7 +506,6 @@ const setAllowSelling = async (wallet, marketMakerAddress, allowSelling, callbac
             data: {
                 receipt,
                 wallet,
-                user_address
             }
         })
         console.log('setAllowSelling success')
@@ -526,7 +524,7 @@ const setAllowReleasing = async (wallet, marketMakerAddress, allowReleasing, cal
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
-        const tx = await marketMakerContract.setAllowSelling(allowReleasing);
+        const tx = await marketMakerContract.setAllowReleasing(allowReleasing);
         toast.promise(
             tx.wait(),
             {
@@ -542,7 +540,6 @@ const setAllowReleasing = async (wallet, marketMakerAddress, allowReleasing, cal
             data: {
                 receipt,
                 wallet,
-                user_address
             }
         })
         console.log('setAllowReleasing success')
@@ -576,7 +573,6 @@ const setMaxBaseStakingRatio = async (wallet, marketMakerAddress, maxBaseStaking
             data: {
                 receipt,
                 wallet,
-                user_address
             }
         })
         console.log('setMaxBaseStakingRatio success')
@@ -610,7 +606,6 @@ const setMaxPairedStakingRatio = async (wallet, marketMakerAddress, maxPairedSta
             data: {
                 receipt,
                 wallet,
-                user_address
             }
         })
         console.log('setMaxPairedStakingRatio success')
