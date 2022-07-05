@@ -9,7 +9,7 @@ export default function TextArea(props) {
         type={props.type}
         value={props.value}
         onChange={e => props.setValue(e.target.value)}
-        className="block w-full bg-gray-100 max-h-44"
+        className="block w-full bg-gray-100 max-h-full"
         placeholder={props.placeholder}
       />
     </div>
