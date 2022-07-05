@@ -19,12 +19,6 @@ import FileInput from "../../../../src/components/pages/Linked/fileInput";
 import {Chart} from "../../../../src/components/pages/projects/Vesting/Chart";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 
-const vestings = [
-    {
-        address: "0x609D2834d355a9c8Ae5B01EA2782C8b716A4f8eF",
-        amount: 10
-    }
-]
 
 export default function VestingAdd(props) {
 
@@ -129,12 +123,14 @@ export default function VestingAdd(props) {
                                        type={[".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values"]}/>
                         }
                         {step === 2 &&
-                            <div className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
-                                <AddressAndAmountTable vestings={vestings}/>
+                            <div
+                                className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
+                                <AddressAndAmountTable addresses={addresses} amounts={amounts}/>
                             </div>
                         }
                         {step === 3 &&
-                            <div className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
+                            <div
+                                className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
                                 batch name
                                 <InputEmpty
                                     id="start"
@@ -190,7 +186,7 @@ export default function VestingAdd(props) {
                                     slicePeriodSeconds={slicePeriodSeconds}
                                     ticker="%"
                                 />
-                                <Button name="Create Vesting" handleClick={createVesting}/></div>
+                            </div>
                         }
                     </div>
                     <div className="flex flex-row space-x-5">
@@ -202,12 +198,15 @@ export default function VestingAdd(props) {
                                 }}
                             />
                         }
-                        <Button
-                            name="Next"
-                            handleClick={() => {
-                                setStep(step + 1)
-                            }}
-                        />
+                        {step < 3 ?
+                            <Button
+                                name="Next"
+                                handleClick={() => {
+                                    setStep(step + 1)
+                                }}
+                            /> :
+                            <Button name="Create Vesting" handleClick={createVesting}/>
+                        }
                     </div>
                 </div>
             </div>

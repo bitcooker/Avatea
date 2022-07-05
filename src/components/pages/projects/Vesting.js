@@ -85,7 +85,6 @@ export default function Vesting({
 
     return (
         <Card>
-            {amountVested > 0 ? 'hmm' : 'hmm2'}
             <div className="vesting-header">
                 <h1 className="text-2xl">
                     <i className="fa-solid fa-unlock"></i> Vesting
