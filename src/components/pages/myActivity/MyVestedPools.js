@@ -1,8 +1,15 @@
 import React, {useEffect, useState} from "react";
-import helper from "../../../helpers";
-import Spinner from "../../core/Spinner";
-import CardItem from "../projects/Card/CardItem";
+import Carousel from "react-multi-carousel";
+
 import helpers from "../../../helpers";
+
+// core components
+import Spinner from "../../core/Spinner";
+
+// activity components
+import MyActivityCardItem from "./MyActivityCardItem";
+
+import { responsive } from "./CarouselSetting";
 
 export default function MyVestedPools({wallet}) {
     const [vestedPools, setVestedPools] = useState([]);
@@ -32,12 +39,28 @@ export default function MyVestedPools({wallet}) {
                         <h2 className={'text-2xl col-span-full'}>Vested Projects</h2>
                     <p>No active vested projects</p>
                     </div> :
-                <div className="grid sm-md:grid-cols-2 xl-2xl:grid-cols-3 gap-5">
-                    <h2 className={'text-2xl col-span-full'}>Vested Projects</h2>
-
-                    {vestedPools?.map((project) => {
-                        return <CardItem disableDetails={true} name={project.project_name} image={project.project_image} banner={project.project_banner} key={project.slug} {...project} />;
-                    })}
+                <div className="flex flex-col">
+                    <h2 className={'text-2xl col-span-full'}>Vault Projects</h2>
+                    <Carousel
+                            showDots
+                            responsive={responsive}
+                            ssr // means to render carousel on server-side.
+                            infinite
+                            autoPlay={false}
+                            autoPlaySpeed={1000}
+                            keyBoardControl={true}
+                            containerClass="carousel-container"
+                            removeArrowOnDeviceType={["mobile"]}
+                            deviceType="desktop"
+                            dotListClass="custom-dot-list-style"
+                            itemClass="p-5 carousel-item-padding-40-px"
+                            beforeChange={() => setIsMoving(true)}
+                            afterChange={() => setIsMoving(false)}
+                        >
+                        {vestedPools?.map((project) => {
+                            return <MyActivityCardItem key={project.project} {...project}></MyActivityCardItem>;
+                        })}
+                    </Carousel>
                 </div>
             )
 

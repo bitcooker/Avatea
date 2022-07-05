@@ -1,6 +1,7 @@
 import "../styles/main.scss";
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
+import "react-multi-carousel/lib/styles.css";
 import Layout from "../src/components/Layout";
 
 function MyApp({ Component, pageProps }) {
