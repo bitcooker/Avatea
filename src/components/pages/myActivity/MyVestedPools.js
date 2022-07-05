@@ -54,8 +54,6 @@ export default function MyVestedPools({wallet}) {
                             deviceType="desktop"
                             dotListClass="custom-dot-list-style"
                             itemClass="p-5 carousel-item-padding-40-px"
-                            beforeChange={() => setIsMoving(true)}
-                            afterChange={() => setIsMoving(false)}
                         >
                         {vestedPools?.map((project) => {
                             return <MyActivityCardItem key={project.project} {...project}></MyActivityCardItem>;

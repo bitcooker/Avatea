@@ -6,9 +6,11 @@ import Link from "next/link";
 import Spinner from "../../../components/core/Spinner";
 
 export default function MyActivityCardItem(props) {
-    return <div key={props.key} className="rounded-2.5xl bg-white overflow-hidden transition hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
-        <CardContent project={props.project} image={props.banner} tokenImage={props.image} id={props.slug} />
-    </div>
+    return <div  key={props.key}>
+                <div className="rounded-2.5xl overflow-hidden hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
+                    <CardContent project={props.project} name={props.name} image={props.banner} tokenImage={props.image} />
+                </div>
+            </div>
 }
 
 export const CardContent = (props) => {
@@ -36,9 +38,10 @@ export const CardContent = (props) => {
                 width="100%"
                 height={50}
             />
-            <div className={`absolute right-3 bottom-3 w-10 h-10 bg-white/20 p-1 rounded-md ${!imgLoaded && 'opacity-0'}`}>
+            <div className={`absolute right-3 bottom-7 w-10 h-10 bg-white p-1 rounded-md shadow-[0_4px_8px_rgba(0,0,0,0.08)] ${!imgLoaded && 'opacity-0'}`}>
                 <Image src={props.tokenImage} alt="tokenImage" className="w-full h-full" layout="responsive" width="100%" height="100%"/>
             </div>
+            <h1 className="text-base p-3">{props.name}</h1>
         </div>
     </Link>
   );
