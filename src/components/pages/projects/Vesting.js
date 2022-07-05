@@ -81,7 +81,7 @@ export default function Vesting({
         );
     };
 
-    if (!(amountVested > 0)) return (<NoVesting/>);
+    if (amountVested === '0.00') return (<NoVesting/>);
 
     return (
         <Card>
