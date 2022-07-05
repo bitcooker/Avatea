@@ -64,14 +64,13 @@ export default function ManageProjectCard({project}) {
     }
 
     return (
-
         <Card className={'col-span-2'}>
             <Modal title="Edit Project Information" open={openEditProject} handleClose={() => setOpenEditProject(false)}>
-                <div className="card-content grid grid-cols-1 md-lg:grid-cols-2 gap-3.75">
+                <div className="card-content grid lg:grid-cols-2 gap-3.75">
                     {/* left */}
-                    <div className="w-full space-y-3.75">
+                    <div className="w-full flex flex-col space-y-3.75">
                         {/* Project name */}
-                        <div className="w-full space-y-2.5">
+                        <div className="w-full space-y-3.5">
                             <span className="text-base">Project Name</span>
                             <InputEmpty
                                 id="projectName"
@@ -83,22 +82,20 @@ export default function ManageProjectCard({project}) {
                         </div>
 
                         {/* Description */}
-                        <div className="flex flex-col space-y-3.75">
+                        <div className="flex flex-col grow space-y-3.75">
                             <h1 className="text-base">Description</h1>
                             <TextArea
                                 id="description"
                                 name="description"
                                 setValue={setProjectDescription}
                                 value={projectDescription}
+                                classNames="!h-full"
                             />
                         </div>
-
                     </div>
                     <div className="w-full space-y-3.75">
-                        <div className="w-full  gap-2.5 grid grid-cols-2 grid-row-5">
-                            <div className={'col-span-2'}>
-                                <span className="text-base">Technical Links</span>
-                            </div>
+                        <span className="text-base">Technical Links</span>
+                        <div className="w-full gap-2.5 grid lg:grid-cols-2">
                             <div className={'col-span-1'}>
                                 <InputEmpty
                                     id="whitepaper"
@@ -120,11 +117,9 @@ export default function ManageProjectCard({project}) {
                                 />
                             </div>
                         </div>
-                        <div className="w-full  gap-2.5 grid grid-cols-2 grid-row-5">
-                            <div className={'col-span-2'}>
-                                <span className="text-base">Socials</span>
-                            </div>
-                            <div className={'col-span-1'}>
+                        <div className="flex flex-col space-y-3.75">
+                            <span className="text-base">Socials</span>
+                            <div>
                                 <InputEmpty
                                     id="facebook"
                                     name="facebook"
@@ -134,7 +129,7 @@ export default function ManageProjectCard({project}) {
                                     setValue={setFacebook}
                                 />
                             </div>
-                            <div className={'col-span-1'}>
+                            <div>
                                 <InputEmpty
                                     id="linkedin"
                                     name="linkedin"
@@ -144,7 +139,7 @@ export default function ManageProjectCard({project}) {
                                     setValue={setLinkedIn}
                                 />
                             </div>
-                            <div className={'col-span-1'}>
+                            <div>
                                 <InputEmpty
                                     id="github"
                                     name="github"
@@ -155,7 +150,7 @@ export default function ManageProjectCard({project}) {
                                     setValue={setGithub}
                                 />
                             </div>
-                            <div className={'col-span-1'}>
+                            <div>
                                 <InputEmpty
                                     id="telegram"
                                     name="telegram"
@@ -165,7 +160,7 @@ export default function ManageProjectCard({project}) {
                                     setValue={setTelegram}
                                 />
                             </div>
-                            <div className={'col-span-1'}>
+                            <div>
                                 <InputEmpty
                                     id="discord"
                                     name="discord"
@@ -175,7 +170,7 @@ export default function ManageProjectCard({project}) {
                                     setValue={setDiscord}
                                 />
                             </div>
-                            <div className={'col-span-1'}>
+                            <div>
                                 <InputEmpty
                                     id="medium"
                                     name="medium"
@@ -185,7 +180,7 @@ export default function ManageProjectCard({project}) {
                                     setValue={setMedium}
                                 />
                             </div>
-                            <div className={'col-span-1'}>
+                            <div>
                                 <InputEmpty
                                     id="twitter"
                                     name="twitter"
@@ -198,33 +193,18 @@ export default function ManageProjectCard({project}) {
                         </div>
 
                     </div>
-                    <div className="w-full space-y-3.75 col-span-2">
-                        <div className="w-full  gap-2.5 grid grid-cols-2">
-                            <div className={'col-span-1 w-full grid grid-cols-2'}>
-                                <div>
-                                    <span className="text-base">Banner</span>
-                                    <img src={bannerUrl} className={'w-[300px] h-[300px] mx-auto object-contain object-center'} />
-                                </div>
-                                <FileInput label="Replace Banner Image" setValue={setBanner} type={"image/*"}/>
-
-                                    </div>
-                            <div className={'col-span-1 w-full grid grid-cols-2'}>
-                                <div>
-                                    <span className="text-base">Token Image</span>
-                                    <img src={imageUrl} className={'w-[300px] h-[300px] mx-auto object-contain object-center'}/>
-                                </div>
-                                <FileInput label="Replace Token Image" setValue={setImage} type={"image/*"}/>
-                            </div>
-                        </div>
+                </div>
+                
+                <div className="w-full mt-3.75 space-y-3.75">
+                    <div className="w-full gap-2.5 grid grid-cols-2">
+                        <FileInput image={bannerUrl} label="Replace Banner Image" setValue={setBanner} type={"image/*"}/>
+                        <FileInput image={imageUrl} label="Replace Token Image" setValue={setImage} type={"image/*"}/>
                     </div>
-                    <div className="w-full space-y-3.75 col-span-2">
-                        <div className="w-full  gap-2.5 grid grid-cols-2">
-                            <Button
-                                name="Update Information"
-                                handleClick={updateProjectInfo}
-                            />
-                    </div>
-                    </div>
+                    
+                    <Button
+                        name="Update Information"
+                        handleClick={updateProjectInfo}
+                    />
                 </div>
             </Modal>
             <div className="card-header mb-5">
