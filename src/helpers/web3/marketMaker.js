@@ -426,7 +426,6 @@ const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
             pairedAmountSold,
             projectOwner,
             allowSelling,
-            allowReleasing,
             maxBaseStakingRatio,
             maxPairedStakingRatio
         } = data;
@@ -441,7 +440,6 @@ const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
             pairedAmountSold,
             projectOwner,
             allowSelling,
-            allowReleasing,
             maxBaseStakingRatio,
             maxPairedStakingRatio
         }
@@ -468,6 +466,7 @@ const fetchHoldersVestingMapping = async (wallet, marketMakerAddress, address) =
             duration,
             slicePeriodSeconds,
             revocable,
+            allowReleasing
         } = data;
         return {
             amountVested,
@@ -477,6 +476,7 @@ const fetchHoldersVestingMapping = async (wallet, marketMakerAddress, address) =
             duration,
             slicePeriodSeconds,
             revocable,
+            allowReleasing
         }
     } catch (e) {
         console.log('fetchHoldersVestingMapping error', e);
