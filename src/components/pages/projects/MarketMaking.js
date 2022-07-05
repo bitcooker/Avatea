@@ -10,7 +10,7 @@ import {useState, useEffect, useCallback} from "react";
 import {ethers} from "ethers";
 import helper from "../../../helpers";
 
-export default function MarketMaking({vault, wallet, project, marketMakingPool}) {
+export default function MarketMaking({ wallet, project, marketMakingPool}) {
 
     const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState('0');
     const [amountPairTokenBalance, setAmountPairTokenBalance] = useState('0');
@@ -45,7 +45,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
             };
             initWalletConnected();
         }
-    }, [wallet, vault, marketMakingPool,project]);
+    }, [wallet, marketMakingPool,project]);
 
     useEffect(() => {
         if (wallet.status === "connected") {
@@ -68,6 +68,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
             initWalletConnected();
         }
     }, [wallet,project]);
+
 
     useEffect(() => {
         if (parseFloat(pressure) === 0) {

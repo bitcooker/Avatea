@@ -3,12 +3,12 @@ import {Chart} from "./Vesting/Chart";
 import Button from "../../core/Button/Button";
 import helper from "../../../helpers";
 import {useEffect, useState} from "react";
+import NoVesting from "./NoVesting";
 
 export default function Vesting({
                                     wallet,
                                     project,
                                     marketMakingPool,
-                                    holdersMapping,
                                     setAction,
                                     userAddress
                                 }) {
@@ -23,13 +23,23 @@ export default function Vesting({
 
 
     useEffect(() => {
-        
+
         if (
             wallet.status === "connected" &&
-            marketMakingPool.paired_token &&
-            Object.keys(holdersMapping).length !== 0
+            marketMakingPool.paired_token
         ) {
             const initWalletConnected = async () => {
+                const {
+                    amountVested,
+                    released,
+                    cliff,
+                    start,
+                    duration,
+                    slicePeriodSeconds,
+                    revocable,
+                    allowReleasing
+                } = await helper.web3.marketMaker.fetchHoldersVestingMapping(wallet, marketMakingPool.address, wallet.account);
+
                 setReleaseAbleAmount(
                     helper.formatting.web3Format(
                         await helper.web3.marketMaker.computeReleasableAmount(
@@ -40,15 +50,6 @@ export default function Vesting({
                     )
                 );
 
-                const {
-                    amountVested,
-                    released,
-                    cliff,
-                    start,
-                    duration,
-                    slicePeriodSeconds,
-                    revocable,
-                } = holdersMapping;
                 setAmountReleased(helper.formatting.web3Format(released));
                 setAmountVested(helper.formatting.web3Format(amountVested));
                 setCliff(cliff);
@@ -59,7 +60,7 @@ export default function Vesting({
             };
             initWalletConnected();
         }
-    }, [wallet, marketMakingPool, holdersMapping]);
+    }, [wallet, marketMakingPool]);
 
     const releaseVesting = async () => {
         let full_withdrawal =
@@ -80,8 +81,11 @@ export default function Vesting({
         );
     };
 
+    if (!(amountVested > 0)) return (<NoVesting/>);
+
     return (
         <Card>
+            {amountVested > 0 ? 'hmm' : 'hmm2'}
             <div className="vesting-header">
                 <h1 className="text-2xl">
                     <i className="fa-solid fa-unlock"></i> Vesting

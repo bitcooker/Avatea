@@ -9,7 +9,7 @@ import {ethers} from "ethers";
 import helper from "../../../helpers";
 import {useEffect, useState} from "react";
 
-export default function Vault({ vault, wallet, project, marketMakingPool }) {
+export default function Vault({ vault, wallet, project }) {
 
     const [amountToVaultStake, setAmountToVaultStake] = useState('0');
     const [stakedVaultBalance, setStakedVaultBalance] = useState('0');
@@ -21,7 +21,7 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
     const [articles, setArticles] = useState([]);
 
     useEffect(() => {
-        if (wallet.status === "connected" && marketMakingPool.paired_token) {
+        if (wallet.status === "connected" && vault.address) {
             const initWalletConnected = async () => {
 
                 setStakedVaultBalance(
@@ -44,7 +44,7 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
             };
             initWalletConnected();
         }
-    }, [wallet, vault, marketMakingPool]);
+    }, [wallet, vault]);
 
 
     useEffect(() => {
