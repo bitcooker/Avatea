@@ -9,6 +9,7 @@ import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSub
 import {useState, useEffect, useCallback} from "react";
 import {ethers} from "ethers";
 import helper from "../../../helpers";
+import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 
 export default function MarketMaking({ wallet, project, marketMakingPool}) {
 
@@ -27,6 +28,8 @@ export default function MarketMaking({ wallet, project, marketMakingPool}) {
     const [mode, setMode] = useState("sell");
     const [estimation, setEstimation] = useState("- Days");
     const [activity,setActivity]  = useState({baseAmountBought:'0', pairedAmountBought:'0', baseAmountSold: '0', pairedAmountSold: '0'})
+    const [load, setLoad] = useState(false);
+
 
     useEffect(() => {
         if (wallet.status === "connected" && marketMakingPool.address) {
@@ -42,6 +45,7 @@ export default function MarketMaking({ wallet, project, marketMakingPool}) {
                 })
                 setAmountBaseTokenBalance(helper.formatting.web3Format(available));
                 setAmountPairTokenBalance(helper.formatting.web3Format(await helper.web3.marketMaker.getWithdrawablePairedTokens(wallet, marketMakingPool.address, wallet.account)));
+                setLoad(true)
             };
             initWalletConnected();
         }
@@ -147,7 +151,8 @@ export default function MarketMaking({ wallet, project, marketMakingPool}) {
         if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
     };
 
-    return (<div className="grid md-lg:grid-cols-2 gap-7.5">
+    return !load ? <SkeletonMarketMaking/> : (
+        <div className="grid md-lg:grid-cols-2 gap-7.5">
         <Card title="Activity">
             {/* Card Header */}
             <div className="card-header">

@@ -11,11 +11,9 @@ import Banner from "../../src/components/pages/projectDetail/Banner/Banner";
 import Vault from "../../src/components/pages/projects/Vault";
 import MarketMaking from "../../src/components/pages/projects/MarketMaking";
 import Vesting from "../../src/components/pages/projects/Vesting";
+import Liquidity from "../../src/components/pages/projects/LiquidityMaker";
 
-import SkeletonVault from "../../src/components/pages/projects/Skeleton/SkeletonVault";
-import SkeletonMarketMaking from "../../src/components/pages/projects/Skeleton/SkeletonMarketMaking";
-
-const tabItems = ["Vault", "Market Making", "Vesting"];
+const tabItems = ["Market Making","Liquidity","Vault","Vesting"];
 
 export default function ProjectDetail(props) {
     //@Todo add min buy limit and max buy limit fields (stop-loss)
@@ -25,6 +23,7 @@ export default function ProjectDetail(props) {
     const [project, setProject] = useState({});
     const [vault, setVault] = useState({});
     const [marketMakingPool, setMarketMakingPool] = useState({});
+    const [liquidityMaker, setLiquidityMaker] = useState({})
     const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
     const [load, setLoad] = useState(false);
 
@@ -32,12 +31,17 @@ export default function ProjectDetail(props) {
         if (props.projectDetail) setProject(props.projectDetail);
         if (props.marketMakingPool) setMarketMakingPool(props.marketMakingPool);
         if (props.vault) setVault(props.vault);
+        if (props.liquidityMaker) setLiquidityMaker(props.liquidityMaker);
         else {
             const fetchProject = async () => {
                 const result = await helper.project.getProject(slug);
+                console.log(result)
                 setProject(result?.project);
                 setMarketMakingPool(result?.marketMakingPool);
                 setVault(result?.vault);
+                setLiquidityMaker(result?.liquidityMaker)
+                console.log('Fetch 1')
+
             };
             fetchProject();
         }
@@ -48,9 +52,9 @@ export default function ProjectDetail(props) {
         if (Object.keys(project).length !== 0) {
             const fetchProject = async () => {
                 const result = await helper.project.getProject(project.slug);
-
                 setMarketMakingPool(result?.marketMakingPool);
                 setVault(result?.vault);
+                setLiquidityMaker(result?.liquidityMaker)
             };
             fetchProject();
         }
@@ -58,7 +62,6 @@ export default function ProjectDetail(props) {
 
     useEffect(() => {
         setLoad(false);
-        return () => setTimeout(() => setLoad(true), 2000);
     }, [tab])
 
 
@@ -69,29 +72,36 @@ export default function ProjectDetail(props) {
             <div className="flex justify-center">
                 <Tab items={tabItems} tab={tab} setTab={setTab}/>
             </div>
-            {/* Staked Avatea in vaults & News Feed */}
             {tab == 0 &&
-                (!load ? <SkeletonVault/> : <Vault
-                    vault={vault}
-                    wallet={wallet}
-                    project={project}
-                />)
-            }
-
-            {/* Activity & Settings */}
-            {tab == 1 && (
-                !load ? <SkeletonMarketMaking/> : <MarketMaking
+                <MarketMaking
                     wallet={wallet}
                     marketMakingPool={marketMakingPool}
                     project={project}
                 />
-            )}
+            }
+            {tab == 1 &&
 
+                <Liquidity
+                wallet={wallet}
+                marketMakingPool={marketMakingPool}
+                liquidityMaker={liquidityMaker}
+                />
+            }
             {tab == 2 &&
+                <Vault
+                vault={vault}
+                wallet={wallet}
+                project={project}
+                setTab={setTab}
+                />
+            }
+
+            {tab == 3 &&
                 <Vesting
                     wallet={wallet}
                     marketMakingPool={marketMakingPool}
                     project={project}
+                    setTab={setTab}
                 />
             }
 

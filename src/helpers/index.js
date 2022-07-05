@@ -12,6 +12,8 @@ import authentication from "./web3/authentication";
 import article from "./article";
 import validator from "./validator";
 import transactions from "./transactions";
+import liquidityMaker from "./web3/liquidityMaker";
+import liquidityMakerRest from "./liquidityMaker";
 
 
 
@@ -26,7 +28,9 @@ export default {
         marketMaker,
         vault,
         authentication,
+        liquidityMaker
     },
+    liquidityMaker: liquidityMakerRest,
     project,
     article,
     token,

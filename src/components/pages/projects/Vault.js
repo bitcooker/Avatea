@@ -8,8 +8,11 @@ import Feed from "../projectDetail/Feed/Feed";
 import {ethers} from "ethers";
 import helper from "../../../helpers";
 import {useEffect, useState} from "react";
+import SkeletonVault from "./Skeleton/SkeletonVault";
+import CenteredContent from "../../core/CenteredContent";
+import Image from "next/image";
 
-export default function Vault({ vault, wallet, project }) {
+export default function Vault({ vault, wallet, project, setTab }) {
 
     const [amountToVaultStake, setAmountToVaultStake] = useState('0');
     const [stakedVaultBalance, setStakedVaultBalance] = useState('0');
@@ -19,8 +22,10 @@ export default function Vault({ vault, wallet, project }) {
     const [vaultTLV,setVaultTLV] = useState('0');
     const [rewardPerToken, setRewardPerToken] = useState('0');
     const [articles, setArticles] = useState([]);
+    const [load, setLoad] = useState(false);
 
     useEffect(() => {
+        console.log(vault.address)
         if (wallet.status === "connected" && vault.address) {
             const initWalletConnected = async () => {
 
@@ -41,6 +46,7 @@ export default function Vault({ vault, wallet, project }) {
                 setEarnedTokens(helper.formatting.web3Format(await helper.web3.vault.earned(wallet,vault.address,wallet.account)));
                 setVaultTLV(helper.formatting.web3Format(await helper.web3.vault.totalSupply(wallet,vault.address)));
                 setRewardPerToken(await helper.web3.vault.rewardPerToken(wallet,vault.address));
+                setLoad(true);
             };
             initWalletConnected();
         }
@@ -88,7 +94,17 @@ export default function Vault({ vault, wallet, project }) {
         await helper.web3.vault.exit(wallet, vault.address);
     };
 
-    return (
+    if (!vault.address) return (
+        <CenteredContent>
+            <span className={'text-2xl'}>No Vault Available</span>
+            <div className={'w-[30%] mx-auto'}>
+                <Image src={'/vault.png'} layout={'responsive'}  height={500} width={500}/>
+            </div>
+            <Button handleClick={()=>setTab(0)}>Return to project</Button>
+        </CenteredContent>
+    )
+
+    return !load ? <SkeletonVault/> : (
         <div className="grid md-lg:grid-cols-2 gap-7.5">
             <Card>
                 <div className="divide-y">

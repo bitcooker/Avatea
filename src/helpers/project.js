@@ -22,8 +22,8 @@ const getProjects = async ({live = 'True', network = DEFAULT_CHAIN_ID} = {}) => 
 const getProject = async (slug, network = DEFAULT_CHAIN_ID, user_address = "none") => {
     try {
         const {data} = await axios.get(`${API_URL}Project/${slug}/?network=${network}&user_address=${user_address}`);
-        const {project, vault, marketMakingPool, UserSettings} = data;
-        return {project, vault, marketMakingPool, UserSettings};
+        const {project, vault, marketMakingPool, UserSettings, liquidityMaker} = data;
+        return {project, vault, marketMakingPool, UserSettings, liquidityMaker};
     } catch (e) {
         console.log('getProject error:', e);
     }
@@ -34,17 +34,17 @@ const getProjectServerSide = async (context, network = DEFAULT_CHAIN_ID, user_ad
     if (slug !== "undefined") {
         try {
             const {data} = await axios.get(`${API_URL}Project/${slug}/?network=${network}&user_address=${user_address}`);
-            const {project, vault, marketMakingPool, UserSettings} = data;
+            const {project, vault, marketMakingPool, liquidityMaker, UserSettings} = data;
             return {
                 props: {
-                    projectDetail: project, marketMakingPool, vault
+                    projectDetail: project, marketMakingPool, vault, liquidityMaker
                 }
             }
         } catch (e) {
             console.log('getProject error:', e);
             return {
                 props: {
-                    projectDetail: null, marketMakingPool: null, vault: null
+                    projectDetail: null, marketMakingPool: null, vault: null, liquidityMaker: null
                 }
             }
         }

@@ -4,14 +4,17 @@ import Button from "../../core/Button/Button";
 import helper from "../../../helpers";
 import {useEffect, useState} from "react";
 import NoVesting from "./NoVesting";
+import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
+import CenteredContent from "../../core/CenteredContent";
+import Image from "next/image";
 
 export default function Vesting({
                                     wallet,
                                     project,
                                     marketMakingPool,
                                     setAction,
-                                    userAddress
-                                }) {
+                                    userAddress,
+                                setTab}) {
     const [releaseAbleAmount, setReleaseAbleAmount] = useState(0);
     const [amountVested, setAmountVested] = useState(0);
     const [amountReleased, setAmountReleased] = useState(0);
@@ -21,6 +24,7 @@ export default function Vesting({
     const [revocable, setRevocable] = useState(false);
     const [releasable, setReleasable] = useState(false);
     const [slicePeriodSeconds, setSlicePeriodSeconds] = useState("0");
+    const [load, setLoad] = useState(false);
 
 
     useEffect(() => {
@@ -59,6 +63,7 @@ export default function Vesting({
                 setSlicePeriodSeconds(slicePeriodSeconds);
                 setRevocable(revocable);
                 setReleasable(allowReleasing);
+                setLoad(true)
             };
             initWalletConnected();
         }
@@ -91,9 +96,17 @@ export default function Vesting({
         );
     };
 
-    if (amountVested === '0.00') return (<NoVesting/>);
+    if (amountVested === '0.00') return (
+        <CenteredContent>
+            <span className={'text-2xl'}>No Vesting Available</span>
+            <div className={'w-[30%] mx-auto'}>
+                    <Image src={'/red-flag.png'} layout={'responsive'}  height={500} width={500}/>
+                </div>
+                <Button handleClick={()=>setTab(0)}>Return to project</Button>
+           </CenteredContent>
+    );
 
-    return (
+    return !load ? <SkeletonMarketMaking/> : (
         <Card>
             <div className="vesting-header">
                 <h1 className="text-2xl">

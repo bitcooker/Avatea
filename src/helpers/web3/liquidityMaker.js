@@ -1,4 +1,5 @@
 import {ethers} from 'ethers';
+import LiquidityMaker from '../../abi/LiquidityMaker.json';
 import {toast} from "react-toastify";
 import helpers from "../index";
 import {DEFAULT_SLIPPAGE} from "../constants";
@@ -203,7 +204,7 @@ const rewardEarned = async (wallet, liquidityMakerAddress, address) => {
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         return await liquidityMaker.rewardEarned(address);
     } catch (e) {
-        console.log('rewardEarned error', e);
+        console.log('Liquidity rewardEarned error', e);
         toast.error(e.reason);
         return 0;
     }
@@ -217,7 +218,7 @@ const liquidityRewardEarned = async (wallet, liquidityMakerAddress, address) => 
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         return await liquidityMaker.liquidityRewardEarned(address);
     } catch (e) {
-        console.log('liquidityRewardEarned error', e);
+        console.log('Liquidity rewardEarned error', e);
         toast.error(e.reason);
         return 0;
     }
@@ -228,9 +229,9 @@ const totalSupply = async (wallet, liquidityMakerAddress) => {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
-        return await vaultContract.totalSupply();
+        return await liquidityMaker.totalSupply();
     } catch (e) {
-        console.log('totalSupply error', e);
+        console.log('Liquidity totalSupply error', e);
         toast.error(e.reason);
         return 0;
     }
@@ -246,7 +247,7 @@ const rewardPerToken = async (wallet, liquidityMakerAddress) => {
         let daily_reward = (rewardRate * 3600 * 24) / totalSupply
         return daily_reward.toFixed(2);
     } catch (e) {
-        console.log('rewardPerToken error', e);
+        console.log('Liquidity rewardPerToken error', e);
         toast.error(e.reason);
         return 0;
     }
@@ -262,7 +263,7 @@ const liquidityRewardPerToken = async (wallet, liquidityMakerAddress) => {
         let daily_reward = (rewardRate * 3600 * 24) / totalSupply
         return daily_reward.toFixed(2);
     } catch (e) {
-        console.log('rewardPerToken error', e);
+        console.log('Liquidity rewardPerToken error', e);
         toast.error(e.reason);
         return 0;
     }
@@ -286,17 +287,17 @@ const fetchHoldersMapping = async (wallet, liquidityMakerAddress, address) => {
             stakedInPairedToken
         } = data;
         return {
-            liquidityBalance,
-            lastLiquidityProvidingTime,
-            userRewardPerTokenPaid,
-            rewards,
-            userLiquidityRewardPerTokenPaid,
-            liquidityRewards,
-            stakedInBaseToken,
-            stakedInPairedToken
+            liquidityBalance: helpers.formatting.web3Format(liquidityBalance),
+            lastLiquidityProvidingTime: helpers.formatting.web3Format(lastLiquidityProvidingTime),
+            userRewardPerTokenPaid: helpers.formatting.web3Format(userRewardPerTokenPaid),
+            rewards: helpers.formatting.web3Format(rewards),
+            userLiquidityRewardPerTokenPaid: helpers.formatting.web3Format(userLiquidityRewardPerTokenPaid),
+            liquidityRewards: helpers.formatting.web3Format(liquidityRewards),
+            stakedInBaseToken: helpers.formatting.web3Format(stakedInBaseToken),
+            stakedInPairedToken: helpers.formatting.web3Format(stakedInPairedToken)
         }
     } catch (e) {
-        console.log('holdersMapping error', e);
+        console.log('Liquidity holdersMapping error', e);
         toast.error(e.reason);
         return 0;
     }

@@ -14,6 +14,10 @@ export default function CardItem(props) {
     )
   );
 
+  const checkAdmin = (address) => {
+        return props?.admin.includes(address)
+    }
+
   const mapSocials = () => {
     return socials.map((social) => {
       return (
@@ -81,8 +85,8 @@ export default function CardItem(props) {
           </a>
         </Link>
           {
-              wallet.status === "connected" ? (
-                      props.owner === wallet.account ? (
+              wallet.status === "connected" && props?.admin ? (
+                      checkAdmin(wallet.account) ? (
                               <Link href={`management/${props.slug}`}>
                                   <a className="block py-2.5 mt-5 w-full bg-indigo-500 text-white text-center rounded-full hover:bg-indigo-500/80">
                                       Manage Project
