@@ -93,6 +93,8 @@ const hook = async ({
                     network: data.wallet.chainId
                 })
                 callback()
+                hook({type: "MMAS", data})
+                hook({type: "MMBR", data})
                 break;
             case 'MMPD':
                 event = data.receipt.events.find(x => x.event === "StakedInPairedToken").args;
@@ -105,6 +107,7 @@ const hook = async ({
                     network: data.wallet.chainId
                 })
                 callback()
+                hook({type: "MMPR", data})
                 break;
             case 'MMBW':
                 event = data.receipt.events.find(x => x.event === "WithdrawnBaseToken").args;
@@ -165,6 +168,131 @@ const hook = async ({
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                     full_withdrawal: data.full_withdrawal
+                })
+                callback()
+                break;
+            case 'MMAS':
+                event = data.receipt.events.find(x => x.event === "SetAllowSelling").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    value: event._allowSelling,
+                    contract: data.receipt.to,
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                    full_withdrawal: data.full_withdrawal
+                })
+                callback()
+                break;
+            case 'MMAR':
+                event = data.receipt.events.find(x => x.event === "SetAllowReleasing").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    value: event._allowReleasing,
+                    contract: data.receipt.to,
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                    full_withdrawal: data.full_withdrawal
+                })
+                callback()
+                break;
+            case 'MMBR':
+                event = data.receipt.events.find(x => x.event === "SetMaxBaseStakingRatio").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    value: event._ratio,
+                    contract: data.receipt.to,
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                    full_withdrawal: data.full_withdrawal
+                })
+                callback()
+                break;
+            case 'MMPR':
+                event = data.receipt.events.find(x => x.event === "SetMaxPairedStakingRatio").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    value: event._ratio,
+                    contract: data.receipt.to,
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                    full_withdrawal: data.full_withdrawal
+                })
+                callback()
+                break;
+            case 'LMW':
+                event = data.receipt.events.find(x => x.event === "Withdrawn").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount: ethers.utils.formatEther(event.amount),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                    full_withdrawal: data.full_withdrawal
+                })
+                callback()
+                break;
+            case 'LMR':
+                event = data.receipt.events.find(x => x.event === "RewardPaid").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount: ethers.utils.formatEther(event.reward),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                })
+                callback()
+                break;
+            case 'LMC':
+                event = data.receipt.events.find(x => x.event === "LiquidityRewardPaid").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount: ethers.utils.formatEther(event.reward),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                })
+                callback()
+                break;
+            case 'LMA':
+                event = data.receipt.events.find(x => x.event === "RewardAdded").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount: ethers.utils.formatEther(event.reward),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                })
+                callback()
+                break;
+            case 'LML':
+                event = data.receipt.events.find(x => x.event === "LiquidityRewardAdded").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount: ethers.utils.formatEther(event.reward),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                })
+                callback()
+                break;
+            case 'LME':
+                event = data.receipt.events.find(x => x.event === "Withdrawn").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount: ethers.utils.formatEther(event.amount),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
                 })
                 callback()
                 break;
