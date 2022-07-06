@@ -7,9 +7,8 @@ import {useCallback, useEffect, useState} from "react";
 import helper from "../../../helpers";
 import {ethers} from "ethers";
 import moment from "moment";
+import {AVATEA_TOKEN, AVATEA_TOKEN_IMAGE, PAIRED_TOKEN_DEFAULT_IMAGE} from "../../../helpers/constants";
 
-const AVATEA_TOKEN = '0xB991Da4310CdeE737DE53E1C700c363c9aF69631';
-const AVATEA_TOKEN_IMAGE = '/avatea-token.png';
 
 export default function LiquidityMakerCard({project, liquidityMaker}) {
 
@@ -187,7 +186,7 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                         type="number"
                         icon="fa-light fa-circle-plus"
                         submitName="Deposit"
-                        // image={AVATEA_TOKEN_IMAGE}
+                        image={PAIRED_TOKEN_DEFAULT_IMAGE}
                         submitFunction={addLiquidityReward}
                         value={amountLiquidityRewardTokenToStake}
                         setValue={setAmountLiquidityRewardTokenToStake}
