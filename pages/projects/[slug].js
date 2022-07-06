@@ -1,6 +1,8 @@
 import {useWallet} from "use-wallet";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
+import { Motion, spring } from "react-motion"
+
 import helper from "../../src/helpers";
 
 // core components
@@ -72,39 +74,49 @@ export default function ProjectDetail(props) {
             <div className="flex justify-center">
                 <Tab items={tabItems} tab={tab} setTab={setTab}/>
             </div>
-            {tab == 0 &&
-                <MarketMaking
-                    wallet={wallet}
-                    marketMakingPool={marketMakingPool}
-                    project={project}
-                />
-            }
-            {tab == 1 &&
-
-                <Liquidity
-                    wallet={wallet}
-                    project={project}
-                    liquidityMaker={liquidityMaker}
-                />
-            }
-            {tab == 2 &&
-                <Vault
-                    vault={vault}
-                    wallet={wallet}
-                    project={project}
-                    setTab={setTab}
-                />
-            }
-
-            {tab == 3 &&
-                <Vesting
-                    wallet={wallet}
-                    marketMakingPool={marketMakingPool}
-                    project={project}
-                    setTab={setTab}
-                />
-            }
-
+            <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 0 ? 1 : 0) }}>
+                {({scale}) => tab !== 0 || scale === 0 ? "" : <div className="" style={{ transform: `scale(${scale})` }}>
+                                    <MarketMaking
+                                        wallet={wallet}
+                                        marketMakingPool={marketMakingPool}
+                                        project={project}
+                                    />
+                                </div>
+                }
+            </Motion>
+            <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 1 ? 1 : 0) }}>
+                {({scale}) => tab !== 1 || scale === 0 ? "" : <div className="" style={{ transform: `scale(${scale})` }}>
+                                    <Liquidity
+                                        wallet={wallet}
+                                        project={project}
+                                        marketMakingPool={marketMakingPool}
+                                        liquidityMaker={liquidityMaker}
+                                    />
+                                </div>
+                }
+            </Motion>
+            <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 2 ? 1 : 0) }}>
+                {({scale}) => tab !== 2 || scale === 0 ? "" : <div className="" style={{ transform: `scale(${scale})` }}>
+                                    <Vault
+                                        vault={vault}
+                                        wallet={wallet}
+                                        project={project}
+                                        setTab={setTab}
+                                    />
+                                </div>
+                }
+            </Motion>
+            <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 3 ? 1 : 0) }}>
+                {({scale}) => tab !== 3 || scale === 0 ? "" : <div className="" style={{ transform: `scale(${scale})` }}>
+                                    <Vesting
+                                        wallet={wallet}
+                                        marketMakingPool={marketMakingPool}
+                                        project={project}
+                                        setTab={setTab}
+                                    />
+                                </div>
+                }
+            </Motion>
         </div>
     );
 }

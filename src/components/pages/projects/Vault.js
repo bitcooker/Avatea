@@ -1,7 +1,7 @@
 import Card from "../projectDetail/Card/Card";
 import MaxButton from "./Button/MaxButton";
 import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
-import {AVATEA_TOKEN_ADDRESS} from "../../../helpers/constants";
+import {AVATEA_TOKEN} from "../../../helpers/constants";
 import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
 import Button from "../../core/Button/Button";
 import Feed from "../projectDetail/Feed/Feed";
@@ -40,7 +40,7 @@ export default function Vault({ vault, wallet, project, setTab }) {
                 );
                 setAvateaBalance(
                     helper.formatting.web3Format(
-                        await helper.token.balanceOf(wallet, AVATEA_TOKEN_ADDRESS,wallet.account)
+                        await helper.token.balanceOf(wallet, AVATEA_TOKEN,wallet.account)
                     )
                 );
                 setEarnedTokens(helper.formatting.web3Format(await helper.web3.vault.earned(wallet,vault.address,wallet.account)));
@@ -160,7 +160,7 @@ export default function Vault({ vault, wallet, project, setTab }) {
                                 value={amountToVaultStake}
                                 setValue={setAmountToVaultStake}
                                 address={vault.address}
-                                token={AVATEA_TOKEN_ADDRESS}
+                                token={AVATEA_TOKEN}
                             />
                         </div>
                         <div>
