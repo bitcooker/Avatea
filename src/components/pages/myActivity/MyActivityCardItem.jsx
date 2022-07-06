@@ -6,10 +6,8 @@ import Link from "next/link";
 import Spinner from "../../../components/core/Spinner";
 
 export default function MyActivityCardItem(props) {
-    return <div  key={props.key}>
-                <div className="rounded-2.5xl overflow-hidden hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
-                    <CardContent project={props.project} name={props.name} image={props.banner} tokenImage={props.image} />
-                </div>
+    return  <div className="rounded-2.5xl overflow-hidden hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
+                <CardContent project={props.project} name={props.name} image={props.banner} tokenImage={props.image} />
             </div>
 }
 
