@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import Act from "../src/components/pages/myActivity/Transaction/TransactionWrapper";
 import Chart from "./../src/components/pages/myActivity/Chart/Chart";
 import Info from "./../src/components/pages/myActivity/Info/Info";
@@ -6,11 +8,15 @@ import MyMarketMakingPools from "../src/components/pages/myActivity/MyMarketMaki
 import MyVestedPools from "../src/components/pages/myActivity/MyVestedPools";
 import MyVaults from "../src/components/pages/myActivity/MyVaults";
 
+import Toggle from "../src/components/core/Toggle/Toggle";
+
 export default function Activity() {
     const wallet = useWallet();
+    const [toggle, setToggle] = React.useState(false);
 
     return (
         <>
+            <Toggle id="toggle" label="test toggle" handleClick={() => setToggle(!toggle)}/>
             {
                 wallet.status === "connected" ? (
                     <>
