@@ -36,7 +36,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     })
     const [maxBaseStakingRatio, setMaxBaseStakingRatio] = useState(0)
     const [maxPairedStakingRatio, setMaxPairedStakingRatio] = useState(0)
-    const [liquiditySetting,setLiquiditySetting] = useState(false);
+    const [liquiditySetting, setLiquiditySetting] = useState(false);
     const [load, setLoad] = useState(false);
 
 
@@ -52,18 +52,22 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     baseAmountSold,
                     pairedAmountSold,
                     maxBaseStakingRatio,
-                    maxPairedStakingRatio
+                    maxPairedStakingRatio,
+                    stakedInBaseToken,
+                    stakedInPairedToken,
                 } = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address, wallet.account);
                 setActivity({
                     baseAmountBought: helper.formatting.web3Format(baseAmountBought),
                     pairedAmountBought: helper.formatting.web3Format(pairedAmountBought),
                     baseAmountSold: helper.formatting.web3Format(baseAmountSold),
-                    pairedAmountSold: helper.formatting.web3Format(pairedAmountSold)
+                    pairedAmountSold: helper.formatting.web3Format(pairedAmountSold),
+                    stakedInBaseToken: helper.formatting.web3Format(stakedInBaseToken),
+                    stakedInPairedToken: helper.formatting.web3Format(stakedInPairedToken)
                 })
                 setMaxBaseStakingRatio(maxBaseStakingRatio);
                 setMaxPairedStakingRatio(maxPairedStakingRatio);
-                if(mode === 'sell' && maxBaseStakingRatio > 0) setLiquiditySetting(true);
-                if(mode === 'buy' && maxPairedStakingRatio > 0) setLiquiditySetting(true);
+                if (mode === 'sell' && maxBaseStakingRatio > 0) setLiquiditySetting(true);
+                if (mode === 'buy' && maxPairedStakingRatio > 0) setLiquiditySetting(true);
                 setAmountBaseTokenBalance(helper.formatting.web3Format(available));
                 setAmountPairTokenBalance(helper.formatting.web3Format(await helper.web3.marketMaker.getWithdrawablePairedTokens(wallet, marketMakingPool.address, wallet.account)));
                 setLoad(true)
@@ -88,14 +92,14 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             }
             resetRatioSettings()
         }
-    },[wallet,mode]);
+    }, [wallet, mode]);
 
     useEffect(() => {
         if (wallet.status === "connected" && marketMakingPool.address) {
-            if(liquiditySetting === false && mode === 'sell') setMaxBaseStakingRatio(0);
-            if(liquiditySetting === false && mode === 'buy') setMaxPairedStakingRatio(0);
+            if (liquiditySetting === false && mode === 'sell') setMaxBaseStakingRatio(0);
+            if (liquiditySetting === false && mode === 'buy') setMaxPairedStakingRatio(0);
         }
-    },[liquiditySetting])
+    }, [liquiditySetting])
 
     useEffect(() => {
         if (wallet.status === "connected") {
@@ -177,7 +181,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     };
 
     const updateRatio = async () => {
-        if (mode === 'sell') await helper.web3.marketMaker.setMaxBaseStakingRatio(wallet, marketMakingPool.address,maxBaseStakingRatio);
+        if (mode === 'sell') await helper.web3.marketMaker.setMaxBaseStakingRatio(wallet, marketMakingPool.address, maxBaseStakingRatio);
         else await helper.web3.marketMaker.setMaxPairedStakingRatio(wallet, marketMakingPool.address, maxPairedStakingRatio);
     }
 
@@ -236,6 +240,19 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 src={marketMakingPool.paired_token_image}
                                 className="w-6 h-6 ml-2.5 mr-2.5"
                             /> {activity.pairedAmountBought}
+                  </span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-sm"><i className="fa-solid fa-circle-plus"/> Added To Liquidity</span>
+                            <span className="flex text-base font-medium">
+                    <img
+                        src={project.image}
+                        className="w-6 h-6 mr-2.5"
+                    />
+                                {activity.stakedInBaseToken} <img
+                                src={marketMakingPool.paired_token_image}
+                                className="w-6 h-6 ml-2.5 mr-2.5"
+                            /> {activity.stakedInPairedToken}
                   </span>
                         </div>
                     </div>
@@ -356,14 +373,20 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
 
                     {
-                        mode === 'buy' || mode === 'sell' ?    <div className="card-content pt-1 space-y-3.75">
-                            <Toggle label={liquiditySetting ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"} handleClick={() => setLiquiditySetting(!liquiditySetting)} checked={liquiditySetting} />
+                        mode === 'buy' || mode === 'sell' ? <div className="card-content pt-1 space-y-3.75">
+                            <Toggle
+                                label={liquiditySetting ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
+                                handleClick={() => setLiquiditySetting(!liquiditySetting)} checked={liquiditySetting}/>
                             {
                                 liquiditySetting ?
                                     <div className={'grid grid-cols-4 gap-4 content-evenly'}>
-                                        <RangeSlider className={'col-span-3'} setPercent={mode === 'sell' ? setMaxBaseStakingRatio : setMaxPairedStakingRatio} percent={mode === 'sell' ? maxBaseStakingRatio : maxPairedStakingRatio}/>
-                                        <Button className={'col-span-1'} name={'Update Ratio'} handleClick={updateRatio}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
-                                    </div>: ""
+                                        <RangeSlider className={'col-span-3'}
+                                                     setPercent={mode === 'sell' ? setMaxBaseStakingRatio : setMaxPairedStakingRatio}
+                                                     percent={mode === 'sell' ? maxBaseStakingRatio : maxPairedStakingRatio}/>
+                                        <Button className={'col-span-1'} name={'Update Ratio'}
+                                                handleClick={updateRatio}> <i
+                                            className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
+                                    </div> : ""
                             }
                         </div> : ""
                     }
