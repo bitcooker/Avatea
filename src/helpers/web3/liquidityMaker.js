@@ -309,19 +309,21 @@ const getCurrentValue = async (wallet, liquidityMakerAddress, address, baseToken
         const signer = provider.getSigner();
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         const data = await liquidityMaker.holdersMapping(address);
-        let liquidityBalanceInWei = data.liquidityBalance
+        let liquidityBalance = data.liquidityBalance
         let liquidityRewardEarned = await liquidityMaker.liquidityRewardEarned(address);
         let pairAddress = await liquidityMaker.pair();
-        let total = liquidityBalanceInWei.add(liquidityRewardEarned)
 
         let baseBalance = await helpers.web3.token.balanceOf(wallet, baseTokenAddress, pairAddress)
         let pairedBalance = await helpers.web3.token.balanceOf(wallet, pairedTokenAddress, pairAddress)
         let totalSupply = await helpers.web3.token.fetchTotalSupply(wallet, pairAddress)
 
-        let currentBaseValue =  helpers.formatting.web3Format(baseBalance.mul(total).div(totalSupply))
-        let currentPairedValue =  helpers.formatting.web3Format(pairedBalance.mul(total).div(totalSupply))
+        let currentBaseValue = helpers.formatting.web3Format(baseBalance.mul(liquidityBalance).div(totalSupply))
+        let currentPairedValue = helpers.formatting.web3Format(pairedBalance.mul(liquidityBalance).div(totalSupply))
 
-        return {currentBaseValue,currentPairedValue }
+        let currentRewardBaseValue = helpers.formatting.web3Format(baseBalance.mul(liquidityRewardEarned).div(totalSupply))
+        let currentRewardPairedValue = helpers.formatting.web3Format(pairedBalance.mul(liquidityRewardEarned).div(totalSupply))
+
+        return {currentBaseValue, currentPairedValue, currentRewardBaseValue, currentRewardPairedValue}
     } catch (e) {
         console.log('Liquidity holdersMapping error', e);
         toast.error(e.reason);

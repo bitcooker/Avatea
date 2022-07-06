@@ -15,6 +15,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     const [liquidityRewardPerToken, setLiquidityRewardPerToken] = useState('0');
     const [currentBaseValue, setCurrentBaseValue] = useState('0');
     const [currentPairedValue, setCurrentPairedValue] = useState('0');
+    const [currentRewardBaseValue, setCurrentRewardBaseValue] = useState('0');
+    const [currentRewardPairedValue, setCurrentRewardPairedValue] = useState('0');
     const [holdersMapping, setHoldersMapping] = useState();
     const [load, setLoad] = useState(false);
 
@@ -59,6 +61,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                 let data = await helper.web3.liquidityMaker.getCurrentValue(wallet, liquidityMaker.address, wallet.account, project.token, marketMakingPool.paired_token)
                 setCurrentBaseValue(data.currentBaseValue);
                 setCurrentPairedValue(data.currentPairedValue);
+                setCurrentRewardBaseValue(data.currentRewardBaseValue);
+                setCurrentRewardPairedValue(data.currentRewardPairedValue);
             };
             getCurrentValue();
         }
@@ -169,7 +173,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                     <div>
                         <div className="flex flex-row items-center justify-between text-base">
                       <span>
-                        <i className="fa-solid fa-money-bill-transfer"/> Current Value
+                        <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Liquidity
                       </span>
                             <span className="flex text-base font-medium">
                         <img src={project.image} className="w-6 h-6 mr-2.5"/>
@@ -179,7 +183,23 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                                     className="w-6 h-6 ml-2.5 mr-2.5"
                                 />{" "}
                                 {currentPairedValue}
-                                       <img
+                      </span>
+                        </div>
+                    </div>
+                    <div>
+                        <div className="flex flex-row items-center justify-between text-base">
+                      <span>
+                        <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Rewards
+                      </span>
+                            <span className="flex text-base font-medium">
+                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
+                                {currentRewardBaseValue}
+                                <img
+                                    src={marketMakingPool.paired_token_image}
+                                    className="w-6 h-6 ml-2.5 mr-2.5"
+                                />{" "}
+                                {currentRewardPairedValue}
+                                <img
                                     src="/avatea-token.png"
                                     className="w-6 h-6 ml-2.5 mr-2.5"
                                 />{" "}
@@ -204,7 +224,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                         <Button name="Claim Rewards" handleClick={claimReward}>
                             <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                         </Button>
-                        <Button name="Compound Reward" handleClick={compoundReward}>
+                        <Button name="Compound Liquidity Reward" handleClick={compoundReward}>
                             <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                         </Button>
                     </div>
