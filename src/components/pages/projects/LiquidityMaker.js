@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 import moment from "moment";
 
-export default function LiquidityMaker({liquidityMaker, wallet, project, marketMakingPool}) {
+export default function LiquidityMaker({liquidityMaker, wallet, project}) {
 
 
     const [rewardEarned, setRewardEarned] = useState('0');
@@ -47,7 +47,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                     Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address))
                 );
 
-                let TVL = await helper.web3.liquidityMaker.getTVL(wallet, liquidityMaker.address, project.token, marketMakingPool.paired_token)
+                let TVL = await helper.web3.liquidityMaker.getTVL(wallet, liquidityMaker.address, project.token, liquidityMaker.paired_token)
                 setBaseTotalSupply(helper.formatting.web3Format(TVL.baseValue));
                 setPairedTotalSupply(helper.formatting.web3Format(TVL.pairedValue));
 
@@ -64,7 +64,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     useEffect(() => {
         if (liquidityRewardEarned && holdersMapping?.liquidityBalance) {
             const getCurrentValue = async () => {
-                let data = await helper.web3.liquidityMaker.getCurrentValue(wallet, liquidityMaker.address, wallet.account, project.token, marketMakingPool.paired_token)
+                let data = await helper.web3.liquidityMaker.getCurrentValue(wallet, liquidityMaker.address, wallet.account, project.token, liquidityMaker.paired_token)
                 setCurrentBaseValue(data.currentBaseValue);
                 setCurrentPairedValue(data.currentPairedValue);
                 setCurrentRewardBaseValue(data.currentRewardBaseValue);
@@ -130,7 +130,9 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
 
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-clock"/> Locking Period</span>
-                                <span className="text-base font-medium">{moment(lockingPeriod).fromNow()}</span>
+                                <span className="text-base font-medium">{parseInt(moment.duration(lockingPeriod, 'seconds').asDays())} days and
+                                    {" "}{parseInt(moment.duration(lockingPeriod, 'seconds').asHours()) % 24} hours
+                                </span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-timer"/> Unlocked on</span>
@@ -145,7 +147,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                         <img src={project.image} className="w-6 h-6 mr-2.5"/>
                                     {baseTotalSupply}
                                     <img
-                                        src={marketMakingPool.paired_token_image}
+                                        src={liquidityMaker.paired_token_image}
                                         className="w-6 h-6 ml-2.5 mr-2.5"
                                     />{" "}
                                     {pairedTotalSupply}
@@ -180,7 +182,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                         <img src={project.image} className="w-6 h-6 mr-2.5"/>
                                 {holdersMapping?.stakedInBaseToken}
                                 <img
-                                    src={marketMakingPool.paired_token_image}
+                                    src={liquidityMaker.paired_token_image}
                                     className="w-6 h-6 ml-2.5 mr-2.5"
                                 />{" "}
                                 {holdersMapping?.stakedInPairedToken}
@@ -197,7 +199,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                         <img src={project.image} className="w-6 h-6 mr-2.5"/>
                                 {currentBaseValue}
                                 <img
-                                    src={marketMakingPool.paired_token_image}
+                                    src={liquidityMaker.paired_token_image}
                                     className="w-6 h-6 ml-2.5 mr-2.5"
                                 />{" "}
                                 {currentPairedValue}
@@ -213,7 +215,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                         <img src={project.image} className="w-6 h-6 mr-2.5"/>
                                 {currentRewardBaseValue}
                                 <img
-                                    src={marketMakingPool.paired_token_image}
+                                    src={liquidityMaker.paired_token_image}
                                     className="w-6 h-6 ml-2.5 mr-2.5"
                                 />{" "}
                                 {currentRewardPairedValue}

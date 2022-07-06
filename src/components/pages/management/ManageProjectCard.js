@@ -1,14 +1,10 @@
 import Button from "../../core/Button/Button";
 import {useWallet} from "use-wallet";
 import Card from "../projectDetail/Card/Card";
-import {useEffect, useState,useCallback} from "react";
-import InputWithIcon from "../../core/Input/InputWithIcon";
+import {useEffect, useState} from "react";
 import Modal from "../../core/modal/Modal";
 import InputEmpty from "../../core/Input/InputEmpty";
 import TextArea from "../../core/TextArea/TextArea";
-import Select from "../../core/Select/Select";
-import SocialItem from "../Linked/SocialItem";
-import {socialFacebookWithOutBG, socialLinkedWithOutBG, socialTelegramWithOutBG, socialTwitterWithOutBG} from "../../SVG";
 import {useRouter} from "next/router";
 import FileInput from "../Linked/fileInput";
 import helpers from "../../../helpers";
@@ -18,32 +14,32 @@ export default function ManageProjectCard({project}) {
     const wallet = useWallet();
     const router = useRouter();
     const [openEditProject, setOpenEditProject] = useState(false);
-    const [projectDescription,setProjectDescription] = useState(project.description);
-    const [whitepaper,setWhitepaper] = useState(project.whitepaper);
+    const [projectDescription, setProjectDescription] = useState(project.description);
+    const [whitepaper, setWhitepaper] = useState(project.whitepaper);
     const [audit, setAudit] = useState(project.audit);
-    const [banner,setBanner] = useState(project.banner);
-    const [image,setImage] = useState(project.image);
-    const [linkedIn,setLinkedIn] = useState(project.social_linkedin);
-    const [facebook,setFacebook] = useState(project.social_facebook);
-    const [github,setGithub] = useState(project.social_github);
-    const [telegram,setTelegram] = useState(project.social_telegram);
-    const [discord,setDiscord] = useState(project.social_discord);
-    const [medium,setMedium] = useState(project.social_medium);
-    const [twitter,setTwitter] = useState(project.social_twitter);
-    const [bannerUrl,setBannerUrl] = useState(project.banner);
+    const [banner, setBanner] = useState(project.banner);
+    const [image, setImage] = useState(project.image);
+    const [linkedIn, setLinkedIn] = useState(project.social_linkedin);
+    const [facebook, setFacebook] = useState(project.social_facebook);
+    const [github, setGithub] = useState(project.social_github);
+    const [telegram, setTelegram] = useState(project.social_telegram);
+    const [discord, setDiscord] = useState(project.social_discord);
+    const [medium, setMedium] = useState(project.social_medium);
+    const [twitter, setTwitter] = useState(project.social_twitter);
+    const [bannerUrl, setBannerUrl] = useState(project.banner);
     const [imageUrl, setImageUrl] = useState(project.image);
     const isFile = input => 'File' in window && input instanceof File;
 
     useEffect(() => {
         if (isFile(banner)) setBannerUrl(URL.createObjectURL(banner))
-    },[banner])
+    }, [banner])
 
     useEffect(() => {
-       if(isFile(image)) setImageUrl(URL.createObjectURL(image))
-    },[image])
+        if (isFile(image)) setImageUrl(URL.createObjectURL(image))
+    }, [image])
     console.log(project)
 
-    const updateProjectInfo = async() => {
+    const updateProjectInfo = async () => {
         const formData = new FormData();
         formData.append("slug", project.slug);
         formData.append("description", projectDescription);
@@ -59,12 +55,13 @@ export default function ManageProjectCard({project}) {
         formData.append("social_medium", medium);
         formData.append("user_address", wallet.account);
 
-        await helpers.project.updateProjectInformation(formData,project.slug,wallet);
+        await helpers.project.updateProjectInformation(formData, project.slug, wallet);
     }
 
     return (
-        <Card className={'col-span-2'}>
-            <Modal title="Edit Project Information" open={openEditProject} handleClose={() => setOpenEditProject(false)}>
+        <Card className={'col-span-full md:col-span-1'}>
+            <Modal title="Edit Project Information" open={openEditProject}
+                   handleClose={() => setOpenEditProject(false)}>
                 <div className="card-content grid lg:grid-cols-2 gap-3.75">
                     {/* left */}
                     <div className="w-full flex flex-col space-y-3.75">
@@ -193,13 +190,14 @@ export default function ManageProjectCard({project}) {
 
                     </div>
                 </div>
-                
+
                 <div className="w-full mt-3.75 space-y-3.75">
                     <div className="w-full gap-2.5 grid grid-cols-2">
-                        <FileInput image={bannerUrl} label="Replace Banner Image" setValue={setBanner} type={"image/*"}/>
+                        <FileInput image={bannerUrl} label="Replace Banner Image" setValue={setBanner}
+                                   type={"image/*"}/>
                         <FileInput image={imageUrl} label="Replace Token Image" setValue={setImage} type={"image/*"}/>
                     </div>
-                    
+
                     <Button
                         name="Update Information"
                         handleClick={updateProjectInfo}
@@ -209,7 +207,7 @@ export default function ManageProjectCard({project}) {
             <div className="card-header mb-5">
                 <h1 className="text-2xl text-center">Manage Project</h1>
             </div>
-            <div className="w-full space-x-3.75 grid grid-cols-2">
+            <div className="flex flex-col p-3.75 space-y-4">
                 {/* Edit Button */}
                 <Button
                     name="Edit Information"
@@ -218,6 +216,7 @@ export default function ManageProjectCard({project}) {
                 <Button name="Edit Articles" handleClick={(e) => {
                     router.push(`${project.slug}/news`)
                 }}/>
+                <Button name="Contact Support"/>
             </div>
         </Card>
     )

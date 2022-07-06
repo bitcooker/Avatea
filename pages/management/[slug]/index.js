@@ -13,6 +13,7 @@ import helper from "../../../src/helpers";
 import VaultCard from "../../../src/components/pages/management/VaultCard";
 import MarketMakingCard from "../../../src/components/pages/management/MarketMakingCard";
 import ManageProjectCard from "../../../src/components/pages/management/ManageProjectCard";
+import LiquidityMakerCard from "../../../src/components/pages/management/LiquidityMakerCard";
 import {useWallet} from "use-wallet";
 import {useRouter} from "next/router";
 import ManagementAuthentication from "../../../src/components/pages/management/ManagementAuthentication";
@@ -24,17 +25,20 @@ export default function ManagementIndex(props) {
     const [project, setProject] = React.useState({});
     const [vault, setVault] = useState({});
     const [marketMakingPool, setMarketMakingPool] = useState({});
+    const [liquidityMaker, setLiquidityMaker] = useState({})
 
     useEffect(() => {
         if (props.projectDetail) setProject(props.projectDetail);
         if (props.marketMakingPool) setMarketMakingPool(props.marketMakingPool);
         if (props.vault) setVault(props.vault);
+        if (props.liquidityMaker) setLiquidityMaker(props.liquidityMaker);
         else {
             const fetchProject = async () => {
                 const result = await helper.project.getProject(slug);
                 setProject(result?.project);
                 setMarketMakingPool(result?.marketMakingPool);
                 setVault(result?.vault);
+                setLiquidityMaker(result?.liquidityMaker);
             };
             fetchProject();
         }
@@ -62,8 +66,11 @@ export default function ManagementIndex(props) {
                     ) : (
                         <div className="space-y-7.5">
                             <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-3.75">
-                                <VaultCard vault={vault} project={project}/>
                                 <MarketMakingCard project={project} marketMakingPool={marketMakingPool}/>
+                                <LiquidityMakerCard liquidityMaker={liquidityMaker} project={project}/>
+                            </div>
+                            <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-3.75">
+                                <VaultCard vault={vault} project={project}/>
                                 <ManageProjectCard project={project} vault={vault}/>
                             </div>
                         </div>

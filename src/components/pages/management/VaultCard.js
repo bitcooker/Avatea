@@ -6,8 +6,9 @@ import Card from "../projectDetail/Card/Card";
 import {useCallback, useEffect, useState} from "react";
 import helper from "../../../helpers";
 import {ethers} from "ethers";
+import {AVATEA_TOKEN_IMAGE} from "../../../helpers/constants";
 
-export default function VaultCard({ project, vault }) {
+export default function VaultCard({project, vault}) {
 
     const wallet = useWallet();
 
@@ -37,12 +38,12 @@ export default function VaultCard({ project, vault }) {
             };
             initWalletConnected();
         }
-    }, [wallet, vault,project]);
+    }, [wallet, vault, project]);
 
     const addReward = useCallback(async () => {
         const wei = ethers.utils.parseEther(amountBaseTokenToStake);
         let success = await helper.web3.vault.addReward(wallet, vault.address, wei);
-    },[amountBaseTokenToStake,wallet,vault]);
+    }, [amountBaseTokenToStake, wallet, vault]);
 
     const setMax = useCallback(async (amount, setter) => {
         setter(amount);
@@ -56,11 +57,11 @@ export default function VaultCard({ project, vault }) {
                     <h2 className="text-2xl"><i className="fa-solid fa-nfc-lock"/> Vault</h2>
                     <div className="flex justify-between">
                       <span className="text-sm">
-                        <i className="fa-solid fa-money-bill-transfer" /> TVL
+                        <i className="fa-solid fa-money-bill-transfer"/> TVL
                       </span>
                         <span className="flex text-base font-medium">
                         <img
-                            src="/public/avatea-token.png"
+                            src={AVATEA_TOKEN_IMAGE}
                             className="w-6 h-6 ml-2.5 mr-2.5"
                         />{" "}
                             {vaultTLV}
@@ -68,7 +69,7 @@ export default function VaultCard({ project, vault }) {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm">
-                        <i className="fa-solid fa-hands-holding-dollar" />{" "}
+                        <i className="fa-solid fa-hands-holding-dollar"/>{" "}
                           Reward Per Avatea Token Per Day
                       </span>
                         <span className="flex text-base font-medium">
@@ -82,7 +83,7 @@ export default function VaultCard({ project, vault }) {
 
                     <div className="flex flex-row items-center justify-between text-base">
                         <div>
-                            <i className="fa-solid fa-coin" /> Add rewards
+                            <i className="fa-solid fa-coin"/> Add rewards
                         </div>
                         <span>
                             <MaxButton
@@ -93,7 +94,7 @@ export default function VaultCard({ project, vault }) {
                                     )
                                 }
                             /> <span className={'pr-0.5'}></span>
-                        {baseTokenWalletBalance}
+                            {baseTokenWalletBalance}
 
                       </span>
                     </div>
@@ -114,11 +115,12 @@ export default function VaultCard({ project, vault }) {
             ) : (
                 <div className="flex flex-col p-3.75 space-y-4">
                     <h1 className="text-2xl text-center"><i className="fa-solid fa-nfc-lock"/> Vault</h1>
-                    <div className="bg-gray-200 border border-gray-400 px-4 py-3 rounded relative text-center" role="alert">
+                    <div className="bg-gray-200 border border-gray-400 px-4 py-3 rounded relative text-center"
+                         role="alert">
                         <span>No vault created yet</span>
 
                     </div>
-                    <Button name="Request a vault" />
+                    <Button name="Request a vault"/>
                 </div>
             )}
         </Card>
