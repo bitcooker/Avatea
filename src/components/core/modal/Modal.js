@@ -12,7 +12,7 @@ export default function Modal(props) {
       onClick={props.handleClose}
     >
       <div
-        className="w-full bg-white my-2 md-lg:my-20 rounded-3xl p-8"
+        className="w-full bg-white my-2 mx-auto md-lg:max-w-[900px] md-lg:my-20 rounded-3xl p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-header flex flex-row justify-between items-center mb-5">
