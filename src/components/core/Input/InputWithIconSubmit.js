@@ -18,7 +18,7 @@ export default function Input(props) {
         id={props.id}
         name={props.name}
         type={props.type}
-        value={props.value}
+        value={props.value === undefined || props.value === null ? "" : props.value}
         onChange={onChange}
         className="block w-full bg-gray-100"
         placeholder={props.placeholder}
