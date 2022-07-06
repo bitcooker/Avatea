@@ -152,9 +152,9 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     }, []);
 
     const stakePairedToken = async () => {
+        setFresh(false);
         const wei = ethers.utils.parseEther(amountPairTokenToStake);
         let success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei, maxPairedStakingRatio);
-        setFresh(false);
         if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
     };
 
@@ -197,10 +197,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     };
 
     const stakeMarketMaker = async () => {
+        setFresh(false);
         console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
         const wei = ethers.utils.parseEther(amountBaseTokenToStake);
         let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei, maxBaseStakingRatio);
-        setFresh(false);
         if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
     };
 
