@@ -7,27 +7,26 @@ import MyVestedPools from "../src/components/pages/myActivity/MyVestedPools";
 import MyVaults from "../src/components/pages/myActivity/MyVaults";
 
 export default function Activity() {
-
     const wallet = useWallet();
 
     return (
-        <div className="activity">
-        {
-            wallet.status === "connected" ? (
+        <>
+            {
+                wallet.status === "connected" ? (
+                    <>
+                        <Info />
 
-            <div className="activity__inner">
-                <Info />
+                        <MyMarketMakingPools wallet={wallet}/>
+                        <MyVestedPools wallet={wallet}/>
+                        <MyVaults wallet={wallet}/>
 
-                <MyMarketMakingPools wallet={wallet}/>
-                <MyVestedPools wallet={wallet}/>
-                <MyVaults wallet={wallet}/>
-
-                <div className="activity__inner-row">
-                    <Chart />
-                    <Act />
-                </div>
-            </div>) : <p>Connect your wallet</p>
-        }
-        </div>
+                        <div className="space-y-3.75 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-5">
+                            <Chart />
+                            <Act />
+                        </div>
+                    </>
+                ) : <p>Connect your wallet</p>
+            }
+        </>
     );
 }

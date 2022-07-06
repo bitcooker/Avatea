@@ -30,18 +30,16 @@ export default function TransactionWrapper() {
     console.log(transactions);
 
     return (
-    <div className="act">
-        <h2>Transactions</h2>
-        <div className="act__inner h-100">
-
-            {
-              transactions ? transactions?.map((transaction) => {
-                  return <TransactionItem key={transaction.id} {...transaction} />;
-              }) : <div className={'flex items-center justify-center'}>
-                  <Spinner size={10}/>
-              </div>
-          }
-        {}
+    <div className="grow p-5 rounded-2.5xl bg-white">
+        <h2 className="text-2xl">Transactions</h2>
+        <div className="w-full h-[550px] overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-300">
+        {
+            transactions ? transactions?.map((transaction) => {
+                return <TransactionItem key={transaction.id} {...transaction} />;
+            }) : <div className={'flex h-full items-center justify-center'}>
+                <Spinner size={5}/>
+            </div>
+        }
       </div>
     </div>
   );
