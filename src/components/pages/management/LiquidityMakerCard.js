@@ -109,7 +109,9 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                     <h2 className="text-2xl"><i className="fa-solid fa-nfc-lock"/> Liquidity Maker</h2>
                     <div className="flex justify-between">
                         <span className="text-sm"><i className="fa-solid fa-clock"/> Locking Period</span>
-                        <span className="text-base font-medium">{moment(lockingPeriod).fromNow()}</span>
+                        <span className="text-base font-medium">{ parseInt(moment.duration(lockingPeriod, 'seconds').asDays())} days and
+                            {" "}{parseInt(moment.duration(lockingPeriod, 'seconds').asHours()) % 24 } hours
+                        </span>
                     </div>
                     <div className="flex justify-between">
                                 <span className="text-sm"><i
