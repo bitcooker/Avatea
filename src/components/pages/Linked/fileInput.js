@@ -17,7 +17,7 @@ export default function FileInput(props) {
       <div className="">
         {props.image 
             ? 
-            <div className="hover:cursor-pointer hover:blur-[2px]">
+            <div className="hover:cursor-pointer">
                 <input
                     id={props.id}
                     type="file"

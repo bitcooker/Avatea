@@ -25,7 +25,7 @@ export const CardContent = (props) => {
 
   return (
     <Link href={`/projects/${props.project}`}>
-        <div className={`relative flex flex-col w-full justify-center bg-white hover:cursor-pointer hover:blur-[2px] transition`}>
+        <div className={`relative flex flex-col w-full justify-center bg-white hover:cursor-pointer transition`}>
             {!imgLoaded && (
                 <div className="absolute flex w-full justify-center"><Spinner size={5}/></div>
             )}
