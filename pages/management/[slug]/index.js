@@ -66,7 +66,6 @@ export default function ManagementIndex(props) {
                                 <MarketMakingCard project={project} marketMakingPool={marketMakingPool}/>
                                 <ManageProjectCard project={project} vault={vault}/>
                             </div>
-
                         </div>
                     )}
                 </div>
