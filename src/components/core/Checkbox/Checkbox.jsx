@@ -2,7 +2,7 @@ import * as React from "react";
 import {useEffect} from "react";
 
 export default function Checkbox(props) {
-  const [isChecked, setIsChecked] = React.useState(false);
+  const [isChecked, setIsChecked] = React.useState(props.initialValue);
 
     useEffect(() => {
     props.setValue(isChecked);

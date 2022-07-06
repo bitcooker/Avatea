@@ -6,11 +6,12 @@ import InputEmpty from "../../core/Input/InputEmpty";
 import Radio from "../../core/Radio/Radio";
 import Button from "../../core/Button/Button";
 import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
-import {useState, useEffect, useCallback} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {ethers} from "ethers";
 import helper from "../../../helpers";
+import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 
-export default function MarketMaking({vault, wallet, project, marketMakingPool}) {
+export default function MarketMaking({wallet, project, marketMakingPool}) {
 
     const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState('0');
     const [amountPairTokenBalance, setAmountPairTokenBalance] = useState('0');
@@ -26,14 +27,27 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
     const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
     const [mode, setMode] = useState("sell");
     const [estimation, setEstimation] = useState("- Days");
-    const [activity,setActivity]  = useState({baseAmountBought:'0', pairedAmountBought:'0', baseAmountSold: '0', pairedAmountSold: '0'})
+    const [activity, setActivity] = useState({
+        baseAmountBought: '0',
+        pairedAmountBought: '0',
+        baseAmountSold: '0',
+        pairedAmountSold: '0'
+    })
+    const [load, setLoad] = useState(false);
+
 
     useEffect(() => {
-        if (wallet.status === "connected" && marketMakingPool.paired_token) {
+        if (wallet.status === "connected" && marketMakingPool.address) {
             const initWalletConnected = async () => {
                 setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token, wallet.account)));
                 setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token, wallet.account)));
-                const {available, baseAmountBought, pairedAmountBought, baseAmountSold, pairedAmountSold} = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address,wallet.account);
+                const {
+                    available,
+                    baseAmountBought,
+                    pairedAmountBought,
+                    baseAmountSold,
+                    pairedAmountSold
+                } = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address, wallet.account);
                 setActivity({
                     baseAmountBought: helper.formatting.web3Format(baseAmountBought),
                     pairedAmountBought: helper.formatting.web3Format(pairedAmountBought),
@@ -42,10 +56,11 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                 })
                 setAmountBaseTokenBalance(helper.formatting.web3Format(available));
                 setAmountPairTokenBalance(helper.formatting.web3Format(await helper.web3.marketMaker.getWithdrawablePairedTokens(wallet, marketMakingPool.address, wallet.account)));
+                setLoad(true)
             };
             initWalletConnected();
         }
-    }, [wallet, vault, marketMakingPool,project]);
+    }, [wallet, marketMakingPool, project]);
 
     useEffect(() => {
         if (wallet.status === "connected") {
@@ -67,7 +82,8 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
             };
             initWalletConnected();
         }
-    }, [wallet,project]);
+    }, [wallet, project]);
+
 
     useEffect(() => {
         if (parseFloat(pressure) === 0) {
@@ -94,7 +110,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
 
     const setMax = useCallback(async (amount, setter) => {
         setter(amount);
-    },[]);
+    }, []);
 
     const handleSetMode = useCallback((mode) => {
         setMode(mode);
@@ -103,6 +119,7 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
     const stakePairedToken = async () => {
         const wei = ethers.utils.parseEther(amountPairTokenToStake);
         let success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
+        setFresh(false);
         if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
     };
 
@@ -143,215 +160,217 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
         console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
         const wei = ethers.utils.parseEther(amountBaseTokenToStake);
         let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
+        setFresh(false);
         if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
     };
 
-    return (<div className="grid md-lg:grid-cols-2 gap-7.5">
-        <Card title="Activity">
-            {/* Card Header */}
-            <div className="card-header">
-                <h1 className="text-2xl"><i className="fa-solid fa-wave-pulse"></i> Activity</h1>
+    return !load ? <SkeletonMarketMaking/> : (
+        <div className="grid md-lg:grid-cols-2 gap-7.5">
+            <Card title="Activity">
+                {/* Card Header */}
+                <div className="card-header">
+                    <h1 className="text-2xl"><i className="fa-solid fa-wave-pulse"></i> Activity</h1>
 
-                <div className="py-5.5 space-y-4.5">
-                    <div className="flex justify-between">
-                        <span className="text-sm"><i className="fa-solid fa-circle-minus"/> Sold</span>
-                        <span className="flex text-base font-medium">
+                    <div className="py-5.5 space-y-4.5">
+                        <div className="flex justify-between">
+                            <span className="text-sm"><i className="fa-solid fa-circle-minus"/> Sold</span>
+                            <span className="flex text-base font-medium">
                     <img
                         src={project.image}
                         className="w-6 h-6 mr-2.5"
                     />
-                            {activity.baseAmountSold} <img
-                            src={marketMakingPool.paired_token_image}
-                            className="w-6 h-6 ml-2.5 mr-2.5"
-                        /> {activity.pairedAmountSold}
+                                {activity.baseAmountSold} <img
+                                src={marketMakingPool.paired_token_image}
+                                className="w-6 h-6 ml-2.5 mr-2.5"
+                            /> {activity.pairedAmountSold}
                   </span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-sm"><i className="fa-solid fa-circle-plus"/> Bought</span>
-                        <span className="flex text-base font-medium">
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-sm"><i className="fa-solid fa-circle-plus"/> Bought</span>
+                            <span className="flex text-base font-medium">
                     <img
                         src={project.image}
                         className="w-6 h-6 mr-2.5"
                     />
-                            {activity.baseAmountBought} <img
-                            src={marketMakingPool.paired_token_image}
-                            className="w-6 h-6 ml-2.5 mr-2.5"
-                        /> {activity.pairedAmountBought}
+                                {activity.baseAmountBought} <img
+                                src={marketMakingPool.paired_token_image}
+                                className="w-6 h-6 ml-2.5 mr-2.5"
+                            /> {activity.pairedAmountBought}
                   </span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="card-content space-y-5">
-                <div className="space-y-3.75">
-                    <div className="space-y-2.5">
-                        <div className="flex flex-row items-center justify-between text-base">
-                            <div>
-                                <i className="fa-solid fa-circle-dollar mr-1" />
-                                Cash
-                            </div>
-                            <span>
+                <div className="card-content space-y-5">
+                    <div className="space-y-3.75">
+                        <div className="space-y-2.5">
+                            <div className="flex flex-row items-center justify-between text-base">
+                                <div>
+                                    <i className="fa-solid fa-circle-dollar mr-1"/>
+                                    Cash
+                                </div>
+                                <span>
                       {amountPairTokenBalance} &nbsp;
-                                <MaxButton
-                                    handleClick={() => setMax(amountPairTokenBalance, setAmountPairTokenToWithdraw)}
-                                />
+                                    <MaxButton
+                                        handleClick={() => setMax(amountPairTokenBalance, setAmountPairTokenToWithdraw)}
+                                    />
                     </span>
+                            </div>
+                            <InputWithIconSubmit
+                                id="withdrawCash"
+                                name="withdrawCash"
+                                type="number"
+                                placeholder="Input amount to withdraw"
+                                submitName="Withdraw"
+                                image={marketMakingPool.paired_token_image}
+                                icon="fa-light fa-circle-minus"
+                                value={amountPairTokenToWithdraw}
+                                setValue={setAmountPairTokenToWithdraw}
+                                submitFunction={withdrawPairToken}
+                            />
                         </div>
-                        <InputWithIconSubmit
-                            id="withdrawCash"
-                            name="withdrawCash"
-                            type="number"
-                            placeholder="Input amount to withdraw"
-                            submitName="Withdraw"
-                            image={marketMakingPool.paired_token_image}
-                            icon="fa-light fa-circle-minus"
-                            value={amountPairTokenToWithdraw}
-                            setValue={setAmountPairTokenToWithdraw}
-                            submitFunction={withdrawPairToken}
-                        />
+                        <div className="space-y-2.5">
+                            <div className="flex flex-row items-center justify-between text-base">
+                                <div>
+                                    <i className="fa-solid fa-coin mr-1"/>
+                                    Tokens
+                                </div>
+                                <span>
+                      {amountBaseTokenBalance} &nbsp;
+                                    <MaxButton
+                                        handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}
+                                    />
+                    </span>
+                            </div>
+                            <InputWithIconSubmit
+                                id="withdrawToken"
+                                name="withdrawToken"
+                                type="number"
+                                placeholder="Input amount to withdraw"
+                                submitName="Withdraw"
+                                image={project.image}
+                                icon="fa-light fa-circle-minus"
+                                value={amountBaseTokenToWithdraw}
+                                setValue={setAmountBaseTokenToWithdraw}
+                                submitFunction={withdrawBaseToken}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </Card>
+            <Card title="Settings">
+                {/* Card Header */}
+                <div className="card-header">
+                    <h1 className="text-2xl"><i className="fa-solid fa-sliders"/> Settings</h1>
+                </div>
+
+                <div className="card-content pt-5.5 space-y-5">
+                    <div className=" grid md-lg:grid-cols-2 gap-5">
+                        <div className="flex flex-col space-y-10">
+                            <span className="text-sm"><i className="fa-solid fa-circle-bolt"/> Pressure</span>
+                            <RangeSlider setPercent={setPressure} percent={pressure}/>
+                        </div>
+                        <div className={`space-y-2.5 ${estimation === '- Days' ? 'hidden' : ''}`}>
+                            <span className="text-sm"><i className="fa-solid fa-timer"/> Estimation</span>
+                            <InputEmpty placeholder={estimation} readOnly/>
+                        </div>
+                    </div>
+
+                    <div className="space-y-2.5">
+                        <span className="text-sm"><i className="fa-solid fa-plus-minus"/> Mode</span>
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
+                            <Radio
+                                name="mode"
+                                label="Buy"
+                                value={"buy"}
+                                checked={mode === "buy"}
+                                handleSetMode={handleSetMode}
+                            />
+                            <Radio
+                                name="mode"
+                                label="Sell"
+                                value={"sell"}
+                                checked={mode === "sell"}
+                                handleSetMode={handleSetMode}
+                            />
+                        </div>
                     </div>
                     <div className="space-y-2.5">
-                        <div className="flex flex-row items-center justify-between text-base">
-                            <div>
-                                <i className="fa-solid fa-coin mr-1" />
-                                Tokens
-                            </div>
-                            <span>
-                      {amountBaseTokenBalance} &nbsp;
-                                <MaxButton
-                                    handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}
-                                />
-                    </span>
-                        </div>
-                        <InputWithIconSubmit
-                            id="withdrawToken"
-                            name="withdrawToken"
-                            type="number"
-                            placeholder="Input amount to withdraw"
-                            submitName="Withdraw"
-                            image={project.image}
-                            icon="fa-light fa-circle-minus"
-                            value={amountBaseTokenToWithdraw}
-                            setValue={setAmountBaseTokenToWithdraw}
-                            submitFunction={withdrawBaseToken}
-                        />
-                    </div>
-                </div>
-            </div>
-        </Card>
-        <Card title="Settings">
-            {/* Card Header */}
-            <div className="card-header">
-                <h1 className="text-2xl"><i className="fa-solid fa-sliders"/> Settings</h1>
-            </div>
-
-            <div className="card-content pt-5.5 space-y-5">
-                <div className=" grid md-lg:grid-cols-2 gap-5">
-                    <div className="flex flex-col space-y-10">
-                        <span className="text-sm"><i className="fa-solid fa-circle-bolt" /> Pressure</span>
-                        <RangeSlider setPercent={setPressure} percent={pressure}/>
-                    </div>
-                    <div className={`space-y-2.5 ${estimation === '- Days' ? 'hidden' : ''}`}>
-                        <span className="text-sm"><i className="fa-solid fa-timer"/> Estimation</span>
-                        <InputEmpty placeholder={estimation} readOnly/>
-                    </div>
-                </div>
-
-                <div className="space-y-2.5">
-                    <span className="text-sm"><i className="fa-solid fa-plus-minus"/> Mode</span>
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
-                        <Radio
-                            name="mode"
-                            label="Buy"
-                            value={"buy"}
-                            checked={mode === "buy"}
-                            handleSetMode={handleSetMode}
-                        />
-                        <Radio
-                            name="mode"
-                            label="Sell"
-                            value={"sell"}
-                            checked={mode === "sell"}
-                            handleSetMode={handleSetMode}
-                        />
-                    </div>
-                </div>
-                <div className="space-y-2.5">
-                  <span className="text-sm"><i className="fa-solid fa-circle-dollar" />
-                    {mode === "buy" ? " Maximum Buying Price" : " Minimum Selling Price"}
+                  <span className="text-sm"><i className="fa-solid fa-circle-dollar"/>
+                      {mode === "buy" ? " Maximum Buying Price" : " Minimum Selling Price"}
                   </span>
-                    <InputWithIconSubmit
-                        id="priceLimit"
-                        name="priceLimit"
-                        type="number"
-                        image={mode === "sell" ? project.image : marketMakingPool.paired_token_image}
-                        placeholder="Enter price"
-                        icon="fa-light fa-circle-minus"
-                        hideButton={true}
-                        value={priceLimit}
-                        setValue={setPriceLimit}
-                    />
-                </div>
-                <Button name="Save Settings" handleClick={(e) => {
-                    updateSettings(mode === 'sell' ? amountBaseTokenBalance : amountPairTokenBalance)
-                }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
+                        <InputWithIconSubmit
+                            id="priceLimit"
+                            name="priceLimit"
+                            type="number"
+                            image={mode === "sell" ? project.image : marketMakingPool.paired_token_image}
+                            placeholder="Enter price"
+                            icon="fa-light fa-circle-minus"
+                            hideButton={true}
+                            value={priceLimit}
+                            setValue={setPriceLimit}
+                        />
+                    </div>
+                    <Button name="Save Settings" handleClick={(e) => {
+                        updateSettings(mode === 'sell' ? amountBaseTokenBalance : amountPairTokenBalance)
+                    }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
 
-                <div className="card-content pt-1 space-y-3.75">
-                    {mode === "buy" && (<div className="space-y-2.5">
-                        <div className="flex flex-row items-center justify-between text-base">
-                            <div>
-                                <i className="fa-solid fa-coin" /> Cash
-                            </div>
-                            <span>
+                    <div className="card-content pt-1 space-y-3.75">
+                        {mode === "buy" && (<div className="space-y-2.5">
+                            <div className="flex flex-row items-center justify-between text-base">
+                                <div>
+                                    <i className="fa-solid fa-coin"/> Cash
+                                </div>
+                                <span>
                         {pairedTokenWalletBalance} &nbsp;
-                                <MaxButton
-                                    handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
-                                />
+                                    <MaxButton
+                                        handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
+                                    />
                       </span>
-                        </div>
-                        <InputApproveWithIconSubmit
-                            id="cash"
-                            name="cash"
-                            type="number"
-                            icon="fa-light fa-circle-plus"
-                            submitName="Deposit"
-                            submitFunction={stakePairedToken}
-                            value={amountPairTokenToStake}
-                            image={marketMakingPool.paired_token_image}
-                            setValue={setAmountPairTokenToStake}
-                            address={marketMakingPool.address}
-                            token={marketMakingPool.paired_token}
-                        />
-                    </div>)}
-
-                    {mode === "sell" && (<div className="space-y-2.5">
-                        <div className="flex flex-row items-center justify-between text-base">
-                            <div>
-                                <i className="fa-solid fa-coin" /> Token
                             </div>
-                            <span>
+                            <InputApproveWithIconSubmit
+                                id="cash"
+                                name="cash"
+                                type="number"
+                                icon="fa-light fa-circle-plus"
+                                submitName="Deposit"
+                                submitFunction={stakePairedToken}
+                                value={amountPairTokenToStake}
+                                image={marketMakingPool.paired_token_image}
+                                setValue={setAmountPairTokenToStake}
+                                address={marketMakingPool.address}
+                                token={marketMakingPool.paired_token}
+                            />
+                        </div>)}
+
+                        {mode === "sell" && (<div className="space-y-2.5">
+                            <div className="flex flex-row items-center justify-between text-base">
+                                <div>
+                                    <i className="fa-solid fa-coin"/> Token
+                                </div>
+                                <span>
                         {baseTokenWalletBalance} &nbsp;
-                                <MaxButton
-                                    handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}
-                                />
+                                    <MaxButton
+                                        handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}
+                                    />
                       </span>
-                        </div>
-                        <InputApproveWithIconSubmit
-                            id="token"
-                            name="token"
-                            type="number"
-                            icon="fa-light fa-circle-plus"
-                            submitName="Deposit"
-                            image={project.image}
-                            submitFunction={stakeMarketMaker}
-                            value={amountBaseTokenToStake}
-                            setValue={setAmountBaseTokenToStake}
-                            address={marketMakingPool.address}
-                            token={project.token}
-                        />
-                    </div>)}
+                            </div>
+                            <InputApproveWithIconSubmit
+                                id="token"
+                                name="token"
+                                type="number"
+                                icon="fa-light fa-circle-plus"
+                                submitName="Deposit"
+                                image={project.image}
+                                submitFunction={stakeMarketMaker}
+                                value={amountBaseTokenToStake}
+                                setValue={setAmountBaseTokenToStake}
+                                address={marketMakingPool.address}
+                                token={project.token}
+                            />
+                        </div>)}
+                    </div>
                 </div>
-            </div>
-        </Card>
-    </div>)
+            </Card>
+        </div>)
 }

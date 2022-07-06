@@ -20,8 +20,8 @@ export default function MarketMakingDeployment({project}) {
     const [paused, setPaused] = useState(false);
 
     const deployMarketMakingPool = async () => {
-        await helper.web3.marketMaker.deploy(wallet, project.token, pairedTokenCheckSum, revocable, paused, project.slug, volume, maxBuyingAmount, maxSellingAmount, pairedTokenImage);
-        location.reload();
+        let success = await helper.web3.marketMaker.deploy(wallet, project.token, pairedTokenCheckSum, revocable, paused, project.slug, volume, maxBuyingAmount, maxSellingAmount, pairedTokenImage);
+        if (success) location.reload();
     };
 
     useEffect(() => {
