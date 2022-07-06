@@ -24,7 +24,7 @@ export default function Vesting({
     const [revocable, setRevocable] = useState(false);
     const [releasable, setReleasable] = useState(false);
     const [slicePeriodSeconds, setSlicePeriodSeconds] = useState("0");
-    const [load, setLoad] = useState(false);
+    const [load, setLoad] = useState(true);
 
 
     useEffect(() => {
@@ -99,8 +99,8 @@ export default function Vesting({
     if (amountVested === '0.00') return (
         <CenteredContent>
             <span className={'text-2xl'}>No Vesting Available</span>
-            <div className={'w-[30%] mx-auto'}>
-                    <Image src={'/red-flag.png'} layout={'responsive'}  height={500} width={500}/>
+            <div className={'w-[70%] mx-auto'}>
+                    <Image src={'/red-flag.png'} layout={'responsive'}  height={672} width={1030}/>
                 </div>
                 <Button handleClick={()=>setTab(0)}>Return to project</Button>
            </CenteredContent>

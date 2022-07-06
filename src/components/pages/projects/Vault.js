@@ -22,7 +22,7 @@ export default function Vault({ vault, wallet, project, setTab }) {
     const [vaultTLV,setVaultTLV] = useState('0');
     const [rewardPerToken, setRewardPerToken] = useState('0');
     const [articles, setArticles] = useState([]);
-    const [load, setLoad] = useState(false);
+    const [load, setLoad] = useState(true);
 
     useEffect(() => {
         console.log(vault.address)
@@ -97,8 +97,8 @@ export default function Vault({ vault, wallet, project, setTab }) {
     if (!vault.address) return (
         <CenteredContent>
             <span className={'text-2xl'}>No Vault Available</span>
-            <div className={'w-[30%] mx-auto'}>
-                <Image src={'/vault.png'} layout={'responsive'}  height={500} width={500}/>
+            <div className={'w-[70%] mx-auto'}>
+                <Image src={'/vault.png'} layout={'responsive'}  height={594} width={1181}/>
             </div>
             <Button handleClick={()=>setTab(0)}>Return to project</Button>
         </CenteredContent>

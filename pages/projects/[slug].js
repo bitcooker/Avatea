@@ -27,7 +27,6 @@ export default function ProjectDetail(props) {
     const [marketMakingPool, setMarketMakingPool] = useState({});
     const [liquidityMaker, setLiquidityMaker] = useState({})
     const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
-    const [load, setLoad] = useState(false);
 
     useEffect(() => {
         if (props.projectDetail) setProject(props.projectDetail);
@@ -61,10 +60,6 @@ export default function ProjectDetail(props) {
             fetchProject();
         }
     }, [project]);
-
-    useEffect(() => {
-        setLoad(false);
-    }, [tab])
 
 
     return (

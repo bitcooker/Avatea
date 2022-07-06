@@ -21,7 +21,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
     const [currentRewardBaseValue, setCurrentRewardBaseValue] = useState('0');
     const [currentRewardPairedValue, setCurrentRewardPairedValue] = useState('0');
     const [holdersMapping, setHoldersMapping] = useState();
-    const [load, setLoad] = useState(false);
+    const [load, setLoad] = useState(true);
 
 
     useEffect(() => {
