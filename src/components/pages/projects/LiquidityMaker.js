@@ -4,6 +4,7 @@ import {ethers} from "ethers";
 import helper from "../../../helpers";
 import {useEffect, useState} from "react";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
+import moment from "moment";
 
 export default function LiquidityMaker({liquidityMaker, wallet, project, marketMakingPool}) {
 
@@ -129,12 +130,12 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
 
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-clock"/> Locking Period</span>
-                                <span className="text-base font-medium">{lockingPeriod}</span>
+                                <span className="text-base font-medium">{moment(lockingPeriod).fromNow()}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-timer"/> Unlocked on</span>
                                 <span
-                                    className="text-base font-medium">{parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod)}</span>
+                                    className="text-base font-medium">{moment(parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod)).format('llll')}</span>
                             </div>
 
                             <div className="flex justify-between">
