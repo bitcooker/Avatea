@@ -15,7 +15,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.claimed),
+                    amount: Number(ethers.utils.formatEther(event.claimed)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId
                 })
@@ -27,7 +27,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.amount),
+                    amount: Number(ethers.utils.formatEther(event.amount)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId
                 })
@@ -39,7 +39,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.amount),
+                    amount: Number(ethers.utils.formatEther(event.amount)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                     full_withdrawal: data.full_withdrawal
@@ -52,7 +52,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.reward),
+                    amount: Number(ethers.utils.formatEther(event.reward)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                 })
@@ -64,7 +64,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.reward),
+                    amount: Number(ethers.utils.formatEther(event.reward)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                 })
@@ -76,7 +76,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.amount),
+                    amount: Number(ethers.utils.formatEther(event.amount)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                 })
@@ -88,7 +88,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event._amount),
+                    amount: Number(ethers.utils.formatEther(event._amount)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId
                 })
@@ -102,7 +102,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event._amount),
+                    amount: Number(ethers.utils.formatEther(event._amount)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId
                 })
@@ -115,7 +115,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event._amount),
+                    amount: Number(ethers.utils.formatEther(event._amount)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                     full_withdrawal: data.full_withdrawal
@@ -128,7 +128,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event._amount),
+                    amount: Number(ethers.utils.formatEther(event._amount)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                     full_withdrawal: data.full_withdrawal
@@ -141,7 +141,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event._amount),
+                    amount: Number(ethers.utils.formatEther(event._amount)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                     full_withdrawal: data.full_withdrawal
@@ -154,7 +154,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event._amount),
+                    amount: Number(ethers.utils.formatEther(event._amount)).toFixed(2),
                     user_address: data.user_address,
                     network: data.wallet.chainId,
                 })
@@ -229,7 +229,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.amount),
+                    amount: Number(ethers.utils.formatEther(event.amount)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                     full_withdrawal: data.full_withdrawal
@@ -242,7 +242,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.reward),
+                    amount: Number(ethers.utils.formatEther(event.reward)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                 })
@@ -254,7 +254,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.reward),
+                    amount: Number(ethers.utils.formatEther(event.reward)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                 })
@@ -266,7 +266,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.reward),
+                    amount: Number(ethers.utils.formatEther(event.reward)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                 })
@@ -278,7 +278,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.reward),
+                    amount: Number(ethers.utils.formatEther(event.reward)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                 })
@@ -290,7 +290,7 @@ const hook = async ({
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
-                    amount: ethers.utils.formatEther(event.amount),
+                    amount: Number(ethers.utils.formatEther(event.amount)).toFixed(2),
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                 })

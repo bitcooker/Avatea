@@ -10,7 +10,9 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
 
     const [rewardEarned, setRewardEarned] = useState('0');
     const [liquidityRewardEarned, setLiquidityRewardEarned] = useState('0');
-    const [totalSupply, setTotalSupply] = useState('0');
+    const [baseTotalSupply, setBaseTotalSupply] = useState('0');
+    const [pairedTotalSupply, setPairedTotalSupply] = useState('0');
+    const [lockingPeriod, setLockingPeriod] = useState('0');
     const [rewardPerToken, setRewardPerToken] = useState('0');
     const [liquidityRewardPerToken, setLiquidityRewardPerToken] = useState('0');
     const [currentBaseValue, setCurrentBaseValue] = useState('0');
@@ -40,11 +42,14 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                 setLiquidityRewardPerToken(
                     await helper.web3.liquidityMaker.liquidityRewardPerToken(wallet, liquidityMaker.address)
                 );
-                setTotalSupply(
-                    helper.formatting.web3Format(
-                        await helper.web3.liquidityMaker.totalSupply(wallet, liquidityMaker.address)
-                    )
+                setLockingPeriod(
+                    Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address))
                 );
+
+                let TVL = await helper.web3.liquidityMaker.getTVL(wallet, liquidityMaker.address, project.token, marketMakingPool.paired_token)
+                setBaseTotalSupply(helper.formatting.web3Format(TVL.baseValue));
+                setPairedTotalSupply(helper.formatting.web3Format(TVL.pairedValue));
+
                 setHoldersMapping(
                     await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address, wallet.account)
                 );
@@ -120,18 +125,30 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                         <h1 className="text-2xl"><i className="fa-solid fa-nfc-lock"/> Liquidity Stats</h1>
 
                         <div className="py-5.5 space-y-4.5">
+
+
                             <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-treasure-chest"/> Generated Rewards</span>
-                                <span className="text-base font-medium">{rewardEarned}</span>
+                                <span className="text-sm"><i className="fa-solid fa-clock"/> Locking Period</span>
+                                <span className="text-base font-medium">{lockingPeriod}</span>
                             </div>
+                            <div className="flex justify-between">
+                                <span className="text-sm"><i className="fa-solid fa-timer"/> Unlocked on</span>
+                                <span
+                                    className="text-base font-medium">{parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod)}</span>
+                            </div>
+
                             <div className="flex justify-between">
                                 <span className="text-sm"><i
-                                    className="fa-solid fa-treasure-chest"/> Total Supply</span>
-                                <span className="text-base font-medium">{totalSupply}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-money-bill-transfer"/> Liquidity Rewards </span>
-                                <span className="text-base font-medium">{liquidityRewardEarned}</span>
+                                    className="fa-solid fa-treasure-chest"/> Total Value Locked</span>
+                                <span className="flex text-base font-medium">
+                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
+                                    {baseTotalSupply}
+                                    <img
+                                        src={marketMakingPool.paired_token_image}
+                                        className="w-6 h-6 ml-2.5 mr-2.5"
+                                    />{" "}
+                                    {pairedTotalSupply}
+                      </span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-hands-holding-dollar"/> Reward Per Token</span>

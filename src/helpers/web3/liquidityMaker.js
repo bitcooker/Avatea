@@ -237,6 +237,19 @@ const totalSupply = async (wallet, liquidityMakerAddress) => {
     }
 }
 
+const getLockingPeriod = async (wallet, liquidityMakerAddress) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
+        return await liquidityMaker.lockingPeriod();
+    } catch (e) {
+        console.log('getLockingPeriod error', e);
+        toast.error(e.reason);
+        return 0;
+    }
+}
+
 const rewardPerToken = async (wallet, liquidityMakerAddress) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
@@ -288,7 +301,7 @@ const fetchHoldersMapping = async (wallet, liquidityMakerAddress, address) => {
         } = data;
         return {
             liquidityBalance: helpers.formatting.web3Format(liquidityBalance),
-            lastLiquidityProvidingTime: helpers.formatting.web3Format(lastLiquidityProvidingTime),
+            lastLiquidityProvidingTime: Number(lastLiquidityProvidingTime),
             userRewardPerTokenPaid: helpers.formatting.web3Format(userRewardPerTokenPaid),
             rewards: helpers.formatting.web3Format(rewards),
             userLiquidityRewardPerTokenPaid: helpers.formatting.web3Format(userLiquidityRewardPerTokenPaid),
@@ -301,6 +314,24 @@ const fetchHoldersMapping = async (wallet, liquidityMakerAddress, address) => {
         toast.error(e.reason);
         return 0;
     }
+}
+
+const getTVL = async (wallet, liquidityMakerAddress, baseTokenAddress, pairedTokenAddress) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
+    let pairAddress = await liquidityMaker.pair();
+
+    let contractBalance = await liquidityMaker.totalSupply();
+
+    let baseBalance = await helpers.web3.token.balanceOf(wallet, baseTokenAddress, pairAddress)
+    let pairedBalance = await helpers.web3.token.balanceOf(wallet, pairedTokenAddress, pairAddress)
+    let totalSupply = await helpers.web3.token.fetchTotalSupply(wallet, pairAddress)
+
+    let baseValue = baseBalance.mul(contractBalance).div(totalSupply)
+    let pairedValue = pairedBalance.mul(contractBalance).div(totalSupply)
+
+    return {baseValue, pairedValue}
 }
 
 const getCurrentValue = async (wallet, liquidityMakerAddress, address, baseTokenAddress, pairedTokenAddress) => {
@@ -343,6 +374,8 @@ export default {
     exit,
     rewardPerToken,
     totalSupply,
+    getLockingPeriod,
     addReward,
-    getCurrentValue
+    getCurrentValue,
+    getTVL
 }
