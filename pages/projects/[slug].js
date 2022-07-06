@@ -84,7 +84,6 @@ export default function ProjectDetail(props) {
                 <Liquidity
                     wallet={wallet}
                     project={project}
-                    marketMakingPool={marketMakingPool}
                     liquidityMaker={liquidityMaker}
                 />
             }

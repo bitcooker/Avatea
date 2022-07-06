@@ -7,6 +7,8 @@ import {useCallback, useEffect, useState} from "react";
 import helper from "../../../helpers";
 import {ethers} from "ethers";
 
+const AVATEA_TOKEN_IMAGE = '/avatea-token.png';
+
 export default function VaultCard({ project, vault }) {
 
     const wallet = useWallet();
@@ -60,7 +62,7 @@ export default function VaultCard({ project, vault }) {
                       </span>
                         <span className="flex text-base font-medium">
                         <img
-                            src="/public/avatea-token.png"
+                            src={AVATEA_TOKEN_IMAGE}
                             className="w-6 h-6 ml-2.5 mr-2.5"
                         />{" "}
                             {vaultTLV}
@@ -118,7 +120,7 @@ export default function VaultCard({ project, vault }) {
                         <span>No vault created yet</span>
 
                     </div>
-                    <Button name="Request a vault" />
+                    <Button name="Request a vault"/>
                 </div>
             )}
         </Card>
