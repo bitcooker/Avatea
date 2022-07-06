@@ -13,7 +13,7 @@ import MarketMaking from "../../src/components/pages/projects/MarketMaking";
 import Vesting from "../../src/components/pages/projects/Vesting";
 import Liquidity from "../../src/components/pages/projects/LiquidityMaker";
 
-const tabItems = ["Market Making","Liquidity","Vault","Vesting"];
+const tabItems = ["Market Making", "Liquidity", "Vault", "Vesting"];
 
 export default function ProjectDetail(props) {
     //@Todo add min buy limit and max buy limit fields (stop-loss)
@@ -82,17 +82,18 @@ export default function ProjectDetail(props) {
             {tab == 1 &&
 
                 <Liquidity
-                wallet={wallet}
-                marketMakingPool={marketMakingPool}
-                liquidityMaker={liquidityMaker}
+                    wallet={wallet}
+                    project={project}
+                    marketMakingPool={marketMakingPool}
+                    liquidityMaker={liquidityMaker}
                 />
             }
             {tab == 2 &&
                 <Vault
-                vault={vault}
-                wallet={wallet}
-                project={project}
-                setTab={setTab}
+                    vault={vault}
+                    wallet={wallet}
+                    project={project}
+                    setTab={setTab}
                 />
             }
 

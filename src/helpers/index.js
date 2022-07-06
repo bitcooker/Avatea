@@ -28,6 +28,7 @@ export default {
         marketMaker,
         vault,
         authentication,
+        token,
         liquidityMaker
     },
     liquidityMaker: liquidityMakerRest,

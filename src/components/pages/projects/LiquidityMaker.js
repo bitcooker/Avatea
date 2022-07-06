@@ -1,12 +1,11 @@
 import Card from "../projectDetail/Card/Card";
-import MaxButton from "./Button/MaxButton";
 import Button from "../../core/Button/Button";
 import {ethers} from "ethers";
 import helper from "../../../helpers";
 import {useEffect, useState} from "react";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 
-export default function LiquidityMaker({ liquidityMaker, wallet }) {
+export default function LiquidityMaker({liquidityMaker, wallet, project, marketMakingPool}) {
 
 
     const [rewardEarned, setRewardEarned] = useState('0');
@@ -14,6 +13,8 @@ export default function LiquidityMaker({ liquidityMaker, wallet }) {
     const [totalSupply, setTotalSupply] = useState('0');
     const [rewardPerToken, setRewardPerToken] = useState('0');
     const [liquidityRewardPerToken, setLiquidityRewardPerToken] = useState('0');
+    const [currentBaseValue, setCurrentBaseValue] = useState('0');
+    const [currentPairedValue, setCurrentPairedValue] = useState('0');
     const [holdersMapping, setHoldersMapping] = useState();
     const [load, setLoad] = useState(false);
 
@@ -36,7 +37,6 @@ export default function LiquidityMaker({ liquidityMaker, wallet }) {
                 );
                 setLiquidityRewardPerToken(
                     await helper.web3.liquidityMaker.liquidityRewardPerToken(wallet, liquidityMaker.address)
-
                 );
                 setTotalSupply(
                     helper.formatting.web3Format(
@@ -44,7 +44,7 @@ export default function LiquidityMaker({ liquidityMaker, wallet }) {
                     )
                 );
                 setHoldersMapping(
-                    await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address,wallet.account)
+                    await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address, wallet.account)
                 );
                 setLoad(true)
 
@@ -52,6 +52,17 @@ export default function LiquidityMaker({ liquidityMaker, wallet }) {
             initWalletConnected();
         }
     }, [wallet, liquidityMaker]);
+
+    useEffect(() => {
+        if (liquidityRewardEarned && holdersMapping?.liquidityBalance) {
+            const getCurrentValue = async () => {
+                let data = await helper.web3.liquidityMaker.getCurrentValue(wallet, liquidityMaker.address, wallet.account, project.token, marketMakingPool.paired_token)
+                setCurrentBaseValue(data.currentBaseValue);
+                setCurrentPairedValue(data.currentPairedValue);
+            };
+            getCurrentValue();
+        }
+    }, [liquidityRewardEarned, holdersMapping?.liquidityBalance]);
 
 
     const setMax = async (amount, setter) => {
@@ -87,16 +98,16 @@ export default function LiquidityMaker({ liquidityMaker, wallet }) {
     const addReward = async () => {
         //@Todo declare the right value amount
         const wei = ethers.utils.parseEther(0);
-        await helper.web3.liquidityMaker.addReward(wallet, liquidityMaker.address,wei);
+        await helper.web3.liquidityMaker.addReward(wallet, liquidityMaker.address, wei);
     };
 
     const addLiquidityReward = async () => {
         //@Todo declare the right value amount
         const wei = ethers.utils.parseEther(0);
-        await helper.web3.liquidityMaker.addLiquidityReward(wallet, liquidityMaker.address,wei);
+        await helper.web3.liquidityMaker.addLiquidityReward(wallet, liquidityMaker.address, wei);
     };
 
-    return  !load ? <SkeletonMarketMaking/> : (
+    return !load ? <SkeletonMarketMaking/> : (
         <div className="grid md-lg:grid-cols-2 gap-7.5">
             <Card>
                 <div className="divide-y">
@@ -106,17 +117,12 @@ export default function LiquidityMaker({ liquidityMaker, wallet }) {
 
                         <div className="py-5.5 space-y-4.5">
                             <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-users"/> Users</span>
-                                <span className="text-base font-medium">
-                                    {liquidityMaker.num_invested}
-                    </span>
-                            </div>
-                            <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-treasure-chest"/> Generated Rewards</span>
                                 <span className="text-base font-medium">{rewardEarned}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-treasure-chest"/> Total Supply</span>
+                                <span className="text-sm"><i
+                                    className="fa-solid fa-treasure-chest"/> Total Supply</span>
                                 <span className="text-base font-medium">{totalSupply}</span>
                             </div>
                             <div className="flex justify-between">
@@ -134,44 +140,54 @@ export default function LiquidityMaker({ liquidityMaker, wallet }) {
                         </div>
                     </div>
 
-                    <div className="card-content pt-5 space-y-3.75">
-                        <div>
-                            <div className="flex flex-row items-center justify-between text-base">
-                                <div>
-                                    <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
-                                </div>
-                                &nbsp;
-                                <span>
-                      {0} &nbsp;
-                                    <MaxButton
-                                        handleClick={() =>
-                                            setMax(0, console.log())
-                                        }
-                                    />
-                    </span>
-                            </div>
-
-                        </div>
-                        <div>
-                            <div className="flex flex-row items-center justify-between text-base">
-                                <div>
-                                    <i className="fa-regular fa-circle-minus mr-1" />
-                                    Staked
-                                </div>
-                                <span>
-                      {holdersMapping?.stakedInBaseToken} /  {holdersMapping?.stakedInPairedToken}
-                    </span>
-                            </div>
-
-                        </div>
-
-                    </div>
                 </div>
             </Card>
             <Card title="Liquidity & Reward Management">
                 {/* Card Header */}
                 <div className="card-header">
                     <h1 className="text-2xl"><i className="fa-solid fa-newspaper"/> Liquidity & Reward Management</h1>
+                </div>
+                <div className="card-content pt-5 space-y-3.75">
+
+                    <div>
+                        <div className="flex flex-row items-center justify-between text-base">
+                      <span>
+                        <i className="fa-solid fa-money-bill-transfer"/> Staked
+                      </span>
+                            <span className="flex text-base font-medium">
+                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
+                                {holdersMapping?.stakedInBaseToken}
+                                <img
+                                    src={marketMakingPool.paired_token_image}
+                                    className="w-6 h-6 ml-2.5 mr-2.5"
+                                />{" "}
+                                {holdersMapping?.stakedInPairedToken}
+                      </span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div className="flex flex-row items-center justify-between text-base">
+                      <span>
+                        <i className="fa-solid fa-money-bill-transfer"/> Current Value
+                      </span>
+                            <span className="flex text-base font-medium">
+                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
+                                {currentBaseValue}
+                                <img
+                                    src={marketMakingPool.paired_token_image}
+                                    className="w-6 h-6 ml-2.5 mr-2.5"
+                                />{" "}
+                                {currentPairedValue}
+                                       <img
+                                    src="/avatea-token.png"
+                                    className="w-6 h-6 ml-2.5 mr-2.5"
+                                />{" "}
+                                {rewardEarned}
+                      </span>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div className="card-content pt-5.5">
