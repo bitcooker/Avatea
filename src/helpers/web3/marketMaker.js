@@ -59,13 +59,13 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
     }
 }
 
-const stake = async (wallet, marketMakerAddress, amount, maxBaseStakingRatio = 0) => {
+const stake = async (wallet, marketMakerAddress, amount) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
     try {
-        const tx = await marketMakerContract.stake(amount, maxBaseStakingRatio);
+        const tx = await marketMakerContract.stake(amount);
         toast.promise(
             tx.wait(),
             {
@@ -179,13 +179,13 @@ const createVesting = async (wallet, marketMakerAddress, user_addresses, start, 
     }
 }
 
-const stakePairedToken = async (wallet, marketMakerAddres, amount, maxPairedStakingRatio = 0) => {
+const stakePairedToken = async (wallet, marketMakerAddres, amount) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddres, marketMaker.abi, signer);
 
     try {
-        const tx = await marketMakerContract.stakePairedToken(amount, maxPairedStakingRatio);
+        const tx = await marketMakerContract.stakePairedToken(amount);
         toast.promise(
             tx.wait(),
             {
@@ -211,13 +211,13 @@ const stakePairedToken = async (wallet, marketMakerAddres, amount, maxPairedStak
     }
 }
 
-const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount, maxPairedStakingRatio = 0) => {
+const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
     try {
-        const tx = await marketMakerContract.stakePairedTokenInETH(maxPairedStakingRatio, {value: amount});
+        const tx = await marketMakerContract.stakePairedTokenInETH({value: amount});
         toast.promise(
             tx.wait(),
             {

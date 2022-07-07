@@ -94,7 +94,6 @@ const hook = async ({
                 })
                 callback()
                 hook({type: "MMAS", data})
-                hook({type: "MMBR", data})
                 break;
             case 'MMPD':
                 event = data.receipt.events.find(x => x.event === "StakedInPairedToken").args;
@@ -107,7 +106,6 @@ const hook = async ({
                     network: data.wallet.chainId
                 })
                 callback()
-                hook({type: "MMPR", data})
                 break;
             case 'MMBW':
                 event = data.receipt.events.find(x => x.event === "WithdrawnBaseToken").args;
