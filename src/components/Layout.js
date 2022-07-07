@@ -1,17 +1,19 @@
 import React from "react";
 import { UseWalletProvider } from "use-wallet";
 import { Slide, ToastContainer } from "react-toastify";
-import Head from "next/head";
-import Header from "./Header";
-import dynamic from "next/dynamic";
-import { useState } from "react";
 import Script from "next/script";
+import Head from "next/head";
+import dynamic from "next/dynamic";
+
+// components
+import Header from "./Header";
 import Sidebar from "./Sidebar";
+
 const SidebarWithNoSSR = dynamic(() => import("./Sidebar"), { ssr: false });
 
 export default function Layout({ children }) {
-  const [menu, setMenu] = useState(false);
-  const [title, setTitle] = useState("Home");
+  const [menu, setMenu] = React.useState(false);
+  const [title, setTitle] = React.useState("Home");
 
   return (
     <>
