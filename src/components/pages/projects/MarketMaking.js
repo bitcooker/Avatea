@@ -379,14 +379,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 handleClick={() => setLiquiditySetting(!liquiditySetting)} checked={liquiditySetting}/>
                             {
                                 liquiditySetting ?
-                                    <div className={'grid grid-cols-4 gap-4 content-evenly'}>
-                                        <RangeSlider className={'col-span-3'}
-                                                     setPercent={mode === 'sell' ? setMaxBaseStakingRatio : setMaxPairedStakingRatio}
-                                                     percent={mode === 'sell' ? maxBaseStakingRatio : maxPairedStakingRatio}/>
-                                        <Button className={'col-span-1'} name={'Update Ratio'}
-                                                handleClick={updateRatio}> <i
-                                            className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
-                                    </div> : ""
+                                    <div className={'grid grid-cols-10 gap-4 content-evenly'}>
+                                        <RangeSlider className={'col-span-6'} setPercent={mode === 'sell' ? setMaxBaseStakingRatio : setMaxPairedStakingRatio} percent={mode === 'sell' ? maxBaseStakingRatio : maxPairedStakingRatio}/>
+                                        <Button className={'col-span-4'} name={'Update Ratio'} handleClick={updateRatio}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
+                                    </div>: ""
                             }
                         </div> : ""
                     }

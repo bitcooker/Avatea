@@ -21,8 +21,8 @@ export default function ManagementAuthentication({ project, wallet, children }) 
                         children
                     ) :  <CenteredContent>
                         <span className={'text-2xl'}>Unauthorized to manage {project.name}</span>
-                        <div className={'w-[30%] mx-auto'}>
-                            <Image src={'/unauthorized.png'} layout={'responsive'}  height={500} width={500}/>
+                        <div className={'w-[70%] mx-auto'}>
+                            <Image src={'/unauthorized.png'} layout={'responsive'}  height={679} width={838}/>
                         </div>
                         <Button handleClick={() => router.push('/')}>Return to projects</Button>
                     </CenteredContent>
