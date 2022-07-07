@@ -27,7 +27,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
     const [currentRewardBaseValue, setCurrentRewardBaseValue] = useState('0');
     const [currentRewardPairedValue, setCurrentRewardPairedValue] = useState('0');
     const [holdersMapping, setHoldersMapping] = useState();
-    const [load, setLoad] = useState(true);
+    const [load, setLoad] = useState(false);
 
 
     useEffect(() => {
@@ -52,16 +52,16 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                 setLockingPeriod(
                     Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address))
                 );
+                setLoad(true);
+
 
                 let TVL = await helper.web3.liquidityMaker.getTVL(wallet, liquidityMaker.address, project.token, liquidityMaker.paired_token)
                 setBaseTotalSupply(helper.formatting.web3Format(TVL.baseValue));
                 setPairedTotalSupply(helper.formatting.web3Format(TVL.pairedValue));
-
                 setHoldersMapping(
                     await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address, wallet.account)
                 );
-                setLoad(true)
-
+                setLoad(true);
             };
             initWalletConnected();
         }

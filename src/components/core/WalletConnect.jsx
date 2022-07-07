@@ -1,7 +1,14 @@
 import * as React from "react";
 import Image from "next/image";
+import {useWallet} from "use-wallet";
+import {useEffect} from "react";
 
 export default function WalletConnect(props) {
+    const wallet = useWallet();
+
+    useEffect(() => {
+        if(wallet.status === "connected") props.handleClose()
+    },[wallet])
     return <div
                 className={
                     props.open
@@ -35,11 +42,11 @@ export default function WalletConnect(props) {
                             </div>
                         </div>
                         <div className="connect-content flex flex-col space-y-2.5">
-                            <div className="flex flex-row items-center justify-between border border-gray-300 bg-gray-300/50 rounded-xl p-5 hover:border-indigo-500/50 hover:cursor-pointer">
+                            <div className="flex flex-row items-center justify-between border border-gray-300 bg-gray-300/50 rounded-xl p-5 hover:border-indigo-500/50 hover:cursor-pointer" onClick={() => wallet.connect('injected')}>
                                 <p className="text-base">MetaMask</p>
                                 <Image src="https://app.uniswap.org/static/media/metamask.02e3ec27.png" alt="metamask" width={24} height={24}/>
                             </div>
-                            <div className="flex flex-row items-center justify-between border border-gray-300 bg-gray-300/50 rounded-xl p-5 hover:border-indigo-500/50 hover:cursor-pointer">
+                            <div className="flex flex-row items-center justify-between border border-gray-300 bg-gray-300/50 rounded-xl p-5 hover:border-indigo-500/50 hover:cursor-pointer"  onClick={() => wallet.connect('walletconnect')}>
                                 <p className="text-base">WalletConnect</p>
                                 <Image src="https://app.uniswap.org/static/media/walletConnectIcon.304e3277.svg" alt="metamask" width={24} height={24}/>
                             </div>

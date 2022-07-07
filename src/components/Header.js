@@ -7,10 +7,12 @@ import networks from "./../network/network.json";
 import SwitchNetwork from "../components/core/SwitchNetwork";
 import {ethers} from "ethers";
 import useLocalStorage from "use-local-storage";
+import WalletConnect from "./core/WalletConnect";
 
 export default function Header({ menu, setMenu, title }) {
   const wallet = useWallet();
   const [isRegistered,setIsRegistered] = useLocalStorage('isRegistered', false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   //@TODO Optimize Register not to fire every time
   useEffect(() => {
@@ -89,12 +91,16 @@ export default function Header({ menu, setMenu, title }) {
             <div className="bg-white p-1 rounded-4xl">
               <button
                 className="flex justify-center items-center px-7.5 py-3 bg-indigo-500 text-white rounded-4xl hover:cursor-pointer hover:bg-indigo-500/80 transition"
-                onClick={() => wallet.connect("injected")}
+                onClick={() => setModalOpen(!modalOpen)}
               >
                 <span className="text-base">Connect with wallet</span>
               </button>
             </div>
           )}
+
+            {
+                modalOpen ? <WalletConnect open={modalOpen} handleClose={() => setModalOpen(!modalOpen)}/> : ""
+            }
         </div>
       </div>
     </header>
