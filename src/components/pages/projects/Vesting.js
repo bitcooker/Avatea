@@ -1,12 +1,17 @@
+import {useEffect, useState} from "react";
+import Image from "next/image";
+
+import helper from "../../../helpers";
+
+// core components
+import Button from "../../core/Button/Button";
+import CenteredContent from "../../core/CenteredContent";
+
+// project detail components
 import Card from "../projectDetail/Card/Card";
 import {Chart} from "./Vesting/Chart";
-import Button from "../../core/Button/Button";
-import helper from "../../../helpers";
-import {useEffect, useState} from "react";
 import NoVesting from "./NoVesting";
-import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
-import CenteredContent from "../../core/CenteredContent";
-import Image from "next/image";
+import SkeletonVesting from "./Skeleton/SkeletonVesting";
 
 export default function Vesting({
                                     wallet,
@@ -100,13 +105,13 @@ export default function Vesting({
         <CenteredContent>
             <span className={'text-2xl'}>No Vesting Available</span>
             <div className={'w-[70%] mx-auto'}>
-                    <Image src={'/red-flag.png'} layout={'responsive'}  height={672} width={1030}/>
-                </div>
-                <Button handleClick={()=>setTab(0)}>Return to project</Button>
-           </CenteredContent>
+                <Image src={'/red-flag.png'} alt="noImage" layout={'responsive'}  height={672} width={1030}/>
+            </div>
+            <Button handleClick={()=>setTab(0)}>Return to project</Button>
+        </CenteredContent>
     );
 
-    return !load ? <SkeletonMarketMaking/> : (
+    return !load ? <SkeletonVesting/> : (
         <Card>
             <div className="vesting-header">
                 <h1 className="text-2xl">
@@ -118,23 +123,23 @@ export default function Vesting({
                         <div className="mb-5 md:mb-0">
                             <span className="text-sm">Total Vested</span>
                             <span className="flex text-base font-medium">
-                <img src={project.image} className="w-6 h-6 mr-2.5"/>
-                                {amountVested}
-              </span>
+                                <Image src={project.image} alt="tokenImage" width={24} height={24}/>
+                                <p className="mx-2.5">{amountVested}</p>
+                            </span>
                         </div>
                         <div className="mb-5 md:mb-0">
                             <span className="text-sm">Released</span>
                             <span className="flex text-base font-medium">
-                <img src={project.image} className="w-6 h-6 mr-2.5"/>
-                                {amountReleased}
-              </span>
+                                <Image src={project.image} alt="tokenImage" width={24} height={24}/>
+                                <p className="mx-2.5">{amountReleased}</p>
+                            </span>
                         </div>
                         <div className="mb-5 md:mb-0">
-                            <span className="text-sm">Releaseable Amount</span>
+                            <span className="text-sm">Releasable Amount</span>
                             <span className="flex text-base font-medium">
-                <img src={project.image} className="w-6 h-6 mr-2.5"/>
-                                {releaseAbleAmount}
-              </span>
+                                <Image src={project.image} alt="tokenImage" width={24} height={24}/>
+                                <p className="mx-2.5">{releaseAbleAmount}</p>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -177,8 +182,6 @@ export default function Vesting({
                     }
 
                 </div>
-
-
             </div>
         </Card>
     );
