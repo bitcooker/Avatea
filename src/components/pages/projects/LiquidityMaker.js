@@ -10,7 +10,7 @@ import Button from "../../core/Button/Button";
 
 // project detail components
 import Card from "../projectDetail/Card/Card";
-import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
+import SkeletonLiquidity from "./Skeleton/SkeletonLiquidity";
 
 export default function LiquidityMaker({liquidityMaker, wallet, project}) {
 
@@ -123,17 +123,14 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
         await helper.web3.liquidityMaker.addLiquidityReward(wallet, liquidityMaker.address, wei);
     };
 
-    return !load ? <SkeletonMarketMaking/> : (
+    return !load ? <SkeletonLiquidity/> : (
         <div className="grid lg:grid-cols-2 gap-7.5">
             <Card>
                 <div className="divide-y">
                     {/* Card Header */}
                     <div className="card-header">
                         <h1 className="text-2xl"><i className="fa-solid fa-nfc-lock"/> Liquidity Stats</h1>
-
                         <div className="py-5.5 space-y-4.5">
-
-
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-clock"/> Locking Period</span>
                                 <span className="text-base font-medium">{parseInt(moment.duration(lockingPeriod, 'seconds').asDays())} days and
@@ -145,7 +142,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                                 <span
                                     className="text-base font-medium">{moment(parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod)).format('llll')}</span>
                             </div>
-
                             <div className="flex justify-between">
                                 <span className="text-sm"><i
                                     className="fa-solid fa-treasure-chest"/> Total Value Locked</span>
@@ -166,7 +162,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                             </div>
                         </div>
                     </div>
-
                 </div>
             </Card>
             <Card title="Liquidity & Reward Management">
@@ -180,7 +175,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                             <span>
                                 <i className="fa-solid fa-money-bill-transfer"/> Staked
                             </span>
-                            <span className="flex justify-end items-center text-base font-medium">
+                            <span className="flex justify-center items-center text-base font-medium">
                                 <Image src={project.image} alt="projectImage" width={24} height={24}/>
                                 <p className="mx-2.5">{holdersMapping?.stakedInBaseToken}</p>
                                 <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
@@ -188,13 +183,12 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                             </span>
                         </div>
                     </div>
-
                     <div>
                         <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
                             <span>
                                 <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Liquidity
                             </span>
-                            <span className="flex justify-end text-base font-medium">
+                            <span className="flex justify-center text-base font-medium">
                                 <Image src={project.image} alt="projectImage" width={24} height={24}/>
                                 <p className="mx-2.5">{currentBaseValue}</p>
                                 <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
@@ -207,7 +201,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                             <span>
                                 <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Rewards
                             </span>
-                            <span className="flex justify-end text-base font-medium">
+                            <span className="flex justify-center text-base font-medium">
                                 <Image src={project.image} alt="projectImage" width={24} height={24}/>
                                 <p className="mx-2.5">{currentRewardBaseValue}</p>
                                 <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
@@ -217,7 +211,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                             </span>
                         </div>
                     </div>
-
                 </div>
 
                 <div className="card-content pt-5.5">
