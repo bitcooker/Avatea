@@ -1,10 +1,16 @@
-import Card from "../projectDetail/Card/Card";
-import Button from "../../core/Button/Button";
-import {ethers} from "ethers";
-import helper from "../../../helpers";
 import {useEffect, useState} from "react";
-import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
+import Image from "next/image";
+import {ethers} from "ethers";
 import moment from "moment";
+
+import helper from "../../../helpers";
+
+// core components
+import Button from "../../core/Button/Button";
+
+// project detail components
+import Card from "../projectDetail/Card/Card";
+import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 
 export default function LiquidityMaker({liquidityMaker, wallet, project}) {
 
@@ -118,7 +124,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
     };
 
     return !load ? <SkeletonMarketMaking/> : (
-        <div className="grid md-lg:grid-cols-2 gap-7.5">
+        <div className="grid lg:grid-cols-2 gap-7.5">
             <Card>
                 <div className="divide-y">
                     {/* Card Header */}
@@ -144,14 +150,11 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                                 <span className="text-sm"><i
                                     className="fa-solid fa-treasure-chest"/> Total Value Locked</span>
                                 <span className="flex text-base font-medium">
-                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
-                                    {baseTotalSupply}
-                                    <img
-                                        src={liquidityMaker.paired_token_image}
-                                        className="w-6 h-6 ml-2.5 mr-2.5"
-                                    />{" "}
-                                    {pairedTotalSupply}
-                      </span>
+                                    <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                    <p className="mx-2.5">{baseTotalSupply}</p>
+                                    <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
+                                    <p className="mx-2.5">{pairedTotalSupply}</p>
+                                </span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-hands-holding-dollar"/> Reward Per Token</span>
@@ -172,59 +175,46 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                     <h1 className="text-2xl"><i className="fa-solid fa-newspaper"/> Liquidity & Reward Management</h1>
                 </div>
                 <div className="card-content pt-5 space-y-3.75">
-
                     <div>
-                        <div className="flex flex-row items-center justify-between text-base">
-                      <span>
-                        <i className="fa-solid fa-money-bill-transfer"/> Staked
-                      </span>
-                            <span className="flex text-base font-medium">
-                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
-                                {holdersMapping?.stakedInBaseToken}
-                                <img
-                                    src={liquidityMaker.paired_token_image}
-                                    className="w-6 h-6 ml-2.5 mr-2.5"
-                                />{" "}
-                                {holdersMapping?.stakedInPairedToken}
-                      </span>
+                        <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                            <span>
+                                <i className="fa-solid fa-money-bill-transfer"/> Staked
+                            </span>
+                            <span className="flex justify-end items-center text-base font-medium">
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <p className="mx-2.5">{holdersMapping?.stakedInBaseToken}</p>
+                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
+                                <p className="mx-2.5">{holdersMapping?.stakedInPairedToken}</p>
+                            </span>
                         </div>
                     </div>
 
                     <div>
-                        <div className="flex flex-row items-center justify-between text-base">
-                      <span>
-                        <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Liquidity
-                      </span>
-                            <span className="flex text-base font-medium">
-                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
-                                {currentBaseValue}
-                                <img
-                                    src={liquidityMaker.paired_token_image}
-                                    className="w-6 h-6 ml-2.5 mr-2.5"
-                                />{" "}
-                                {currentPairedValue}
-                      </span>
+                        <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                            <span>
+                                <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Liquidity
+                            </span>
+                            <span className="flex justify-end text-base font-medium">
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <p className="mx-2.5">{currentBaseValue}</p>
+                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
+                                <p className="mx-2.5">{currentPairedValue}</p>
+                            </span>
                         </div>
                     </div>
                     <div>
-                        <div className="flex flex-row items-center justify-between text-base">
-                      <span>
-                        <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Rewards
-                      </span>
-                            <span className="flex text-base font-medium">
-                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
-                                {currentRewardBaseValue}
-                                <img
-                                    src={liquidityMaker.paired_token_image}
-                                    className="w-6 h-6 ml-2.5 mr-2.5"
-                                />{" "}
-                                {currentRewardPairedValue}
-                                <img
-                                    src="/avatea-token.png"
-                                    className="w-6 h-6 ml-2.5 mr-2.5"
-                                />{" "}
-                                {rewardEarned}
-                      </span>
+                        <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                            <span>
+                                <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Rewards
+                            </span>
+                            <span className="flex justify-end text-base font-medium">
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <p className="mx-2.5">{currentRewardBaseValue}</p>
+                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
+                                <p className="mx-2.5">{currentRewardPairedValue}</p>
+                                <Image src="/avatea-token.png" alt="pairTokeImage" width={24} height={24}/>
+                                <p className="mx-2.5">{rewardEarned}</p>
+                            </span>
                         </div>
                     </div>
 
@@ -238,13 +228,13 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                         >
                             <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                         </Button>
-                        <Button name="Withdraw Liquidity & Claim Rewards" handleClick={exitLiquidity}>
+                        <Button name="Withdraw All" handleClick={exitLiquidity}>
                             <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                         </Button>
                         <Button name="Claim Rewards" handleClick={claimReward}>
                             <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                         </Button>
-                        <Button name="Compound Liquidity Reward" handleClick={compoundReward}>
+                        <Button name="Compound Liquidity" handleClick={compoundReward}>
                             <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                         </Button>
                     </div>
