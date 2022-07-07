@@ -1,5 +1,5 @@
 import {useWallet} from "use-wallet";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import {useRouter} from "next/router";
 import { Motion, spring } from "react-motion"
 
@@ -27,6 +27,7 @@ export default function ProjectDetail(props) {
     const [marketMakingPool, setMarketMakingPool] = useState({});
     const [liquidityMaker, setLiquidityMaker] = useState({})
     const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
+    const tabRef = useRef(null);
 
     useEffect(() => {
         if (props.projectDetail) setProject(props.projectDetail);
@@ -61,48 +62,73 @@ export default function ProjectDetail(props) {
         }
     }, [project]);
 
-
     return (
         <div className="space-y-7.5">
             <Banner {...project} />
             {/* Tab menu */}
-            <div className="flex justify-center">
+            <div ref={tabRef} className="flex justify-center">
                 <Tab items={tabItems} tab={tab} setTab={setTab}/>
             </div>
             <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 0 ? 1 : 0) }}>
-                {({scale}) => tab !== 0 || scale === 0 ? "" : <div className="" style={{ transform: `scale(${scale})` }}>
+                {({scale}) =>{
+                    if(scale === 1)
+                        window.scrollTo(0, 10000);
+                    if(tab !== 0 || scale === 0) 
+                        return "";
+                    else return <div className="" style={{ transform: `scale(${scale})` }}>
                                     <MarketMaking
                                         wallet={wallet}
                                         marketMakingPool={marketMakingPool}
                                         project={project}
                                     />
                                 </div>
+                    }
                 }
             </Motion>
             <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 1 ? 1 : 0) }}>
-                {({scale}) => tab !== 1 || scale === 0 ? "" : <div className="" style={{ transform: `scale(${scale})` }}>
-                                    <Liquidity
-                                        wallet={wallet}
-                                        project={project}
-                                        marketMakingPool={marketMakingPool}
-                                        liquidityMaker={liquidityMaker}
-                                    />
-                                </div>
+                {({scale}) => 
+                    {
+                        if(scale === 1)
+                            window.scrollTo(0, 10000);
+                        if(tab !== 1 || scale === 0) 
+                            return "";
+                        else return <div className="" style={{ transform: `scale(${scale})` }}>
+                                        <Liquidity
+                                            wallet={wallet}
+                                            project={project}
+                                            marketMakingPool={marketMakingPool}
+                                            liquidityMaker={liquidityMaker}
+                                        />
+                                    </div>
+                    }
                 }
             </Motion>
             <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 2 ? 1 : 0) }}>
-                {({scale}) => tab !== 2 || scale === 0 ? "" : <div className="" style={{ transform: `scale(${scale})` }}>
-                                    <Vault
-                                        vault={vault}
-                                        wallet={wallet}
-                                        project={project}
-                                        setTab={setTab}
-                                    />
-                                </div>
+                {({scale}) => 
+                    {
+                        if(scale === 1)
+                            window.scrollTo(0, 10000);
+                        if(tab !== 2 || scale === 0) 
+                            return "";
+                        else return <div className="" style={{ transform: `scale(${scale})` }}>
+                                        <Vault
+                                            vault={vault}
+                                            wallet={wallet}
+                                            project={project}
+                                            setTab={setTab}
+                                        />
+                                    </div>
+                    }
                 }
             </Motion>
             <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 3 ? 1 : 0) }}>
-                {({scale}) => tab !== 3 || scale === 0 ? "" : <div className="" style={{ transform: `scale(${scale})` }}>
+                {({scale}) => 
+                    {
+                        if(scale === 1)
+                            window.scrollTo(0, 10000);
+                        if(tab !== 3 || scale === 0) 
+                            return "";
+                        else return <div className="" style={{ transform: `scale(${scale})` }}>
                                     <Vesting
                                         wallet={wallet}
                                         marketMakingPool={marketMakingPool}
@@ -110,6 +136,7 @@ export default function ProjectDetail(props) {
                                         setTab={setTab}
                                     />
                                 </div>
+                    }
                 }
             </Motion>
         </div>
