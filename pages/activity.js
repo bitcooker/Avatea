@@ -8,11 +8,9 @@ import MyMarketMakingPools from "../src/components/pages/myActivity/MyMarketMaki
 import MyVestedPools from "../src/components/pages/myActivity/MyVestedPools";
 import MyVaults from "../src/components/pages/myActivity/MyVaults";
 
-import Toggle from "../src/components/core/Toggle/Toggle";
 
 export default function Activity() {
     const wallet = useWallet();
-    const [toggle, setToggle] = React.useState(false);
 
     return (
         <>
