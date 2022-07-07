@@ -322,8 +322,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                 </div>
 
                 <div className="card-content pt-5.5 space-y-5">
-                    <div className=" grid md-lg:grid-cols-2 gap-5">
-                        <div className="flex flex-col space-y-10">
+                    <div className="grid md-lg:grid-cols-2 md-lg:h-20 gap-5">
+                        <div className="flex flex-col space-y-8">
                             <span className="text-sm"><i className="fa-solid fa-circle-bolt"/> Pressure</span>
                             <RangeSlider setPercent={setPressure} percent={pressure}/>
                         </div>
@@ -379,9 +379,11 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 handleClick={() => setLiquiditySetting(!liquiditySetting)} checked={liquiditySetting}/>
                             {
                                 liquiditySetting ?
-                                    <div className={'grid grid-cols-10 gap-4 content-evenly'}>
-                                        <RangeSlider className={'col-span-6'} setPercent={mode === 'sell' ? setMaxBaseStakingRatio : setMaxPairedStakingRatio} percent={mode === 'sell' ? maxBaseStakingRatio : maxPairedStakingRatio}/>
-                                        <Button className={'col-span-4'} name={'Update Ratio'} handleClick={updateRatio}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
+                                    <div className={'grid md-lg:grid-cols-2 gap-5 content-evenly'}>
+                                        <div className="flex items-center">
+                                            <RangeSlider className="mt-5 md-lg:mt-0" setPercent={mode === 'sell' ? setMaxBaseStakingRatio : setMaxPairedStakingRatio} percent={mode === 'sell' ? maxBaseStakingRatio : maxPairedStakingRatio}/>
+                                        </div>
+                                        <Button name={'Update Ratio'} handleClick={updateRatio}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
                                     </div>: ""
                             }
                         </div> : ""
