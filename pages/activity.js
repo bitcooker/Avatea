@@ -16,7 +16,6 @@ export default function Activity() {
 
     return (
         <>
-            <Toggle id="toggle" label="test toggle" handleClick={() => setToggle(!toggle)}/>
             {
                 wallet.status === "connected" ? (
                     <>
