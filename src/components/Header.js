@@ -97,7 +97,7 @@ export default function Header({ menu, setMenu, title }) {
               </button>
             </div>
           )}
-          <WalletConnect open={modalOpen} handleClose={() => setModalOpen(!modalOpen)}/>
+          <WalletConnect open={modalOpen} handleClose={() => setModalOpen(false)}/>
         </div>
       </div>
     </header>
