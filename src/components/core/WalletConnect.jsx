@@ -15,9 +15,10 @@ export default function WalletConnect(props) {
                         ? "fixed z-50 w-[100vw] h-[100vh] top-0 left-0 bg-black/20 backdrop-blur-[1px] px-5 md-lg:px-60 overflow-y-auto md-lg:overflow-y-hidden transition"
                         : "fixed -z-50 w-[100vw] md-lg:h-[100vh] top-0 left-0 bg-black/20 backdrop-blur-[1px] px-40 opacity-0"
                     }
+                onClick={props.handleClose}
             >
                 <div className="w-full h-full flex items-center justify-center">
-                    <div className="w-[480px] bg-white rounded-2.5xl px-5">
+                    <div className="w-[480px] bg-white rounded-2.5xl px-5" onClick={(e) => e.stopPropagation()}>
                         <div className="connect-header flex flex-row justify-between items-center py-5">
                             <h1 className="text-xl">Connect a wallet</h1>
                             <div
