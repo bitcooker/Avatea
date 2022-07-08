@@ -4,7 +4,7 @@ import helpers from '../helpers';
 import {toast} from 'react-toastify';
 
 
-const getMarketMakingPools = async ({invested,vested, saved, live, network = DEFAULT_CHAIN_ID, callback} = {}) => {
+const getMarketMakingPools = async ({invested, vested, saved, live, network = DEFAULT_CHAIN_ID, callback} = {}) => {
 
     let parameters = "?";
     if (invested) parameters += `invested=${invested}&`
@@ -34,22 +34,33 @@ const getMarketMakingSettings = async ({slug, network = DEFAULT_CHAIN_ID, user_a
 //@Todo check api to allow API method and how to fix authentication
 const updateMarketMakingPool = async ({settings, wallet}) => {
     try {
-        const {volume, max_selling_amount, max_buying_amount, id} = settings;
+        const {
+            volume,
+            max_selling_amount,
+            max_buying_amount,
+            max_preferred_drawdown,
+            lower_preferred_price_range,
+            upper_preferred_price_range,
+            id
+        } = settings;
         const signature = await helpers.web3.authentication.getSignature(wallet);
-            await axios(
-                {
-                    method: 'patch',
-                    url: `${API_URL}MarketMakingPool/${id}/`,
-                    data: {
-                        volume,
-                        max_selling_amount,
-                        max_buying_amount,
-                        signature,
-                        user_address:wallet.account
-                    }
+        await axios(
+            {
+                method: 'patch',
+                url: `${API_URL}MarketMakingPool/${id}/`,
+                data: {
+                    volume,
+                    max_selling_amount,
+                    max_buying_amount,
+                    max_preferred_drawdown,
+                    lower_preferred_price_range,
+                    upper_preferred_price_range,
+                    signature,
+                    user_address: wallet.account
                 }
-            )
-            toast.success('Settings saved succesfully.')
+            }
+        )
+        toast.success('Settings saved succesfully.')
 
     } catch (e) {
         console.log('updateMarketMakingSettings error:', e);

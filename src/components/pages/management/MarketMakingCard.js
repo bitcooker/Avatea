@@ -17,6 +17,9 @@ export default function MarketMakingCard({project, marketMakingPool}) {
     const [maxBuyingAmount, setMaxBuyingAmount] = useState("0");
     const [maxSellingAmount, setMaxSellingAmount] = useState("0");
     const [volume, setVolume] = useState("0");
+    const [maxPreferredDrawdown, setMaxPreferredDrawdown] = useState("0");
+    const [lowerPreferredPriceRange, setLowerPreferredPriceRange] = useState("0");
+    const [upperPreferredPriceRange, setUpperPreferredPriceRange] = useState("0");
     const [createMMPool, setCreateMMPool] = useState(false);
 
     useEffect(() => {
@@ -43,13 +46,16 @@ export default function MarketMakingCard({project, marketMakingPool}) {
             };
             initWalletConnected();
         }
-    }, [wallet, marketMakingPool,project]);
+    }, [wallet, marketMakingPool, project]);
 
     const updateMarketMakingPool = useCallback(async () => {
         const settings = {
             volume,
             max_selling_amount: maxSellingAmount,
             max_buying_amount: maxBuyingAmount,
+            max_preferred_drawdown: maxPreferredDrawdown,
+            lower_preferred_price_range: lowerPreferredPriceRange,
+            upper_preferred_price_range: upperPreferredPriceRange,
             id: marketMakingPool.id,
         };
 
@@ -57,13 +63,16 @@ export default function MarketMakingCard({project, marketMakingPool}) {
             settings,
             wallet,
         });
-    }, [volume, maxBuyingAmount, maxSellingAmount, marketMakingPool, wallet]);
+    }, [volume, maxBuyingAmount, maxSellingAmount, maxPreferredDrawdown, lowerPreferredPriceRange, upperPreferredPriceRange, marketMakingPool, wallet]);
 
 
     useEffect(() => {
         setMaxSellingAmount(marketMakingPool?.max_selling_amount);
         setMaxBuyingAmount(marketMakingPool?.max_buying_amount);
         setVolume(marketMakingPool?.volume);
+        setMaxPreferredDrawdown(marketMakingPool?.max_preferred_drawdown);
+        setLowerPreferredPriceRange(marketMakingPool?.lower_preferred_price_range);
+        setUpperPreferredPriceRange(marketMakingPool?.upper_preferred_price_range);
     }, [marketMakingPool]);
 
 
@@ -81,7 +90,18 @@ export default function MarketMakingCard({project, marketMakingPool}) {
             {marketMakingPool?.address ? (
                 <div className="flex flex-col p-3.75 space-y-4">
                     <h2 className="text-2xl"><i className="fa-solid fa-sliders"/> Market Making Pool</h2>
-
+                    <div className="flex justify-between">
+                        <span className="text-sm"><i className="fa-solid fa-users"/> Users Staked</span>
+                        <span className="text-base font-medium">
+                      {marketMakingPool.num_invested}
+                    </span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span className="text-sm"><i className="fa-solid fa-users"/> Users Vested</span>
+                        <span className="text-base font-medium">
+                      {marketMakingPool.num_vested}
+                    </span>
+                    </div>
                     <div className="flex justify-between">
                       <span className="text-sm">
                         <i className="fa-solid fa-money-bill-transfer"/> TVL
@@ -124,16 +144,57 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                             />
                         </div>
                     </div>
-                    <div className="w-full space-y-2.5">
-                        <span className="text-base">Volume</span>
-                        <InputWithIcon
-                            id="editPairToken"
-                            name="editPairToken"
-                            type="number"
-                            value={volume}
-                            setValue={setVolume}
-                            image={project.image}
-                        />
+                    <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
+                        <div className="w-full space-y-2.5">
+                            <span className="text-base">Max Preferred Drawdown</span>
+                            <InputWithIcon
+                                id="editPairToken"
+                                name="editPairToken"
+                                type="number"
+                                value={maxPreferredDrawdown}
+                                setValue={setMaxPreferredDrawdown}
+                                image={marketMakingPool.paired_token_image}
+                            />
+                        </div>
+                        <div className="w-full space-y-2.5">
+                            <span className="text-base">Volume</span>
+                            <InputWithIcon
+                                id="editPairToken"
+                                name="editPairToken"
+                                type="number"
+                                value={volume}
+                                setValue={setVolume}
+                                image={project.image}
+                            />
+                        </div>
+                    </div>
+                    <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
+                        <div className="w-full space-y-2.5">
+                        <span className="text-base">
+                          Lower Preferred Price Range
+                        </span>
+                            <InputWithIcon
+                                id="editMaxBuyingAmount"
+                                name="editMaxBuyingAmount"
+                                type="number"
+                                value={lowerPreferredPriceRange}
+                                setValue={setLowerPreferredPriceRange}
+                                image={marketMakingPool.paired_token_image}
+                            />
+                        </div>
+                        <div className="w-full space-y-2.5">
+                        <span className="text-base">
+                                Upper Preferred Price Range
+                        </span>
+                            <InputWithIcon
+                                id="editMaxBuyingAmount"
+                                name="editMaxBuyingAmount"
+                                type="number"
+                                value={upperPreferredPriceRange}
+                                setValue={setUpperPreferredPriceRange}
+                                image={marketMakingPool.paired_token_image}
+                            />
+                        </div>
                     </div>
                     <Button
                         name="Update Market Making Pool Settings"

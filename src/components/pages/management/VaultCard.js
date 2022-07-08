@@ -56,6 +56,12 @@ export default function VaultCard({project, vault}) {
                 <div className="flex flex-col p-3.75 space-y-4">
                     <h2 className="text-2xl"><i className="fa-solid fa-nfc-lock"/> Vault</h2>
                     <div className="flex justify-between">
+                        <span className="text-sm"><i className="fa-solid fa-users"/> Users Staked</span>
+                        <span className="text-base font-medium">
+                      {vault.num_invested}
+                    </span>
+                    </div>
+                    <div className="flex justify-between">
                       <span className="text-sm">
                         <i className="fa-solid fa-money-bill-transfer"/> TVL
                       </span>
