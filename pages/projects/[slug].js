@@ -107,7 +107,7 @@ export default function ProjectDetail(props) {
                     </div>
                 }
                 {tab === 3 && 
-                    <div className="min-h-[680px]">
+                    <div className="md-lg:min-h-[680px]">
                         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                             <Vesting
                                 wallet={wallet}

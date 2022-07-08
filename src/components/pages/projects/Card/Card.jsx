@@ -1,9 +1,28 @@
 import React, { useEffect, useState } from "react";
-import CardItem from "./CardItem";
+import { motion } from "framer-motion";
+
 import helper from "../../../../helpers/";
+
+// page components
+import CardItem from "./CardItem";
 
 // core components
 import Spinner from "../../../core/Spinner";
+
+const variants = {
+    hidden: {},
+    show: {
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.3
+        }
+    }
+}
+
+const cardVariants = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1 }
+}
 
 export default function Card({ projectProps }) {
   const [projects, setProjects] = useState([]);
@@ -22,11 +41,13 @@ export default function Card({ projectProps }) {
           <Spinner size={5} />
         </div>
       ) : (
-        <div className="grid sm-md:grid-cols-2 xl-2xl:grid-cols-3 gap-5">
-          {projects.map((project) => {
-            return <CardItem key={project.slug} {...project} />;
-          })}
-        </div>
+            <motion.div className="grid sm-md:grid-cols-2 xl-2xl:grid-cols-3 gap-5" variants={variants} initial="hidden" animate="show">
+                    {projects.map((project) =>
+                        <motion.div variants={cardVariants} key={project.slug}>
+                            <CardItem key={project.slug} {...project} />
+                        </motion.div>
+                    )}
+            </motion.div>
       )}
     </div>
   );
