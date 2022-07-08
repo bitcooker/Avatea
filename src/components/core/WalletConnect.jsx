@@ -4,7 +4,7 @@ import {useWallet} from "use-wallet";
 import { motion } from "framer-motion"
 
 const variants = {
-    open: { opacity: 1, zIndex: 10 },
+    open: { opacity: 1, zIndex: 60 },
     close: { opacity: 0, transitionEnd: {zIndex: -10} }
 }
 
