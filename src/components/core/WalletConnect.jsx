@@ -1,20 +1,27 @@
 import * as React from "react";
 import Image from "next/image";
 import {useWallet} from "use-wallet";
-import {useEffect} from "react";
+import { motion } from "framer-motion"
+
+const variants = {
+    open: { opacity: 1, zIndex: 10 },
+    close: { opacity: 0, transitionEnd: {zIndex: -10} }
+}
 
 export default function WalletConnect(props) {
     const wallet = useWallet();
 
-    useEffect(() => {
+    React.useEffect(() => {
         if(wallet.status === "connected") props.handleClose()
-    },[wallet])
-    return <div
-                className={
-                    props.open
-                        ? "fixed z-50 w-[100vw] h-[100vh] top-0 left-0 bg-black/20 backdrop-blur-[1px] px-5 md-lg:px-60 overflow-y-auto md-lg:overflow-y-hidden transition"
-                        : "fixed -z-50 w-[100vw] md-lg:h-[100vh] top-0 left-0 bg-black/20 backdrop-blur-[1px] px-40 opacity-0"
-                    }
+    },[props, wallet])
+
+    return <motion.div
+                initial={{ opacity: 0 }}
+                animate={props.open ? "open" : "close"}
+                transition={{ duration: .3 }}
+                variants={variants}
+                final
+                className="fixed w-[100vw] h-[100vh] top-0 left-0 bg-black/20 backdrop-blur-[1px] px-5 md-lg:px-60 overflow-y-auto md-lg:overflow-y-hidden"
                 onClick={props.handleClose}
             >
                 <div className="w-full h-full flex items-center justify-center">
@@ -65,5 +72,5 @@ export default function WalletConnect(props) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
 }
