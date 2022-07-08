@@ -13,7 +13,7 @@ const variants = {
     hidden: {},
     show: {
         transition: {
-            staggerChildren: 0.1,
+            staggerChildren: 0.25,
             delayChildren: 0.3
         }
     }
@@ -43,7 +43,7 @@ export default function Card({ projectProps }) {
       ) : (
             <motion.div className="grid sm-md:grid-cols-2 xl-2xl:grid-cols-3 gap-5" variants={variants} initial="hidden" animate="show">
                     {projects.map((project) =>
-                        <motion.div variants={cardVariants} key={project.slug}>
+                        <motion.div variants={cardVariants} transition={{ duration: .5 }} key={project.slug}>
                             <CardItem key={project.slug} {...project} />
                         </motion.div>
                     )}

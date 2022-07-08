@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion"
 
 // core components
 import Spinner from "../../../core/Spinner";
@@ -42,8 +43,17 @@ export default function CardItem(props) {
   };
 
   return (
-    <div className="rounded-2.5xl bg-white overflow-hidden transition hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
+    <div className="relative rounded-2.5xl bg-white overflow-hidden transition hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
       <CardImage image={props.banner} id={props.slug} />
+      { (wallet.status === "connected" && props?.admin && checkAdmin(wallet.account)) &&
+        <Link href={`management/${props.slug}`}>
+            <div className="absolute flex items-center justify-center top-2 right-2 w-10 h-10 bg-white rounded-xl hover:cursor-pointer">
+                <motion.span className="w-5 h-5" whileHover={{ rotate: 90 }}>
+                    <i className="fa-regular fa-gear text-indigo-500 text-xl" />
+                </motion.span>
+            </div>
+        </Link>
+      }
       <div className="relative py-7.5 px-5">
         <div className="absolute -top-9 p-2 flex items-center justify-center w-14 h-14 bg-white shadow-[0_4px_8px_rgba(0,0,0,0.08)] rounded-0.5xl">
           <img src={props.image} alt={props.slug} />
@@ -85,17 +95,6 @@ export default function CardItem(props) {
             View Project
           </a>
         </Link>
-          {
-              wallet.status === "connected" && props?.admin ? (
-                      checkAdmin(wallet.account) ? (
-                              <Link href={`management/${props.slug}`}>
-                                  <a className="block py-2.5 mt-5 w-full bg-indigo-500 text-white text-center rounded-full hover:bg-indigo-500/80">
-                                      Manage Project
-                                  </a>
-                              </Link>
-                      ) : ""
-              ) : ""
-          }
       </div>
     </div>
   );
