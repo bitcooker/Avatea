@@ -2,6 +2,7 @@ import {useWallet} from "use-wallet";
 import {useEffect, useState, useRef} from "react";
 import {useRouter} from "next/router";
 import { Motion, spring } from "react-motion"
+import { motion } from "framer-motion"
 
 import helper from "../../src/helpers";
 
@@ -69,77 +70,55 @@ export default function ProjectDetail(props) {
             <div ref={tabRef} className="flex justify-center">
                 <Tab items={tabItems} tab={tab} setTab={setTab}/>
             </div>
-            <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 0 ? 1 : 0) }}>
-                {({scale}) =>{
-                    if(scale === 1)
-                        window.scrollTo(0, 10000);
-                    if(tab !== 0 || scale === 0) 
-                        return "";
-                    else return <div className="" style={{ transform: `scale(${scale})` }}>
-                                    <MarketMaking
-                                        wallet={wallet}
-                                        marketMakingPool={marketMakingPool}
-                                        project={project}
-                                    />
-                                </div>
-                    }
+            
+                {tab === 0 &&   
+                    <div className="min-h-[800px] md-lg:min-h-[600px]">
+                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                            <MarketMaking
+                                wallet={wallet}
+                                marketMakingPool={marketMakingPool}
+                                project={project}
+                            />
+                        </motion.div>
+                    </div>
                 }
-            </Motion>
-            <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 1 ? 1 : 0) }}>
-                {({scale}) => 
-                    {
-                        if(scale === 1)
-                            window.scrollTo(0, 10000);
-                        if(tab !== 1 || scale === 0) 
-                            return "";
-                        else return <div className="" style={{ transform: `scale(${scale})` }}>
-                                        <Liquidity
-                                            wallet={wallet}
-                                            project={project}
-                                            marketMakingPool={marketMakingPool}
-                                            liquidityMaker={liquidityMaker}
-                                        />
-                                    </div>
-                    }
+                {tab === 1 &&
+                    <div className="min-h-[500px] md-lg:min-h-[300px]">
+                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                            <Liquidity
+                                wallet={wallet}
+                                project={project}
+                                marketMakingPool={marketMakingPool}
+                                liquidityMaker={liquidityMaker}
+                            />
+                        </motion.div>
+                    </div>
                 }
-            </Motion>
-            <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 2 ? 1 : 0) }}>
-                {({scale}) => 
-                    {
-                        if(scale === 1)
-                            window.scrollTo(0, 10000);
-                        if(tab !== 2 || scale === 0) 
-                            return "";
-                        else return <div className="" style={{ transform: `scale(${scale})` }}>
-                                        <Vault
-                                            vault={vault}
-                                            wallet={wallet}
-                                            project={project}
-                                            setTab={setTab}
-                                        />
-                                    </div>
-                    }
+                {tab === 2 && 
+                    <div className="md-lg:min-h-[550px]">
+                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                            <Vault
+                                vault={vault}
+                                wallet={wallet}
+                                project={project}
+                                setTab={setTab}
+                            />
+                        </motion.div>
+                    </div>
                 }
-            </Motion>
-            <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(tab === 3 ? 1 : 0) }}>
-                {({scale}) => 
-                    {
-                        if(scale === 1)
-                            window.scrollTo(0, 10000);
-                        if(tab !== 3 || scale === 0) 
-                            return "";
-                        else return <div className="" style={{ transform: `scale(${scale})` }}>
-                                    <Vesting
-                                        wallet={wallet}
-                                        marketMakingPool={marketMakingPool}
-                                        project={project}
-                                        setTab={setTab}
-                                    />
-                                </div>
-                    }
+                {tab === 3 && 
+                    <div className="min-h-[680px]">
+                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                            <Vesting
+                                wallet={wallet}
+                                marketMakingPool={marketMakingPool}
+                                project={project}
+                                setTab={setTab}
+                            />
+                        </motion.div>
+                    </div>
                 }
-            </Motion>
-        </div>
+            </div>
     );
 }
 
