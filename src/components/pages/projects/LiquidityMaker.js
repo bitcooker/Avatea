@@ -129,7 +129,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                 <div className="divide-y">
                     {/* Card Header */}
                     <div className="card-header">
-                        <h1 className="text-2xl"><i className="fa-solid fa-nfc-lock"/> Liquidity Stats</h1>
+                        <h1 className="text-lg md-lg:text-2xl"><i className="fa-solid fa-nfc-lock"/> Liquidity Stats</h1>
                         <div className="py-5.5 space-y-4.5">
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-clock"/> Locking Period</span>
@@ -167,12 +167,12 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
             <Card title="Liquidity & Reward Management">
                 {/* Card Header */}
                 <div className="card-header">
-                    <h1 className="text-2xl"><i className="fa-solid fa-newspaper"/> Liquidity & Reward Management</h1>
+                    <h1 className="text-lg md-lg:text-2xl"><i className="fa-solid fa-newspaper"/> Liquidity & Reward Management</h1>
                 </div>
                 <div className="card-content pt-5 space-y-3.75">
                     <div>
                         <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
-                            <span>
+                            <span className="text-center md-lg:text-left">
                                 <i className="fa-solid fa-money-bill-transfer"/> Staked
                             </span>
                             <span className="flex justify-center items-center text-base font-medium">
@@ -185,7 +185,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                     </div>
                     <div>
                         <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
-                            <span>
+                            <span className="text-center md-lg:text-left">
                                 <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Liquidity
                             </span>
                             <span className="flex justify-center text-base font-medium">
@@ -198,7 +198,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                     </div>
                     <div>
                         <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
-                            <span>
+                            <span className="text-center md-lg:text-left">
                                 <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Rewards
                             </span>
                             <span className="flex justify-center text-base font-medium">
