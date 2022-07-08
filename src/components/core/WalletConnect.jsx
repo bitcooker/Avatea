@@ -13,7 +13,7 @@ export default function WalletConnect(props) {
 
     React.useEffect(() => {
         if(wallet.status === "connected") props.handleClose()
-    },[props, wallet])
+    },[wallet])
 
     return <motion.div
                 initial={{ opacity: 0 }}
