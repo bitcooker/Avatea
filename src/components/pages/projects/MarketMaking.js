@@ -169,8 +169,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     };
 
     const updateRatio = async () => {
-        if (mode === 'sell') await helper.web3.marketMaker.setMaxBaseStakingRatio(wallet, marketMakingPool.address, maxBaseStakingRatio);
-        else await helper.web3.marketMaker.setMaxPairedStakingRatio(wallet, marketMakingPool.address, maxPairedStakingRatio);
+        if (mode === 'sell') await helper.web3.marketMaker.setMaxBaseStakingRatio(wallet, marketMakingPool.address, newMaxBaseStakingRatio);
+        else await helper.web3.marketMaker.setMaxPairedStakingRatio(wallet, marketMakingPool.address, newMaxPairedStakingRatio);
     }
 
     const updateSettings = async (amount = 0) => {
@@ -365,8 +365,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                             <div className="flex items-center">
 
                                 <Toggle
-                                    label={liquiditySetting ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
-                                    // handleClick={() => setLiquiditySetting(!liquiditySetting)}
+                                    label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
                                     handleClick={() => {mode === 'sell' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)}}
                                     checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}/>
                                 {(mode === 'sell' && (maxBaseStakingRatio.toString() !== newMaxBaseStakingRatio.toString())) &&
@@ -379,7 +378,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 }
                             </div>
                             {
-                                (baseLiquiditySetting) ?
+                                ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?
                                     <div>
                                         <RangeSlider className="mt-5 md-lg:mt-0"
                                                      setPercent={mode === 'sell' ? setNewMaxBaseStakingRatio : setNewMaxPairedStakingRatio}
