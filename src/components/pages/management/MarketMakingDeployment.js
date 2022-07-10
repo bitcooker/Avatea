@@ -16,11 +16,26 @@ export default function MarketMakingDeployment({project}) {
     const [volume, setVolume] = useState('0');
     const [maxBuyingAmount, setMaxBuyingAmount] = useState('0');
     const [maxSellingAmount, setMaxSellingAmount] = useState('0');
+    const [maxPreferredDrawdown, setMaxPreferredDrawdown] = useState("0");
+    const [lowerPreferredPriceRange, setLowerPreferredPriceRange] = useState("0");
+    const [upperPreferredPriceRange, setUpperPreferredPriceRange] = useState("0");
     const [revocable, setRevocable] = useState(false);
     const [paused, setPaused] = useState(false);
 
     const deployMarketMakingPool = async () => {
-        let success = await helper.web3.marketMaker.deploy(wallet, project.token, pairedTokenCheckSum, revocable, paused, project.slug, volume, maxBuyingAmount, maxSellingAmount, pairedTokenImage);
+        let success = await helper.web3.marketMaker.deploy(wallet,
+            project.token,
+            pairedTokenCheckSum,
+            revocable,
+            paused,
+            project.slug,
+            volume,
+            maxBuyingAmount,
+            maxSellingAmount,
+            maxPreferredDrawdown,
+            lowerPreferredPriceRange,
+            upperPreferredPriceRange,
+            pairedTokenImage);
         if (success) location.reload();
     };
 
@@ -85,17 +100,57 @@ export default function MarketMakingDeployment({project}) {
                     />
                 </div>
             </div>
-            <div className="w-full space-y-2.5">
-                <span className="text-base">Volume per day</span>
-                <InputWithIcon
-                    id="editPairToken"
-                    name="editPairToken"
-                    type="number"
-                    placeholder="0"
-                    image={project.image}
-                    setValue={setVolume}
-                    value={volume}
-                />
+            <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
+                <div className="w-full space-y-2.5">
+                    <span className="text-base">Max Preferred Drawdown</span>
+                    <InputWithIcon
+                        id="editPairToken"
+                        name="editPairToken"
+                        type="number"
+                        value={maxPreferredDrawdown}
+                        setValue={setMaxPreferredDrawdown}
+                        image={pairedTokenImage}
+                    />
+                </div>
+                <div className="w-full space-y-2.5">
+                    <span className="text-base">Volume per day</span>
+                    <InputWithIcon
+                        id="editPairToken"
+                        name="editPairToken"
+                        type="number"
+                        value={volume}
+                        setValue={setVolume}
+                        image={project.image}
+                    />
+                </div>
+            </div>
+            <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
+                <div className="w-full space-y-2.5">
+                        <span className="text-base">
+                          Lower Preferred Price Range
+                        </span>
+                    <InputWithIcon
+                        id="editMaxBuyingAmount"
+                        name="editMaxBuyingAmount"
+                        type="number"
+                        value={lowerPreferredPriceRange}
+                        setValue={setLowerPreferredPriceRange}
+                        image={pairedTokenImage}
+                    />
+                </div>
+                <div className="w-full space-y-2.5">
+                        <span className="text-base">
+                                Upper Preferred Price Range
+                        </span>
+                    <InputWithIcon
+                        id="editMaxBuyingAmount"
+                        name="editMaxBuyingAmount"
+                        type="number"
+                        value={upperPreferredPriceRange}
+                        setValue={setUpperPreferredPriceRange}
+                        image={pairedTokenImage}
+                    />
+                </div>
             </div>
             <div className="w-full space-y-2.5">
                 <span className="text-base">Make vesting of users revocable by project owner </span>

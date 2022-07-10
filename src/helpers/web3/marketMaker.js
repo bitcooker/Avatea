@@ -6,7 +6,19 @@ import {API_URL, DEPLOYMENT_GAS_COST, MARKET_MAKER_DEPLOYER_ADDRESS} from "../co
 import MarketMakerDeployer from "../../abi/MarketMakerDeployer.json";
 import axios from "axios";
 
-const deploy = async (wallet, baseToken, pairedToken, revocable, paused, projectSlug, volume, maxBuyingAmount, maxSellingAmount, pairedTokenImage) => {
+const deploy = async (wallet,
+                      baseToken,
+                      pairedToken,
+                      revocable,
+                      paused,
+                      projectSlug,
+                      volume,
+                      maxBuyingAmount,
+                      maxSellingAmount,
+                      maxPreferredDrawdown,
+                      lowerPreferredPriceRange,
+                      upperPreferredPriceRange,
+                      pairedTokenImage) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const options = {value: ethers.utils.parseEther(DEPLOYMENT_GAS_COST)}
@@ -37,6 +49,9 @@ const deploy = async (wallet, baseToken, pairedToken, revocable, paused, project
             network: String(wallet.chainId),
             max_selling_amount: maxSellingAmount,
             max_buying_amount: maxBuyingAmount,
+            max_preferred_drawdown: maxPreferredDrawdown,
+            lower_preferred_price_range: lowerPreferredPriceRange,
+            upper_preferred_price_range: upperPreferredPriceRange,
             paired_token_image: pairedTokenImage,
             volume,
             live: !paused
@@ -128,7 +143,18 @@ const stakeBatch = async (wallet, marketMakerAddress, user_addresses, amounts, c
     }
 }
 
-const createVesting = async (wallet, marketMakerAddress, user_addresses, start, cliff, duration, slicePeriodSeconds, revocable, amountsInWei, amounts, batchName, projectName) => {
+const createVesting = async (wallet,
+                             marketMakerAddress,
+                             user_addresses,
+                             start,
+                             cliff,
+                             duration,
+                             slicePeriodSeconds,
+                             revocable,
+                             amountsInWei,
+                             amounts,
+                             batchName,
+                             projectName) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);

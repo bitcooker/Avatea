@@ -22,8 +22,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const [amountPairTokenToStake, setAmountPairTokenToStake] = useState('0');
     const [baseTokenWalletBalance, setBaseTokenWalletBalance] = useState('0');
     const [pairedTokenWalletBalance, setPairedTokenWalletBalance] = useState('0');
-    const [pressure, setPressure] = useState(0);
-    const [priceLimit, setPriceLimit] = useState(null);
+    const [pressure, setPressure] = useState('0');
+    const [priceLimit, setPriceLimit] = useState('0');
     const [fresh, setFresh] = useState(false);
     const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
     const [mode, setMode] = useState("sell");
@@ -105,14 +105,14 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     } = marketMakingSettings;
                     if (!market_making_type) setFresh(true);
                     setMarketMakingSettingsId(id);
-                    setMode(market_making_type === null || market_making_type === 'hold' ? "sell" : market_making_type);
-                    setPressure(buy_sell_pressure === null ? 0 : buy_sell_pressure);
-                    setPriceLimit(price_limit === null ? 0 : price_limit);
+                    if (mode === 'sell') setMode(market_making_type === null || market_making_type === 'hold' ? "sell" : market_making_type);
+                    if (pressure === '0') setPressure(buy_sell_pressure === null ? 0 : buy_sell_pressure);
+                    if (pressure === '0') setPriceLimit(price_limit === null ? 0 : price_limit);
                 }
             };
             initWalletConnected();
         }
-    }, [wallet, project, allowSelling]);
+    }, [wallet, project]);
 
 
     useEffect(() => {
