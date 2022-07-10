@@ -14,6 +14,8 @@ import Toggle from "../../core/Toggle/Toggle";
 
 export default function MarketMaking({wallet, project, marketMakingPool}) {
 
+    const [baseTokenValueLocked, setBaseTokenValueLocked] = useState("0");
+    const [pairedTokenValueLocked, setPairedTokenValueLocked] = useState("0");
     const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState('0');
     const [amountPairTokenBalance, setAmountPairTokenBalance] = useState('0');
     const [amountBaseTokenToWithdraw, setAmountBaseTokenToWithdraw] = useState('0');
@@ -34,10 +36,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         baseAmountSold: '0',
         pairedAmountSold: '0'
     })
-    const [maxBaseStakingRatio, setMaxBaseStakingRatio] = useState(0)
-    const [maxPairedStakingRatio, setMaxPairedStakingRatio] = useState(0)
-    const [newMaxBaseStakingRatio, setNewMaxBaseStakingRatio] = useState(0)
-    const [newMaxPairedStakingRatio, setNewMaxPairedStakingRatio] = useState(0)
+    const [maxBaseStakingRatio, setMaxBaseStakingRatio] = useState('0')
+    const [maxPairedStakingRatio, setMaxPairedStakingRatio] = useState('0')
+    const [newMaxBaseStakingRatio, setNewMaxBaseStakingRatio] = useState('0')
+    const [newMaxPairedStakingRatio, setNewMaxPairedStakingRatio] = useState('0')
     const [baseLiquiditySetting, setBaseLiquiditySetting] = useState(false);
     const [pairedLiquiditySetting, setPairedLiquiditySetting] = useState(false);
     const [allowSelling, setAllowSelling] = useState(true);
@@ -77,8 +79,28 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                 if (mode === 'sell' && maxBaseStakingRatio > 0) setBaseLiquiditySetting(true);
                 if (mode === 'buy' && maxPairedStakingRatio > 0) setPairedLiquiditySetting(true);
                 setAmountBaseTokenBalance(helper.formatting.web3Format(available));
-                setAmountPairTokenBalance(helper.formatting.web3Format(await helper.web3.marketMaker.getWithdrawablePairedTokens(wallet, marketMakingPool.address, wallet.account)));
-                setLoad(true)
+                setAmountPairTokenBalance(helper.formatting.web3Format(await helper.web3.marketMaker.getWithdrawablePairedTokens(wallet,
+                    marketMakingPool.address,
+                    wallet.account)));
+                setBaseTokenValueLocked(
+                    helper.formatting.web3Format(
+                        await helper.token.balanceOf(
+                            wallet,
+                            project.token,
+                            marketMakingPool.address
+                        ) || '0'
+                    )
+                );
+                setPairedTokenValueLocked(
+                    helper.formatting.web3Format(
+                        await helper.token.balanceOf(
+                            wallet,
+                            marketMakingPool.paired_token,
+                            marketMakingPool.address
+                        ) || '0'
+                    )
+                );
+                setLoad(true);
             };
             initWalletConnected();
         }
@@ -213,6 +235,20 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     <h1 className="text-2xl"><i className="fa-solid fa-wave-pulse"></i> Activity</h1>
 
                     <div className="py-5.5 space-y-4.5">
+                        <div className="flex justify-between">
+                      <span className="text-sm">
+                        <i className="fa-solid fa-money-bill-transfer"/> TVL
+                      </span>
+                            <span className="flex text-base font-medium">
+                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
+                                {baseTokenValueLocked}
+                                <img
+                                    src={marketMakingPool.paired_token_image}
+                                    className="w-6 h-6 ml-2.5 mr-2.5"
+                                />{" "}
+                                {pairedTokenValueLocked}
+                      </span>
+                        </div>
                         <div className="flex justify-between">
                             <span className="text-sm"><i className="fa-solid fa-circle-minus"/> Sold</span>
                             <span className="flex text-base font-medium">
@@ -377,7 +413,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
                     {
                         mode === 'buy' || mode === 'sell' ? <div className="card-content pt-1 space-y-3.75">
-                            <div className="flex items-center">
+                            <div className="w-full space-x-3.75 grid grid-cols-2">
 
                                 <Toggle
                                     label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
