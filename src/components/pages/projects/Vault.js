@@ -4,7 +4,6 @@ import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSub
 import {AVATEA_TOKEN} from "../../../helpers/constants";
 import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
 import Button from "../../core/Button/Button";
-import Feed from "../projectDetail/Feed/Feed";
 import {ethers} from "ethers";
 import helper from "../../../helpers";
 import {useEffect, useState} from "react";
@@ -12,14 +11,14 @@ import SkeletonVault from "./Skeleton/SkeletonVault";
 import CenteredContent from "../../core/CenteredContent";
 import Image from "next/image";
 
-export default function Vault({ vault, wallet, project, setTab }) {
+export default function Vault({vault, wallet, project, setTab}) {
 
     const [amountToVaultStake, setAmountToVaultStake] = useState('0');
     const [stakedVaultBalance, setStakedVaultBalance] = useState('0');
     const [vaultBalance, setVaultBalance] = useState('0');
     const [avateaBalance, setAvateaBalance] = useState('0');
     const [earnedTokens, setEarnedTokens] = useState('0');
-    const [vaultTLV,setVaultTLV] = useState('0');
+    const [vaultTLV, setVaultTLV] = useState('0');
     const [rewardPerToken, setRewardPerToken] = useState('0');
     const [articles, setArticles] = useState([]);
     const [load, setLoad] = useState(true);
@@ -40,12 +39,12 @@ export default function Vault({ vault, wallet, project, setTab }) {
                 );
                 setAvateaBalance(
                     helper.formatting.web3Format(
-                        await helper.token.balanceOf(wallet, AVATEA_TOKEN,wallet.account)
+                        await helper.token.balanceOf(wallet, AVATEA_TOKEN, wallet.account)
                     )
                 );
-                setEarnedTokens(helper.formatting.web3Format(await helper.web3.vault.earned(wallet,vault.address,wallet.account)));
-                setVaultTLV(helper.formatting.web3Format(await helper.web3.vault.totalSupply(wallet,vault.address)));
-                setRewardPerToken(await helper.web3.vault.rewardPerToken(wallet,vault.address));
+                setEarnedTokens(helper.formatting.web3Format(await helper.web3.vault.earned(wallet, vault.address, wallet.account)));
+                setVaultTLV(helper.formatting.web3Format(await helper.web3.vault.totalSupply(wallet, vault.address)));
+                setRewardPerToken(await helper.web3.vault.rewardPerToken(wallet, vault.address));
                 setLoad(true);
             };
             initWalletConnected();
@@ -57,7 +56,7 @@ export default function Vault({ vault, wallet, project, setTab }) {
         const fetchArticles = async () => {
             if (project.slug) {
                 setArticles(
-                    await helper.article.getArticles({ project: project.slug })
+                    await helper.article.getArticles({project: project.slug})
                 );
             }
         };
@@ -98,9 +97,9 @@ export default function Vault({ vault, wallet, project, setTab }) {
         <CenteredContent>
             <span className={'text-2xl'}>No Vault Available</span>
             <div className={'w-[70%] mx-auto'}>
-                <Image src={'/vault.png'} layout={'responsive'}  height={594} width={1181}/>
+                <Image src={'/vault.png'} layout={'responsive'} height={594} width={1181}/>
             </div>
-            <Button handleClick={()=>setTab(0)}>Return to project</Button>
+            <Button handleClick={() => setTab(0)}>Return to project</Button>
         </CenteredContent>
     )
 
@@ -134,73 +133,6 @@ export default function Vault({ vault, wallet, project, setTab }) {
                         </div>
                     </div>
 
-                    <div className="card-content pt-5 space-y-3.75">
-                        <div>
-                            <div className="flex flex-row items-center justify-between text-base">
-                                <div>
-                                    <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
-                                </div>
-                                &nbsp;
-                                <span>
-                      {avateaBalance} &nbsp;
-                                    <MaxButton
-                                        handleClick={() =>
-                                            setMax(avateaBalance, setAmountToVaultStake)
-                                        }
-                                    />
-                    </span>
-                            </div>
-                            <InputApproveWithIconSubmit
-                                id="max"
-                                name="max"
-                                type="number"
-                                submitName="Stake"
-                                icon="fa-light fa-gauge-max"
-                                submitFunction={stakeVault}
-                                value={amountToVaultStake}
-                                setValue={setAmountToVaultStake}
-                                address={vault.address}
-                                token={AVATEA_TOKEN}
-                            />
-                        </div>
-                        <div>
-                            <div className="flex flex-row items-center justify-between text-base">
-                                <div>
-                                    <i className="fa-regular fa-circle-minus mr-1" />
-                                    Withdraw Avatea
-                                </div>
-                                <span>
-                      {stakedVaultBalance} &nbsp;
-                                    <MaxButton
-                                        handleClick={() =>
-                                            setMax(stakedVaultBalance, setVaultBalance)
-                                        }
-                                    />
-                    </span>
-                            </div>
-                            <InputWithIconSubmit
-                                id="withdrawAvatea"
-                                name="withdrawAvatea"
-                                type="number"
-                                submitName="Withdraw"
-                                icon="fa-light fa-circle-minus"
-                                submitFunction={withdrawVault}
-                                value={vaultBalance}
-                                setValue={setVaultBalance}
-                            />
-                        </div>
-                        <div className="grid md-lg:grid-cols-2 gap-3.75">
-                            <Button
-                                name="Withdraw Rewards"
-                                handleClick={claimVaultRewards}
-                            >
-                                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                            </Button>
-                            <Button name="Withdraw Both" handleClick={exitVault}>
-                                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                            </Button>
-                        </div>
-                    </div>
                 </div>
             </Card>
             <Card title="News Feed">
@@ -208,9 +140,72 @@ export default function Vault({ vault, wallet, project, setTab }) {
                 <div className="card-header">
                     <h1 className="text-2xl"><i className="fa-solid fa-newspaper"/> News</h1>
                 </div>
-
-                <div className="card-content pt-5.5">
-                    <Feed articles={articles} />
+                <div className="card-content pt-5 space-y-3.75">
+                    <div>
+                        <div className="flex flex-row items-center justify-between text-base">
+                            <div>
+                                <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
+                            </div>
+                            &nbsp;
+                            <span>
+                      {avateaBalance} &nbsp;
+                                <MaxButton
+                                    handleClick={() =>
+                                        setMax(avateaBalance, setAmountToVaultStake)
+                                    }
+                                />
+                    </span>
+                        </div>
+                        <InputApproveWithIconSubmit
+                            id="max"
+                            name="max"
+                            type="number"
+                            submitName="Stake"
+                            icon="fa-light fa-gauge-max"
+                            submitFunction={stakeVault}
+                            value={amountToVaultStake}
+                            setValue={setAmountToVaultStake}
+                            address={vault.address}
+                            token={AVATEA_TOKEN}
+                        />
+                    </div>
+                    <div>
+                        <div className="flex flex-row items-center justify-between text-base">
+                            <div>
+                                <i className="fa-regular fa-circle-minus mr-1"/>
+                                Withdraw Avatea
+                            </div>
+                            <span>
+                      {stakedVaultBalance} &nbsp;
+                                <MaxButton
+                                    handleClick={() =>
+                                        setMax(stakedVaultBalance, setVaultBalance)
+                                    }
+                                />
+                    </span>
+                        </div>
+                        <InputWithIconSubmit
+                            id="withdrawAvatea"
+                            name="withdrawAvatea"
+                            type="number"
+                            submitName="Withdraw"
+                            icon="fa-light fa-circle-minus"
+                            submitFunction={withdrawVault}
+                            value={vaultBalance}
+                            setValue={setVaultBalance}
+                        />
+                    </div>
+                    <div className="grid md-lg:grid-cols-2 gap-3.75">
+                        <Button
+                            name="Withdraw Rewards"
+                            handleClick={claimVaultRewards}
+                        >
+                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                        </Button>
+                        <Button name="Withdraw Both" handleClick={exitVault}>
+                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                        </Button>
+                    </div>
                 </div>
             </Card>
         </div>

@@ -14,8 +14,9 @@ import Vault from "../../src/components/pages/projects/Vault";
 import MarketMaking from "../../src/components/pages/projects/MarketMaking";
 import Vesting from "../../src/components/pages/projects/Vesting";
 import Liquidity from "../../src/components/pages/projects/LiquidityMaker";
+import Info from "../../src/components/pages/projects/Info";
 
-const tabItems = ["Market Making", "Liquidity", "Vault", "Vesting"];
+const tabItems = ["Info","Market Making", "Liquidity", "Vault", "Vesting"];
 
 export default function ProjectDetail(props) {
     //@Todo add min buy limit and max buy limit fields (stop-loss)
@@ -73,6 +74,16 @@ export default function ProjectDetail(props) {
             {tab === 0 &&   
                 <div className="min-h-[800px] md-lg:min-h-[600px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                        <Info
+                            project={project}
+                            setTab={setTab}
+                        />
+                    </motion.div>
+                </div>
+            }
+            {tab === 1 &&
+                <div className="min-h-[800px] md-lg:min-h-[600px]">
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <MarketMaking
                             wallet={wallet}
                             marketMakingPool={marketMakingPool}
@@ -81,7 +92,7 @@ export default function ProjectDetail(props) {
                     </motion.div>
                 </div>
             }
-            {tab === 1 &&
+            {tab === 2 &&
                 <div className="min-h-[500px] md-lg:min-h-[300px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <Liquidity
@@ -93,7 +104,7 @@ export default function ProjectDetail(props) {
                     </motion.div>
                 </div>
             }
-            {tab === 2 && 
+            {tab === 3 &&
                 <div className="md-lg:min-h-[550px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <Vault
@@ -105,7 +116,7 @@ export default function ProjectDetail(props) {
                     </motion.div>
                 </div>
             }
-            {tab === 3 && 
+            {tab === 4 &&
                 <div className="md-lg:min-h-[680px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <Vesting
