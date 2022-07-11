@@ -413,7 +413,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
                     {
                         mode === 'buy' || mode === 'sell' ? <div className="card-content pt-1 space-y-3.75">
-                            <div className="w-full space-x-3.75 grid grid-cols-2">
+                            <div className="w-full space-x-3.75 grid">
 
                                 <Toggle
                                     label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
