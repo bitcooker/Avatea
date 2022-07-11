@@ -50,7 +50,7 @@ export default function PreviewContent(props) {
               {props.name}
             </div>
             <div className="text-white/80 text-xs font-poppins">
-              Total value locked : <span className="text-white">$100,000</span>
+                Circulating Supply : <span className="text-white">$1,000,000</span>
             </div>
             {props.website ? (
               <div className="truncate text-white/80 text-xs font-poppins">
@@ -66,13 +66,13 @@ export default function PreviewContent(props) {
             )}
           </div>
         </div>
-        {props.description ? (
-          <div className="md-lg:w-full md-lg:h-1/2 text-white leading-6 font-poppins opacity-80">
-            {props.description}
-          </div>
-        ) : (
-          ""
-        )}
+        {/*{props.description ? (*/}
+        {/*  <div className="md-lg:w-full md-lg:h-1/2 text-white leading-6 font-poppins opacity-80">*/}
+        {/*    {props.description}*/}
+        {/*  </div>*/}
+        {/*) : (*/}
+        {/*  ""*/}
+        {/*)}*/}
       </div>
       <div className="relative flex w-full md-lg:w-1/3 md-lg:h-full">
         <div className="absolute flex flex-col w-full md-lg:bottom-0 md-lg:right-0 space-y-5">
