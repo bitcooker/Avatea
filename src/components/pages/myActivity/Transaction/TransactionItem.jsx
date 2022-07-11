@@ -75,26 +75,23 @@ const hoverBorderColors = {
 export default function TransactionItem(props) {
   return (
     <div className="grid grid-cols-12 items-center w-full p-2">
-        <TableCol className="flex items-center justify-center col-span-2 p-2">
-            <i className="fa-duotone fa-money-bill-transfer text-2xl"/>
-        </TableCol>
-        <TableCol className="truncate col-span-5 font-medium text-base tracking-[.0125rem]">
+        <TableCol className="truncate col-span-7 font-medium text-base tracking-[.0125rem]">
             <div>
                 <div className={`inline-block px-2 py-1 ${bgColors[props.type]} rounded-full text-white`}>
                     <h1 className="text-base leading-none">{props.type}</h1>
                 </div>
             </div>
-            <small className="leading-none">{moment(props.timestamp).format('llll')}</small>
+            <small>{moment(props.timestamp).format('llll')}</small>
         </TableCol>
-        <TableCol className="col-span-4 text-center font-medium text-base tracking-[.0125rem] text-white">
-            <div className={`${textColors[props.type]} text-sm`}>
-                {props.amount}
+        <TableCol className="col-span-4 font-medium text-base tracking-[.0125rem] text-white">
+            <div className={`text-slate-600 text-sm`}>
+                {props.amount > 0 ? props.amount : ""}
             </div>
         </TableCol>
         <TableCol className="col-span-1 flex items-center justify-center">
             <a target={'_blank'} href={`https://rinkeby.etherscan.io/tx/${props.hash}`} rel={'noreferrer'}>
-                <div className={`flex items-center justify-center w-6 h-6 pt-[1.5px] rounded-md border ${borderColors[props.type]} ${hoverBorderColors[props.type]}`}>
-                    <i className={`fa-solid fa-eye fa-xs ${textColors[props.type]}`}/>
+                <div className={`flex items-center justify-center w-6 h-6 pt-[1.5px] rounded-md border border-slate-600/50 hover:border-slate-600`}>
+                    <i className={`fa-solid fa-eye fa-xs text-slate-600`}/>
                 </div>
             </a>
         </TableCol>
