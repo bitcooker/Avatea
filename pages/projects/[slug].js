@@ -65,69 +65,59 @@ export default function ProjectDetail(props) {
 
     return (
         <motion.div initial={{ opacity: 0 }} transition={{ duration: .7 }} animate={{ opacity: 1 }} className="space-y-7.5">
-            <Banner {...project} />
             {/* Tab menu */}
             <div ref={tabRef} className="flex justify-center">
                 <Tab items={tabItems} tab={tab} setTab={setTab}/>
             </div>
             
-            {tab === 0 &&   
-                <div className="min-h-[800px] md-lg:min-h-[600px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
-                        <Info
-                            project={project}
-                            setTab={setTab}
-                        />
-                    </motion.div>
-                </div>
+            {tab === 0 && 
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <Info
+                        project={project}
+                        setTab={setTab}
+                    />
+                </motion.div>
             }
             {tab === 1 &&
-                <div className="min-h-[800px] md-lg:min-h-[600px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
-                        <MarketMaking
-                            wallet={wallet}
-                            marketMakingPool={marketMakingPool}
-                            project={project}
-                        />
-                    </motion.div>
-                </div>
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <MarketMaking
+                        wallet={wallet}
+                        marketMakingPool={marketMakingPool}
+                        project={project}
+                    />
+                </motion.div>
             }
             {tab === 2 &&
-                <div className="min-h-[500px] md-lg:min-h-[300px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
-                        <Liquidity
-                            wallet={wallet}
-                            project={project}
-                            marketMakingPool={marketMakingPool}
-                            liquidityMaker={liquidityMaker}
-                        />
-                    </motion.div>
-                </div>
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <Liquidity
+                        wallet={wallet}
+                        project={project}
+                        marketMakingPool={marketMakingPool}
+                        liquidityMaker={liquidityMaker}
+                    />
+                </motion.div>
             }
             {tab === 3 &&
-                <div className="md-lg:min-h-[550px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
-                        <Vault
-                            vault={vault}
-                            wallet={wallet}
-                            project={project}
-                            setTab={setTab}
-                        />
-                    </motion.div>
-                </div>
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <Vault
+                        vault={vault}
+                        wallet={wallet}
+                        project={project}
+                        setTab={setTab}
+                    />
+                </motion.div>
             }
             {tab === 4 &&
-                <div className="md-lg:min-h-[680px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
-                        <Vesting
-                            wallet={wallet}
-                            marketMakingPool={marketMakingPool}
-                            project={project}
-                            setTab={setTab}
-                        />
-                    </motion.div>
-                </div>
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <Vesting
+                        wallet={wallet}
+                        marketMakingPool={marketMakingPool}
+                        project={project}
+                        setTab={setTab}
+                    />
+                </motion.div>
             }
+            <Banner {...project} />
         </motion.div>
     );
 }
