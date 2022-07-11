@@ -32,7 +32,7 @@ export default function TransactionWrapper() {
     return (
     <div className="grow p-5 rounded-2.5xl bg-white">
         <h2 className="text-2xl">Transactions</h2>
-        <div className="w-full h-[550px] overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-300">
+        <div className="w-full py-5 h-[550px] overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-300">
         {
             transactions ? transactions?.map((transaction) => {
                 return <TransactionItem key={transaction.id} {...transaction} />;
