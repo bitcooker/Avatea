@@ -5,17 +5,18 @@ import Link from "next/link";
 export default function FeedItem(props) {
   const { description, title, image, link } = props.article;
   return (
-    <div className="flex space-x-5">
-      <div className="flex-none">
+    <div className="grid grid-cols-3 xl:grid-cols-4 gap-3.75">
+      <div className="col-span-1 flex flex-col w-full">
         <Image
           src={image}
           alt={title}
-          className="md-lg:w-38 md-lg:h-36 rounded-2.5xl"
-          width={155}
-          height={145}
+          className="rounded-2.5xl"
+          layout="responsive"
+          width="100%"
+          height="100%"
         />
       </div>
-      <div className="grow">
+      <div className="col-span-2 xl:col-span-3">
         <div className="flex flex-col h-full justify-between">
           <span className="text-base font-bold">{title}</span>
           <div>{description}</div>
