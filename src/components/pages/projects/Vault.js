@@ -92,40 +92,40 @@ export default function Vault({vault, wallet, project, setTab}) {
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-users"/> Users</span>
                                 <span className="text-base font-medium">
-                      {vault.num_invested}
-                    </span>
+                          {vault.num_invested}
+                        </span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-treasure-chest"/> Generated Rewards</span>
                                 <span className="flex text-base font-medium">
-                        <img
-                            src={project.image}
-                            className="w-6 h-6 ml-2.5 mr-2.5"
-                        />{" "}
+                            <img
+                                src={project.image}
+                                className="w-6 h-6 ml-2.5 mr-2.5"
+                            />{" "}
                                     {earnedTokens}
-                      </span>
+                          </span>
                             </div>
                             <div className="flex justify-between">
-                      <span className="text-sm">
-                        <i className="fa-solid fa-money-bill-transfer"/> TVL
-                      </span>
+                          <span className="text-sm">
+                            <i className="fa-solid fa-money-bill-transfer"/> TVL
+                          </span>
                                 <span className="flex text-base font-medium">
-                        <img
-                            src={AVATEA_TOKEN_IMAGE}
-                            className="w-6 h-6 ml-2.5 mr-2.5"
-                        />{" "}
+                            <img
+                                src={AVATEA_TOKEN_IMAGE}
+                                className="w-6 h-6 ml-2.5 mr-2.5"
+                            />{" "}
                                     {vaultTLV}
-                      </span>
+                          </span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-treasure-chest"/> Reward Per Avatea Token Per Day</span>
                                 <span className="flex text-base font-medium">
-                        <img
-                            src={project.image}
-                            className="w-6 h-6 ml-2.5 mr-2.5"
-                        />{" "}
+                            <img
+                                src={project.image}
+                                className="w-6 h-6 ml-2.5 mr-2.5"
+                            />{" "}
                                     {rewardPerToken}
-                      </span>
+                          </span>
                             </div>
 
                         </div>
@@ -146,11 +146,11 @@ export default function Vault({vault, wallet, project, setTab}) {
                             </div>
                             &nbsp;
                             <span>
-                      {avateaBalance} &nbsp;
+                          {avateaBalance} &nbsp;
                                 <MaxButton
                                     handleClick={() => setMax(avateaBalance, setAmountToVaultStake)}
                                 />
-                    </span>
+                        </span>
                         </div>
                         <InputApproveWithIconSubmit
                             id="max"
@@ -172,11 +172,11 @@ export default function Vault({vault, wallet, project, setTab}) {
                                 Withdraw Avatea
                             </div>
                             <span>
-                      {stakedVaultBalance} &nbsp;
+                          {stakedVaultBalance} &nbsp;
                                 <MaxButton
                                     handleClick={() => setMax(stakedVaultBalance, setVaultBalance)}
                                 />
-                    </span>
+                        </span>
                         </div>
                         <InputWithIconSubmit
                             id="withdrawAvatea"
