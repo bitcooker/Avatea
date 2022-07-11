@@ -33,6 +33,7 @@ export default function PreviewContent(props) {
         }
     });
   };
+
   return (
     <div
       className="absolute flex flex-col space-y-5 md-lg:space-y-0 md-lg:flex-row w-full h-full bottom-0 px-5 pb-5 pt-7.5 md-lg:h-[233px] md-lg:px-7.5 md-lg:pb-7.5 md-lg:pt-11 rounded-2.5xl md-lg:justify-between"
@@ -44,7 +45,7 @@ export default function PreviewContent(props) {
       <div className="flex flex-col justify-end space-y-5 w-full md-lg:w-1/2 md-lg:h-full">
         <div className="flex md-lg:w-full md-lg:space-x-3.5">
           <div className="flex items-center w-[67px] h-[67px] px-5 py-2.5 bg-white/10 rounded-0.5xl">
-            <Image src={props.image} alt="tokeImage" width={27} height={27}/>
+            {props.image && <Image src={props.image} alt="tokeImage" width={27} height={27}/>}
           </div>
           <div className="flex-1 w-1/2 space-y-2">
             <div className="text-white text-lg font-poppins leading-none">
