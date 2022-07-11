@@ -1,6 +1,7 @@
 import BannerSocialButton from "./BannerSocialButton";
 import ButtonOutline from "../../../core/Button/ButtonOutline";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function PreviewContent(props) {
   const socials = Object.entries(
@@ -40,12 +41,12 @@ export default function PreviewContent(props) {
           "linear-gradient(180deg, rgba(0, 32, 76, 0) 0%, #00204C 100%)",
       }}
     >
-      <div className="flex flex-col space-y-5 w-full md-lg:w-1/2 md-lg:h-full">
-        <div className="flex md-lg:w-full md-lg:h-1/2 md-lg:space-x-3.5">
-          <div className="flex-none flex items-center w-[67px] h-[67px] px-5 py-2.5 bg-white/10 rounded-0.5xl">
-            <img src={props.image} />
+      <div className="flex flex-col justify-end space-y-5 w-full md-lg:w-1/2 md-lg:h-full">
+        <div className="flex md-lg:w-full md-lg:space-x-3.5">
+          <div className="flex items-center w-[67px] h-[67px] px-5 py-2.5 bg-white/10 rounded-0.5xl">
+            <Image src={props.image} alt="tokeImage" width={27} height={27}/>
           </div>
-          <div className="flex-1 w-1/2 h-[67px] space-y-2">
+          <div className="flex-1 w-1/2 space-y-2">
             <div className="text-white text-lg font-poppins leading-none">
               {props.name}
             </div>
@@ -66,15 +67,8 @@ export default function PreviewContent(props) {
             )}
           </div>
         </div>
-        {/*{props.description ? (*/}
-        {/*  <div className="md-lg:w-full md-lg:h-1/2 text-white leading-6 font-poppins opacity-80">*/}
-        {/*    {props.description}*/}
-        {/*  </div>*/}
-        {/*) : (*/}
-        {/*  ""*/}
-        {/*)}*/}
       </div>
-      <div className="relative flex w-full md-lg:w-1/3 md-lg:h-full">
+      <div className="relative grow flex flex-col justify-end w-full md-lg:w-1/3 md-lg:h-full">
         <div className="absolute flex flex-col w-full md-lg:bottom-0 md-lg:right-0 space-y-5">
           <div className="w-full">
             <a href={props.whitepaper} target={"_blank"} rel={"noreferrer"}>
@@ -82,7 +76,7 @@ export default function PreviewContent(props) {
                 <span className="pr-2.5 text-white">
                   <i className="fa-solid fa-file-code" />
                 </span>
-                <span className="text-white font-semibold">
+                <span className="text-white">
                   View Whitepaper
                 </span>
               </ButtonOutline>
