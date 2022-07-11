@@ -431,29 +431,31 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                                                     }}
                                                                     checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}
                                                                 />
-                                                                <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
-                                                                    {
-                                                                        ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?
-                                                                                <div className="flex items-center">
-                                                                                    <RangeSlider 
-                                                                                        className="mt-5 md-lg:mt-0"
-                                                                                        setPercent={mode === 'sell' ? setNewMaxBaseStakingRatio : setNewMaxPairedStakingRatio}
-                                                                                        percent={mode === 'sell' ? newMaxBaseStakingRatio : newMaxPairedStakingRatio}
-                                                                                    />
-                                                                                </div>
-                                                                                : ""
-                                                                    }
-                                                                    {(mode === 'sell' && (maxBaseStakingRatio.toString() !== newMaxBaseStakingRatio.toString())) &&
-                                                                        <Button name={'Update Ratio'} handleClick={updateRatio}>
-                                                                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                                                        </Button>
-                                                                    }
-                                                                    {(mode === 'buy' && (maxPairedStakingRatio.toString() !== newMaxPairedStakingRatio.toString())) &&
-                                                                        <Button name={'Update Ratio'} handleClick={updateRatio}> 
-                                                                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                                                        </Button>
-                                                                    }
-                                                                </div>
+                                                                {(baseLiquiditySetting || pairedLiquiditySetting) && 
+                                                                    <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
+                                                                        {
+                                                                            ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?
+                                                                                    <div className="flex items-center">
+                                                                                        <RangeSlider 
+                                                                                            className="mt-5 md-lg:mt-0"
+                                                                                            setPercent={mode === 'sell' ? setNewMaxBaseStakingRatio : setNewMaxPairedStakingRatio}
+                                                                                            percent={mode === 'sell' ? newMaxBaseStakingRatio : newMaxPairedStakingRatio}
+                                                                                        />
+                                                                                    </div>
+                                                                                    : ""
+                                                                        }
+                                                                        {(mode === 'sell' && (maxBaseStakingRatio.toString() !== newMaxBaseStakingRatio.toString())) &&
+                                                                            <Button name={'Update Ratio'} handleClick={updateRatio}>
+                                                                                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                                                                            </Button>
+                                                                        }
+                                                                        {(mode === 'buy' && (maxPairedStakingRatio.toString() !== newMaxPairedStakingRatio.toString())) &&
+                                                                            <Button name={'Update Ratio'} handleClick={updateRatio}> 
+                                                                                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                                                                            </Button>
+                                                                        }
+                                                                    </div>
+                                                                }
                                                             </div> : ""
                     }
 
