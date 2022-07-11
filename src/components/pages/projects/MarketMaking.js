@@ -1,16 +1,22 @@
-import Card from "../projectDetail/Card/Card";
-import MaxButton from "./Button/MaxButton";
+import {useCallback, useEffect, useState} from "react";
+import Image from "next/image";
+import {ethers} from "ethers";
+
+import helper from "../../../helpers";
+
+// core components
 import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
 import RangeSlider from "../../core/RangeSlider/RangeSlider";
 import InputEmpty from "../../core/Input/InputEmpty";
 import Radio from "../../core/Radio/Radio";
 import Button from "../../core/Button/Button";
 import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
-import {useCallback, useEffect, useState} from "react";
-import {ethers} from "ethers";
-import helper from "../../../helpers";
-import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 import Toggle from "../../core/Toggle/Toggle";
+
+// page components
+import MaxButton from "./Button/MaxButton";
+import Card from "../projectDetail/Card/Card";
+import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 
 export default function MarketMaking({wallet, project, marketMakingPool}) {
 
@@ -236,57 +242,62 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
                     <div className="py-5.5 space-y-4.5">
                         <div className="flex justify-between">
-                      <span className="text-sm">
-                        <i className="fa-solid fa-money-bill-transfer"/> TVL
-                      </span>
+                            <span className="text-sm">
+                                <i className="fa-solid fa-money-bill-transfer"/> TVL
+                            </span>
                             <span className="flex text-base font-medium">
-                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
-                                {baseTokenValueLocked}
-                                <img
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <span className="mx-2.5">{baseTokenValueLocked}</span>
+                                <Image
                                     src={marketMakingPool.paired_token_image}
-                                    className="w-6 h-6 ml-2.5 mr-2.5"
-                                />{" "}
-                                {pairedTokenValueLocked}
-                      </span>
+                                    alt="pairedTokenImage"
+                                    width={24}
+                                    height={24}
+                                />
+                                <span className="mx-2.5">{pairedTokenValueLocked}</span>
+                            </span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-sm"><i className="fa-solid fa-circle-minus"/> Sold</span>
                             <span className="flex text-base font-medium">
-                    <img
-                        src={project.image}
-                        className="w-6 h-6 mr-2.5"
-                    />
-                                {activity.baseAmountSold} <img
-                                src={marketMakingPool.paired_token_image}
-                                className="w-6 h-6 ml-2.5 mr-2.5"
-                            /> {activity.pairedAmountSold}
-                  </span>
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <span className="mx-2.5">{activity.baseAmountSold} </span>
+                                <Image
+                                    src={marketMakingPool.paired_token_image}
+                                    alt="pairedTokenImage"
+                                    width={24}
+                                    height={24}
+                                />
+                                <span className="mx-2.5">{activity.pairedAmountSold}</span>
+                            </span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-sm"><i className="fa-solid fa-circle-plus"/> Bought</span>
                             <span className="flex text-base font-medium">
-                    <img
-                        src={project.image}
-                        className="w-6 h-6 mr-2.5"
-                    />
-                                {activity.baseAmountBought} <img
-                                src={marketMakingPool.paired_token_image}
-                                className="w-6 h-6 ml-2.5 mr-2.5"
-                            /> {activity.pairedAmountBought}
-                  </span>
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <span className="mx-2.5">{activity.baseAmountBought}</span>
+                                <Image
+                                    src={marketMakingPool.paired_token_image}
+                                    alt="pairedTokenImage"
+                                    width={24}
+                                    height={24}
+                                /> 
+                                <span className="mx-2.5">{activity.pairedAmountBought}</span>
+                            </span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-sm"><i className="fa-solid fa-circle-plus"/> Added To Liquidity</span>
                             <span className="flex text-base font-medium">
-                    <img
-                        src={project.image}
-                        className="w-6 h-6 mr-2.5"
-                    />
-                                {activity.stakedInBaseToken} <img
-                                src={marketMakingPool.paired_token_image}
-                                className="w-6 h-6 ml-2.5 mr-2.5"
-                            /> {activity.stakedInPairedToken}
-                  </span>
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <span className="mx-2.5">{activity.stakedInBaseToken}</span>
+                                <Image
+                                    src={marketMakingPool.paired_token_image}
+                                    alt="pairedTokenImage"
+                                    width={24}
+                                    height={24}
+                                /> 
+                                <span className="mx-2.5">{activity.stakedInPairedToken}</span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -413,32 +424,37 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
                     {
                         mode === 'buy' || mode === 'sell' ? <div className="card-content pt-1 space-y-3.75">
-                            <div className="w-full space-x-3.75 grid">
-
-                                <Toggle
-                                    label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
-                                    handleClick={() => {
-                                        mode === 'sell' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)
-                                    }}
-                                    checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}/>
-                                {(mode === 'sell' && (maxBaseStakingRatio.toString() !== newMaxBaseStakingRatio.toString())) &&
-                                    <Button name={'Update Ratio'} handleClick={updateRatio}> <i
-                                        className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
-                                }
-                                {(mode === 'buy' && (maxPairedStakingRatio.toString() !== newMaxPairedStakingRatio.toString())) &&
-                                    <Button name={'Update Ratio'} handleClick={updateRatio}> <i
-                                        className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
-                                }
-                            </div>
-                            {
-                                ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?
-                                    <div>
-                                        <RangeSlider className="mt-5 md-lg:mt-0"
-                                                     setPercent={mode === 'sell' ? setNewMaxBaseStakingRatio : setNewMaxPairedStakingRatio}
-                                                     percent={mode === 'sell' ? newMaxBaseStakingRatio : newMaxPairedStakingRatio}/>
-                                    </div> : ""
-                            }
-                        </div> : ""
+                                                                <Toggle
+                                                                    label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
+                                                                    handleClick={() => {
+                                                                        mode === 'sell' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)
+                                                                    }}
+                                                                    checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}
+                                                                />
+                                                                <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
+                                                                    {
+                                                                        ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?
+                                                                                <div className="flex items-center">
+                                                                                    <RangeSlider 
+                                                                                        className="mt-5 md-lg:mt-0"
+                                                                                        setPercent={mode === 'sell' ? setNewMaxBaseStakingRatio : setNewMaxPairedStakingRatio}
+                                                                                        percent={mode === 'sell' ? newMaxBaseStakingRatio : newMaxPairedStakingRatio}
+                                                                                    />
+                                                                                </div>
+                                                                                : ""
+                                                                    }
+                                                                    {(mode === 'sell' && (maxBaseStakingRatio.toString() !== newMaxBaseStakingRatio.toString())) &&
+                                                                        <Button name={'Update Ratio'} handleClick={updateRatio}>
+                                                                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                                                                        </Button>
+                                                                    }
+                                                                    {(mode === 'buy' && (maxPairedStakingRatio.toString() !== newMaxPairedStakingRatio.toString())) &&
+                                                                        <Button name={'Update Ratio'} handleClick={updateRatio}> 
+                                                                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                                                                        </Button>
+                                                                    }
+                                                                </div>
+                                                            </div> : ""
                     }
 
                     <div className="card-content pt-1 space-y-3.75">
