@@ -37,7 +37,7 @@ const menus = [
 
 const variants = {
     open: { opacity: 1, zIndex: 50 },
-    close: { opacity: 0, transitionEnd: { zIndex: 0 }}
+    close: { opacity: 0, transitionEnd: { zIndex: -10 }}
 }
 
 export default function Sidebar({ menu, setMenu, setTitle }) {
