@@ -106,3 +106,8 @@ input[type="range"]::-webkit-slider-thumb {
 .quill > .ql-container {
     min-height: 100px;
 }
+
+/* carousel arrow z-index */
+.react-multiple-carousel__arrow {
+    z-index: 20 !important;
+}
