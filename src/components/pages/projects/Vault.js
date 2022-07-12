@@ -37,7 +37,7 @@ export default function Vault({vault, wallet, project, setTab}) {
             };
             initWalletConnected();
         }
-    }, [wallet, vault]);
+    }, [wallet.status, vault]);
 
 
     useEffect(() => {

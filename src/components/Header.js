@@ -16,6 +16,7 @@ export default function Header({ menu, setMenu, title }) {
   const wallet = useWallet();
   const [isRegistered,setIsRegistered] = useLocalStorage('isRegistered', false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   //@TODO Optimize Register not to fire every time
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function Header({ menu, setMenu, title }) {
     } else if(wallet.status === "disconnected") {
         setIsRegistered(false);
     }
-  }, [wallet,isRegistered,setIsRegistered]);
+  }, [wallet.status,isRegistered]);
 
   const shortenAddress = useCallback((address) => {
     return address != null

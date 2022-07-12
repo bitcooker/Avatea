@@ -65,7 +65,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
             };
             initWalletConnected();
         }
-    }, [wallet, liquidityMaker]);
+    }, [wallet.status, liquidityMaker]);
 
     useEffect(() => {
         if (liquidityRewardEarned && holdersMapping?.liquidityBalance) {
