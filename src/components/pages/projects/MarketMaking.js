@@ -53,8 +53,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
 
     useEffect(() => {
-        if (wallet.status === "connected" && marketMakingPool.address) {
-            const initWalletConnected = async () => {
+        if (wallet.isConnected() && marketMakingPool.address) {
+            (async () => {
                 setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token, wallet.account)));
                 setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token, wallet.account)));
                 const {
@@ -107,10 +107,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     )
                 );
                 setLoad(true);
-            };
-            initWalletConnected();
+            })()
         }
-    }, [wallet, project]);
+
+    }, [wallet.status]);
 
 
     useEffect(() => {
@@ -140,7 +140,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             };
             initWalletConnected();
         }
-    }, [wallet, project]);
+    }, [wallet.status,project]);
 
 
     useEffect(() => {
@@ -166,13 +166,13 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
     }, [mode, pressure, amountBaseTokenBalance, amountPairTokenBalance, amountPairTokenToStake, amountBaseTokenToStake, marketMakingPool]);
 
-    const setMax = useCallback(async (amount, setter) => {
+    const setMax = async (amount, setter) => {
         setter(amount);
-    }, []);
+    };
 
-    const handleSetMode = useCallback((mode) => {
+    const handleSetMode = (mode) => {
         setMode(mode);
-    }, []);
+    }
 
     const stakePairedToken = async () => {
         setFresh(false);
