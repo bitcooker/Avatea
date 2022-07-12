@@ -13,6 +13,18 @@ export default function SwitchNetwork(props) {
   const [open, setOpen] = React.useState(false);
   const [currentNetwork, setCurrentNetwork] = React.useState(networks[0]);
 
+  React.useEffect(() => {
+    const handleClickOutside = () => {
+        setOpen(false);
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [])
+
   return (
     <div
       className="relative bg-white rounded-full p-4 hover:cursor-pointer"
@@ -26,7 +38,10 @@ export default function SwitchNetwork(props) {
         <NetworkDropdown
             open={open}
             currentNetwork={currentNetwork}
-            setCurrentNetwork={setCurrentNetwork}
+            setCurrentNetwork={(network) => {
+                setCurrentNetwork(network);
+                setOpen(false);
+            }}
         />
     </div>
   );
@@ -37,9 +52,10 @@ export const NetworkDropdown = (props) => {
     <motion.div
         initial={{ opacity: 0 }}
         animate={props.open ? "open" : "close"}
-        transition={{ duration: .3 }}
+        transition={{ duration: .15 }}
         variants={variants} 
         className="absolute top-14 left-0 flex flex-col w-60 bg-white p-4 rounded-2xl shadow-xl"
+        onClick={(e) => e.stopPropagation()}
     >
       <h1 className="text-base">Select a network</h1>
       <div className="flex flex-col space-y-2">
