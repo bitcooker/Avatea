@@ -39,7 +39,7 @@ export default function Sidebar({ menu, setMenu, setTitle }) {
   return (
     <div
       className={
-        "fixed w-[100vw] h-[100vh] bg-black/30 top-0 left-0 z-50 lg-xl:rounded-r-2.5xl transition bg-white lg-xl:translate-x-0 lg-xl:w-50 xl-2xl:w-66.25 " +
+        "fixed w-[100vw] h-[100vh] bg-black/30 top-0 left-0 z-50 lg-xl:rounded-r-2.5xl transition duration-300 bg-white lg-xl:translate-x-0 lg-xl:w-50 xl-2xl:w-66.25 " +
         (menu ? "translate-x-0" : "-translate-x-full")
       }
       onClick={() => setMenu(false)}
