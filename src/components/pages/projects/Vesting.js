@@ -10,7 +10,6 @@ import CenteredContent from "../../core/CenteredContent";
 // project detail components
 import Card from "../projectDetail/Card/Card";
 import {Chart} from "./Vesting/Chart";
-import NoVesting from "./NoVesting";
 import SkeletonVesting from "./Skeleton/SkeletonVesting";
 
 export default function Vesting({
@@ -19,7 +18,8 @@ export default function Vesting({
                                     marketMakingPool,
                                     setAction,
                                     userAddress,
-                                setTab}) {
+                                    setTab
+                                }) {
     const [releaseAbleAmount, setReleaseAbleAmount] = useState(0);
     const [amountVested, setAmountVested] = useState(0);
     const [amountReleased, setAmountReleased] = useState(0);
@@ -99,15 +99,16 @@ export default function Vesting({
             marketMakingPool.address,
             !releasable
         );
+        setReleasable(!releasable);
     };
 
     if (amountVested === '0.00') return (
         <CenteredContent>
             <span className={'text-2xl'}>No Vesting Available</span>
             <div className={'w-[70%] mx-auto'}>
-                <Image src={'/red-flag.png'} alt="noImage" layout={'responsive'}  height={672} width={1030}/>
+                <Image src={'/red-flag.png'} alt="noImage" layout={'responsive'} height={672} width={1030}/>
             </div>
-            <Button handleClick={()=>setTab(0)}>Return to project</Button>
+            <Button handleClick={() => setTab(0)}>Return to project</Button>
         </CenteredContent>
     );
 
