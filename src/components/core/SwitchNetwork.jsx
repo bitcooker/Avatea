@@ -1,7 +1,13 @@
-/* eslint-disable @next/next/no-img-element */
 import * as React from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
 import networks from "../../network/network.json";
+
+const variants = {
+    open: { opacity: 1, zIndex: 60 },
+    close: { opacity: 0, transitionEnd: {zIndex: -10} }
+}
 
 export default function SwitchNetwork(props) {
   const [open, setOpen] = React.useState(false);
@@ -12,23 +18,29 @@ export default function SwitchNetwork(props) {
       className="relative bg-white rounded-full p-4 hover:cursor-pointer"
       onClick={() => setOpen(!open)}
     >
-      <div className="flex flex-row items-center space-x-2">
-        <img src={currentNetwork.icon} alt="network" width={20} height={20} />
-        <span className="hidden md-lg:block">{currentNetwork.displayName}</span>
-      </div>
-      {open && (
+        <div className="flex flex-row items-center space-x-2">
+            <Image src={currentNetwork.icon} alt="network" width={20} height={20} />
+            <span className="hidden md-lg:block">{currentNetwork.displayName}</span>
+        </div>
+        
         <NetworkDropdown
-          currentNetwork={currentNetwork}
-          setCurrentNetwork={setCurrentNetwork}
+            open={open}
+            currentNetwork={currentNetwork}
+            setCurrentNetwork={setCurrentNetwork}
         />
-      )}
     </div>
   );
 }
 
 export const NetworkDropdown = (props) => {
   return (
-    <div className="absolute z-10 top-14 left-0 flex flex-col w-60 bg-white p-4 rounded-2xl shadow-xl">
+    <motion.div
+        initial={{ opacity: 0 }}
+        animate={props.open ? "open" : "close"}
+        transition={{ duration: .3 }}
+        variants={variants} 
+        className="absolute top-14 left-0 flex flex-col w-60 bg-white p-4 rounded-2xl shadow-xl"
+    >
       <h1 className="text-base">Select a network</h1>
       <div className="flex flex-col space-y-2">
         {networks.map((network, index) => (
@@ -40,7 +52,7 @@ export const NetworkDropdown = (props) => {
           />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -50,8 +62,8 @@ export const NetworkItem = (props) => {
       className="flex flex-row items-center justify-between p-2 rounded-md hover:cursor-pointer hover:bg-gray-100"
       onClick={() => props.handleClick(props.network)}
     >
-      <div className="flex flex-row gap-1">
-        <img
+      <div className="flex flex-row gap-2">
+        <Image
           src={props.network.icon}
           alt="network_item"
           width={20}
