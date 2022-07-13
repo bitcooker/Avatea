@@ -1,13 +1,14 @@
 import * as React from "react";
+import {useWallet} from "use-wallet";
 
+// page components
 import Act from "../src/components/pages/myActivity/Transaction/TransactionWrapper";
 import Chart from "./../src/components/pages/myActivity/Chart/Chart";
 import Info from "./../src/components/pages/myActivity/Info/Info";
-import {useWallet} from "use-wallet";
 import MyMarketMakingPools from "../src/components/pages/myActivity/MyMarketMakingPools";
 import MyVestedPools from "../src/components/pages/myActivity/MyVestedPools";
 import MyVaults from "../src/components/pages/myActivity/MyVaults";
-
+import Projects from "../src/components/pages/myActivity/Projects";
 
 export default function Activity() {
     const wallet = useWallet();
@@ -19,9 +20,7 @@ export default function Activity() {
                     <>
                         <Info />
 
-                        <MyMarketMakingPools wallet={wallet}/>
-                        <MyVestedPools wallet={wallet}/>
-                        <MyVaults wallet={wallet}/>
+                        <Projects />
 
                         <div className="space-y-3.75 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-5">
                             <Chart />

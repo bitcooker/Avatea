@@ -54,7 +54,6 @@ export default function MyMarketMakingPools({wallet}) {
                 })
                 setMarketMakingPools(result);
                 setLoaded(true);
-
             };
             initWallet();
         }
@@ -66,7 +65,7 @@ export default function MyMarketMakingPools({wallet}) {
                 <div className="flex items-center justify-center w-full h-[85vh]">
                     <Spinner size={5} />
                 </div>
-            ) : (projects.length === 0 && loaded === true ? "No vested project" :
+            ) : (marketMakingPools.length === 0 && loaded === true ? "No vested project" :
                 <div className="flex flex-col">
                     <h2 className={'text-2xl col-span-full'}>Active Market Making Pools</h2>
                     <Carousel

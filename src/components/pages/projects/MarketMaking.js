@@ -49,6 +49,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const [baseLiquiditySetting, setBaseLiquiditySetting] = useState(false);
     const [pairedLiquiditySetting, setPairedLiquiditySetting] = useState(false);
     const [allowSelling, setAllowSelling] = useState(true);
+
     const [load, setLoad] = useState(false);
 
     const loadWeb3 = async () => {
