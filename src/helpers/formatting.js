@@ -2,7 +2,7 @@ import {ethers} from 'ethers';
 
 
 const web3Format = (web3RetunValue) => {
-    return Number(ethers.utils.formatEther(web3RetunValue)).toFixed(2);
+    return Number(Math.floor(Number(ethers.utils.formatEther(web3RetunValue)) * 100) / 100).toFixed(2);
 }
 
 const slugify = (text) => {

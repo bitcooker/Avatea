@@ -23,18 +23,18 @@ export default function Vault({vault, wallet, project, setTab}) {
     const [articles, setArticles] = useState([]);
     const [load, setLoad] = useState(true);
 
-    useEffect(() => {
-        console.log(vault.address)
-        if (wallet.status === "connected" && vault.address) {
-            const initWalletConnected = async () => {
+    const initWalletConnected = async () => {
 
-                setStakedVaultBalance(helper.formatting.web3Format(await helper.web3.vault.balanceOf(wallet, vault.address, wallet.account)));
-                setAvateaBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, AVATEA_TOKEN, wallet.account)));
-                setEarnedTokens(helper.formatting.web3Format(await helper.web3.vault.earned(wallet, vault.address, wallet.account)));
-                setVaultTLV(helper.formatting.web3Format(await helper.web3.vault.totalSupply(wallet, vault.address)));
-                setRewardPerToken(await helper.web3.vault.rewardPerToken(wallet, vault.address));
-                setLoad(true);
-            };
+        setStakedVaultBalance(helper.formatting.web3Format(await helper.web3.vault.balanceOf(wallet, vault.address, wallet.account)));
+        setAvateaBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, AVATEA_TOKEN, wallet.account)));
+        setEarnedTokens(helper.formatting.web3Format(await helper.web3.vault.earned(wallet, vault.address, wallet.account)));
+        setVaultTLV(helper.formatting.web3Format(await helper.web3.vault.totalSupply(wallet, vault.address)));
+        setRewardPerToken(await helper.web3.vault.rewardPerToken(wallet, vault.address));
+        setLoad(true);
+    };
+
+    useEffect(() => {
+        if (wallet.status === "connected" && vault.address) {
             initWalletConnected();
         }
     }, [wallet.status, vault]);
@@ -57,20 +57,24 @@ export default function Vault({vault, wallet, project, setTab}) {
     const stakeVault = async () => {
         const wei = ethers.utils.parseEther(amountToVaultStake);
         await helper.web3.vault.stake(wallet, vault.address, wei);
+        initWalletConnected();
     };
 
     const withdrawVault = async () => {
         let full_withdrawal = parseFloat(vaultBalance) === parseFloat(stakedVaultBalance);
         const wei = ethers.utils.parseEther(vaultBalance);
         await helper.web3.vault.withdraw(wallet, vault.address, wei, full_withdrawal);
+        initWalletConnected();
     };
 
     const claimVaultRewards = async () => {
         await helper.web3.vault.getReward(wallet, vault.address);
+        initWalletConnected();
     };
 
     const exitVault = async () => {
         await helper.web3.vault.exit(wallet, vault.address);
+        initWalletConnected();
     };
 
     if (!vault.address) return (<CenteredContent>

@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Image from "next/image";
 import {ethers} from "ethers";
 
@@ -37,11 +37,11 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const [mode, setMode] = useState("sell");
     const [estimation, setEstimation] = useState("- Days");
     const [activity, setActivity] = useState({
-        baseAmountBought: '0',
-        pairedAmountBought: '0',
-        baseAmountSold: '0',
-        pairedAmountSold: '0'
-    })
+                                                 baseAmountBought: '0',
+                                                 pairedAmountBought: '0',
+                                                 baseAmountSold: '0',
+                                                 pairedAmountSold: '0'
+                                             })
     const [maxBaseStakingRatio, setMaxBaseStakingRatio] = useState('0')
     const [maxPairedStakingRatio, setMaxPairedStakingRatio] = useState('0')
     const [newMaxBaseStakingRatio, setNewMaxBaseStakingRatio] = useState('0')
@@ -51,63 +51,66 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const [allowSelling, setAllowSelling] = useState(true);
     const [load, setLoad] = useState(false);
 
+    const loadWeb3 = async () => {
+        setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token, wallet.account)));
+        setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token, wallet.account)));
+        const {
+            available,
+            baseAmountBought,
+            pairedAmountBought,
+            baseAmountSold,
+            pairedAmountSold,
+            maxBaseStakingRatio,
+            maxPairedStakingRatio,
+            stakedInBaseToken,
+            stakedInPairedToken,
+            allowSelling
+        } = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address, wallet.account);
+        setActivity({
+                        baseAmountBought: helper.formatting.web3Format(baseAmountBought),
+                        pairedAmountBought: helper.formatting.web3Format(pairedAmountBought),
+                        baseAmountSold: helper.formatting.web3Format(baseAmountSold),
+                        pairedAmountSold: helper.formatting.web3Format(pairedAmountSold),
+                        stakedInBaseToken: helper.formatting.web3Format(stakedInBaseToken),
+                        stakedInPairedToken: helper.formatting.web3Format(stakedInPairedToken),
+                    })
+        setAllowSelling(allowSelling);
+        setMaxBaseStakingRatio(maxBaseStakingRatio);
+        setMaxPairedStakingRatio(maxPairedStakingRatio);
+        setNewMaxBaseStakingRatio(maxBaseStakingRatio);
+        setNewMaxPairedStakingRatio(maxPairedStakingRatio);
+        if (mode === 'sell' && maxBaseStakingRatio > 0) setBaseLiquiditySetting(true);
+        if (mode === 'buy' && maxPairedStakingRatio > 0) setPairedLiquiditySetting(true);
+        setAmountBaseTokenBalance(helper.formatting.web3Format(available));
+        setAmountPairTokenBalance(helper.formatting.web3Format(await helper.web3.marketMaker.getWithdrawablePairedTokens(
+            wallet,
+            marketMakingPool.address,
+            wallet.account
+        )));
+        setBaseTokenValueLocked(
+            helper.formatting.web3Format(
+                await helper.token.balanceOf(
+                    wallet,
+                    project.token,
+                    marketMakingPool.address
+                ) || '0'
+            )
+        );
+        setPairedTokenValueLocked(
+            helper.formatting.web3Format(
+                await helper.token.balanceOf(
+                    wallet,
+                    marketMakingPool.paired_token,
+                    marketMakingPool.address
+                ) || '0'
+            )
+        );
+        setLoad(true);
+    };
 
     useEffect(() => {
         if (wallet.isConnected() && marketMakingPool.address) {
-            (async () => {
-                setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token, wallet.account)));
-                setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token, wallet.account)));
-                const {
-                    available,
-                    baseAmountBought,
-                    pairedAmountBought,
-                    baseAmountSold,
-                    pairedAmountSold,
-                    maxBaseStakingRatio,
-                    maxPairedStakingRatio,
-                    stakedInBaseToken,
-                    stakedInPairedToken,
-                    allowSelling
-                } = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address, wallet.account);
-                setActivity({
-                    baseAmountBought: helper.formatting.web3Format(baseAmountBought),
-                    pairedAmountBought: helper.formatting.web3Format(pairedAmountBought),
-                    baseAmountSold: helper.formatting.web3Format(baseAmountSold),
-                    pairedAmountSold: helper.formatting.web3Format(pairedAmountSold),
-                    stakedInBaseToken: helper.formatting.web3Format(stakedInBaseToken),
-                    stakedInPairedToken: helper.formatting.web3Format(stakedInPairedToken),
-                })
-                setAllowSelling(allowSelling);
-                setMaxBaseStakingRatio(maxBaseStakingRatio);
-                setMaxPairedStakingRatio(maxPairedStakingRatio);
-                setNewMaxBaseStakingRatio(maxBaseStakingRatio);
-                setNewMaxPairedStakingRatio(maxPairedStakingRatio);
-                if (mode === 'sell' && maxBaseStakingRatio > 0) setBaseLiquiditySetting(true);
-                if (mode === 'buy' && maxPairedStakingRatio > 0) setPairedLiquiditySetting(true);
-                setAmountBaseTokenBalance(helper.formatting.web3Format(available));
-                setAmountPairTokenBalance(helper.formatting.web3Format(await helper.web3.marketMaker.getWithdrawablePairedTokens(wallet,
-                    marketMakingPool.address,
-                    wallet.account)));
-                setBaseTokenValueLocked(
-                    helper.formatting.web3Format(
-                        await helper.token.balanceOf(
-                            wallet,
-                            project.token,
-                            marketMakingPool.address
-                        ) || '0'
-                    )
-                );
-                setPairedTokenValueLocked(
-                    helper.formatting.web3Format(
-                        await helper.token.balanceOf(
-                            wallet,
-                            marketMakingPool.paired_token,
-                            marketMakingPool.address
-                        ) || '0'
-                    )
-                );
-                setLoad(true);
-            })()
+            loadWeb3();
         }
 
     }, [wallet.status]);
@@ -125,8 +128,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             const initWalletConnected = async () => {
                 //@TODO Wire Chain ID for production
                 const marketMakingSettings = await helper.marketMaking.getMarketMakingSettings({
-                    slug: project.slug, user_address: wallet.account,
-                });
+                                                                                                   slug: project.slug, user_address: wallet.account,
+                                                                                               });
                 if (marketMakingSettings) {
                     const {
                         market_making_type, buy_sell_pressure, price_limit, id,
@@ -140,7 +143,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             };
             initWalletConnected();
         }
-    }, [wallet.status,project]);
+    }, [wallet.status, project]);
 
 
     useEffect(() => {
@@ -166,6 +169,11 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
     }, [mode, pressure, amountBaseTokenBalance, amountPairTokenBalance, amountPairTokenToStake, amountBaseTokenToStake, marketMakingPool]);
 
+    useEffect(() => {
+        if (mode === 'sell' && maxBaseStakingRatio > 0) setBaseLiquiditySetting(true);
+        if (mode === 'buy' && maxPairedStakingRatio > 0) setPairedLiquiditySetting(true);
+    }, [mode, maxBaseStakingRatio, maxPairedStakingRatio]);
+
     const setMax = async (amount, setter) => {
         setter(amount);
     };
@@ -179,6 +187,17 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         const wei = ethers.utils.parseEther(amountPairTokenToStake);
         let success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei, maxPairedStakingRatio);
         if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
+        setAmountPairTokenBalance(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake));
+        loadWeb3();
+    };
+
+    const stakeMarketMaker = async () => {
+        setFresh(false);
+        console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
+        const wei = ethers.utils.parseEther(amountBaseTokenToStake);
+        let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei, maxBaseStakingRatio);
+        if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake));
+        loadWeb3();
     };
 
     const withdrawPairToken = async () => {
@@ -188,6 +207,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         if (mode === 'buy' && success) {
             await updateSettings((parseFloat(amountPairTokenBalance) - parseFloat(amountPairTokenToWithdraw)))
         }
+        loadWeb3();
     };
 
     const withdrawBaseToken = async () => {
@@ -197,6 +217,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         if (mode === 'sell' && success) {
             await updateSettings((parseFloat(amountBaseTokenBalance) - parseFloat(amountBaseTokenToWithdraw)));
         }
+        loadWeb3();
     };
 
     const updateRatio = async () => {
@@ -215,8 +236,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         };
         console.log(marketMakingSettings)
         await helper.marketMaking.updateMarketMakingSettings({
-            marketMakingSettings, wallet, fresh
-        });
+                                                                 marketMakingSettings, wallet, fresh
+                                                             });
     };
 
 
@@ -225,13 +246,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         if (success) updateSettings(amount)
     };
 
-    const stakeMarketMaker = async () => {
-        setFresh(false);
-        console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
-        const wei = ethers.utils.parseEther(amountBaseTokenToStake);
-        let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei, maxBaseStakingRatio);
-        if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
-    };
 
     return !load ? <SkeletonMarketMaking/> : (
         <div className="grid md-lg:grid-cols-2 gap-7.5">
@@ -281,7 +295,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                     alt="pairedTokenImage"
                                     width={24}
                                     height={24}
-                                /> 
+                                />
                                 <span className="mx-2.5">{activity.pairedAmountBought}</span>
                             </span>
                         </div>
@@ -295,7 +309,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                     alt="pairedTokenImage"
                                     width={24}
                                     height={24}
-                                /> 
+                                />
                                 <span className="mx-2.5">{activity.stakedInPairedToken}</span>
                             </span>
                         </div>
@@ -424,39 +438,39 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
                     {
                         mode === 'buy' || mode === 'sell' ? <div className="card-content pt-1 space-y-3.75">
-                                                                <Toggle
-                                                                    label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
-                                                                    handleClick={() => {
-                                                                        mode === 'sell' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)
-                                                                    }}
-                                                                    checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}
-                                                                />
-                                                                {(baseLiquiditySetting || pairedLiquiditySetting) && 
-                                                                    <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
-                                                                        {
-                                                                            ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?
-                                                                                    <div className="flex items-center">
-                                                                                        <RangeSlider 
-                                                                                            className="mt-5 md-lg:mt-0"
-                                                                                            setPercent={mode === 'sell' ? setNewMaxBaseStakingRatio : setNewMaxPairedStakingRatio}
-                                                                                            percent={mode === 'sell' ? newMaxBaseStakingRatio : newMaxPairedStakingRatio}
-                                                                                        />
-                                                                                    </div>
-                                                                                    : ""
-                                                                        }
-                                                                        {(mode === 'sell' && (maxBaseStakingRatio.toString() !== newMaxBaseStakingRatio.toString())) &&
-                                                                            <Button name={'Update Ratio'} handleClick={updateRatio}>
-                                                                                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                                                            </Button>
-                                                                        }
-                                                                        {(mode === 'buy' && (maxPairedStakingRatio.toString() !== newMaxPairedStakingRatio.toString())) &&
-                                                                            <Button name={'Update Ratio'} handleClick={updateRatio}> 
-                                                                                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                                                            </Button>
-                                                                        }
-                                                                    </div>
-                                                                }
-                                                            </div> : ""
+                            <Toggle
+                                label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
+                                handleClick={() => {
+                                    mode === 'sell' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)
+                                }}
+                                checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}
+                            />
+                            {(baseLiquiditySetting || pairedLiquiditySetting) &&
+                                <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
+                                    {
+                                        ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?
+                                            <div className="flex items-center">
+                                                <RangeSlider
+                                                    className="mt-5 md-lg:mt-0"
+                                                    setPercent={mode === 'sell' ? setNewMaxBaseStakingRatio : setNewMaxPairedStakingRatio}
+                                                    percent={mode === 'sell' ? newMaxBaseStakingRatio : newMaxPairedStakingRatio}
+                                                />
+                                            </div>
+                                            : ""
+                                    }
+                                    {(mode === 'sell' && (maxBaseStakingRatio.toString() !== newMaxBaseStakingRatio.toString())) &&
+                                        <Button name={'Update Ratio'} handleClick={updateRatio}>
+                                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                                        </Button>
+                                    }
+                                    {(mode === 'buy' && (maxPairedStakingRatio.toString() !== newMaxPairedStakingRatio.toString())) &&
+                                        <Button name={'Update Ratio'} handleClick={updateRatio}>
+                                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                                        </Button>
+                                    }
+                                </div>
+                            }
+                        </div> : ""
                     }
 
                     <div className="card-content pt-1 space-y-3.75">
