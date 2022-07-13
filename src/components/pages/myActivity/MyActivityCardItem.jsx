@@ -5,9 +5,15 @@ import Link from "next/link";
 // core components
 import Spinner from "../../../components/core/Spinner";
 
+const badgeColors = {
+    "vested": "bg-lime-500",
+    "invested": "bg-fuchsia-500",
+    "vault": "bg-indigo-500"
+}
+
 export default function MyActivityCardItem(props) {
     return  <div className="rounded-2.5xl overflow-hidden hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
-                <CardContent project={props.project} name={props.name} image={props.banner} tokenImage={props.image} />
+                <CardContent project={props.project} name={props.name} image={props.banner} tokenImage={props.image} type={props.type}/>
             </div>
 }
 
@@ -39,6 +45,9 @@ export const CardContent = (props) => {
             <div className={`absolute right-3 bottom-7 w-10 h-10 bg-white p-1 rounded-md shadow-[0_4px_8px_rgba(0,0,0,0.08)] ${!imgLoaded && 'opacity-0'}`}>
                 <Image src={props.tokenImage} alt="tokenImage" className="w-full h-full" layout="responsive" width="100%" height="100%"/>
             </div>
+            {props.type && <div className={`absolute flex items-center justify-center text-white capitalize top-5 -left-16 w-48 h-5 ${badgeColors[props.type]} origin-center -rotate-45`}>
+                {props.type}
+            </div>}
             <h1 className="text-base p-3">{props.name}</h1>
         </div>
     </Link>
