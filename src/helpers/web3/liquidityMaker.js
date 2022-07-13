@@ -197,6 +197,54 @@ const addLiquidityReward = async (wallet, liquidityMakerAddress, amount, callbac
 }
 
 
+const setMaxTotalSupply = async (wallet, liquidityMakerAddress, amount, callback) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
+
+    try {
+        const tx = await liquidityMaker.setMaxTotalSupply(amount);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        await tx.wait();
+        console.log('setMaxTotalSupply success')
+    } catch (e) {
+        console.log('setMaxTotalSupply error', e);
+        toast.error(e.reason);
+    }
+}
+
+
+const setLockingPeriod = async (wallet, liquidityMakerAddress, amount, callback) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
+
+    try {
+        const tx = await liquidityMaker.setLockingPeriod(amount);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        await tx.wait();
+        console.log('setLockingPeriod success')
+    } catch (e) {
+        console.log('setLockingPeriod error', e);
+        toast.error(e.reason);
+    }
+}
+
+
 const rewardEarned = async (wallet, liquidityMakerAddress, address) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
@@ -232,6 +280,19 @@ const totalSupply = async (wallet, liquidityMakerAddress) => {
         return await liquidityMaker.totalSupply();
     } catch (e) {
         console.log('Liquidity totalSupply error', e);
+        toast.error(e.reason);
+        return 0;
+    }
+}
+
+const maxTotalSupply = async (wallet, liquidityMakerAddress) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
+        return await liquidityMaker.maxTotalSupply();
+    } catch (e) {
+        console.log('Liquidity maxTotalSupply error', e);
         toast.error(e.reason);
         return 0;
     }
@@ -391,5 +452,8 @@ export default {
     addReward,
     getCurrentValue,
     getTVL,
+    maxTotalSupply,
+    setMaxTotalSupply,
+    setLockingPeriod,
     getPairAddress
 }

@@ -2,6 +2,7 @@ import Button from "../../core/Button/Button";
 import {useWallet} from "use-wallet";
 import MaxButton from "../projects/Button/MaxButton";
 import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
+import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
 import Card from "../projectDetail/Card/Card";
 import {useCallback, useEffect, useState} from "react";
 import helper from "../../../helpers";
@@ -25,6 +26,10 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
     const [baseTotalSupply, setBaseTotalSupply] = useState('0');
     const [pairedTotalSupply, setPairedTotalSupply] = useState('0');
     const [lockingPeriod, setLockingPeriod] = useState('0');
+    const [newLockingPeriod, setNewLockingPeriod] = useState('0');
+    const [maxTotalSupply, setMaxTotalSupply] = useState('0');
+    const [newMaxTotalSupply, setNewMaxTotalSupply] = useState('0');
+
     const [rewardPerToken, setRewardPerToken] = useState('0');
     const [liquidityRewardPerToken, setLiquidityRewardPerToken] = useState('0');
 
@@ -39,9 +44,14 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                 setLiquidityRewardPerToken(
                     await helper.web3.liquidityMaker.liquidityRewardPerToken(wallet, liquidityMaker.address)
                 );
-                setLockingPeriod(
-                    Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address))
-                );
+
+                let lockingPeriod = Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address));
+                setLockingPeriod(lockingPeriod);
+                setNewLockingPeriod(lockingPeriod);
+
+                let maxTotalSupply = helper.formatting.web3Format((await helper.web3.liquidityMaker.maxTotalSupply(wallet, liquidityMaker.address)));
+                setMaxTotalSupply(maxTotalSupply);
+                setNewMaxTotalSupply(maxTotalSupply);
 
                 setLiquidityAddress(
                     await helper.web3.liquidityMaker.getPairAddress(wallet, liquidityMaker.address)
@@ -88,18 +98,21 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
         }
     }, [wallet, liquidityMaker, liquidityAddress]);
 
-    const setLiquidityRewardTokenWalletBalanceCallBack = useCallback(async () => {
-        setLiquidityRewardTokenWalletBalance(
-            helper.formatting.web3Format(
-                await helper.token.balanceOf(wallet, liquidityAddress, wallet.account)
-            )
-        );
-    }, [liquidityAddress]);
-
 
     const setMax = useCallback(async (amount, setter) => {
         setter(amount);
     }, []);
+
+    const updateMaxTotalSupply = async () => {
+        const wei = ethers.utils.parseEther(newMaxTotalSupply);
+        let success = await helper.web3.liquidityMaker.setMaxTotalSupply(wallet, liquidityMaker.address, wei);
+    };
+
+
+    const updateLockingPeriod = async () => {
+        let success = await helper.web3.liquidityMaker.setLockingPeriod(wallet, liquidityMaker.address, newLockingPeriod);
+    };
+
 
     return (
 
@@ -202,6 +215,42 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                         address={liquidityMaker.address}
 
                         token={liquidityAddress && liquidityAddress}
+
+                    />
+                    <div className="flex flex-row items-center justify-between text-base">
+                        <div>
+                            <i className="fa-solid fa-coin"/> Update Max total LP Amount
+                        </div>
+                    </div>
+                    <InputWithIconSubmit
+                        id="cash"
+                        name="cash"
+                        type="number"
+                        icon="fa-light fa-wrench"
+                        submitName="Update"
+                        image={PAIRED_TOKEN_DEFAULT_IMAGE}
+                        submitFunction={updateMaxTotalSupply}
+                        value={newMaxTotalSupply}
+                        setValue={setNewMaxTotalSupply}
+                        hideButton={parseFloat(maxTotalSupply) === parseFloat(newMaxTotalSupply)}
+                    />
+                    <div className="flex flex-row items-center justify-between text-base">
+                        <div>
+                            <i className="fa-solid fa-clock"/> Update Locking Period
+                        </div>
+                    </div>
+                    <InputWithIconSubmit
+                        id="cash"
+                        name="cash"
+                        type="number"
+                        icon="fa-light fa-wrench"
+                        submitName="Update"
+                        image={PAIRED_TOKEN_DEFAULT_IMAGE}
+                        submitFunction={updateLockingPeriod}
+                        value={newLockingPeriod}
+                        setValue={setNewLockingPeriod}
+                        hideButton={parseFloat(lockingPeriod) === parseFloat(newLockingPeriod)}
+                        hideIcon={true}
 
                     />
                 </div>
