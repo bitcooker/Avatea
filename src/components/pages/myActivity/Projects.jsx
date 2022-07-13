@@ -16,7 +16,7 @@ const projects = [
         name: "Thunderstrike",
         project: "thunderstrike",
         image: "https://avatea-bucket.s3.amazonaws.com/media/images/ZJZZK5B2ZNF25LYQHMUTBTOMLU.png",
-        type: "vested"
+        type: ["vested", "invested"]
     },
     {
         address: "0x6EE5a4063c29629390085d20C97272b5Eba48fE4",
@@ -24,7 +24,7 @@ const projects = [
         name: "Cloud Project",
         project: "cloud-project",
         image: "https://avatea-bucket.s3.amazonaws.com/media/images/polygon-matic-logo.png",
-        type: "invested"
+        type: ["invested"]
     },
     {
         address: "0xE869262027ffCDbD115290605cd21261eA501fE9",
@@ -32,7 +32,7 @@ const projects = [
         name: "Thunderstrike",
         project: "thunderstrike",
         image: "https://avatea-bucket.s3.amazonaws.com/media/images/ZJZZK5B2ZNF25LYQHMUTBTOMLU.png",
-        type: ""
+        type: []
     },
     {
         address: "0x6EE5a4063c29629390085d20C97272b5Eba48fE4",
@@ -40,7 +40,7 @@ const projects = [
         name: "Cloud Project",
         project: "cloud-project",
         image: "https://avatea-bucket.s3.amazonaws.com/media/images/polygon-matic-logo.png",
-        type: "vault"
+        type: ["vault", "vested"]
     },
 ]
 

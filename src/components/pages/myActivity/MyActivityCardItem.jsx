@@ -45,9 +45,15 @@ export const CardContent = (props) => {
             <div className={`absolute right-3 bottom-7 w-10 h-10 bg-white p-1 rounded-md shadow-[0_4px_8px_rgba(0,0,0,0.08)] ${!imgLoaded && 'opacity-0'}`}>
                 <Image src={props.tokenImage} alt="tokenImage" className="w-full h-full" layout="responsive" width="100%" height="100%"/>
             </div>
-            {props.type && <div className={`absolute flex items-center justify-center text-white capitalize top-5 -left-16 w-48 h-5 ${badgeColors[props.type]} origin-center -rotate-45`}>
-                {props.type}
-            </div>}
+            {props.type && 
+                <div className="absolute w-full flex flex-row items-center justify-end top-5 space-x-1 px-2">
+                    {props.type.map((type, index) => 
+                        <div className={`flex items-center justify-center text-white capitalize w-20 h-5 rounded-full mb-1 ${badgeColors[type]}`} key={index}>
+                            {type}
+                        </div>)
+                    }
+                </div>
+            }
             <h1 className="text-base p-3">{props.name}</h1>
         </div>
     </Link>
