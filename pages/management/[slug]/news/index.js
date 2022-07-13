@@ -11,6 +11,7 @@ import helper from "../../../../src/helpers";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 import {useWallet} from "use-wallet";
 import {useRouter} from "next/router";
+import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
 
 
 export default function NewsList(props) {
@@ -46,11 +47,15 @@ export default function NewsList(props) {
             <div className="w-full">
                 <div className="flex flex-row items-center justify-between">
                     <h1 className="text-2xl">News List</h1>
-                    <Link href={`/management/${slug}/news/add`} passHref>
-                        <a>
-                            <ButtonFit name="Add News" icon="fa-regular fa-plus-large"/>
-                        </a>
-                    </Link>
+                    <div className={'grid grid-cols-2 gap-2.5'}>
+                        <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()} />
+                        <Link href={`/management/${slug}/news/add`} passHref>
+                            <a>
+                                <ButtonFit name="Add News" icon="fa-regular fa-plus-large"/>
+                            </a>
+                        </Link>
+                    </div>
+
                 </div>
                 <div className="grid md-lg:grid-cols-2 lg-xl:grid-cols-3 gap-4 m-2">
                     {articles.map((news, index) => (

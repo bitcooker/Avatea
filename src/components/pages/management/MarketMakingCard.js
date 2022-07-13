@@ -208,7 +208,7 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                             router.push(`${project.slug}/vesting/add`)
                         }}/>
                         <Button name="View Vesting schedules" handleClick={(e) => {
-                            router.push(`${project.slug}/vesting/overview`)
+                            router.push(`${project.slug}/vesting`)
                         }}/>
                     </div>
                 </div>

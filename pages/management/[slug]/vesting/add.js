@@ -18,6 +18,7 @@ import AddressAndAmountTable from "../../../../src/components/pages/management/v
 import FileInput from "../../../../src/components/pages/Linked/fileInput";
 import {Chart} from "../../../../src/components/pages/projects/Vesting/Chart";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
+import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
 
 
 export default function VestingAdd(props) {
@@ -88,7 +89,7 @@ export default function VestingAdd(props) {
                     showConfirmButton: false,
                     timer: 3000,
                     didClose() {
-                        router.push(`/management/${project.slug}/vesting/overview`);
+                        router.push(`/management/${project.slug}/vesting`);
                     },
                 });
             }
@@ -109,10 +110,15 @@ export default function VestingAdd(props) {
                     <h1 className="text-2xl">Vesting Overview</h1>
                     {step === 1 &&
                         <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
-                            <ButtonFit
-                                name="Download CSV Template"
-                                icon="fa-solid fa-cloud-arrow-up"
-                            />
+                            <div className={'grid grid-cols-2 gap-2.5'}>
+                                <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()} />
+
+                                <ButtonFit
+                                    name="Download CSV Template"
+                                    icon="fa-solid fa-cloud-arrow-up"
+                                />
+                            </div>
+
                         </div>
                     }
                 </div>
