@@ -29,6 +29,11 @@ const menus = [
     icon: "fa-solid fa-gears",
   },
   {
+    label: "Inbox",
+    href: "/inbox",
+    icon: "fa-solid fa-envelope",
+  },
+  {
     label: "Logout",
     href: "/logout",
     icon: "fa-solid fa-right-from-bracket",
@@ -93,7 +98,7 @@ export const MenuItem = (props) => {
         }`}
         onClick={() => props.setTitle(props.label)}
       >
-        <i className={props.icon + " mr-1"} />
+        <i className={props.icon + " mr-2"} />
         {props.label}
       </a>
     </Link>
