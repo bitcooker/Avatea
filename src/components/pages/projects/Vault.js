@@ -20,8 +20,7 @@ export default function Vault({vault, wallet, project, setTab}) {
     const [earnedTokens, setEarnedTokens] = useState('0');
     const [vaultTLV, setVaultTLV] = useState('0');
     const [rewardPerToken, setRewardPerToken] = useState('0');
-    const [articles, setArticles] = useState([]);
-    const [load, setLoad] = useState(true);
+    const [load, setLoad] = useState(false);
 
     const initWalletConnected = async () => {
 
@@ -40,14 +39,6 @@ export default function Vault({vault, wallet, project, setTab}) {
     }, [wallet.status, vault]);
 
 
-    useEffect(() => {
-        const fetchArticles = async () => {
-            if (project.slug) {
-                setArticles(await helper.article.getArticles({project: project.slug}));
-            }
-        };
-        fetchArticles();
-    }, [project]);
 
     const setMax = async (amount, setter) => {
         setter(amount);

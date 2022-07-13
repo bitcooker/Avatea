@@ -48,7 +48,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
         setLockingPeriod(
             Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address))
         );
-        setLoad(true);
 
 
         let TVL = await helper.web3.liquidityMaker.getTVL(wallet, liquidityMaker.address, project.token, liquidityMaker.paired_token)

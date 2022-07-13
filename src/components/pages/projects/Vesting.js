@@ -29,7 +29,7 @@ export default function Vesting({
     const [revocable, setRevocable] = useState(false);
     const [releasable, setReleasable] = useState(false);
     const [slicePeriodSeconds, setSlicePeriodSeconds] = useState("0");
-    const [load, setLoad] = useState(true);
+    const [load, setLoad] = useState(false);
 
 
     useEffect(() => {
