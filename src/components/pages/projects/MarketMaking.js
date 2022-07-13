@@ -460,7 +460,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 }}
                                 checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}
                             />
-                            {(baseLiquiditySetting || pairedLiquiditySetting) &&
+                            {((baseLiquiditySetting && mode === 'sell') || (pairedLiquiditySetting && mode === 'buy')) &&
                                 <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
                                     {
                                         ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?
