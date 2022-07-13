@@ -12,12 +12,12 @@ export default function NewsCard(props) {
   return (
     <div className="relative flex flex-col w-full bg-white rounded-lg overflow-hidden shadow-lg">
       <Image
-        className="w-full"
         src={props.news.image}
         alt="Mountain"
         layout="responsive"
-        width="100%"
-        height={50}
+        width={356}
+        height={178}
+        objectFit={'cover'}
       />
       <div className="grow px-6 py-4">
         <div className="font-bold text-xl mb-2">{props.news.title}</div>

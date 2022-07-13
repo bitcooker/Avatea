@@ -17,6 +17,15 @@ const getArticles = async ({project}) => {
     }
 }
 
+const getArticle = async(id) => {
+    try {
+        const { data } = await axios.get(`${API_URL}Article/${id}/`);
+        return data
+    } catch (e) {
+        console.log('getArticle error:', e);
+    }
+}
+
 
 const updateArticle = async ({id, title, description, image, link, project, wallet}) => {
     try {
@@ -93,5 +102,6 @@ export default {
     getArticles,
     updateArticle,
     createArticle,
-    deleteArticle
+    deleteArticle,
+    getArticle
 }
