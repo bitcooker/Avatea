@@ -27,6 +27,16 @@ const balanceOf = async (wallet, tokenAddress, address) => {
     }
 }
 
+const wethBalanceOf = async (wallet, address) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    try {
+    return await provider.getBalance(address)
+    } catch (e) {
+        toast.error(e.reason);
+        console.log('wethBalanceOf error', e);
+    }
+}
+
 const fetchApprovedAmount = async (wallet,addressToApprove, tokenAddress) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
@@ -101,5 +111,6 @@ export default {
     approveToken,
     approveCustomToken,
     fetchApprovedAmount,
-    balanceOf
+    balanceOf,
+    wethBalanceOf
 }

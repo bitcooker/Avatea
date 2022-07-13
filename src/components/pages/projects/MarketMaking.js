@@ -3,6 +3,7 @@ import Image from "next/image";
 import {ethers} from "ethers";
 
 import helper from "../../../helpers";
+import {WETH_ADDRESS} from "../../../helpers/constants";
 
 // core components
 import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
@@ -49,12 +50,20 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const [baseLiquiditySetting, setBaseLiquiditySetting] = useState(false);
     const [pairedLiquiditySetting, setPairedLiquiditySetting] = useState(false);
     const [allowSelling, setAllowSelling] = useState(true);
+    const [pairedTokenIsWeth, setPairedTokenIsWeth] = useState(false);
 
     const [load, setLoad] = useState(false);
 
     const loadWeb3 = async () => {
+
+        if (marketMakingPool.paired_token === WETH_ADDRESS[wallet.chainId]) {
+            setPairedTokenIsWeth(true)
+            setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.wethBalanceOf(wallet, wallet.account)));
+        } else {
+            setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token, wallet.account)));
+        }
+
         setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token, wallet.account)));
-        setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token, wallet.account)));
         const {
             available,
             baseAmountBought,
@@ -186,13 +195,18 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const stakePairedToken = async () => {
         setFresh(false);
         const wei = ethers.utils.parseEther(amountPairTokenToStake);
-        let success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei, maxPairedStakingRatio);
+        let success;
+        if (pairedTokenIsWeth) {
+            success = await helper.web3.marketMaker.stakePairedTokenInETH(wallet, marketMakingPool.address, wei, maxPairedStakingRatio);
+        } else {
+            success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei, maxPairedStakingRatio);
+        }
         if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
         setAmountPairTokenBalance(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake));
         loadWeb3();
     };
 
-    const stakeMarketMaker = async () => {
+    const stakeBaseToken = async () => {
         setFresh(false);
         console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
         const wei = ethers.utils.parseEther(amountBaseTokenToStake);
@@ -521,7 +535,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 icon="fa-light fa-circle-plus"
                                 submitName="Deposit"
                                 image={project.image}
-                                submitFunction={stakeMarketMaker}
+                                submitFunction={stakeBaseToken}
                                 value={amountBaseTokenToStake}
                                 setValue={setAmountBaseTokenToStake}
                                 address={marketMakingPool.address}
