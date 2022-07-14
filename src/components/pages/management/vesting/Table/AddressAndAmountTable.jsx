@@ -5,9 +5,12 @@ import {useRouter} from "next/router";
 import TableRow from "../../../../core/table/TableRow";
 import TableCol from "../../../../core/table/TableCol";
 import {TableActionEditButton} from "../../../../core/table/TableActionButtons";
+import hashicon from "hashicon";
+import Image from "next/image";
 
 
 export default function VestingTable(props) {
+
     return (
         <div className="table flex flex-col w-full h-full">
             <div className="table-header grid grid-cols-3 md-lg:grid-cols-12 px-2 mb-5 w-full">
@@ -15,12 +18,12 @@ export default function VestingTable(props) {
                     {/*<Checkbox />*/}
                     <div className="flex flex-row items-center space-x-1">
                         <h1 className="text-base">Address</h1>
-                        <i className="fa-solid fa-chevron-down"/>
+                        {/*<i className="fa-solid fa-chevron-down"/>*/}
                     </div>
                 </TableCol>
                 <TableCol className="flex flex-row items-center space-x-1 col-span-1 md-lg:col-span-2 hover:cursor-pointer">
                     <h1 className="truncate text-base">Total amount vested</h1>
-                    <i className="fa-solid fa-chevron-down"/>
+                    {/*<i className="fa-solid fa-chevron-down"/>*/}
                 </TableCol>
             </div>
             <div className="table-body flex flex-col">
@@ -28,10 +31,20 @@ export default function VestingTable(props) {
                     <TableRow key={index}>
                         <TableCol className="flex flex-row items-center col-span-2 md-lg:col-span-10">
                             {/*<Checkbox />*/}
-                            <span className="truncate text-base font-medium">{address}</span>
+                            <Image
+                                    src={hashicon(
+                                            address
+                                    ).toDataURL()}
+                                    alt="hashicon"
+                                    width={18}
+                                    height={18}
+                            />
+                            <span className="ml-2 truncate text-base font-medium"> {address}</span>
                         </TableCol>
                         <TableCol className="flex flex-row items-center col-span-1 md-lg:col-span-2">
-                            <span className="truncate text-base font-medium">{props.amounts[index]}</span>
+                            <img src={props.tokenImage} className={'max-w-[20px]'} alt="Token"/>
+                            <span className=" ml-2 truncate text-base font-medium">
+                               {props.amounts[index]}</span>
                         </TableCol>
                     </TableRow>
                 ))}

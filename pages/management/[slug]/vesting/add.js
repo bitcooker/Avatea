@@ -13,7 +13,7 @@ import Button from "../../../../src/components/core/Button/Button";
 import InputEmpty from "../../../../src/components/core/Input/InputEmpty";
 import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
 import AddressAndAmountTable from "../../../../src/components/pages/management/vesting/Table/AddressAndAmountTable";
-
+import Tooltip from '../../../../src/components/core/Tooltip/Tooltip';
 // page components
 import FileInput from "../../../../src/components/pages/Linked/fileInput";
 import {Chart} from "../../../../src/components/pages/projects/Vesting/Chart";
@@ -46,10 +46,10 @@ export default function VestingAdd(props) {
     const [addresses, setAddresses] = useState([]);
     const [amounts, setAmounts] = useState([]);
     const [amountsInWei, setAmountsInWei] = useState([]);
-    const [start, setStart] = useState(0);
-    const [cliff, setCliff] = useState(0);
-    const [duration, setDuration] = useState(0);
-    const [slicePeriodSeconds, setSlicePeriodSeconds] = useState(0);
+    const [start, setStart] = useState();
+    const [cliff, setCliff] = useState();
+    const [duration, setDuration] = useState();
+    const [slicePeriodSeconds, setSlicePeriodSeconds] = useState();
     const [revocable, setRevocable] = useState(true);
     const [batchName, setBatchName] = useState('');
 
@@ -128,69 +128,154 @@ export default function VestingAdd(props) {
                 <div className="flex flex-col grow p-5 space-y-3.75 bg-white rounded-2xl">
                     <div className="grow">
                         {step === 1 &&
-                            <FileInput label="Upload vesting distribution" setValue={handleFileSelect}
-                                       type={[".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values"]}/>
+                            <div className={'grid grid-cols-1 gap-2.5'}>
+                                <FileInput label="Upload vesting distribution" setValue={handleFileSelect}
+                                           type={[".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values"]}/>
+                                <div className="flex items-center rounded bg-blue-500 text-white text-sm font-bold px-4 py-3"
+                                     role="alert">
+                                    <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 20 20">
+                                        <path
+                                            d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z"/>
+                                    </svg>
+                                    <p>Token amount should be entered in the CSV as whole amounts. For example; to receive 1.000 tokens. Enter 1000 as amount.</p>
+                                </div>
+                            </div>
+
                         }
                         {step === 2 &&
                             <div
                                 className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
-                                <AddressAndAmountTable addresses={addresses} amounts={amounts}/>
+                                <AddressAndAmountTable tokenImage={project.image} addresses={addresses} amounts={amounts}/>
                             </div>
                         }
                         {step === 3 &&
                             <div
                                 className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
-                                batch name
-                                <InputEmpty
-                                    id="start"
-                                    name="start"
-                                    type="text"
-                                    placeholder="batch name"
-                                    value={batchName}
-                                    setValue={setBatchName}
-                                />
-                                start
-                                <InputEmpty
-                                    id="start"
-                                    name="start"
-                                    type="number"
-                                    placeholder="Duration"
-                                    value={start}
-                                    setValue={setStart}
-                                />
-                                cliff
-                                <InputEmpty
-                                    id="cliff"
-                                    name="cliff"
-                                    type="number"
-                                    placeholder="Duration"
-                                    value={cliff}
-                                    setValue={setCliff}
-                                />
-                                Duration
-                                <InputEmpty
-                                    id="duration"
-                                    name="duration"
-                                    type="number"
-                                    placeholder="Duration"
-                                    value={duration}
-                                    setValue={setDuration}
-                                />
-                                slicePeriodSeconds
-                                <InputEmpty
-                                    id="slicePeriodSeconds"
-                                    name="slicePeriodSeconds"
-                                    type="number"
-                                    placeholder="slicePeriodSeconds"
-                                    value={slicePeriodSeconds}
-                                    setValue={setSlicePeriodSeconds}
-                                />
-                                Revocable
-                                <Checkbox setValue={setRevocable}/>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 mb-5">
+                                    <div>
+                                        <div className={'flex flex-row'}>
+                                            <label className={'pr-2'} htmlFor="batchname">Batchname</label>
+
+                                            <span className="relative flex flex-col items-center justify-center group">
+                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5" />
+                <Tooltip title="This is test tooltip"/>
+              </span>
+                                        </div>
+                                        <InputEmpty
+                                            id="batchname"
+                                            name="batchname"
+                                            type="text"
+                                            placeholder="Enter a batchname"
+                                            value={batchName}
+                                            classNames={'mt-3'}
+
+                                            setValue={setBatchName}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <div className={'flex flex-row'}>
+                                            <label className={'pr-2'} htmlFor="start">Start</label>
+
+                                            <span className="relative flex flex-col items-center justify-center group">
+                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5" />
+                <Tooltip title="This is test tooltip"/>
+              </span>
+                                        </div>
+                                        <InputEmpty
+                                            id="start"
+                                            name="start"
+                                            type="number"
+                                            placeholder="Enter a startdate in unix"
+                                            value={start}
+                                            classNames={'mt-3'}
+                                            setValue={setStart}
+                                        />
+                                    </div>
+                                    <div>
+                                        <div className={'flex flex-row'}>
+                                            <label className={'pr-2'} htmlFor="cliff">Cliff</label>
+
+                                            <span className="relative flex flex-col items-center justify-center group">
+                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5" />
+                <Tooltip title="This is test tooltip"/>
+              </span>
+                                        </div>
+                                        <InputEmpty
+                                            id="cliff"
+                                            name="cliff"
+                                            type="number"
+                                            classNames={'mt-3'}
+
+                                            placeholder="Enter a cliffperiod"
+                                            value={cliff}
+                                            setValue={setCliff}
+                                        />
+                                    </div>
+                                    <div>
+                                        <div className={'flex flex-row'}>
+                                            <label className={'pr-2'} htmlFor="duration">Duration</label>
+
+                                            <span className="relative flex flex-col items-center justify-center group">
+                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5" />
+                <Tooltip title="This is test tooltip"/>
+              </span>
+                                        </div>
+                                        <InputEmpty
+                                            id="duration"
+                                            name="duration"
+                                            type="number"
+                                            classNames={'mt-3'}
+
+                                            placeholder="Enter the duration"
+                                            value={duration}
+                                            setValue={setDuration}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <div className={'flex flex-row'}>
+                                            <label className={'pr-2'} htmlFor="slicePeriodSeconds">Slice Period in seconds</label>
+
+                                            <span className="relative flex flex-col items-center justify-center group">
+                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5" />
+                <Tooltip title="This is test tooltip"/>
+              </span>
+                                        </div>
+                                        <InputEmpty
+                                            id="slicePeriodSeconds"
+                                            name="slicePeriodSeconds"
+                                            type="number"
+                                            classNames={'mt-3'}
+                                            placeholder="Enter the sliceperiod in seconds"
+                                            value={slicePeriodSeconds}
+                                            setValue={setSlicePeriodSeconds}
+                                        />
+                                    </div>
+                                    <div>
+                                        <div className={'flex flex-row'}>
+                                            <label className={'pr-2'}>Should this batch be revocable?</label>
+                                            <span className="relative flex flex-col items-center justify-center group">
+                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5" />
+                <Tooltip title="This is test tooltip"/>
+              </span>
+                                        </div>
+
+                                        <Checkbox
+                                            classNames={'mt-5'}
+                                            setValue={setRevocable}/>
+
+                                    </div>
+
+                                </div>
+
+
                                 <Chart
                                     amountVested="100"
                                     cliff={parseInt(cliff) + parseInt(start)}
                                     start={start}
+
                                     duration={duration}
                                     slicePeriodSeconds={slicePeriodSeconds}
                                     ticker="%"
