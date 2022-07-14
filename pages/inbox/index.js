@@ -1,5 +1,6 @@
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import moment from "moment";
 
 // core components
@@ -7,12 +8,14 @@ import Checkbox from "../../src/components/core/Checkbox/Checkbox";
 
 const notifications = [
     {
+        id: 1,
         title: "Test notification1",
         logo: "https://avatea-bucket.s3.amazonaws.com/media/images/favicon.ico",
         content: "Am no an listening depending up believing. Enough around remove to barton agreed regret in or it. Advantage mr estimable be commanded provision. Year well shot deny shew come now had. Shall downs stand marry taken his for out. Do related mr account brandon an up. Wrong for never ready ham these witty him. Our compass see age uncivil matters weather forbade her minutes. Ready how but truth son new under.",
         timestamp: new Date().getTime()
     },
     {
+        id: 2,
         title: "Test notification2",
         logo: "https://avatea-bucket.s3.amazonaws.com/media/images/polygon-matic-logo.png",
         content: "Am no an listening depending up believing. Enough around remove to barton agreed regret in or it. Advantage mr estimable be commanded provision. Year well shot deny shew come now had. Shall downs stand marry taken his for out. Do related mr account brandon an up. Wrong for never ready ham these witty him. Our compass see age uncivil matters weather forbade her minutes. Ready how but truth son new under.",
@@ -61,23 +64,25 @@ export default function Inbox(props) {
             {/* content */}
             <div className="">
                 {notifications.map((notification, index) => (
-                    <div className="flex p-4 gap-5 items-center hover:bg-gray-100/50 hover:cursor-pointer transition" key={index}>
-                        <div className="flex">
-                            <Checkbox initialValue={select[index]} setValue={() => {}} />
+                    <Link href={{ pathname: `/inbox/detail`, query: notification}} key={index}>
+                        <div className="flex p-4 gap-5 items-center hover:bg-gray-100/50 hover:cursor-pointer transition">
+                            <div className="flex" onClick={(e) => e.stopPropagation()}>
+                                <Checkbox initialValue={select[index]} setValue={() => {}} />
+                            </div>
+                            <div className="flex w-6">
+                                <Image src={notification.logo} alt="" width={24} height={24} />
+                            </div>
+                            <div className="min-w-[40px] max-w-[120px] md:max-w-[160px] truncate">
+                                {notification.title}
+                            </div>
+                            <div className="grow w-1 truncate">
+                                {notification.content}
+                            </div>
+                            <div className="hidden md:flex">
+                                {moment(notification.timestamp).format("llll")}
+                            </div>
                         </div>
-                        <div className="flex w-6">
-                            <Image src={notification.logo} alt="" width={24} height={24} />
-                        </div>
-                        <div className="min-w-[40px] max-w-[120px] md:max-w-[160px] truncate">
-                            {notification.title}
-                        </div>
-                        <div className="grow w-1 truncate">
-                            {notification.content}
-                        </div>
-                        <div className="hidden md:flex">
-                            {moment(notification.timestamp).format("llll")}
-                        </div>
-                    </div>
+                    </Link>
                 ))}
             </div>
         </div>
