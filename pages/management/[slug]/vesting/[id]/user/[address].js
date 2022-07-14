@@ -5,6 +5,7 @@ import helper from "../../../../../../src/helpers";
 
 import Vesting from "../../../../../../src/components/pages/projects/Vesting";
 import ManagementAuthentication from "../../../../../../src/components/pages/management/ManagementAuthentication";
+import ButtonOutlineFit from "../../../../../../src/components/core/Button/ButtonOutlineFit";
 
 
 export default function ProjectDetail(props) {
@@ -59,6 +60,10 @@ export default function ProjectDetail(props) {
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
             <div className="space-y-7.5 mb-5">
+                <div className={'max-w-[300px] float-right m-5'}>
+                    <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()} />
+
+                </div>
                 <Vesting
                     wallet={wallet}
                     marketMakingPool={marketMakingPool}
