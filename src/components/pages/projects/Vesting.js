@@ -48,7 +48,7 @@ export default function Vesting({
                     slicePeriodSeconds,
                     revocable,
                     allowReleasing
-                } = await helper.web3.marketMaker.fetchHoldersVestingMapping(wallet, marketMakingPool.address, wallet.account);
+                } = await helper.web3.marketMaker.fetchHoldersVestingMapping(wallet, marketMakingPool.address, (userAddress ? userAddress : wallet.account));
 
                 setReleaseAbleAmount(
                     helper.formatting.web3Format(
