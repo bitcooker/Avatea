@@ -29,10 +29,10 @@ export default function Inbox(props) {
             {/* Header */}
             <div className="flex justify-between p-4 border-b">
                 <div className="flex divide-x">
-                    <div className="flex items-center pr-3">
+                    {/* <div className="flex items-center pr-3">
                         <Checkbox initialValue={selectAll} setValue={setSelectAll} />
-                    </div>
-                    <div className="flex px-2 space-x-1">
+                    </div> */}
+                    {/* <div className="flex px-2 space-x-1">
                         <div className="flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer transition"> 
                             <i className="fa-solid fa-trash-can text-xl" />
                         </div>
@@ -42,7 +42,7 @@ export default function Inbox(props) {
                         <div className="flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer transition"> 
                             <i className="fa-solid fa-circle-info text-xl" />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="flex items-center space-x-3">
