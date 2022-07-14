@@ -1,17 +1,17 @@
 import {useWallet} from "use-wallet";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
-import helper from "../../../../src/helpers";
+import helper from "../../../../../../src/helpers";
 
-import Vesting from "../../../../src/components/pages/projects/Vesting";
-import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
+import Vesting from "../../../../../../src/components/pages/projects/Vesting";
+import ManagementAuthentication from "../../../../../../src/components/pages/management/ManagementAuthentication";
 
 
 export default function ProjectDetail(props) {
     //@Todo add min buy limit and max buy limit fields (stop-loss)
     const wallet = useWallet();
     const router = useRouter();
-    const {slug, userAddress} = router.query;
+    const {slug, address} = router.query;
     const [project, setProject] = useState({});
     const [marketMakingPool, setMarketMakingPool] = useState({});
     const [holdersMapping, setHoldersMapping] = useState({});
@@ -48,13 +48,13 @@ export default function ProjectDetail(props) {
                 const results = await helper.web3.marketMaker.fetchHoldersMapping(
                     wallet,
                     marketMakingPool.address,
-                    userAddress
+                    address
                 );
                 setHoldersMapping(results);
             };
             initWalletConnected();
         }
-    }, [wallet, marketMakingPool,userAddress]);
+    }, [wallet, marketMakingPool,address]);
 
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
@@ -65,7 +65,7 @@ export default function ProjectDetail(props) {
                     project={project}
                     holdersMapping={holdersMapping}
                     setAction={'revoke'}
-                    userAddress={userAddress}
+                    userAddress={address}
                 />
             </div>
         </ManagementAuthentication>
