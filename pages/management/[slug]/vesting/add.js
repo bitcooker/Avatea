@@ -19,6 +19,7 @@ import FileInput from "../../../../src/components/pages/Linked/fileInput";
 import {Chart} from "../../../../src/components/pages/projects/Vesting/Chart";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
+import {Loading} from "../../../../src/components/SVG";
 
 
 export default function VestingAdd(props) {
@@ -113,10 +114,12 @@ export default function VestingAdd(props) {
                             <div className={'grid grid-cols-2 gap-2.5'}>
                                 <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()} />
 
-                                <ButtonFit
-                                    name="Download CSV Template"
-                                    icon="fa-solid fa-cloud-arrow-up"
-                                />
+                                <ButtonFit>
+                                    <a href={'/vesting-template.csv'} download={true}>
+                                        <i className={'fa-solid fa-cloud-arrow-up'}/> Download CSV Template
+                                    </a>
+                                </ButtonFit>
+
                             </div>
 
                         </div>

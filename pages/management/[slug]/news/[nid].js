@@ -49,6 +49,7 @@ export default function News(props) {
             id: nid,
             title,
             description,
+            project: slug,
             ...(newsImage ? { image: newsImage } : "" ),
             link,
             wallet

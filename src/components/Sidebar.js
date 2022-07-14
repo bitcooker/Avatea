@@ -23,11 +23,17 @@ const menus = [
     href: "/projects",
     icon: "fa-solid fa-diagram-project",
   },
-  {
-    label: "Settings",
-    href: "/settings",
-    icon: "fa-solid fa-gears",
-  },
+  // {
+  //   label: "Settings",
+  //   href: "/settings",
+  //   icon: "fa-solid fa-gears",
+  // },
+    {
+      label: "Farms",
+      href: "/farms",
+      icon: "fa-solid fa-farm",
+    },
+
   {
     label: "Inbox",
     href: "/inbox",

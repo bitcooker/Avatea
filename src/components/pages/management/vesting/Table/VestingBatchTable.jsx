@@ -6,6 +6,7 @@ import {useRouter} from "next/router";
 import TableRow from "../../../../core/table/TableRow";
 import TableCol from "../../../../core/table/TableCol";
 import {TableActionEditButton} from "../../../../core/table/TableActionButtons";
+import moment from "moment";
 
 
 export default function VestingBatchTable(props) {
@@ -23,20 +24,20 @@ export default function VestingBatchTable(props) {
           {/*<Checkbox />*/}
           <div className="flex flex-row items-center space-x-1 hover:cursor-pointer">
             <h1 className="text-base">Batch Name</h1>
-            <i className="fa-solid fa-chevron-down" />
+            {/*<i className="fa-solid fa-chevron-down" />*/}
           </div>
         </TableCol>
         <TableCol className="flex flex-row items-center space-x-1 col-span-1 md-lg:col-span-4 hover:cursor-pointer">
-          <h1 className="text-base truncate">Start timestamp</h1>
-          <i className="fa-solid fa-chevron-down" />
+          <h1 className="text-base truncate">Start Date</h1>
+          {/*<i className="fa-solid fa-chevron-down" />*/}
         </TableCol>
         <TableCol className="hidden md-lg:flex flex-row items-center space-x-1 col-span-2 hover:cursor-pointer">
           <h1 className="text-base">Duration</h1>
-          <i className="fa-solid fa-chevron-down" />
+          {/*<i className="fa-solid fa-chevron-down" />*/}
         </TableCol>
         <TableCol className="hidden md-lg:flex flex-row items-center space-x-1 col-span-2 hover:cursor-pointer">
-          <h1 className="text-base">View</h1>
-          <i className="fa-solid fa-chevron-down" />
+          {/*<h1 className="text-base">View</h1>*/}
+          {/*<i className="fa-solid fa-chevron-down" />*/}
         </TableCol>
       </div>
       <div className="table-body flex flex-col">
@@ -47,7 +48,7 @@ export default function VestingBatchTable(props) {
               <span className="text-base font-medium">{row.name}</span>
             </TableCol>
             <TableCol className="col-span-1 md-lg:col-span-4">
-              <span className="text-base font-medium">{row.start} (UNIX)</span>
+              <span className="text-base font-medium">{moment(row.start).format('LLLL')}</span>
             </TableCol>
             <TableCol className="hidden md-lg:flex flex-row items-center space-x-2.5 col-span-2">
               <i className="fa-solid fa-calendar-range text-indigo-500" />
@@ -55,7 +56,10 @@ export default function VestingBatchTable(props) {
             </TableCol>
             <TableCol className="hidden md-lg:flex flex-row items-center space-x-5 col-span-2">
               <TableActionEditButton handleClick={() => goToBatch(row.id)} />
-                 {row.revocable?'revocable':" not revocable"}
+                 {row.revocable?
+                         <div onClick={props.handleClick} className="flex items-center justify-center text-xs px-5 h-9 rounded-full bg-green-500 text-white hover:ring-2 hover:ring-green-500/50 transition">Revocable</div>
+                         :
+                         ""}
             </TableCol>
           </TableRow>
         ))}

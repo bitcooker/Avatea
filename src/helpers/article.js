@@ -35,6 +35,7 @@ const updateArticle = async ({id, title, description, image, link, project, wall
             {
                 method: 'put',
                 url: `${API_URL}Article/${id}/`,
+                headers: {"Content-Type": "multipart/form-data"},
                 data: {
                     id,
                     title,
@@ -42,7 +43,8 @@ const updateArticle = async ({id, title, description, image, link, project, wall
                     image,
                     link,
                     project,
-                    signature
+                    signature,
+                    user_address: wallet.account
                 }
             }
         )
@@ -81,13 +83,15 @@ const createArticle = async ({title, description, image, link, project, wallet})
             {
                 method: 'post',
                 url: `${API_URL}Article/`,
+                headers: {"Content-Type": "multipart/form-data"},
                 data: {
                     title,
                     description,
                     image,
                     link,
                     project,
-                    signature
+                    signature,
+                    user_address: wallet.account
                 }
             }
         )
