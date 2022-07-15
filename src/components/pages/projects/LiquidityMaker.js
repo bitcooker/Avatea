@@ -217,13 +217,13 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
 
                 <div className="card-content pt-5.5">
                     <div className="grid md-lg:grid-cols-2 gap-3.75">
-                        <Button
-                            name="Withdraw Liquidity"
-                            handleClick={withdrawLiquidity}
-                        >
-                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                        </Button>
-                        <Button name="Withdraw All" handleClick={exitLiquidity}>
+                        {/*<Button*/}
+                        {/*    name="Withdraw Liquidity"*/}
+                        {/*    handleClick={withdrawLiquidity}*/}
+                        {/*>*/}
+                        {/*    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>*/}
+                        {/*</Button>*/}
+                        <Button disabled={true} className={'col-span-full'} name="Withdraw All" handleClick={exitLiquidity}>
                             <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                         </Button>
                         <Button name="Claim Rewards" handleClick={claimReward}>
