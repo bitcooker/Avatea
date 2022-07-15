@@ -1,13 +1,18 @@
-import Button from "../../core/Button/Button";
-import {useWallet} from "use-wallet";
-import Card from "../projectDetail/Card/Card";
 import {useEffect, useState} from "react";
-import Modal from "../../core/modal/Modal";
-import InputEmpty from "../../core/Input/InputEmpty";
-import TextArea from "../../core/TextArea/TextArea";
+import {useWallet} from "use-wallet";
 import {useRouter} from "next/router";
-import FileInput from "../Linked/fileInput";
+
 import helpers from "../../../helpers";
+
+// core components
+import Modal from "../../core/modal/Modal";
+import Button from "../../core/Button/Button";
+import InputEmpty from "../../core/Input/InputEmpty";
+import FileInput from "../../core/Input/FileInput";
+import TextArea from "../../core/TextArea/TextArea";
+
+// page components
+import Card from "../projectDetail/Card/Card";
 
 export default function ManageProjectCard({project}) {
 
@@ -193,9 +198,8 @@ export default function ManageProjectCard({project}) {
 
                 <div className="w-full mt-3.75 space-y-3.75">
                     <div className="w-full gap-2.5 grid grid-cols-2">
-                        <FileInput image={bannerUrl} label="Replace Banner Image" setValue={setBanner}
-                                   type={"image/*"}/>
-                        <FileInput image={imageUrl} label="Replace Token Image" setValue={setImage} type={"image/*"}/>
+                        <FileInput id="bannerImage" image={bannerUrl} label="Replace Banner Image" setValue={setBanner} type={"image/*"}/>
+                        <FileInput id="tokenImage" image={imageUrl} label="Replace Token Image" setValue={setImage} type={"image/*"}/>
                     </div>
 
                     <Button
