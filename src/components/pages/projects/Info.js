@@ -14,15 +14,7 @@ import Image from "next/image";
 
 export default function Vault({project, setTab }) {
 
-    const [amountToVaultStake, setAmountToVaultStake] = useState('0');
-    const [stakedVaultBalance, setStakedVaultBalance] = useState('0');
-    const [vaultBalance, setVaultBalance] = useState('0');
-    const [avateaBalance, setAvateaBalance] = useState('0');
-    const [earnedTokens, setEarnedTokens] = useState('0');
-    const [vaultTLV,setVaultTLV] = useState('0');
-    const [rewardPerToken, setRewardPerToken] = useState('0');
     const [articles, setArticles] = useState([]);
-    const [load, setLoad] = useState(true);
 
 
     useEffect(() => {

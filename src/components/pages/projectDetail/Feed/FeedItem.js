@@ -1,6 +1,8 @@
 import Button from "../../../core/Button/Button";
 import Image from "next/image";
 import Link from "next/link";
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 
 export default function FeedItem(props) {
   const { description, title, image, link } = props.article;
@@ -19,7 +21,7 @@ export default function FeedItem(props) {
       <div className="col-span-2 xl:col-span-3">
         <div className="flex flex-col h-full justify-between">
           <span className="text-base font-bold">{title}</span>
-          <div>{description}</div>
+          <div>{parse(DOMPurify.sanitize(description))}</div>
 
           <Button>
             <Link href={link}>

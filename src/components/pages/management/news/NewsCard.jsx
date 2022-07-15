@@ -2,12 +2,15 @@ import * as React from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import DOMPurify from 'dompurify';
+import parse from 'html-react-parser';
 
 import ButtonFit from "../../../core/Button/ButtonFit";
 
 export default function NewsCard(props) {
   const router = useRouter();
   const { slug } = router.query;
+  console.log()
 
   return (
     <div className="relative flex flex-col w-full bg-white rounded-lg overflow-hidden shadow-lg">
@@ -21,7 +24,7 @@ export default function NewsCard(props) {
       />
       <div className="grow px-6 py-4">
         <div className="font-bold text-xl mb-2">{props.news.title}</div>
-        <p className="text-gray-700 text-base">{props.news.description}</p>
+        <p className="text-gray-700 text-base">{parse(DOMPurify.sanitize(props.news.description))}</p>
       </div>
       <div className="flex items-center justify-between px-6 pt-4 pb-2">
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
