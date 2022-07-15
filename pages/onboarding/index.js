@@ -13,7 +13,7 @@ import TextArea from "../../src/components/core/TextArea/TextArea";
 
 // step components
 import Step from "../../src/components/pages/Linked/Step";
-import FileInput from "../../src/components/pages/Linked/fileInput";
+import FileInput from "../../src/components/core/Input/FileInput";
 import SocialItem from "../../src/components/pages/Linked/SocialItem";
 
 import Button from "../../src/components/core/Button/Button";
@@ -54,6 +54,9 @@ export default function Linked(props) {
     const [url, setUrl] = useLocalStorage("url", "");
     const [image, setImage] = React.useState("");
     const [banner, setBanner] = React.useState("");
+    const [bannerUrl, setBannerUrl] = useState();
+    const [imageUrl, setImageUrl] = useState();
+    const isFile = input => 'File' in window && input instanceof File;
     const [validationClass, setValidationClass] = useState({
         projectName: false,
         tokenTicker: false,
@@ -328,6 +331,14 @@ export default function Linked(props) {
         console.log(croppedArea, croppedAreaPixels)
     }, [])
 
+    React.useEffect(() => {
+        if (isFile(banner)) setBannerUrl(URL.createObjectURL(banner))
+    }, [banner])
+
+    React.useEffect(() => {
+        if (isFile(image)) setImageUrl(URL.createObjectURL(image))
+    }, [image])
+
     console.log(image)
 
     return (
@@ -458,8 +469,8 @@ export default function Linked(props) {
                         >
                             <div className="flex flex-col space-y-6.25">
                                 <div className="grid md-lg:grid-cols-2 gap-5">
-                                    <FileInput label="Token Image" setValue={setImage} type={"image/*"}/>
-                                    <FileInput label="Banner Image" setValue={setBanner} type={"image/*"}/>
+                                    <FileInput id="tokenImage" label="Token Image" image={imageUrl} setValue={setImage} type={"image/*"}/>
+                                    <FileInput id="bannerImage" label="Banner Image" image={bannerUrl} setValue={setBanner} type={"image/*"}/>
                                     {/*{*/}
                                     {/*    banner ?  <ReactCrop crop={crop} onChange={c => setCrop(c)}>*/}
                                     {/*        <img src={URL.createObjectURL(banner)} />*/}
