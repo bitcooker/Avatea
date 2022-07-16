@@ -45,7 +45,7 @@ export default function NewsList(props) {
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
             <div className="w-full">
-                <div className="flex flex-row items-center justify-between">
+                <div className="flex flex-col md-lg:flex-row items-center justify-between gap-5">
                     <h1 className="text-2xl">News List</h1>
                     <div className={'grid grid-cols-2 gap-2.5'}>
                         <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()} />
@@ -55,7 +55,6 @@ export default function NewsList(props) {
                             </a>
                         </Link>
                     </div>
-
                 </div>
                 <div className="grid md-lg:grid-cols-2 lg-xl:grid-cols-3 gap-4 m-2">
                     {articles.map((news, index) => (
