@@ -10,7 +10,6 @@ import RichEditor from "../../../../src/components/core/RichEditor/RichEditor";
 import FileInput from "../../../../src/components/core/Input/FileInput";
 
 // onboarding components
-import ImageDropdown from "../../../../src/components/pages/management/Linked/ImageDropdown";
 import helper from "../../../../src/helpers";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 

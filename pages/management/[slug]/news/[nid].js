@@ -8,9 +8,9 @@ import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
 import InputEmpty from "../../../../src/components/core/Input/InputEmpty";
 import RichEditor from "../../../../src/components/core/RichEditor/RichEditor";
+import FileInput from "../../../../src/components/core/Input/FileInput";
 
 // onboarding components
-import ImageDropdown from "../../../../src/components/pages/management/Linked/ImageDropdown";
 import helper from "../../../../src/helpers";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 
@@ -21,9 +21,15 @@ export default function News(props) {
     const [project, setProject] = useState({});
     const { slug, nid } = router.query;
     const [newsImage, setNewsImage] = useState("");
+    const [newsImageURL, setNewsImageURL] = useState("");
     const [title,setTitle] = useState("");
     const [description,setDescription] = useState("");
     const [link,setLink] = useState("");
+    const isFile = input => 'File' in window && input instanceof File;
+
+    useEffect(() => {
+        if (isFile(newsImage)) setNewsImageURL(URL.createObjectURL(newsImage))
+    }, [newsImage])
 
     useEffect(() => {
         if (props.projectDetail) setProject(props.projectDetail);
@@ -79,7 +85,7 @@ export default function News(props) {
                           </div>
 
                       </div>
-                      <ImageDropdown label="News Image" setValue={setNewsImage} />
+                      <FileInput id="newsImage" label="News Image" image={newsImageURL} setValue={setNewsImage} type={"image/*"} />
                   </div>
                   <div className="grow">
                       <h2 className={'text-xl mb-2.5'}>Description</h2>
