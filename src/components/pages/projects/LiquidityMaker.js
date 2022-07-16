@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import Image from "next/image";
-import moment from "moment";
 
 import helper from "../../../helpers";
 
@@ -130,19 +129,15 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                         <div className="py-5.5 space-y-4.5">
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-clock"/> Locking Period</span>
-                                <span className="text-base font-medium">{parseInt(moment.duration(lockingPeriod, 'seconds').asDays()) + " days"}
-                                    {parseInt(moment.duration(lockingPeriod, 'seconds').asHours()) % 24 ?
-                                        " and " + parseInt(moment.duration(lockingPeriod, 'seconds').asHours()) % 24 + " hours"
-                                        :
-                                        " "
-                                    }
+                                <span className="text-base font-medium">{helper.formatting.secondFormat(lockingPeriod)}
                                 </span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-timer"/> Unlocked on</span>
                                 <span
-                                    className="text-base font-medium">{moment(parseInt(holdersMapping?.lastLiquidityProvidingTime) * 1000 + parseInt(
-                                    lockingPeriod) * 1000).format('llll')}</span>
+                                    className="text-base font-medium">
+                                    {helper.formatting.dateFormat(parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod))}
+                                </span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-sm"><i

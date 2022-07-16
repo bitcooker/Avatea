@@ -1,8 +1,38 @@
 import {ethers} from 'ethers';
+import moment from "moment";
 
 
 const web3Format = (web3RetunValue) => {
     return Number(Math.floor(Number(ethers.utils.formatEther(web3RetunValue)) * 100) / 100).toFixed(2);
+}
+
+const secondFormat = (seconds) => {
+    let formatString = ''
+    let dayFormat = parseInt(moment.duration(seconds, 'seconds').asDays())
+    let hourFormat = parseInt(moment.duration(seconds, 'seconds').asHours()) % 24
+
+    let dayString = 'days'
+    let hourString = 'hours'
+
+    if (dayFormat === 1) dayString = 'day';
+    if (hourFormat === 1) hourString = 'hour';
+
+    if (dayFormat && hourFormat) {
+        formatString = dayFormat + ' ' + dayString + ', and ' + hourFormat + ' ' + hourString
+    } else if (dayFormat) {
+        formatString = dayFormat + ' ' + dayString
+    } else if (hourFormat) {
+        formatString = hourFormat + ' ' + hourString
+    } else {
+        return ''
+    }
+
+    return formatString
+}
+
+const dateFormat = (seconds) => {
+    if (!seconds) return ''
+    return moment(seconds * 1000).format('llll')
 }
 
 const slugify = (text) => {
@@ -22,7 +52,10 @@ const slugify = (text) => {
         .replace(/\-\-+/g, '-');        // Replace multiple - with single -
 }
 
+
 export default {
     web3Format,
-    slugify
+    slugify,
+    secondFormat,
+    dateFormat
 }

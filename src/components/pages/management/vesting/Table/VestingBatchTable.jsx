@@ -6,7 +6,7 @@ import {useRouter} from "next/router";
 import TableRow from "../../../../core/table/TableRow";
 import TableCol from "../../../../core/table/TableCol";
 import {TableActionEditButton} from "../../../../core/table/TableActionButtons";
-import moment from "moment";
+import helper from "../../../../../helpers";
 
 
 export default function VestingBatchTable(props) {
@@ -48,11 +48,11 @@ export default function VestingBatchTable(props) {
               <span className="text-base font-medium">{row.name}</span>
             </TableCol>
             <TableCol className="col-span-1 md-lg:col-span-4">
-              <span className="text-base font-medium">{moment(row.start * 1000).format('LLLL')}</span>
+              <span className="text-base font-medium">{helper.formatting.dateFormat(row.start)}</span>
             </TableCol>
             <TableCol className="hidden md-lg:flex flex-row items-center space-x-2.5 col-span-2">
               <i className="fa-solid fa-calendar-range text-indigo-500" />
-              <span className="text-base font-medium">{row.duration} Seconds</span>
+              <span className="text-base font-medium">{helper.formatting.secondFormat(row.duration)}</span>
             </TableCol>
             <TableCol className="hidden md-lg:flex flex-row items-center space-x-5 col-span-2">
               <TableActionEditButton handleClick={() => goToBatch(row.id)} />

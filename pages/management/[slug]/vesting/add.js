@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import {useRouter} from "next/router";
 
 import helper from "../../../../src/helpers";
+import helpers from "../../../../src/helpers";
 // core components
 import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 import Button from "../../../../src/components/core/Button/Button";
@@ -29,6 +30,25 @@ export default function VestingAdd(props) {
     const wallet = useWallet();
     const [marketMakingPool, setMarketMakingPool] = useState({});
 
+    const [step, setStep] = React.useState(1);
+    const [fileName, setFileName] = React.useState("");
+    const [addresses, setAddresses] = useState([]);
+    const [amounts, setAmounts] = useState([]);
+    const [amountsInWei, setAmountsInWei] = useState([]);
+
+    const [start, setStart] = useState();
+    const [startInDays, setStartInDays] = useState();
+    const [cliff, setCliff] = useState();
+    const [cliffInDays, setCliffInDays] = useState();
+    const [duration, setDuration] = useState();
+    const [durationInDays, setDurationInDays] = useState();
+    const [slicePeriodSeconds, setSlicePeriodSeconds] = useState();
+    const [slicePeriodSecondsInDays, setSlicePeriodSecondsInDays] = useState();
+
+    const [revocable, setRevocable] = useState(true);
+    const [batchName, setBatchName] = useState('');
+    const [totalAmount, setTotalAmount] = useState(0);
+
     useEffect(() => {
         if (props.projectDetail) setProject(props.projectDetail);
         if (props.marketMakingPool) setMarketMakingPool(props.marketMakingPool);
@@ -42,18 +62,21 @@ export default function VestingAdd(props) {
         }
     }, [props]);
 
-    const [step, setStep] = React.useState(1);
-    const [fileName, setFileName] = React.useState("");
-    const [addresses, setAddresses] = useState([]);
-    const [amounts, setAmounts] = useState([]);
-    const [amountsInWei, setAmountsInWei] = useState([]);
-    const [start, setStart] = useState();
-    const [cliff, setCliff] = useState();
-    const [duration, setDuration] = useState();
-    const [slicePeriodSeconds, setSlicePeriodSeconds] = useState();
-    const [revocable, setRevocable] = useState(true);
-    const [batchName, setBatchName] = useState('');
-    const [totalAmount, setTotalAmount] = useState(0);
+    useEffect(() => {
+        setStartInDays(helpers.formatting.dateFormat(start))
+    }, [start]);
+
+    useEffect(() => {
+        setCliffInDays(helpers.formatting.secondFormat(cliff))
+    }, [cliff]);
+
+    useEffect(() => {
+        setDurationInDays(helpers.formatting.secondFormat(duration))
+    }, [duration]);
+
+    useEffect(() => {
+        setSlicePeriodSecondsInDays(helpers.formatting.secondFormat(slicePeriodSeconds))
+    }, [slicePeriodSeconds]);
 
     const handleFileSelect = (event) => {
 
@@ -117,10 +140,6 @@ export default function VestingAdd(props) {
         }
     };
 
-
-    const setCSV = async () => {
-        console.log('test');
-    };
 
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
@@ -196,7 +215,7 @@ export default function VestingAdd(props) {
 
                                     <div>
                                         <div className={'flex flex-row'}>
-                                            <label className={'pr-2'} htmlFor="start">Start</label>
+                                            <label className={'pr-2'} htmlFor="start">Start {startInDays}</label>
 
                                             <span className="relative flex flex-col items-center justify-center group">
                 <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
@@ -207,7 +226,7 @@ export default function VestingAdd(props) {
                                             id="start"
                                             name="start"
                                             type="number"
-                                            placeholder="Enter a startdate in unix"
+                                            placeholder="Enter a startdate in UNIX"
                                             value={start}
                                             classNames={'mt-3'}
                                             setValue={setStart}
@@ -215,7 +234,7 @@ export default function VestingAdd(props) {
                                     </div>
                                     <div>
                                         <div className={'flex flex-row'}>
-                                            <label className={'pr-2'} htmlFor="cliff">Cliff</label>
+                                            <label className={'pr-2'} htmlFor="cliff">Cliff {cliffInDays}</label>
 
                                             <span className="relative flex flex-col items-center justify-center group">
                 <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
@@ -228,14 +247,14 @@ export default function VestingAdd(props) {
                                             type="number"
                                             classNames={'mt-3'}
 
-                                            placeholder="Enter a cliffperiod"
+                                            placeholder="Enter a cliff period in seconds "
                                             value={cliff}
                                             setValue={setCliff}
                                         />
                                     </div>
                                     <div>
                                         <div className={'flex flex-row'}>
-                                            <label className={'pr-2'} htmlFor="duration">Duration</label>
+                                            <label className={'pr-2'} htmlFor="duration">Duration {durationInDays}</label>
 
                                             <span className="relative flex flex-col items-center justify-center group">
                 <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
@@ -248,7 +267,7 @@ export default function VestingAdd(props) {
                                             type="number"
                                             classNames={'mt-3'}
 
-                                            placeholder="Enter the duration"
+                                            placeholder="Enter the duration in seconds"
                                             value={duration}
                                             setValue={setDuration}
                                         />
@@ -256,7 +275,7 @@ export default function VestingAdd(props) {
 
                                     <div>
                                         <div className={'flex flex-row'}>
-                                            <label className={'pr-2'} htmlFor="slicePeriodSeconds">Slice Period in seconds</label>
+                                            <label className={'pr-2'} htmlFor="slicePeriodSeconds">Slice Period in seconds {slicePeriodSecondsInDays}</label>
 
                                             <span className="relative flex flex-col items-center justify-center group">
                 <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
@@ -268,7 +287,7 @@ export default function VestingAdd(props) {
                                             name="slicePeriodSeconds"
                                             type="number"
                                             classNames={'mt-3'}
-                                            placeholder="Enter the sliceperiod in seconds"
+                                            placeholder="Enter the slice period in seconds"
                                             value={slicePeriodSeconds}
                                             setValue={setSlicePeriodSeconds}
                                         />
@@ -320,7 +339,8 @@ export default function VestingAdd(props) {
                                     setStep(step + 1)
                                 }}
                             /> :
-                            <ButtonWithApproval name="Create Vesting - " handleClick={createVesting} address={marketMakingPool.address} token={project.token} amount={totalAmount} ticker={project.ticker}/>
+                            <ButtonWithApproval name="Create Vesting batch - " handleClick={createVesting} address={marketMakingPool.address}
+                                                token={project.token} amount={totalAmount} ticker={project.ticker}/>
                         }
                     </div>
                 </div>
