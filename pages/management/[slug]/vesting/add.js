@@ -303,7 +303,8 @@ export default function VestingAdd(props) {
 
                                         <Checkbox
                                             classNames={'mt-5'}
-                                            setValue={setRevocable}/>
+                                            setValue={setRevocable}
+                                            initialValue={revocable}/>
 
                                     </div>
 

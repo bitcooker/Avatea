@@ -9,6 +9,7 @@ import Button from "../../core/Button/Button";
 // project detail components
 import Card from "../projectDetail/Card/Card";
 import SkeletonLiquidity from "./Skeleton/SkeletonLiquidity";
+import moment from "moment";
 
 export default function LiquidityMaker({liquidityMaker, wallet, project}) {
 
@@ -212,13 +213,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
 
                 <div className="card-content pt-5.5">
                     <div className="grid md-lg:grid-cols-2 gap-3.75">
-                        {/*<Button*/}
-                        {/*    name="Withdraw Liquidity"*/}
-                        {/*    handleClick={withdrawLiquidity}*/}
-                        {/*>*/}
-                        {/*    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>*/}
-                        {/*</Button>*/}
-                        <Button disabled={true} className={'col-span-full'} name="Withdraw All" handleClick={exitLiquidity}>
+                        <Button disabled={parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod) > moment().unix()}
+                                className={'col-span-full'} name="Withdraw All" handleClick={exitLiquidity}>
                             <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                         </Button>
                         <Button name="Claim Rewards" handleClick={claimReward}>
