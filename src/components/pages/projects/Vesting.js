@@ -11,6 +11,7 @@ import CenteredContent from "../../core/CenteredContent";
 import Card from "../projectDetail/Card/Card";
 import {Chart} from "./Vesting/Chart";
 import SkeletonVesting from "./Skeleton/SkeletonVesting";
+import {useRouter} from "next/router";
 
 export default function Vesting({
                                     wallet,
@@ -20,6 +21,8 @@ export default function Vesting({
                                     userAddress,
                                     setTab
                                 }) {
+
+    const router = useRouter();
     const [releaseAbleAmount, setReleaseAbleAmount] = useState(0);
     const [amountVested, setAmountVested] = useState(0);
     const [amountReleased, setAmountReleased] = useState(0);
@@ -91,6 +94,7 @@ export default function Vesting({
             marketMakingPool.address,
             userAddress
         );
+        router.back()
     };
 
     const toggleAutoRelease = async () => {

@@ -48,7 +48,7 @@ export default function VestingBatchTable(props) {
               <span className="text-base font-medium">{row.name}</span>
             </TableCol>
             <TableCol className="col-span-1 md-lg:col-span-4">
-              <span className="text-base font-medium">{moment(row.start).format('LLLL')}</span>
+              <span className="text-base font-medium">{moment(row.start * 1000).format('LLLL')}</span>
             </TableCol>
             <TableCol className="hidden md-lg:flex flex-row items-center space-x-2.5 col-span-2">
               <i className="fa-solid fa-calendar-range text-indigo-500" />
