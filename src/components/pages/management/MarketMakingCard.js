@@ -204,7 +204,7 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                     <Button name="Stake for participants" handleClick={(e) => {
                             router.push(`${project.slug}/multisend`)
                         }}/>
-                    <div className="w-full space-x-3.75 grid grid-cols-2">
+                    <div className="w-full grid grid-cols-2 gap-3.75">
                         {/* Edit Button */}
                         <Button name="Create Vesting schedules" handleClick={(e) => {
                             router.push(`${project.slug}/vesting/add`)
