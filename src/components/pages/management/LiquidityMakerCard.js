@@ -6,6 +6,7 @@ import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
 import Card from "../projectDetail/Card/Card";
 import {useCallback, useEffect, useState} from "react";
 import helper from "../../../helpers";
+import helpers from "../../../helpers";
 import {ethers} from "ethers";
 import moment from "moment";
 import {AVATEA_TOKEN, AVATEA_TOKEN_IMAGE, PAIRED_TOKEN_DEFAULT_IMAGE} from "../../../helpers/constants";
@@ -27,6 +28,7 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
     const [pairedTotalSupply, setPairedTotalSupply] = useState('0');
     const [lockingPeriod, setLockingPeriod] = useState('0');
     const [newLockingPeriod, setNewLockingPeriod] = useState('0');
+    const [newLockingPeriodInDays, setNewLockingPeriodInDays] = useState('0');
     const [maxTotalSupply, setMaxTotalSupply] = useState('0');
     const [newMaxTotalSupply, setNewMaxTotalSupply] = useState('0');
 
@@ -72,6 +74,11 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
             initWalletConnected();
         }
     }, [wallet, liquidityMaker, project]);
+
+    useEffect(() => {
+        setNewLockingPeriodInDays(helpers.formatting.secondFormat(newLockingPeriod, true))
+    }, [newLockingPeriod]);
+
 
     const addReward = useCallback(async () => {
         const wei = ethers.utils.parseEther(amountRewardTokenToStake);
@@ -236,7 +243,7 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                     />
                     <div className="flex flex-row items-center justify-between text-base">
                         <div>
-                            <i className="fa-solid fa-clock"/> Update Locking Period
+                            <i className="fa-solid fa-clock"/> Update Locking Period {newLockingPeriodInDays}
                         </div>
                     </div>
                     <InputWithIconSubmit

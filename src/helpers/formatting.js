@@ -6,8 +6,9 @@ const web3Format = (web3RetunValue) => {
     return Number(Math.floor(Number(ethers.utils.formatEther(web3RetunValue)) * 100) / 100).toFixed(2);
 }
 
-const secondFormat = (seconds) => {
+const secondFormat = (seconds, separator = false) => {
     let formatString = ''
+    if (separator) formatString += ' - ';
     let dayFormat = parseInt(moment.duration(seconds, 'seconds').asDays())
     let hourFormat = parseInt(moment.duration(seconds, 'seconds').asHours()) % 24
 
@@ -18,11 +19,11 @@ const secondFormat = (seconds) => {
     if (hourFormat === 1) hourString = 'hour';
 
     if (dayFormat && hourFormat) {
-        formatString = dayFormat + ' ' + dayString + ', and ' + hourFormat + ' ' + hourString
+        formatString += dayFormat + ' ' + dayString + ', and ' + hourFormat + ' ' + hourString
     } else if (dayFormat) {
-        formatString = dayFormat + ' ' + dayString
+        formatString += dayFormat + ' ' + dayString
     } else if (hourFormat) {
-        formatString = hourFormat + ' ' + hourString
+        formatString += hourFormat + ' ' + hourString
     } else {
         return ''
     }
@@ -30,9 +31,12 @@ const secondFormat = (seconds) => {
     return formatString
 }
 
-const dateFormat = (seconds) => {
+const dateFormat = (seconds, separator = false) => {
+    let formatString = ''
+    if (separator) formatString += ' - ';
     if (!seconds) return ''
-    return moment(seconds * 1000).format('llll')
+    formatString += moment(seconds * 1000).format('llll')
+    return formatString
 }
 
 const slugify = (text) => {

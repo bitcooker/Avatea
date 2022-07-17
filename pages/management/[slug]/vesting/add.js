@@ -63,19 +63,19 @@ export default function VestingAdd(props) {
     }, [props]);
 
     useEffect(() => {
-        setStartInDays(helpers.formatting.dateFormat(start))
+        setStartInDays(helpers.formatting.dateFormat(start, true))
     }, [start]);
 
     useEffect(() => {
-        setCliffInDays(helpers.formatting.secondFormat(cliff))
+        setCliffInDays(helpers.formatting.secondFormat(cliff, true))
     }, [cliff]);
 
     useEffect(() => {
-        setDurationInDays(helpers.formatting.secondFormat(duration))
+        setDurationInDays(helpers.formatting.secondFormat(duration, true))
     }, [duration]);
 
     useEffect(() => {
-        setSlicePeriodSecondsInDays(helpers.formatting.secondFormat(slicePeriodSeconds))
+        setSlicePeriodSecondsInDays(helpers.formatting.secondFormat(slicePeriodSeconds, true))
     }, [slicePeriodSeconds]);
 
     const handleFileSelect = (event) => {
