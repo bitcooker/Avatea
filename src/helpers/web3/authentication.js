@@ -3,7 +3,7 @@ import {API_URL} from "../constants";
 import {ethers} from "ethers";
 
 async function getNonce(wallet) {
-    const {data} = await axios.get(`${API_URL}UserAddress/${wallet}/`);
+    const {data} = await axios.post(`${API_URL}UserAddress/${wallet}/retrieve_nonce/`);
     return data.nonce
 }
 
