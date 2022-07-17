@@ -56,8 +56,8 @@ export default function Header({ menu, setMenu, title }) {
         </div>
         <h1 className="hidden lg-xl:block lg-xl:text-2xl">{title}</h1>
         <div className="flex items-center">
-          <i className="relative fa-light fa-bell text-2xl mr-6.25 hover:cursor-pointer after:content-[''] after:w-2 after:h-2 after:absolute after:right-0 after:rounded-full after:bg-rose-500 after:hover:ring-2 after:hover:ring-rose-500/30 after:transition" />
-          <div className="mr-2.5 md:mr-6.25">
+          <i className="relative fa-light fa-bell text-2xl mr-5 hover:cursor-pointer after:content-[''] after:w-2 after:h-2 after:absolute after:right-0 after:rounded-full after:bg-rose-500 after:hover:ring-2 after:hover:ring-rose-500/30 after:transition" />
+          <div className="mr-2.5">
             <SwitchNetwork />
           </div>
           {wallet.status === "connected" ? (
