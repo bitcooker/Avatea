@@ -9,6 +9,7 @@ import MyMarketMakingPools from "../src/components/pages/myActivity/MyMarketMaki
 import MyVestedPools from "../src/components/pages/myActivity/MyVestedPools";
 import MyVaults from "../src/components/pages/myActivity/MyVaults";
 import Projects from "../src/components/pages/myActivity/Projects";
+import ConnectYourWallet from "../src/components/core/ConnectYourWallet";
 
 export default function Activity() {
     const wallet = useWallet();
@@ -27,7 +28,7 @@ export default function Activity() {
                             <Act />
                         </div>
                     </>
-                ) : <p>Connect your wallet</p>
+                ) : <ConnectYourWallet/>
             }
         </>
     );

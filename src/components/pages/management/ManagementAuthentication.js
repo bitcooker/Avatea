@@ -3,6 +3,7 @@ import CenteredContent from "../../core/CenteredContent";
 import Image from "next/image";
 import Button from "../../core/Button/Button";
 import {useRouter} from "next/router";
+import ConnectYourWallet from "../../core/ConnectYourWallet";
 
 
 export default function ManagementAuthentication({ project, wallet, children }) {
@@ -26,7 +27,7 @@ export default function ManagementAuthentication({ project, wallet, children }) 
                         </div>
                         <Button handleClick={() => router.push('/')}>Return to projects</Button>
                     </CenteredContent>
-                ) : <p>Please connect your wallet</p>
+                ) : <ConnectYourWallet/>
             }
 
 

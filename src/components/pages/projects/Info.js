@@ -41,7 +41,9 @@ export default function Vault({project, setTab }) {
                 </div>
 
                 <div className="card-content pt-5.5">
-                    <div>{parse(DOMPurify.sanitize(project.description))}</div>
+                    <div>{
+                        typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(project.description))
+                    }</div>
                 </div>
             </Card>
             <Card title="News Feed">
