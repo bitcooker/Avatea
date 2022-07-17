@@ -16,8 +16,12 @@ export default function Header({ menu, setMenu, title }) {
   const wallet = useWallet();
   const [isRegistered,setIsRegistered] = useLocalStorage('isRegistered', false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+    const [currentNetwork, setCurrentNetwork] = useState(networks[wallet.chainId] || networks[4]);
 
+    useEffect(() => {
+        const network = networks.filter(network => network.chainId === wallet.chainId);
+        setCurrentNetwork(network[0]);
+    },[wallet,currentNetwork])
   //@TODO Optimize Register not to fire every time
   useEffect(() => {
     if (wallet.isConnected() && !isRegistered) {
@@ -40,7 +44,7 @@ export default function Header({ menu, setMenu, title }) {
   },[]);
 
   return (
-    <header className="relative pt-5 pb-[95px] md-lg:static md-lg:py-7.5">
+    <header className="relative pt-5 pb-[3%] md:pb-[95px] md-lg:static md-lg:py-7.5">
       <div className="flex items-center justify-between">
         <div
           className="text-2xl text-blue-500 lg-xl:hidden hover:cursor-pointer hover:text-blue-500/30 transition"
@@ -53,14 +57,14 @@ export default function Header({ menu, setMenu, title }) {
         <h1 className="hidden lg-xl:block lg-xl:text-2xl">{title}</h1>
         <div className="flex items-center">
           <i className="relative fa-light fa-bell text-2xl mr-6.25 hover:cursor-pointer after:content-[''] after:w-2 after:h-2 after:absolute after:right-0 after:rounded-full after:bg-rose-500 after:hover:ring-2 after:hover:ring-rose-500/30 after:transition" />
-          <div className="mr-6.25">
+          <div className="mr-2.5 md:mr-6.25">
             <SwitchNetwork />
           </div>
           {wallet.status === "connected" ? (
             <div className="flex flex-row items-center bg-white p-1 rounded-4xl">
               <div className="hidden sm:flex sm:items-center px-2">
                 <span className="mr-1">{Number(ethers.utils.formatEther(wallet.balance)).toFixed(4)}</span>
-                <Image src={networks[0].icon} alt="netImage" width={20} height={20}/>
+                <img src={currentNetwork.icon} alt="netImage" width={20} height={20}/>
               </div>
               <button
                 className="flex justify-center box-border items-center px-7.5 py-3 bg-indigo-500 text-white rounded-4xl hover:cursor-pointer hover:bg-indigo-500/80 transition"

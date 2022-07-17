@@ -3,6 +3,9 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 import networks from "../../network/network.json";
+import {useCallback, useEffect} from "react";
+import {useWallet} from "use-wallet";
+import {ethers} from "ethers";
 
 const variants = {
     open: { opacity: 1, zIndex: 60 },
@@ -10,8 +13,9 @@ const variants = {
 }
 
 export default function SwitchNetwork(props) {
-  const [open, setOpen] = React.useState(false);
-  const [currentNetwork, setCurrentNetwork] = React.useState(networks[0]);
+    const wallet = useWallet();
+    const [open, setOpen] = React.useState(false);
+  const [currentNetwork, setCurrentNetwork] = React.useState(networks[wallet.chainId] || networks[4]);
 
   React.useEffect(() => {
     const handleClickOutside = () => {
@@ -25,18 +29,50 @@ export default function SwitchNetwork(props) {
     }
   }, [])
 
+    useEffect(() => {
+        const network = networks.filter(network => network.chainId === wallet.chainId);
+        setCurrentNetwork(network[0]);
+    },[wallet,currentNetwork])
+
+    const switchChain = useCallback(async ({chainId,displayName,symbol, currencyName}) => {
+        if (wallet.chainId !== chainId) {
+            try {
+                await wallet.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: ethers.utils.hexValue( chainId)}]
+                    });
+            } catch (err) {
+                // This error code indicates that the chain has not been added to MetaMask
+                if (err.code === 4902) {
+                    await wallet.ethereum.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [
+                            {
+                                chainName: displayName,
+                                chainId: ethers.utils.hexValue( chainId),
+                                nativeCurrency: { name: currencyName, decimals: 18, symbol },
+                                rpcUrls: ['https://polygon-rpc.com/']
+                            }
+                        ]
+                    });
+                }
+            }
+        }
+    },[wallet,currentNetwork])
+
   return (
     <div
       className="relative bg-white rounded-full p-4 hover:cursor-pointer"
       onClick={() => setOpen(!open)}
     >
         <div className="flex flex-row items-center space-x-2">
-            <Image src={currentNetwork.icon} alt="network" width={20} height={20} />
-            <span className="hidden md-lg:block">{currentNetwork.displayName}</span>
+            <img src={`${currentNetwork?.icon}`} alt="network" width={20} height={20} />
+            <span className="hidden md-lg:block">{currentNetwork?.displayName}</span>
         </div>
         
         <NetworkDropdown
             open={open}
+            switchChain={switchChain}
             currentNetwork={currentNetwork}
             setCurrentNetwork={(network) => {
                 setCurrentNetwork(network);
@@ -64,7 +100,7 @@ export const NetworkDropdown = (props) => {
             network={network}
             key={index}
             currentNetwork={props.currentNetwork}
-            handleClick={props.setCurrentNetwork}
+            handleClick={props.switchChain}
           />
         ))}
       </div>
@@ -87,7 +123,7 @@ export const NetworkItem = (props) => {
         />
         <span>{props.network.displayName}</span>
       </div>
-      {props.currentNetwork.networkName == props.network.networkName && (
+      {props.currentNetwork?.networkName == props.network?.networkName && (
         <div className="state w-2.5 h-2.5 rounded-full bg-green-500"></div>
       )}
     </div>

@@ -25,10 +25,10 @@ export default function Layout({ children }) {
         autoConnect={true}
         connectors={{
           injected: {
-            chainId: [1, 4, 56],
+            chainId: [1, 4, 56, 137],
           },
           walletconnect: {
-            chainId: [1, 4, 56],
+            chainId: [1, 4, 56, 137],
             rpc: {
               1: "https://rpc.ankr.com/eth",
               4: "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
