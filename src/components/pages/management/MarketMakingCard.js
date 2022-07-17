@@ -66,9 +66,9 @@ export default function MarketMakingCard({project, marketMakingPool}) {
         };
 
         await helper.marketMaking.updateMarketMakingPool({
-            settings,
-            wallet,
-        });
+                                                             settings,
+                                                             wallet,
+                                                         });
     }, [volume, maxBuyingAmount, maxSellingAmount, maxPreferredDrawdown, lowerPreferredPriceRange, upperPreferredPriceRange, marketMakingPool, wallet]);
 
 
@@ -112,7 +112,7 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                       <span className="text-sm">
                         <i className="fa-solid fa-money-bill-transfer"/> TVL
                       </span>
-                      <span className="flex text-base font-medium">
+                        <span className="flex text-base font-medium">
                         <Image src={project.image} alt="" width={24} height={24}/>
                         <span className="mx-2.5">{baseTokenBalance}</span>
                         <Image src={marketMakingPool.paired_token_image} alt="" width={24} height={24}/>
@@ -204,9 +204,14 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                         handleClick={updateMarketMakingPool}
                     />
                     {/* Edit Button */}
-                    <Button name="Stake for participants" handleClick={(e) => {
+                    <div className="w-full grid grid-cols-2 gap-3.75">
+                        <Button name="Multi Send" handleClick={(e) => {
+                            router.push(`${project.slug}/multisend/add`)
+                        }}/>
+                        <Button name="View Multi Send History" handleClick={(e) => {
                             router.push(`${project.slug}/multisend`)
                         }}/>
+                    </div>
                     <div className="w-full grid grid-cols-2 gap-3.75">
                         {/* Edit Button */}
                         <Button name="Create Vesting schedules" handleClick={(e) => {

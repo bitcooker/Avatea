@@ -6,16 +6,16 @@ import {useWallet} from "use-wallet";
 import Swal from "sweetalert2";
 import {useRouter} from "next/router";
 
-import helper from "../../../src/helpers";
+import helper from "../../../../src/helpers";
 // core components
-import ButtonFit from "../../../src/components/core/Button/ButtonFit";
-import Button from "../../../src/components/core/Button/Button";
-import AddressAndAmountTable from "../../../src/components/pages/management/vesting/Table/AddressAndAmountTable";
+import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
+import Button from "../../../../src/components/core/Button/Button";
+import AddressAndAmountTable from "../../../../src/components/pages/management/vesting/Table/AddressAndAmountTable";
 // page components
-import FileInput from "../../../src/components/pages/Linked/fileInput";
-import ManagementAuthentication from "../../../src/components/pages/management/ManagementAuthentication";
-import ButtonOutlineFit from "../../../src/components/core/Button/ButtonOutlineFit";
-import ButtonWithApproval from "../../../src/components/core/Button/ButtonWithApproval";
+import FileInput from "../../../../src/components/pages/Linked/fileInput";
+import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
+import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
+import ButtonWithApproval from "../../../../src/components/core/Button/ButtonWithApproval";
 
 
 export default function VestingAdd(props) {
@@ -92,7 +92,7 @@ export default function VestingAdd(props) {
                                     showConfirmButton: false,
                                     timer: 3000,
                                     didClose() {
-                                        router.push(`/management/${project.slug}`);
+                                        router.push(`/management/${project.slug}/multisend`);
                                     },
                                 });
             }
