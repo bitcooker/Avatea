@@ -1,12 +1,18 @@
-import Button from "../../core/Button/Button";
-import {useWallet} from "use-wallet";
-import Card from "../projectDetail/Card/Card";
 import {useCallback, useEffect, useState} from "react";
-import helper from "../../../helpers";
-import InputWithIcon from "../../core/Input/InputWithIcon";
-import MarketMakingDeployment from "./MarketMakingDeployment";
-import Modal from "../../core/modal/Modal";
+import Image from "next/image";
+import {useWallet} from "use-wallet";
 import {useRouter} from "next/router";
+
+import helper from "../../../helpers";
+
+// core components
+import Button from "../../core/Button/Button";
+import InputWithIcon from "../../core/Input/InputWithIcon";
+import Modal from "../../core/modal/Modal";
+
+// page components
+import Card from "../projectDetail/Card/Card";
+import MarketMakingDeployment from "./MarketMakingDeployment";
 
 export default function MarketMakingCard({project, marketMakingPool}) {
 
@@ -106,14 +112,11 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                       <span className="text-sm">
                         <i className="fa-solid fa-money-bill-transfer"/> TVL
                       </span>
-                        <span className="flex text-base font-medium">
-                        <img src={project.image} className="w-6 h-6 mr-2.5"/>
-                            {baseTokenBalance}
-                            <img
-                                src={marketMakingPool.paired_token_image}
-                                className="w-6 h-6 ml-2.5 mr-2.5"
-                            />{" "}
-                            {pairedTokenBalance}
+                      <span className="flex text-base font-medium">
+                        <Image src={project.image} alt="" width={24} height={24}/>
+                        <span className="mx-2.5">{baseTokenBalance}</span>
+                        <Image src={marketMakingPool.paired_token_image} alt="" width={24} height={24}/>
+                        <span className="mx-2.5">{pairedTokenBalance}</span>
                       </span>
                     </div>
                     <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
