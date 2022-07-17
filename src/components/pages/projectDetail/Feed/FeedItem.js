@@ -14,8 +14,9 @@ export default function FeedItem(props) {
           alt={title}
           className="rounded-2.5xl"
           layout="responsive"
-          width="100%"
-          height="100%"
+          width={120}
+          height={120}
+          objectFit={'cover'}
         />
       </div>
       <div className="col-span-2 xl:col-span-3">

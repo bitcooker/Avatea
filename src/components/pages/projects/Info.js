@@ -11,6 +11,8 @@ import {useEffect, useState} from "react";
 import SkeletonVault from "./Skeleton/SkeletonVault";
 import CenteredContent from "../../core/CenteredContent";
 import Image from "next/image";
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 
 export default function Vault({project, setTab }) {
 
@@ -39,7 +41,7 @@ export default function Vault({project, setTab }) {
                 </div>
 
                 <div className="card-content pt-5.5">
-                    {project.description}
+                    <div>{parse(DOMPurify.sanitize(project.description))}</div>
                 </div>
             </Card>
             <Card title="News Feed">
