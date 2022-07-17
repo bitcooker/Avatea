@@ -308,7 +308,7 @@ const batchHook = async ({
                          }) => {
     try {
         switch (type) {
-            case 'MMBD':
+            case 'MMBB':
                 await axios.post(`${API_URL}Transaction/bulk_create/`, {
                     hash: data.receipt.transactionHash,
                     type: type,

@@ -125,7 +125,7 @@ const stakeBatch = async (wallet, marketMakerAddress, user_addresses, amountsInW
         const receipt = await tx.wait();
 
         await helpers.callback.batchHook({
-            type: "MMBD",
+            type: "MMBB",
             data: {
                 receipt,
                 wallet,
