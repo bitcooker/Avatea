@@ -1,15 +1,20 @@
-import Card from "../projectDetail/Card/Card";
-import MaxButton from "./Button/MaxButton";
-import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
+import {useEffect, useState} from "react";
+import Image from "next/image";
+import {ethers} from "ethers";
+
+import helper from "../../../helpers";
 import {AVATEA_TOKEN, AVATEA_TOKEN_IMAGE} from "../../../helpers/constants";
+
+// core components
+import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
+import CenteredContent from "../../core/CenteredContent";
 import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
 import Button from "../../core/Button/Button";
-import {ethers} from "ethers";
-import helper from "../../../helpers";
-import {useEffect, useState} from "react";
+
+// page components
 import SkeletonVault from "./Skeleton/SkeletonVault";
-import CenteredContent from "../../core/CenteredContent";
-import Image from "next/image";
+import MaxButton from "./Button/MaxButton";
+import Card from "../projectDetail/Card/Card";
 
 export default function Vault({vault, wallet, project, setTab}) {
 
@@ -71,7 +76,7 @@ export default function Vault({vault, wallet, project, setTab}) {
     if (!vault.address) return (<CenteredContent>
         <span className={'text-2xl'}>No Vault Available</span>
         <div className={'w-[70%] mx-auto'}>
-            <Image src={'/vault.png'} layout={'responsive'} height={594} width={1181}/>
+            <Image src={'/vault.png'} alt="vaultImage" layout={'responsive'} height={594} width={1181}/>
         </div>
         <Button handleClick={() => setTab(0)}>Return to project</Button>
     </CenteredContent>)
@@ -87,42 +92,34 @@ export default function Vault({vault, wallet, project, setTab}) {
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-users"/> Users</span>
                                 <span className="text-base font-medium">
-                          {vault.num_invested}
-                        </span>
+                                    {vault.num_invested}
+                                </span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-treasure-chest"/> Generated Rewards</span>
                                 <span className="flex text-base font-medium">
-                            <img
-                                src={project.image}
-                                className="w-6 h-6 ml-2.5 mr-2.5"
-                            />{" "}
+                                    <Image src={project.image} alt="projectImage" className="mr-2.5" width={24} height={24}/>
                                     {earnedTokens}
-                          </span>
+                                </span>
                             </div>
                             <div className="flex justify-between">
-                          <span className="text-sm">
-                            <i className="fa-solid fa-money-bill-transfer"/> TVL
-                          </span>
+                                <span className="text-sm">
+                                    <i className="fa-solid fa-money-bill-transfer"/> TVL
+                                </span>
                                 <span className="flex text-base font-medium">
-                            <img
-                                src={AVATEA_TOKEN_IMAGE}
-                                className="w-6 h-6 ml-2.5 mr-2.5"
-                            />{" "}
+                                    <Image src={AVATEA_TOKEN_IMAGE} alt="avateaTokenImage" className="mr-2.5" width={24} height={24}/>
                                     {vaultTLV}
-                          </span>
+                                </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-treasure-chest"/> Reward Per Avatea Token Per Day</span>
+                                <span className="text-sm">
+                                    <i className="fa-solid fa-treasure-chest"/> Reward Per Avatea Token Per Day
+                                </span>
                                 <span className="flex text-base font-medium">
-                            <img
-                                src={project.image}
-                                className="w-6 h-6 ml-2.5 mr-2.5"
-                            />{" "}
-                                    {rewardPerToken}
-                          </span>
+                                    <Image src={project.image} alt="" width={24} height={24}/>
+                                    <span className="mx-2.5">{rewardPerToken}</span>
+                                </span>
                             </div>
-
                         </div>
                     </div>
 
