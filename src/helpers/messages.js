@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {API_URL, DEFAULT_CHAIN_ID} from "./constants";
+import {API_URL} from "./constants";
 import helpers from "./index";
 import {toast} from "react-toastify";
 
@@ -44,20 +44,20 @@ const createMessage = async ({wallet, subject, body, user_addresses,project, cal
 };
 
 
-const markMessageAsRead = async ({wallet, id, callback = () => {}} = {}) => {
+const getMessage = async ({
+                              id, callback = () => {
+    }
+                          } = {}) => {
     try {
-        const signature = await helpers.web3.authentication.getSignature(wallet);
-        await axios(
+        const {data} = await axios(
             {
                 method: 'post',
                 url: `${API_URL}Message/${id}/read/`,
             }
         )
-        toast.success('Message marked as read successfully.')
-
+        return data
     } catch (e) {
         console.log('markMessageAsRead error:', e);
-        toast.error('Something wen\'t wrong.')
     }
 };
 
@@ -68,21 +68,23 @@ const markMessageAsDeleted = async ({wallet, id, callback = () => {}} = {}) => {
             {
                 method: 'post',
                 url: `${API_URL}Message/${id}/delete/`,
+                data: {
+                    signature,
+                    user_address: wallet.account
+                }
             }
         )
-        toast.success('Message marked as deleted successfully.')
-
+        return true
     } catch (e) {
         console.log('markMessageAsDeleted error:', e);
-        toast.error('Something wen\'t wrong.')
+        return false
     }
 };
-
 
 
 export default {
     getMessages,
     createMessage,
-    markMessageAsRead,
+    getMessage,
     markMessageAsDeleted
 }
