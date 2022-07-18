@@ -50,14 +50,14 @@ export default function CardItem(props) {
             <div className="absolute flex items-center justify-center top-2 right-2 gap-2">
                 {(wallet.status === "connected" && props?.admin && checkAdmin(wallet.account)) &&
                     <Link href={`management/${props.slug}`}>
-                        <div className="flex items-center justify-center w-10 h-10 bg-white rounded-xl hover:cursor-pointer">
+                        <div className="flex items-center justify-center w-10 h-10 bg-white/30 rounded-xl hover:cursor-pointer">
                             <motion.span className="w-5 h-5" whileHover={{rotate: 90}}>
-                                <i className="fa-regular fa-gear text-indigo-500 text-xl"/>
+                                <i className="fa-regular fa-gear text-white text-xl"/>
                             </motion.span>
                         </div>
                     </Link>
                 }
-                <div className="flex items-center justify-center w-10 h-10 bg-white rounded-xl">
+                <div className="flex items-center justify-center w-10 h-10 bg-white/30 rounded-xl">
                     <Image src="https://avatea-bucket.s3.amazonaws.com/media/images/Binance-coin-bnb-logo_s1xsqhX.png" alt="networkImage" width={20} height={20}
                            objectFit="contain"/>
                 </div>
