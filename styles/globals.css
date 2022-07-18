@@ -111,3 +111,64 @@ input[type="range"]::-webkit-slider-thumb {
 .react-multiple-carousel__arrow {
     z-index: 20 !important;
 }
+
+/*  react dropdown tree  */
+.react-dropdown-tree-select {
+  @apply h-fit
+}
+
+.dropdown {
+  @apply w-full justify-center
+}
+
+.dropdown-trigger {
+  @apply !flex items-center !px-3 w-full !border-0 bg-gray-100 rounded-lg
+}
+
+.tag-list {
+  @apply !block w-full overflow-x-hidden
+}
+
+.tag-item {
+  @apply !inline-flex
+}
+
+.tag {
+  @apply !flex items-center gap-2 !border-none !px-4 !py-2 !rounded-full !bg-gray-200 text-gray-500 leading-none
+}
+
+.tag-remove {
+  @apply !text-base -mt-[0.5px]
+}
+
+.search {
+  @apply !flex items-center !px-4 !py-2.5
+}
+
+.dropdown-trigger.arrow.bottom:after {
+
+}
+
+.dropdown-content {
+  @apply !w-full mt-1 !shadow-md !p-4 !rounded-md
+}
+
+.node {
+  @apply !mb-1
+}
+
+.node.tree[aria-level="1"] {
+  @apply !pl-2
+}
+
+.node.tree {
+  @apply cursor-pointer !py-2 rounded-md hover:bg-gray-100 transition
+}
+
+.node.leaf {
+  @apply cursor-pointer !py-2 rounded-md hover:bg-gray-100 transition
+}
+
+.checkbox-item {
+  @apply w-5 h-5 cursor-pointer
+}
