@@ -5,13 +5,14 @@ import TableRow from "../../../core/table/TableRow";
 import TableCol from "../../../core/table/TableCol";
 import hashicon from "hashicon";
 import Image from "next/image";
+import moment from "moment";
 
 
 export default function AddressAndAmountAndTimeTable(props) {
 
     return (
         <div className="table flex flex-col w-full h-full">
-            <div className="table-header grid grid-cols-3 md-lg:grid-cols-12 px-2 mb-5 w-full">
+            <div className="table-header grid grid-cols-4 md-lg:grid-cols-12 px-2 mb-5 w-full">
                 <TableCol className="flex flex-row items-center col-span-2 md-lg:col-span-10 hover:cursor-pointer">
                     {/*<Checkbox />*/}
                     <div className="flex flex-row items-center space-x-1">
@@ -19,15 +20,15 @@ export default function AddressAndAmountAndTimeTable(props) {
                         {/*<i className="fa-solid fa-chevron-down"/>*/}
                     </div>
                 </TableCol>
-                <TableCol className="flex flex-row items-center space-x-1 col-span-1 md-lg:col-span-2 hover:cursor-pointer">
+                <TableCol className="flex flex-row items-center space-x-1 col-span-1 md-lg:col-span-4 hover:cursor-pointer">
                     <h1 className="truncate text-base">Amount Sent</h1>
                     {/*<i className="fa-solid fa-chevron-down"/>*/}
                 </TableCol>
-                <TableCol className="flex flex-row items-center space-x-1 col-span-1 md-lg:col-span-2 hover:cursor-pointer">
+                <TableCol className="flex flex-row items-center space-x-1 col-span-1 md-lg:col-span-4 hover:cursor-pointer">
                     <h1 className="truncate text-base">Time Stamp</h1>
                     {/*<i className="fa-solid fa-chevron-down"/>*/}
                 </TableCol>
-                <TableCol className="flex flex-row items-center space-x-1 col-span-1 md-lg:col-span-2 hover:cursor-pointer">
+                <TableCol className="flex flex-row items-center space-x-1 col-span-1 md-lg:col-span-4 hover:cursor-pointer">
                     <h1 className="truncate text-base">Transaction</h1>
                     {/*<i className="fa-solid fa-chevron-down"/>*/}
                 </TableCol>
@@ -35,7 +36,7 @@ export default function AddressAndAmountAndTimeTable(props) {
             <div className="table-body flex flex-col">
                 {props.transactions.map((transaction, index) => (
                     <TableRow key={index}>
-                        <TableCol className="flex flex-row items-center col-span-2 md-lg:col-span-10">
+                        <TableCol className="flex flex-row items-center col-span-4 md-lg:col-span-10">
                             <Image
                                 src={hashicon(
                                     transaction.user_address
@@ -46,14 +47,14 @@ export default function AddressAndAmountAndTimeTable(props) {
                             />
                             <span className="ml-2 truncate text-base font-medium"> {transaction.user_address}</span>
                         </TableCol>
-                        <TableCol className="flex flex-row items-center col-span-1 md-lg:col-span-2">
+                        <TableCol className="flex flex-row items-center col-span-1 md-lg:col-span-4">
                             <img src={props.tokenImage} className={'max-w-[20px]'} alt="Token"/>
                             <span className=" ml-2 truncate text-base font-medium">
                                {transaction.amount}</span>
                         </TableCol>
-                        <TableCol className="flex flex-row items-center col-span-1 md-lg:col-span-2">
+                        <TableCol className="flex flex-row items-center col-span-1 md-lg:col-span-4">
                             <span className=" ml-2 truncate text-base font-medium">
-                               {transaction.timestamp}</span>
+                                {moment(transaction.timestamp).format("llll")}</span>
                         </TableCol>
                         <TableCol className="col-span-1 flex items-center justify-center">
                             <a target={'_blank'} href={`https://rinkeby.etherscan.io/tx/${transaction.hash}`} rel={'noreferrer'}>

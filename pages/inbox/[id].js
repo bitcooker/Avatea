@@ -24,7 +24,7 @@ export default function InboxDetail() {
             };
             fetchMessage();
         }
-    }, [id]);
+    }, [wallet, id]);
 
     const deleteMessage = async () => {
         const result = await helper.messages.markMessageAsDeleted({wallet, id});
