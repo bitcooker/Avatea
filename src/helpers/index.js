@@ -12,6 +12,7 @@ import authentication from "./web3/authentication";
 import article from "./article";
 import validator from "./validator";
 import transactions from "./transactions";
+import messages from "./messages";
 import liquidityMaker from "./web3/liquidityMaker";
 import liquidityMakerRest from "./liquidityMaker";
 
@@ -40,5 +41,6 @@ export default {
     callback,
     formatting,
     validator,
-    transactions
+    transactions,
+    messages
 }
