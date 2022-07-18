@@ -66,7 +66,7 @@ export default function Inbox(props) {
             {/* content */}
             <div className="">
                 {messages.map((message, index) => (
-                    <Link href={{pathname: `/inbox/detail`, query: message}} key={index}>
+                    <Link href={{pathname: `/inbox/` + message.id}} key={index}>
                         <div className="flex p-4 gap-5 items-center hover:bg-gray-100/50 hover:cursor-pointer transition">
                             <div className="flex" onClick={(e) => e.stopPropagation()}>
                                 <Checkbox initialValue={select[index]} setValue={() => {
@@ -79,7 +79,7 @@ export default function Inbox(props) {
                                 {message.subject}
                             </div>
                             <div className="hidden md:flex">
-                                {moment(message.timestamp).format("llll")}
+                                {moment(message.sent_at).format("llll")}
                             </div>
                         </div>
                     </Link>
