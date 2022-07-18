@@ -45,15 +45,20 @@ export default function CardItem(props) {
   return (
     <div className="relative rounded-2.5xl bg-white overflow-hidden transition hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
       <CardImage image={props.banner} id={props.slug} />
-      { (wallet.status === "connected" && props?.admin && checkAdmin(wallet.account)) &&
-        <Link href={`management/${props.slug}`}>
-            <div className="absolute flex items-center justify-center top-2 right-2 w-10 h-10 bg-white rounded-xl hover:cursor-pointer">
-                <motion.span className="w-5 h-5" whileHover={{ rotate: 90 }}>
-                    <i className="fa-regular fa-gear text-indigo-500 text-xl" />
-                </motion.span>
-            </div>
-        </Link>
-      }
+      <div className="absolute flex items-center justify-center top-2 right-2 gap-2">
+        { (wallet.status === "connected" && props?.admin && checkAdmin(wallet.account)) &&
+            <Link href={`management/${props.slug}`}>
+                <div className="flex items-center justify-center w-10 h-10 bg-white rounded-xl hover:cursor-pointer">
+                    <motion.span className="w-5 h-5" whileHover={{ rotate: 90 }}>
+                        <i className="fa-regular fa-gear text-indigo-500 text-xl" />
+                    </motion.span>
+                </div>
+            </Link>
+        }
+        <div className="flex items-center justify-center w-10 h-10 bg-white rounded-xl">
+            <Image src="https://avatea-bucket.s3.amazonaws.com/media/images/Binance-coin-bnb-logo_s1xsqhX.png" alt="networkImage" width={20} height={20} objectFit="contain" />
+        </div>
+      </div>
       <div className="relative py-7.5 px-5">
         <div className="absolute -top-9 p-2 flex items-center justify-center w-14 h-14 bg-white shadow-[0_4px_8px_rgba(0,0,0,0.08)] rounded-0.5xl">
           <img src={props.image} alt={props.slug} />
