@@ -98,8 +98,8 @@ export default function Vault({vault, wallet, project, setTab}) {
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-treasure-chest"/> Generated Rewards</span>
                                 <span className="flex text-base font-medium">
-                                    <Image src={project.image} alt="projectImage" className="mr-2.5" width={24} height={24}/>
-                                    {earnedTokens}
+                                    <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                    <span className="mx-2.5">{earnedTokens}</span>
                                 </span>
                             </div>
                             <div className="flex justify-between">
@@ -108,7 +108,7 @@ export default function Vault({vault, wallet, project, setTab}) {
                                 </span>
                                 <span className="flex text-base font-medium">
                                     <Image src={AVATEA_TOKEN_IMAGE} alt="avateaTokenImage" className="mr-2.5" width={24} height={24}/>
-                                    {vaultTLV}
+                                    <span className="mx-2.5">{vaultTLV}</span>
                                 </span>
                             </div>
                             <div className="flex justify-between">
