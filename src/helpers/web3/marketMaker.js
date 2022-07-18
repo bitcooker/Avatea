@@ -443,31 +443,31 @@ const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
 
         const {
             balanceInPairedToken,
-            available,
-            stakedInBaseToken,
-            stakedInPairedToken,
+            balanceInBaseToken,
+            baseTokenStakedInLiquidity,
+            pairedTokenStakedInLiquidity,
             baseAmountBought,
             pairedAmountBought,
             baseAmountSold,
             pairedAmountSold,
             projectOwner,
             allowSelling,
-            maxBaseStakingRatio,
-            maxPairedStakingRatio
+            maxBaseLiquidityRatio,
+            maxPairedLiquidityRatio
         } = data;
         return {
             balanceInPairedToken,
-            available,
-            stakedInBaseToken,
-            stakedInPairedToken,
+            balanceInBaseToken,
+            baseTokenStakedInLiquidity,
+            pairedTokenStakedInLiquidity,
             baseAmountBought,
             pairedAmountBought,
             baseAmountSold,
             pairedAmountSold,
             projectOwner,
             allowSelling,
-            maxBaseStakingRatio,
-            maxPairedStakingRatio
+            maxBaseLiquidityRatio,
+            maxPairedLiquidityRatio
         }
     } catch (e) {
         console.log('holdersMapping error', e);
@@ -577,13 +577,13 @@ const setAllowReleasing = async (wallet, marketMakerAddress, allowReleasing, cal
     }
 }
 
-const setMaxBaseStakingRatio = async (wallet, marketMakerAddress, maxBaseStakingRatio, callback) => {
+const setMaxBaseLiquidityRatio = async (wallet, marketMakerAddress, maxBaseLiquidityRatio, callback) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
-        const tx = await marketMakerContract.setMaxBaseStakingRatio(maxBaseStakingRatio);
+        const tx = await marketMakerContract.setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
         toast.promise(
             tx.wait(),
             {
@@ -610,13 +610,13 @@ const setMaxBaseStakingRatio = async (wallet, marketMakerAddress, maxBaseStaking
     }
 }
 
-const setMaxPairedStakingRatio = async (wallet, marketMakerAddress, maxPairedStakingRatio, callback) => {
+const setMaxPairedLiquidityRatio = async (wallet, marketMakerAddress, maxPairedLiquidityRatio, callback) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
 
-        const tx = await marketMakerContract.setMaxPairedStakingRatio(maxPairedStakingRatio);
+        const tx = await marketMakerContract.setMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
         toast.promise(
             tx.wait(),
             {
@@ -661,6 +661,6 @@ export default {
     revoke,
     setAllowSelling,
     setAllowReleasing,
-    setMaxBaseStakingRatio,
-    setMaxPairedStakingRatio
+    setMaxBaseLiquidityRatio,
+    setMaxPairedLiquidityRatio
 }
