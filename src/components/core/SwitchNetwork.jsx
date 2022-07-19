@@ -66,7 +66,7 @@ export default function SwitchNetwork(props) {
       onClick={() => setOpen(!open)}
     >
         <div className="flex flex-row items-center space-x-2">
-            <img src={`${currentNetwork?.icon}`} alt="network" width={20} height={20} />
+            <Image src={`${currentNetwork?.icon}`} alt="network" width={20} height={20} />
             <span className="hidden md-lg:block">{currentNetwork?.displayName}</span>
         </div>
         
