@@ -8,6 +8,8 @@ import moment from "moment";
 import Checkbox from "../../src/components/core/Checkbox/Checkbox";
 import {useWallet} from "use-wallet";
 import helper from "../../src/helpers";
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 
 
 export default function Inbox(props) {
@@ -76,7 +78,7 @@ export default function Inbox(props) {
                                 <Image src={message.image} alt="" width={24} height={24}/>
                             </div>
                             <div className={message.read_at ? "grow w-1 truncate": "grow w-1 truncate font-bold"}>
-                                {message.subject}
+                                {parse(DOMPurify.sanitize(message.subject))}
                             </div>
                             <div className="hidden md:flex">
                                 {moment(message.sent_at).format("llll")}

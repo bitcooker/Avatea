@@ -32,13 +32,14 @@ export default function Mail(props) {
         })()
     },[slug])
 
-    const onChange = React.useCallback((currentNode, selectedNodes) => {
+    const onChange =(currentNode, selectedNodes) => {
         const newKey = selectedNodes.map(node => {
             return node['label'];
         })
         setSelectedNodeKeys(newKey);
+        console.log(newKey);
         console.log('onChange::', currentNode, selectedNodes)
-    }, [])
+    }
 
     const onAction = React.useCallback((node, action) => {
         console.log('onAction::', action, node)

@@ -6,6 +6,8 @@ import {useWallet} from "use-wallet";
 import helper from "../../src/helpers";
 import Button from "../../src/components/core/Button/Button";
 import Swal from "sweetalert2";
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
 
 export default function InboxDetail() {
     const router = useRouter();
@@ -53,14 +55,15 @@ export default function InboxDetail() {
                         <i className="fa-solid fa-arrow-left text-xl"/>
                     </div>
                     <h1 className="text-2xl md-lg:pl-10">
-                        {message.subject}
+                       {parse(DOMPurify.sanitize(message.subject))}
                     </h1>
                 </div>
                 <span>
                     {moment(message.sent_at).format("llll")}
                 </span>
             </div>
-            {message.body}
+            {parse(DOMPurify.sanitize(message.body))}
+
             <Button handleClick={() => deleteMessage()} name="Delete Message"/>
         </div>
     )
