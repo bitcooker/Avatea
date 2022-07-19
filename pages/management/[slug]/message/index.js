@@ -10,12 +10,15 @@ import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import {API_URL} from "../../../../src/helpers/constants";
 import axios from "axios";
+import helpers from "../../../../src/helpers";
+import {useWallet} from "use-wallet";
 
 export default function Mail(props) {
     const [data, setData] = useState([]);
     const treeData = [];
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
+    const wallet = useWallet();
     const router = useRouter();
     const {slug} = router.query;
 
@@ -57,6 +60,16 @@ export default function Mail(props) {
 
     convertDataToTree(treeData, data);
 
+    const sendMessage = async() => {
+        await helpers.messages.createMessage({
+            wallet,
+            subject: title,
+            body: content,
+            user_addresses: selectedAddresses,
+            project: slug
+        })
+    }
+
     return (
         <div className="flex flex-col min-h-[85vh] p-5 rounded-2.5xl bg-white gap-3.5">
             <div className="flex flex-col gap-3">
@@ -75,7 +88,7 @@ export default function Mail(props) {
             </div>
 
             <div className="flex justify-end">
-                <ButtonFit name="Send" icon="fa-solid fa-paper-plane" />
+                <ButtonFit handleClick={() => sendMessage()} name="Send" icon="fa-solid fa-paper-plane" />
             </div>
         </div>
     )
