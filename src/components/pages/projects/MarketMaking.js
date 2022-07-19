@@ -18,6 +18,7 @@ import Toggle from "../../core/Toggle/Toggle";
 import MaxButton from "./Button/MaxButton";
 import Card from "../projectDetail/Card/Card";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
+import Swal from "sweetalert2";
 
 export default function MarketMaking({wallet, project, marketMakingPool}) {
 
@@ -192,26 +193,68 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     }
 
     const stakePairedToken = async () => {
-        setFresh(false);
-        const wei = ethers.utils.parseEther(amountPairTokenToStake);
-        let success;
-        if (pairedTokenIsWeth) {
-            success = await helper.web3.marketMaker.stakePairedTokenInETH(wallet, marketMakingPool.address, wei, maxPairedLiquidityRatio);
-        } else {
-            success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei, maxPairedLiquidityRatio);
+        console.log(maxPairedLiquidityRatio)
+        const stakeToken = async () => {
+            setFresh(false);
+            const wei = ethers.utils.parseEther(amountPairTokenToStake);
+            let success;
+            if (pairedTokenIsWeth) {
+                success = await helper.web3.marketMaker.stakePairedTokenInETH(wallet, marketMakingPool.address, wei, maxPairedLiquidityRatio);
+            } else {
+                success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei, maxPairedLiquidityRatio);
+            }
+            if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
+            setAmountPairTokenBalance(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake));
+            loadWeb3();
         }
-        if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
-        setAmountPairTokenBalance(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake));
-        loadWeb3();
+        if (newMaxPairedLiquidityRatio > 0) {
+            Swal.fire({
+                title: 'Read before proceeding',
+                text: "Providing Liquidity exposes you to a certain risk reward situation, please use with caution.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                   Swal.close();
+                   stakeToken()
+                }
+            })
+        } else {
+            stakeToken()
+        }
+
     };
 
     const stakeBaseToken = async () => {
-        setFresh(false);
-        console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
-        const wei = ethers.utils.parseEther(amountBaseTokenToStake);
-        let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei, maxBaseLiquidityRatio);
-        if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake));
-        loadWeb3();
+        const stakeToken = async () => {
+            setFresh(false);
+            console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
+            const wei = ethers.utils.parseEther(amountBaseTokenToStake);
+            let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei, maxBaseLiquidityRatio);
+            if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake));
+            loadWeb3();
+        }
+        if (newMaxBaseLiquidityRatio > 0) {
+            Swal.fire({
+                title: 'Read before proceeding',
+                text: "Providing Liquidity exposes you to a certain risk reward situation, please use with caution.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.close();
+                    stakeToken()
+                }
+            })
+        } else {
+            stakeToken()
+        }
     };
 
     const withdrawPairToken = async () => {
