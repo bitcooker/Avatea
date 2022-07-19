@@ -53,7 +53,7 @@ export default function Projects(props) {
                 ) : (projects.length === 0 && loaded === true ? "No vested project" :
                         <div className="flex flex-col space-y-5">
                             <h2 className={'text-2xl col-span-full'}>Active Market Making Pools</h2>
-                            <div className="w-full flex snap-x snap-mandatory overflow-x-auto scrollbar-none sm-md:grid sm-md:grid-cols-2 xl-2xl:grid-cols-3 gap-5">
+                            <div className="w-full flex snap-x snap-mandatory overflow-x-auto scrollbar-none sm-md:grid sm-md:grid-cols-2 xl-2xl:grid-cols-2 gap-5">
                                 {projects.map((project, index) =>
                                     <div className="w-full snap-center shrink-0" key={index}>
                                         <MyActivityCardItem {...project}/>

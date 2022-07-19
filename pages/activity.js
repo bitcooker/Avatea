@@ -19,12 +19,12 @@ export default function Activity() {
             {
                 wallet.status === "connected" ? (
                     <>
-                        <Info />
+                        {/*<Info />*/}
 
                         <Projects />
 
-                        <div className="space-y-3.75 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-5">
-                            <Chart />
+                        <div className="space-y-3.75 lg:space-y-0 lg:grid lg:grid-cols-1 lg:gap-5">
+                            {/*<Chart />*/}
                             <Act />
                         </div>
                     </>
