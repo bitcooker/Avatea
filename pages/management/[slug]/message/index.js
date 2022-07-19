@@ -18,6 +18,7 @@ export default function Mail(props) {
     const treeData = [];
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
+    const [selectedNodeKeys, setSelectedNodeKeys] = useState([]);
     const wallet = useWallet();
     const router = useRouter();
     const {slug} = router.query;
@@ -30,6 +31,10 @@ export default function Mail(props) {
     },[slug])
 
     const onChange = React.useCallback((currentNode, selectedNodes) => {
+        const newKey = selectedNodes.map(node => {
+            return node['label'];
+        })
+        setSelectedNodeKeys(newKey)
         console.log('onChange::', currentNode, selectedNodes)
     }, [])
 
@@ -65,7 +70,7 @@ export default function Mail(props) {
             wallet,
             subject: title,
             body: content,
-            user_addresses: selectedAddresses,
+            user_addresses: selectedNodeKeys,
             project: slug
         })
     }
