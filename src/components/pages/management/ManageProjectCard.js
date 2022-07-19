@@ -220,6 +220,9 @@ export default function ManageProjectCard({project}) {
                 <Button name="Edit Articles" handleClick={(e) => {
                     router.push(`${project.slug}/news`)
                 }}/>
+                <Button name="Send Message" handleClick={(e) => {
+                    router.push(`${project.slug}/message`)
+                }}/>
                 <Button name="Contact Support"/>
             </div>
         </Card>
