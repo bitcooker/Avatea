@@ -25,8 +25,10 @@ export default function Mail(props) {
 
     useEffect(() => {
         (async() => {
-            const result = await axios.get(`${API_URL}Project/${slug}/get_addresses/`);
-            setData(result.data.data);
+            if(slug) {
+                const result = await axios.get(`${API_URL}Project/${slug}/get_addresses/`);
+                setData(result.data.data);
+            }
         })()
     },[slug])
 
@@ -34,7 +36,7 @@ export default function Mail(props) {
         const newKey = selectedNodes.map(node => {
             return node['label'];
         })
-        setSelectedNodeKeys(newKey)
+        setSelectedNodeKeys(newKey);
         console.log('onChange::', currentNode, selectedNodes)
     }, [])
 
