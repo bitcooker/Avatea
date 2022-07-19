@@ -43,17 +43,16 @@ export default function Mail(props) {
     //     }
     // }, [])
 
-        useEffect(() => {
+    useEffect(() => {
         console.log('hmmmm')
 
     }, [addressDict])
 
-    const onChange = (currentNode, selectedNodes) => {
+    const onChange = async (currentNode, selectedNodes) => {
           if (currentNode.checked) {
             let dict = addressDict
             dict[currentNode.value] = currentNode.addresses
-              console.log(dict)
-            setAddressDict(dict)
+            await setAddressDict(dict)
         }
 }
 
