@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import DropdownTreeSelect from 'react-dropdown-tree-select'
 import 'react-dropdown-tree-select/dist/styles.css'
 
@@ -15,7 +15,7 @@ import {useWallet} from "use-wallet";
 
 export default function Mail(props) {
     const [data, setData] = useState([]);
-    const [addressDict, setAddressDict] = useState([]);
+    const [addressDict, setAddressDict] = useState({});
     const treeData = [];
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
@@ -43,18 +43,19 @@ export default function Mail(props) {
     //     }
     // }, [])
 
+
     useEffect(() => {
         console.log('hmmmm')
 
     }, [addressDict])
 
-    const onChange = async (currentNode, selectedNodes) => {
+    const onChange = useCallback(async (currentNode, selectedNodes) => {
           if (currentNode.checked) {
             let dict = addressDict
             dict[currentNode.value] = currentNode.addresses
             await setAddressDict(dict)
         }
-}
+},[addressDict])
 
     const onAction = React.useCallback((node, action) => {
         console.log('onAction::', action, node)
@@ -98,7 +99,6 @@ export default function Mail(props) {
         }
     }
 
-    convertDataToTree(treeData, data);
 
     const sendMessage = async () => {
         await helpers.messages.createMessage({
@@ -109,6 +109,9 @@ export default function Mail(props) {
             project: slug
         })
     }
+
+
+        convertDataToTree(treeData, data);
 
     return (
         <div className="flex flex-col min-h-[85vh] p-5 rounded-2.5xl bg-white gap-3.5">
