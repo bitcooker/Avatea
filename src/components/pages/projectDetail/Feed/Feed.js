@@ -9,7 +9,7 @@ export default function Feed(props) {
     }
   };
   return (
-    <div className="flex flex-col h-110 overflow-hidden overflow-y-scroll scroll-smooth space-y-7.5">
+    <div className="flex flex-col h-110 pr-1 overflow-hidden overflow-y-scroll scroll-smooth space-y-7.5">
       {mapFeedItems()}
     </div>
   );

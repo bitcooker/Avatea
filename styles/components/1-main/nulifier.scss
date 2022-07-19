@@ -33,12 +33,12 @@ input::-webkit-inner-spin-button {
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 5px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 /* Handle */
