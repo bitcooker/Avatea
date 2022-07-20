@@ -5,6 +5,8 @@ import Script from "next/script";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 
+import { AppWrapper } from "../context/AppContext";
+
 // components
 import Header from "./Header";
 import Sidebar from "./Sidebar";
@@ -39,25 +41,27 @@ export default function Layout({ children }) {
         pollBlockNumberInterval={3000}
         pollBalanceInterval={3000}
       >
-        <Sidebar menu={menu} setMenu={setMenu} setTitle={setTitle} />
-        <main>
-          <div className="min-h-[100vh] pb-5 px-[15px] lg-xl:px-5 lg-xl:pl-[220px] xl-2xl:pr-5 xl-2xl:pl-[295px]">
-            <Header menu={menu} setMenu={setMenu} title={title} />
-            {children}
-            <ToastContainer
-              transition={Slide}
-              position="bottom-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
-          </div>
-        </main>
+        <AppWrapper>
+            <Sidebar menu={menu} setMenu={setMenu} setTitle={setTitle} />
+            <main>
+                <div className="min-h-[100vh] pb-5 px-[15px] lg-xl:px-5 lg-xl:pl-[220px] xl-2xl:pr-5 xl-2xl:pl-[295px]">
+                <Header menu={menu} setMenu={setMenu} title={title} />
+                {children}
+                <ToastContainer
+                    transition={Slide}
+                    position="bottom-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
+                </div>
+            </main>
+        </AppWrapper>
       </UseWalletProvider>
     </>
   );
