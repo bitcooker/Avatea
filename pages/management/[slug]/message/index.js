@@ -13,10 +13,46 @@ import axios from "axios";
 import helpers from "../../../../src/helpers";
 import {useWallet} from "use-wallet";
 
+
+
+
+const get_addresses = (data, addresses) => {
+    if (Array.isArray(data)) {
+        addresses.push(...data)
+    } else {
+
+        for (const key in data) {
+            if (Array.isArray(data[key])) {
+                addresses.push(...data[key])
+            } else {
+                addresses = get_addresses(data[key], addresses)
+            }
+        }
+    }
+    return addresses
+}
+
+const convertDataToTree = (tree, data) => {
+    if (Array.isArray(data)) {
+        return
+    }
+    let i = 0;
+    for (const key in data) {
+        tree[i] = {
+            label: key,
+            value: key,
+            children: [],
+            addresses: get_addresses(data[key], [])
+        }
+        convertDataToTree(tree[i].children, data[key])
+        i++;
+    }
+}
+
 export default function Mail(props) {
     const [data, setData] = useState([]);
+    const [treeData, setTreeData] = React.useState([]);
     const [addresses, setAddresses] = useState([]);
-    const treeData = [];
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
     const [selectedNodeKeys, setSelectedNodeKeys] = useState([]);
@@ -28,64 +64,30 @@ export default function Mail(props) {
         (async () => {
             const result = await axios.get(`${API_URL}Project/${slug}/get_addresses/`);
             setData(result.data.data);
+
+            let tree = [];
+            convertDataToTree(tree, result.data.data);
+            setTreeData(tree);
         })()
     }, [slug])
 
 
-    const onChange = async (currentNode, selectedNodes) => {
+    const onChange = React.useCallback(async (currentNode, selectedNodes) => {
         let addresses = []
         selectedNodes.forEach(function (item, index) {
             addresses = [...addresses, ...item.addresses];
         });
         const unique = [...new Set(addresses)];
-        console.log(unique)
+        // console.log(unique)
         // TODO fix setAddresses without breaking UI
-        // setAddresses(unique)
-    }
+        setAddresses(unique)
+    }, [])   
 
     const onAction = React.useCallback((node, action) => {
-        console.log('onAction::', action, node)
     }, [])
 
     const onNodeToggle = React.useCallback(currentNode => {
-        console.log('onNodeToggle::', currentNode)
     }, [])
-
-
-    const get_addresses = (data, addresses) => {
-        if (Array.isArray(data)) {
-            addresses.push(...data)
-        } else {
-
-            for (const key in data) {
-                if (Array.isArray(data[key])) {
-                    addresses.push(...data[key])
-                } else {
-                    addresses = get_addresses(data[key], addresses)
-                }
-            }
-        }
-        return addresses
-    }
-
-    const convertDataToTree = (tree, data) => {
-        if (Array.isArray(data)) {
-            return
-        }
-        let i = 0;
-        for (const key in data) {
-            tree[i] = {
-                label: key,
-                value: key,
-                children: [],
-                addresses: get_addresses(data[key], [])
-            }
-            convertDataToTree(tree[i].children, data[key])
-            i++;
-        }
-    }
-
-    convertDataToTree(treeData, data);
 
     const sendMessage = async () => {
         await helpers.messages.createMessage({
@@ -97,11 +99,17 @@ export default function Mail(props) {
         })
     }
 
+    const DropdownTreeSelectMemo = React.useMemo(() => {
+        return <DropdownTreeSelect data={treeData} onChange={onChange} onAction={onAction} onNodeToggle={onNodeToggle}/>
+    }, [onAction, onChange, onNodeToggle, treeData])
+
+    console.log(addresses)
+
     return (
         <div className="flex flex-col min-h-[85vh] p-5 rounded-2.5xl bg-white gap-3.5">
             <div className="flex flex-col gap-3">
                 <span>To</span>
-                <DropdownTreeSelect data={treeData} onChange={onChange} onAction={onAction} onNodeToggle={onNodeToggle}/>
+                {DropdownTreeSelectMemo}
             </div>
 
             <div className="flex flex-col gap-3">
