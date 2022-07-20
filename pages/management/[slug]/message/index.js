@@ -50,12 +50,10 @@ const convertDataToTree = (tree, data) => {
 }
 
 export default function Mail(props) {
-    const [data, setData] = useState([]);
     const [treeData, setTreeData] = React.useState([]);
     const [addresses, setAddresses] = useState([]);
     const [title, setTitle] = React.useState("");
     const [content, setContent] = React.useState("");
-    const [selectedNodeKeys, setSelectedNodeKeys] = useState([]);
     const wallet = useWallet();
     const router = useRouter();
     const {slug} = router.query;
@@ -63,8 +61,6 @@ export default function Mail(props) {
     useEffect(() => {
         (async () => {
             const result = await axios.get(`${API_URL}Project/${slug}/get_addresses/`);
-            setData(result.data.data);
-
             let tree = [];
             convertDataToTree(tree, result.data.data);
             setTreeData(tree);
@@ -94,7 +90,7 @@ export default function Mail(props) {
             wallet,
             subject: title,
             body: content,
-            user_addresses: selectedNodeKeys,
+            user_addresses: addresses,
             project: slug
         })
     }
