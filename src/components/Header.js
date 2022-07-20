@@ -45,7 +45,7 @@ export default function Header({ menu, setMenu, title }) {
   },[]);
 
   return (
-    <header className="relative pt-5 pb-[3%] md:pb-[95px] md-lg:static md-lg:py-7.5">
+    <header className="relative pt-5 pb-[3%] md:pb-[30px] md-lg:static md-lg:py-7.5">
       <div className="flex items-center justify-between">
         <div
           className="text-2xl text-blue-500 lg-xl:hidden hover:cursor-pointer hover:text-blue-500/30 transition"

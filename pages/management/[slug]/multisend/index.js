@@ -48,7 +48,7 @@ export default function VestingAdd(props) {
 
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
-            <div className="relative flex flex-col h-[70vh] md-lg:h-[85vh] space-y-7.5">
+            <div className="relative flex flex-col h-[80vh] md-lg:h-[85vh] space-y-7.5">
                 <div className="flex flex-row items-center justify-between">
                     <h1 className="text-2xl">Multi Sender</h1>
                     <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
@@ -56,19 +56,17 @@ export default function VestingAdd(props) {
                             <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
 
                             <ButtonFit>
-                                <a href={'/vesting-template.csv'} download={true}>
-                                    <i className={'fa-solid fa-cloud-arrow-up'}/> Download CSV Template
+                                <a href={'/vesting-template.csv'} className="flex items-center gap-2" download={true}>
+                                    <i className={'fa-solid fa-cloud-arrow-up'}/>
+                                    <span className="hidden md-lg:block"> Download CSV Template </span>
+                                    <span className="inline-block md-lg:hidden"> Download </span>
                                 </a>
                             </ButtonFit>
-
                         </div>
-
                     </div>
-
                 </div>
                 <div className="flex flex-col grow p-5 space-y-3.75 bg-white rounded-2xl">
                     <div className="grow">
-
                         <div
                             className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
                             <AddressAndAmountAndTimeTable tokenImage={project.image} transactions={transactions}/>
