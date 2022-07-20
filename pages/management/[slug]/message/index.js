@@ -74,8 +74,6 @@ export default function Mail(props) {
             addresses = [...addresses, ...item.addresses];
         });
         const unique = [...new Set(addresses)];
-        // console.log(unique)
-        // TODO fix setAddresses without breaking UI
         setAddresses(unique)
     }, [])   
 
