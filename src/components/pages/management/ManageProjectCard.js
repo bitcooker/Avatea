@@ -13,6 +13,7 @@ import TextArea from "../../core/TextArea/TextArea";
 
 // page components
 import Card from "../projectDetail/Card/Card";
+import RichEditor from "../../core/RichEditor/RichEditor";
 
 export default function ManageProjectCard({project}) {
 
@@ -85,13 +86,8 @@ export default function ManageProjectCard({project}) {
                         {/* Description */}
                         <div className="flex flex-col grow space-y-3.75">
                             <h1 className="text-base">Description</h1>
-                            <TextArea
-                                id="description"
-                                name="description"
-                                setValue={setProjectDescription}
-                                value={projectDescription}
-                                classNames="!h-full"
-                            />
+                            <RichEditor value={projectDescription} setValue={setProjectDescription}/>
+
                         </div>
                     </div>
                     <div className="w-full space-y-3.75">
