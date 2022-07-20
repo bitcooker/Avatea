@@ -21,13 +21,14 @@ export default function Inbox(props) {
     useEffect(() => {
 
         const fetchMessages = async () => {
-            const result = await helper.messages.getMessages({recipient: wallet.account});
-            console.log(result)
-            setMessages(result);
+            if (wallet.account) {
+                const result = await helper.messages.getMessages({recipient: wallet.account});
+                setMessages(result);
+            }
         };
         fetchMessages();
 
-    }, []);
+    }, [wallet]);
 
     return (
         <div className="rounded-2.5xl bg-white overflow-hidden">
@@ -77,7 +78,7 @@ export default function Inbox(props) {
                             <div className="flex w-6">
                                 <Image src={message.image} alt="" width={24} height={24}/>
                             </div>
-                            <div className={message.read_at ? "grow w-1 truncate": "grow w-1 truncate font-bold"}>
+                            <div className={message.read_at ? "grow w-1 truncate" : "grow w-1 truncate font-bold"}>
                                 {parse(DOMPurify.sanitize(message.subject))}
                             </div>
                             <div className="hidden md:flex">
