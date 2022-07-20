@@ -74,8 +74,6 @@ export default function Mail(props) {
             addresses = [...addresses, ...item.addresses];
         });
         const unique = [...new Set(addresses)];
-        // console.log(unique)
-        // TODO fix setAddresses without breaking UI
         setAddresses(unique)
     }, [])   
 
@@ -99,12 +97,11 @@ export default function Mail(props) {
         return <DropdownTreeSelect data={treeData} onChange={onChange} onAction={onAction} onNodeToggle={onNodeToggle}/>
     }, [onAction, onChange, onNodeToggle, treeData])
 
-    console.log(addresses)
 
     return (
         <div className="flex flex-col min-h-[85vh] p-5 rounded-2.5xl bg-white gap-3.5">
             <div className="flex flex-col gap-3">
-                <span>To</span>
+                <span>To {addresses.length> 0  && '(' + addresses.length + ' addresses)'  }</span>
                 {DropdownTreeSelectMemo}
             </div>
 
