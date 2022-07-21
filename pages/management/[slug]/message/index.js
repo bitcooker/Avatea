@@ -12,6 +12,7 @@ import {API_URL} from "../../../../src/helpers/constants";
 import axios from "axios";
 import helpers from "../../../../src/helpers";
 import {useWallet} from "use-wallet";
+import RichEditor from "../../../../src/components/core/RichEditor/RichEditor";
 
 
 
@@ -112,7 +113,7 @@ export default function Mail(props) {
 
             <div className="grow flex flex-col gap-3">
                 <span>Content</span>
-                <TextArea id="content" name="content" value={content} setValue={setContent} placeholder="Please enter content" classNames="grow"/>
+                <RichEditor value={content} setValue={setContent}/>
             </div>
 
             <div className="flex justify-end">

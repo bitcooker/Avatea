@@ -49,6 +49,6 @@ const formats = [
 
 export default function RichEditor(props) {
     return <div className="flex flex-col w-full h-full">
-                <QuillNoSSRWrapper onChange={props.setValue} value={props.value} modules={modules} formats={formats}  theme="snow" />
+                <QuillNoSSRWrapper onChange={props.setValue} defaultValue={props.value} modules={modules} formats={formats}  theme="snow" />
             </div>
 }
