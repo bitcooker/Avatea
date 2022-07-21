@@ -69,7 +69,7 @@ export default function News(props) {
               <div className="flex flex-row items-center justify-between">
                   <h1 className="text-2xl">Update Article</h1>
               </div>
-              <div className="flex flex-col p-7.5 bg-white gap-5 rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
+              <div className="grow flex flex-col p-7.5 bg-white gap-5 rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
                   <div className="flex flex-col space-y-3.75">
                       <div className="flex flex-row">
                       </div>
@@ -87,7 +87,7 @@ export default function News(props) {
                       </div>
                       <FileInput id="newsImage" label="News Image" image={newsImageURL} setValue={setNewsImage} type={"image/*"} />
                   </div>
-                  <div className="grow">
+                  <div className="grow flex flex-col">
                       <h2 className={'text-xl mb-2.5'}>Description</h2>
                       <RichEditor value={description} setValue={setDescription}/>
                   </div>
