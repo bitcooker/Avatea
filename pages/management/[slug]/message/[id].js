@@ -1,18 +1,30 @@
 import * as React from "react";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import moment from "moment";
 import {useWallet} from "use-wallet";
 import helper from "../../../../src/helpers";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
+import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 
-export default function InboxDetail() {
+export default function InboxDetail(props) {
     const router = useRouter();
 
     const wallet = useWallet();
     const [message, setMessage] = React.useState({});
-    const {id} = router.query;
+    const {id,slug} = router.query;
+    const [project, setProject] = useState({});
+
+    useEffect(() => {
+        if (props.projectDetail) setProject(props.projectDetail);
+        else {
+            (async () => {
+                const result = await helper.project.getProject(slug);
+                setProject(result?.project);
+            })();
+        }
+    }, [slug]);
 
     useEffect(() => {
         if (id) {
@@ -27,6 +39,8 @@ export default function InboxDetail() {
 
 
     return (
+        <ManagementAuthentication wallet={wallet} project={project}>
+
         <div className="flex flex-col gap-5 p-4 md:p-10 h-[70vh] md:h-[80vh] bg-white rounded-2.5xl">
             {/* Header */}
             <div className="flex flex-col md:flex-row items-center justify-between">
@@ -37,15 +51,21 @@ export default function InboxDetail() {
                         <i className="fa-solid fa-arrow-left text-xl"/>
                     </div>
                     <h1 className="text-2xl md-lg:pl-10">
-                        {parse(DOMPurify.sanitize(message.subject))}
+                        {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.subject))}
                     </h1>
                 </div>
                 <span>
                     {moment(message.sent_at).format("llll")}
                 </span>
             </div>
-            {parse(DOMPurify.sanitize(message.body))}
+            {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.body))}
 
         </div>
+        </ManagementAuthentication>
+
     )
+}
+
+export async function getServerSideProps(context) {
+    return await helper.project.getProjectServerSide(context);
 }

@@ -22,8 +22,7 @@ export default function FeedItem(props) {
       <div className="col-span-2 xl:col-span-3">
         <div className="flex flex-col h-full justify-between">
           <span className="text-base font-bold">{title}</span>
-          <div>{parse(DOMPurify.sanitize(description))}</div>
-
+          <div>{typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(description))}</div>
           <Button>
             <Link href={link}>
               <>

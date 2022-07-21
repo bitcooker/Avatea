@@ -11,6 +11,7 @@ import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import {useRouter} from "next/router";
 import Tooltip from "../../../../src/components/core/Tooltip/Tooltip";
+import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 
 
 export default function Inbox(props) {
@@ -44,6 +45,9 @@ export default function Inbox(props) {
     }, [wallet, project]);
 
     return (
+        <ManagementAuthentication wallet={wallet} project={project}>
+
+
         <div className="rounded-2.5xl bg-white overflow-hidden">
             {/* Header */}
             <div className="flex justify-between p-4 border-b">
@@ -92,12 +96,12 @@ export default function Inbox(props) {
                                 {message.recipient}
                             </div>
                             <div className="grow w-1 truncate">
-                                {parse(DOMPurify.sanitize(message.subject))}
+                                {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.subject))}
                             </div>
-                            <div className="grow w-1 truncate">
+                            <div className="grow w-1 truncate relative">
                                 {message.read_at ?
 
-                                    <span className="relative flex flex-col items-center justify-center group">
+                                    <span className="relative  flex-row ">
                                         <i className="fa-solid fa-eye fa-xs text-slate-600"></i>
                                         <Tooltip title={moment(message.read_at).format("llll")}/>
                                     </span>
@@ -114,6 +118,7 @@ export default function Inbox(props) {
                 ))}
             </div>
         </div>
+        </ManagementAuthentication>
     )
 }
 

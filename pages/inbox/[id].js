@@ -55,14 +55,14 @@ export default function InboxDetail() {
                         <i className="fa-solid fa-arrow-left text-xl"/>
                     </div>
                     <h1 className="text-2xl md-lg:pl-10">
-                       {parse(DOMPurify.sanitize(message.subject))}
+                        {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.subject))}
                     </h1>
                 </div>
                 <span>
                     {moment(message.sent_at).format("llll")}
                 </span>
             </div>
-            {parse(DOMPurify.sanitize(message.body))}
+            {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.body))}
 
             <Button handleClick={() => deleteMessage()} name="Delete Message"/>
         </div>

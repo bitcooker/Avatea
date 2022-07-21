@@ -79,7 +79,7 @@ export default function Inbox(props) {
                                 <Image src={message.image} alt="" width={24} height={24}/>
                             </div>
                             <div className={message.read_at ? "grow w-1 truncate" : "grow w-1 truncate font-bold"}>
-                                {parse(DOMPurify.sanitize(message.subject))}
+                                {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.subject))}
                             </div>
                             <div className="hidden md:flex">
                                 {moment(message.sent_at).format("llll")}
