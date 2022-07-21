@@ -4,6 +4,7 @@ import { useWallet } from "use-wallet";
 import Image from "next/image";
 import {ethers} from "ethers";
 import hashicon from "hashicon";
+import Hamburger from "hamburger-react"
 
 import helpers from "../helpers";
 import networks from "./../network/network.json";
@@ -45,19 +46,20 @@ export default function Header({ menu, setMenu, title }) {
   },[]);
 
   return (
-    <header className="fixed top-0 left-0 px-5 w-full z-50 bg-white/95 backdrop-blur-sm md:relative md:bg-transparent md:px-0 pt-5 pb-[3%] md:pb-[30px] md-lg:static md-lg:py-7.5">
+    <header className="fixed top-0 left-0 px-1 py-3 w-full z-50 bg-white/95 backdrop-blur-sm md:relative md:bg-transparent md:px-0 md:pb-[30px] md-lg:py-7.5">
       <div className="flex items-center justify-between">
-        <div
-          className="text-2xl text-blue-500 lg-xl:hidden hover:cursor-pointer hover:text-blue-500/30 transition"
-          onClick={() => {
-            setMenu(!menu);
-          }}
-        >
-          <i className="fa-light fa-bars-staggered" />
+        <div className="flex gap-5 lg-xl:hidden">
+            <Hamburger toggled={menu} toggle={setMenu} size={20} />
+            {/* Avatea logo */}
+            <div className="flex items-center md-lg:hidden">
+                <Image src="/logo.svg" alt="logo" width={126} height={22} />
+            </div>
         </div>
+
+        {/* title */}
         <h1 className="hidden lg-xl:block lg-xl:text-2xl">{title}</h1>
         <div className="flex items-center">
-            <div className={'relative mr-5 '}>
+            <div className={'hidden md-lg:flex relative mr-5 '}>
                 <span className="flex h-5 w-5 absolute -top-2 -right-2.5 z-10">
                   {/*<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>*/}
                   <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
@@ -66,7 +68,6 @@ export default function Header({ menu, setMenu, title }) {
                     {unreadMessages}
                 </span>
                 <i className="relative fa-light fa-envelope text-2xl hover:cursor-pointer z-0" />
-
             </div>
             <div className="mr-2.5">
                 <SwitchNetwork />
@@ -81,7 +82,7 @@ export default function Header({ menu, setMenu, title }) {
                 className="flex justify-center box-border items-center px-7.5 py-3 bg-indigo-500 text-white rounded-4xl hover:cursor-pointer hover:bg-indigo-500/80 transition"
                 onClick={() => wallet.reset()}
               >
-                <span className="text-base mr-2">
+                <span className="hidden md:block text-base mr-2">
                   {shortenAddress(wallet.account)}
                 </span>
                 <Image
@@ -100,7 +101,8 @@ export default function Header({ menu, setMenu, title }) {
                 className="flex justify-center items-center px-7.5 py-3 bg-indigo-500 text-white rounded-4xl hover:cursor-pointer hover:bg-indigo-500/80 transition"
                 onClick={() => setModalOpen(!modalOpen)}
               >
-                <span className="text-base">Connect with wallet</span>
+                <span className="hidden md-lg:inline-block text-base">Connect with wallet</span>
+                <span className="inline-block md-lg:hidden"> Connect </span>
               </button>
             </div>
           )}
