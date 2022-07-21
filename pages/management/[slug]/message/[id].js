@@ -3,9 +3,7 @@ import {useEffect} from "react";
 import {useRouter} from "next/router";
 import moment from "moment";
 import {useWallet} from "use-wallet";
-import helper from "../../src/helpers";
-import Button from "../../src/components/core/Button/Button";
-import Swal from "sweetalert2";
+import helper from "../../../../src/helpers";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 
@@ -19,30 +17,14 @@ export default function InboxDetail() {
     useEffect(() => {
         if (id) {
             const fetchMessage = async () => {
-                const result = await helper.messages.readMessage({wallet, id});
-                if (wallet.account === result.recipient) {
-                    setMessage(result);
-                }
+                const result = await helper.messages.getMessage({id});
+                setMessage(result);
+
             };
             fetchMessage();
         }
-    }, [wallet, id]);
+    }, [id]);
 
-    const deleteMessage = async () => {
-        const result = await helper.messages.markMessageAsDeleted({wallet, id});
-        if (result) {
-            await Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "The message has been deleted",
-                showConfirmButton: false,
-                timer: 3000,
-                didClose() {
-                    router.push(`/inbox`);
-                },
-            });
-        }
-    };
 
     return (
         <div className="flex flex-col gap-5 p-4 md:p-10 h-[70vh] md:h-[80vh] bg-white rounded-2.5xl">
@@ -55,7 +37,7 @@ export default function InboxDetail() {
                         <i className="fa-solid fa-arrow-left text-xl"/>
                     </div>
                     <h1 className="text-2xl md-lg:pl-10">
-                       {parse(DOMPurify.sanitize(message.subject))}
+                        {parse(DOMPurify.sanitize(message.subject))}
                     </h1>
                 </div>
                 <span>
@@ -64,7 +46,6 @@ export default function InboxDetail() {
             </div>
             {parse(DOMPurify.sanitize(message.body))}
 
-            <Button handleClick={() => deleteMessage()} name="Delete Message"/>
         </div>
     )
 }

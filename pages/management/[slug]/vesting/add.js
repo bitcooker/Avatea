@@ -125,15 +125,15 @@ export default function VestingAdd(props) {
 
             if (response) {
                 await Swal.fire({
-                                    position: "center",
-                                    icon: "success",
-                                    title: "The Vesting Schedule has been created",
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    didClose() {
-                                        router.push(`/management/${project.slug}/vesting`);
-                                    },
-                                });
+                    position: "center",
+                    icon: "success",
+                    title: "The Vesting Schedule has been created",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    didClose() {
+                        router.push(`/management/${project.slug}/vesting`);
+                    },
+                });
             }
         } catch (error) {
             console.log(error);

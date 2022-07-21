@@ -44,7 +44,7 @@ const createMessage = async ({wallet, subject, body, user_addresses,project, cal
 };
 
 
-const getMessage = async ({
+const readMessage = async ({
                               id, callback = () => {
     }
                           } = {}) => {
@@ -57,7 +57,22 @@ const getMessage = async ({
         )
         return data
     } catch (e) {
-        console.log('markMessageAsRead error:', e);
+        console.log('readMessage error:', e);
+    }
+};
+
+const getMessage = async ({id, callback = () => {}} = {}) => {
+    try {
+        const {data} = await axios(
+            {
+                method: 'get',
+                url: `${API_URL}Message/${id}/`,
+            }
+        )
+        console.log(data)
+        return data
+    } catch (e) {
+        console.log('getMessage error:', e);
     }
 };
 
@@ -85,6 +100,7 @@ const markMessageAsDeleted = async ({wallet, id, callback = () => {}} = {}) => {
 export default {
     getMessages,
     createMessage,
+    readMessage,
     getMessage,
     markMessageAsDeleted
 }
