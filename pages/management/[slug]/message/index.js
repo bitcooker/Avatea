@@ -5,7 +5,6 @@ import 'react-dropdown-tree-select/dist/styles.css'
 
 // core components
 import InputEmpty from "../../../../src/components/core/Input/InputEmpty"
-import TextArea from "../../../../src/components/core/TextArea/TextArea"
 import ButtonFit from "../../../../src/components/core/Button/ButtonFit"
 import {useRouter} from "next/router";
 import {API_URL} from "../../../../src/helpers/constants";
@@ -13,8 +12,7 @@ import axios from "axios";
 import helpers from "../../../../src/helpers";
 import {useWallet} from "use-wallet";
 import RichEditor from "../../../../src/components/core/RichEditor/RichEditor";
-
-
+import Swal from "sweetalert2";
 
 
 const get_addresses = (data, addresses) => {
@@ -76,7 +74,7 @@ export default function Mail(props) {
         });
         const unique = [...new Set(addresses)];
         setAddresses(unique)
-    }, [])   
+    }, [])
 
     const onAction = React.useCallback((node, action) => {
     }, [])
@@ -85,13 +83,25 @@ export default function Mail(props) {
     }, [])
 
     const sendMessage = async () => {
-        await helpers.messages.createMessage({
+        let success = await helpers.messages.createMessage({
             wallet,
             subject: title,
             body: content,
             user_addresses: addresses,
             project: slug
         })
+        if (success) {
+            await Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "The messages have been sent",
+                showConfirmButton: false,
+                timer: 3000,
+                didClose() {
+                    router.push(`/management/${slug}/message/history`);
+                },
+            });
+        }
     }
 
     const DropdownTreeSelectMemo = React.useMemo(() => {
@@ -102,7 +112,7 @@ export default function Mail(props) {
     return (
         <div className="flex flex-col min-h-[85vh] p-5 rounded-2.5xl bg-white gap-3.5">
             <div className="flex flex-col gap-3">
-                <span>To {addresses.length> 0  && '(' + addresses.length + ' addresses)'  }</span>
+                <span>To {addresses.length > 0 && '(' + addresses.length + ' addresses)'}</span>
                 {DropdownTreeSelectMemo}
             </div>
 

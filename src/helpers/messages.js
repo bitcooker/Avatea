@@ -35,11 +35,12 @@ const createMessage = async ({wallet, subject, body, user_addresses,project, cal
                 }
             }
         )
-        toast.success('Message sent successfully.')
-
+        return true
     } catch (e) {
         console.log('createMessage error:', e);
         toast.error('Something wen\'t wrong.')
+        return false
+
     }
 };
 
