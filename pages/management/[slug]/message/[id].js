@@ -41,7 +41,7 @@ export default function InboxDetail(props) {
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
 
-        <div className="flex flex-col gap-5 p-4 md:p-10 h-[70vh] md:h-[80vh] bg-white rounded-2.5xl">
+        <div className="flex flex-col gap-5 p-4 md:p-10 min-h-[70vh] md:min-h-[80vh] bg-white rounded-2.5xl">
             {/* Header */}
             <div className="flex flex-col md:flex-row items-center justify-between">
                 <div className="relative flex w-full md-lg:w-fit items-center justify-center gap-5">
