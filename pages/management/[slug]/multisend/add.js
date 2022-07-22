@@ -113,7 +113,7 @@ export default function VestingAdd(props) {
                                 <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
 
                                 <ButtonFit>
-                                    <a href={'/vesting-template.csv'} download={true}>
+                                    <a href={'/multisend-template.csv'} download={true}>
                                         <i className={'fa-solid fa-cloud-arrow-up'}/> Download CSV Template
                                     </a>
                                 </ButtonFit>

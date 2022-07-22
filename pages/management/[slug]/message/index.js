@@ -15,6 +15,7 @@ import RichEditor from "../../../../src/components/core/RichEditor/RichEditor";
 import Swal from "sweetalert2";
 import helper from "../../../../src/helpers";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
+import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
 
 
 const get_addresses = (data, addresses) => {
@@ -124,7 +125,17 @@ export default function Mail(props) {
 
     return (
         <ManagementAuthentication project={project} wallet={wallet}>
-        <div className="flex flex-col min-h-[85vh] p-5 rounded-2.5xl bg-white gap-3.5">
+            <div className="flex flex-row items-center justify-between mb-5">
+                <h1 className="text-2xl">New Message</h1>
+                <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
+                    <div className={'grid grid-cols-1 gap-2.5'}>
+                        <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
+                    </div>
+                </div>
+            </div>
+
+
+            <div className="flex flex-col min-h-[85vh] p-5 rounded-2.5xl bg-white gap-3.5">
             <div className="flex flex-col gap-3">
                 <span>To {addresses.length > 0 && '(' + addresses.length + ' addresses)'}</span>
                 {DropdownTreeSelectMemo}

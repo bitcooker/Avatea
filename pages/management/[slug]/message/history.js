@@ -12,6 +12,8 @@ import DOMPurify from "dompurify";
 import {useRouter} from "next/router";
 import Tooltip from "../../../../src/components/core/Tooltip/Tooltip";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
+import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
+import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 
 
 export default function Inbox(props) {
@@ -47,6 +49,22 @@ export default function Inbox(props) {
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
 
+            <div className="flex flex-row items-center justify-between mb-5">
+                <h1 className="text-2xl">History</h1>
+                <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
+                    <div className={'grid grid-cols-2 gap-2.5'}>
+                        <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
+
+                        <ButtonFit handleClick={() => router.push(`/management/${slug}/message`)}>
+                            <div className="flex items-center gap-2" >
+                                <i className={'fa-solid fa-plus'}/>
+                                <span className="hidden md-lg:block"> New Message </span>
+                                <span className="inline-block md-lg:hidden"> New </span>
+                            </div>
+                        </ButtonFit>
+                    </div>
+                </div>
+            </div>
 
         <div className="rounded-2.5xl bg-white overflow-hidden">
             {/* Header */}

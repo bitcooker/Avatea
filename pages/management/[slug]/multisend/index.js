@@ -19,6 +19,7 @@ export default function VestingAdd(props) {
     const [transactions, setTransactions] = React.useState([]);
     const router = useRouter();
     const wallet = useWallet();
+    const { slug } = router.query;
 
 
     useEffect(() => {
@@ -55,12 +56,12 @@ export default function VestingAdd(props) {
                         <div className={'grid grid-cols-2 gap-2.5'}>
                             <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
 
-                            <ButtonFit>
-                                <a href={'/vesting-template.csv'} className="flex items-center gap-2" download={true}>
-                                    <i className={'fa-solid fa-cloud-arrow-up'}/>
-                                    <span className="hidden md-lg:block"> Download CSV Template </span>
-                                    <span className="inline-block md-lg:hidden"> Download </span>
-                                </a>
+                            <ButtonFit handleClick={() => router.push(`/management/${slug}/multisend/add`)}>
+                                <div className="flex items-center gap-2" >
+                                    <i className={'fa-solid fa-plus'}/>
+                                    <span className="hidden md-lg:block"> Create new batch </span>
+                                    <span className="inline-block md-lg:hidden"> Add </span>
+                                </div>
                             </ButtonFit>
                         </div>
                     </div>
