@@ -6,9 +6,6 @@ export default function Footer(props) {
         <footer className="flex flex-col gap-5 -ml-[15px] -mr-[15px] -mb-5 lg-xl:-ml-8 lg-xl:-mr-5 lg-xl:-mb-5 items-center justify-center p-10 bg-white mt-5">
             <div className="flex flex-col text-center gap-3">
                 <Image src="/logo.svg" alt="logo" width={120} height={20} />
-                <p className="font-bold">
-                    Mercor Finance
-                </p> 
             </div> 
             <div>
                 <div className="grid grid-flow-col gap-4">
