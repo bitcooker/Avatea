@@ -26,11 +26,14 @@ export default function Header({ menu, setMenu, title }) {
     },[wallet,currentNetwork])
   //@TODO Optimize Register not to fire every time
   useEffect(() => {
-    if (wallet.isConnected() && !isRegistered) {
-      const initWallet = async () => {
+    // if (wallet.isConnected() && !isRegistered) {
+    if (wallet.isConnected()) {
+      const initWallet = setInterval(async () => {
         await helpers.user.registerUser(wallet,setIsRegistered,setUnreadMessages);
-      };
-      initWallet();
+      },10000);
+      return () => {
+          clearInterval(initWallet);
+      }
     } else if(wallet.status === "disconnected") {
         setIsRegistered(false);
     }
