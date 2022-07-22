@@ -47,7 +47,7 @@ const menus = [
 ];
 
 const variants = {
-    open: { opacity: 1, zIndex: 50 },
+    open: { opacity: 1, zIndex: 65 },
     close: { opacity: 0, transitionEnd: { zIndex: -10 }}
 }
 
@@ -58,7 +58,7 @@ export default function Sidebar({ menu, setMenu, setTitle }) {
         <motion.div initial={{ opacity: 0 }} variants={variants} animate={menu ? "open" : "close"} className="overlay fixed w-[100vw] h-[100vh] bg-black/30" />
         <div
             className={
-                "fixed w-[100vw] h-[100vh] top-0 left-0 z-[60] lg-xl:rounded-r-2.5xl transition duration-300 lg-xl:translate-x-0 lg-xl:w-50 xl-2xl:w-66.25 " +
+                "fixed w-[100vw] h-[100vh] top-0 left-0 z-[70] lg-xl:rounded-r-2.5xl transition duration-300 lg-xl:translate-x-0 lg-xl:w-50 xl-2xl:w-66.25 " +
                 (menu ? "translate-x-0" : "-translate-x-full")
             }
             onClick={() => setMenu(false)}

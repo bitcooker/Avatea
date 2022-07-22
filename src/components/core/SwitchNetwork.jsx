@@ -62,7 +62,7 @@ export default function SwitchNetwork(props) {
 
   return (
     <div
-      className="relative bg-white rounded-full p-4 hover:cursor-pointer"
+      className="relative bg-indigo-50 hover:bg-indigo-50/50 md:hover:bg-white/50 md:bg-white rounded-full p-4 hover:cursor-pointer transition"
       onClick={() => setOpen(!open)}
     >
         <div className="flex flex-row items-center space-x-2">
@@ -90,7 +90,7 @@ export const NetworkDropdown = (props) => {
         animate={props.open ? "open" : "close"}
         transition={{ duration: .15 }}
         variants={variants} 
-        className="absolute top-14 left-0 flex flex-col w-60 bg-white p-4 rounded-2xl shadow-xl"
+        className="absolute top-14 right-0 md:left-0 flex flex-col w-60 bg-white p-4 rounded-2xl shadow-xl"
         onClick={(e) => e.stopPropagation()}
     >
       <h1 className="text-base">Select a network</h1>

@@ -9,7 +9,6 @@ import Modal from "../../core/modal/Modal";
 import Button from "../../core/Button/Button";
 import InputEmpty from "../../core/Input/InputEmpty";
 import FileInput from "../../core/Input/FileInput";
-import TextArea from "../../core/TextArea/TextArea";
 
 // page components
 import Card from "../projectDetail/Card/Card";
@@ -216,9 +215,17 @@ export default function ManageProjectCard({project}) {
                 <Button name="Edit Articles" handleClick={(e) => {
                     router.push(`${project.slug}/news`)
                 }}/>
-                <Button name="Send Message" handleClick={(e) => {
-                    router.push(`${project.slug}/message`)
-                }}/>
+
+                <div className="w-full grid grid-cols-2 gap-3.75">
+                    <Button name="Send Message" handleClick={(e) => {
+                        router.push(`${project.slug}/message`)
+                    }}/>
+                    <Button name="Message history" handleClick={(e) => {
+                        router.push(`${project.slug}/message/history`)
+                    }}/>
+                </div>
+
+
                 <Button name="Contact Support"/>
             </div>
         </Card>

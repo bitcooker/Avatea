@@ -172,3 +172,20 @@ input[type="range"]::-webkit-slider-thumb {
 .checkbox-item {
   @apply w-5 h-5 cursor-pointer
 }
+
+/*  Rich editor  */
+.quill {
+  @apply grow flex flex-col
+}
+
+.ql-toolbar {
+  @apply bg-gray-100 !border-none !rounded-t-0.5xl
+}
+
+.ql-container {
+  @apply grow flex flex-col bg-gray-100 !border-none !rounded-b-0.5xl
+}
+
+.ql-editor {
+  @apply grow
+}

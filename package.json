@@ -14,6 +14,7 @@
     "dompurify": "^2.3.9",
     "ethers": "^5.6.5",
     "framer-motion": "^6.4.3",
+    "hamburger-react": "^2.5.0",
     "hashicon": "^0.3.0",
     "hellosign-sdk": "^2.1.0",
     "html-react-parser": "^3.0.1",

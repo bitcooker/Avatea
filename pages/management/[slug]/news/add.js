@@ -57,7 +57,7 @@ export default function News(props) {
             <div className="flex flex-row items-center justify-between">
                 <h1 className="text-2xl">News Add </h1>
             </div>
-            <div className="flex flex-col p-7.5 bg-white gap-5 rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
+            <div className="grow flex flex-col p-7.5 bg-white gap-5 rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
                 <div className="flex flex-col space-y-3.75">
                     <div className="flex flex-row">
                         {/*<span className="relative flex flex-col items-center justify-center group">*/}
@@ -78,13 +78,13 @@ export default function News(props) {
                     </div>
                     <FileInput id="newsImage" label="News Image" image={newsImageURL} setValue={setNewsImage} type={"image/*"}/>
                 </div>
-                <div className="grow">
+                <div className="flex flex-col grow">
                     <h2 className={'text-xl mb-2.5'}>Description</h2>
-                    <RichEditor value={description} setValue={setDescription}/>
+                    <RichEditor value={description} placeholder="Please enter content" setValue={setDescription}/>
                 </div>
                 <div className="flex flex-row justify-end gap-3.75">
-                    <ButtonFit name="Add" icon="fa-regular fa-plus" handleClick={() => postArticle()} />
-                    <ButtonOutlineFit name="Cancel" icon="fa-regular fa-xmark" handleClick={() => router.back()} />
+                    <ButtonFit name="Add" icon="fa-regular fa-plus" classNames="w-1/2 md:w-auto" handleClick={() => postArticle()} />
+                    <ButtonOutlineFit name="Cancel" icon="fa-regular fa-xmark" classNames="w-1/2 md:w-auto" handleClick={() => router.back()} />
                 </div>
             </div>
         </div>
