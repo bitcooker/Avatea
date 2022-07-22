@@ -101,9 +101,9 @@ export default function Inbox(props) {
                             <div className="grow w-1 truncate relative">
                                 {message.read_at ?
 
-                                    <span className="relative  flex-row ">
+                                    <span className="relative  flex-row group">
                                         <i className="fa-solid fa-eye fa-xs text-slate-600"></i>
-                                        <Tooltip title={moment(message.read_at).format("llll")}/>
+                                        <Tooltip className={'top-0 left-5 py-0.5'} title={moment(message.read_at).format("llll")}/>
                                     </span>
 
                                     :
