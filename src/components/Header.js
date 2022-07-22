@@ -46,7 +46,7 @@ export default function Header({ menu, setMenu, title }) {
   },[]);
 
   return (
-    <header className="fixed top-0 left-0 px-1 py-3 w-full z-50 bg-white/95 backdrop-blur-sm shadow-xl md:shadow-none md:relative md:bg-transparent md:px-0 md:pb-[30px] md-lg:py-7.5">
+    <header className="fixed top-0 left-0 px-1 py-3 w-full z-[60] bg-white/95 shadow-xl md:shadow-none md:relative md:bg-transparent md:px-0 md:pb-[30px] md-lg:py-7.5">
       <div className="flex items-center justify-between">
         <div className="flex gap-5 lg-xl:hidden">
             <Hamburger toggled={menu} toggle={setMenu} size={20} />
