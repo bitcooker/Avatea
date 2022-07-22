@@ -3,14 +3,16 @@ import {useEffect} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import moment from "moment";
-
-// core components
-import Checkbox from "../../src/components/core/Checkbox/Checkbox";
 import {useWallet} from "use-wallet";
-import helper from "../../src/helpers";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 
+// core components
+import Checkbox from "../../src/components/core/Checkbox/Checkbox";
+import helper from "../../src/helpers";
+
+// page components
+import SkeletonInbox from "../../src/components/pages/inbox/SkeletonInbox";
 
 export default function Inbox(props) {
     const wallet = useWallet();
@@ -31,7 +33,7 @@ export default function Inbox(props) {
     }, [wallet]);
 
     return (
-        <div className="rounded-2.5xl bg-white overflow-hidden">
+        <div className="grow rounded-2.5xl bg-white overflow-hidden">
             {/* Header */}
             <div className="flex justify-between p-4 border-b">
                 <div className="flex divide-x">
@@ -68,25 +70,27 @@ export default function Inbox(props) {
 
             {/* content */}
             <div className="">
-                {messages.map((message, index) => (
-                    <Link href={{pathname: `/inbox/` + message.id}} key={index}>
-                        <div className="flex p-4 gap-5 items-center hover:bg-gray-100/50 hover:cursor-pointer transition">
-                            <div className="flex" onClick={(e) => e.stopPropagation()}>
-                                <Checkbox initialValue={select[index]} setValue={() => {
-                                }}/>
+                {
+                    messages.length ? messages.map((message, index) => (
+                        <Link href={{pathname: `/inbox/` + message.id}} key={index}>
+                            <div className="flex p-4 gap-5 items-center hover:bg-gray-100/50 hover:cursor-pointer transition">
+                                <div className="flex" onClick={(e) => e.stopPropagation()}>
+                                    <Checkbox initialValue={select[index]} setValue={() => {
+                                    }}/>
+                                </div>
+                                <div className="flex w-6">
+                                    <Image src={message.image} alt="" width={24} height={24}/>
+                                </div>
+                                <div className={message.read_at ? "grow w-1 truncate" : "grow w-1 truncate font-bold"}>
+                                    {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.subject))}
+                                </div>
+                                <div className="hidden md:flex">
+                                    {moment(message.sent_at).format("llll")}
+                                </div>
                             </div>
-                            <div className="flex w-6">
-                                <Image src={message.image} alt="" width={24} height={24}/>
-                            </div>
-                            <div className={message.read_at ? "grow w-1 truncate" : "grow w-1 truncate font-bold"}>
-                                {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.subject))}
-                            </div>
-                            <div className="hidden md:flex">
-                                {moment(message.sent_at).format("llll")}
-                            </div>
-                        </div>
-                    </Link>
-                ))}
+                        </Link>
+                    )) : <SkeletonInbox />
+                }
             </div>
         </div>
     )
