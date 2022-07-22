@@ -59,7 +59,7 @@ export default function VestingAdd(props) {
                             <ButtonFit handleClick={() => router.push(`/management/${slug}/multisend/add`)}>
                                 <div className="flex items-center gap-2" >
                                     <i className={'fa-solid fa-plus'}/>
-                                    <span className="hidden md-lg:block"> Create new batch </span>
+                                    <span className="hidden md-lg:block"> New batch </span>
                                     <span className="inline-block md-lg:hidden"> Add </span>
                                 </div>
                             </ButtonFit>
