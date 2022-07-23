@@ -10,6 +10,7 @@ import { AppWrapper } from "../context/AppContext";
 // components
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import Footer from "./core/Footer";
 
 const SidebarWithNoSSR = dynamic(() => import("./Sidebar"), { ssr: false });
 
@@ -44,9 +45,11 @@ export default function Layout({ children }) {
         <AppWrapper>
             <Sidebar menu={menu} setMenu={setMenu} setTitle={setTitle} />
             <main>
-                <div className="pt-24 md:pt-0 min-h-[100vh] pb-5 px-[15px] lg-xl:px-5 lg-xl:pl-[220px] xl-2xl:pr-5 xl-2xl:pl-[295px]">
+                <div className="flex flex-col pt-24 md:pt-0 min-h-[100vh] pb-5 px-[15px] lg-xl:px-5 lg-xl:pl-[220px] xl-2xl:pr-5 xl-2xl:pl-[295px]">
                 <Header menu={menu} setMenu={setMenu} title={title} />
-                {children}
+                <div className="grow">
+                    {children}
+                </div>
                 <ToastContainer
                     transition={Slide}
                     position="bottom-right"
@@ -59,6 +62,8 @@ export default function Layout({ children }) {
                     draggable
                     pauseOnHover
                 />
+                
+                <Footer />
                 </div>
             </main>
         </AppWrapper>
