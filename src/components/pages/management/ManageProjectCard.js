@@ -121,6 +121,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Facebook'}
                                     value={facebook}
+                                    icon="fa-facebook-f"
                                     setValue={setFacebook}
                                 />
                             </div>
@@ -131,6 +132,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'LinkedIn'}
                                     value={linkedIn}
+                                    icon="fa-linkedin"
                                     setValue={setLinkedIn}
                                 />
                             </div>
@@ -140,8 +142,8 @@ export default function ManageProjectCard({project}) {
                                     name="github"
                                     type="text"
                                     placeholder={'GitHub'}
-
                                     value={github}
+                                    icon="fa-github"
                                     setValue={setGithub}
                                 />
                             </div>
@@ -152,6 +154,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Telegram'}
                                     value={telegram}
+                                    icon="fa-telegram"
                                     setValue={setTelegram}
                                 />
                             </div>
@@ -162,6 +165,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Discord'}
                                     value={discord}
+                                    icon="fa-discord"
                                     setValue={setDiscord}
                                 />
                             </div>
@@ -172,6 +176,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Medium'}
                                     value={medium}
+                                    icon="fa-medium"
                                     setValue={setMedium}
                                 />
                             </div>
@@ -182,6 +187,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Twitter'}
                                     value={twitter}
+                                    icon="fa-twitter"
                                     setValue={setTwitter}
                                 />
                             </div>

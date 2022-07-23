@@ -2,7 +2,12 @@ import * as React from "react";
 
 export default function InputEmpty(props) {
   return (
-    <div className={`flex shadow-sm h-12.5 block w-full bg-gray-100 rounded-0.5xl pl-5 pr-3.75 py-2.5 ${props.classNames}`}>
+    <div className={`flex gap-2 items-center justify-center shadow-sm h-12.5 w-full bg-gray-100 rounded-0.5xl pl-5 pr-3.75 py-2.5 ${props.classNames}`}>
+      {props.icon && (
+        <div className="flex items-center w-6 h-6">
+            <i className={`fa-brands ${props.icon} text-xl`} />
+        </div>
+      )}
       <input
         id={props.id}
         name={props.name}
