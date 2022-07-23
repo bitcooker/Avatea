@@ -13,6 +13,24 @@ const registerUser = async(wallet,setter,setUnreadMessages) => {
     }
 }
 
+const userActivity = async(wallet) => {
+    try {
+        const {data: {projects, user_data}} = await axios.get(`${API_URL}Project/get_user_projects/?user_address=${wallet.account}`)
+        const newArray = projects.map(project => {
+            for (const [key, value] of Object.entries(user_data)) {
+                if (key === project.slug){
+                    project.type = value;
+                }
+            }
+            return project
+        })
+        return newArray
+    } catch(e) {
+        console.log('userActivity',e)
+    }
+}
+
 export default {
-    registerUser
+    registerUser,
+    userActivity
 }

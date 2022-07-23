@@ -20,7 +20,6 @@ const stake = async (wallet, vaultAddress, amount, callback) => {
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "VD",
             data: {
@@ -28,7 +27,6 @@ const stake = async (wallet, vaultAddress, amount, callback) => {
                 wallet,
             }
         })
-        console.log('stake success')
     } catch (e) {
         console.log('stake error', e);
         toast.error(e.reason);
@@ -51,7 +49,6 @@ const withdraw = async (wallet, vaultAddress, amount, full_withdrawal) => {
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "VW",
             data: {
@@ -60,7 +57,6 @@ const withdraw = async (wallet, vaultAddress, amount, full_withdrawal) => {
                 full_withdrawal
             }
         })
-        console.log('withdraw success')
     } catch (e) {
         console.log('withdraw error', e);
         toast.error(e.reason);
@@ -83,7 +79,6 @@ const getReward = async (wallet, vaultAddress, callback) => {
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "VR",
             data: {
@@ -91,7 +86,6 @@ const getReward = async (wallet, vaultAddress, callback) => {
                 wallet,
             }
         })
-        console.log('getReward success')
     } catch (e) {
         console.log('getReward error', e);
         toast.error(e.reason);
@@ -114,7 +108,6 @@ const exit = async (wallet, vaultAddress, callback) => {
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "VE",
             data: {
@@ -122,7 +115,6 @@ const exit = async (wallet, vaultAddress, callback) => {
                 wallet,
             }
         })
-        console.log('exit success')
     } catch (e) {
         console.log('exit error', e);
         toast.error(e.reason);
@@ -146,7 +138,6 @@ const addReward = async (wallet, vaultAddress, amount, callback) => {
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "VA",
             data: {
@@ -154,7 +145,6 @@ const addReward = async (wallet, vaultAddress, amount, callback) => {
                 wallet,
             }
         })
-        console.log('addReward success')
     } catch (e) {
         console.log('addReward error', e);
         toast.error(e.reason);

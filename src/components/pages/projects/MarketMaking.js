@@ -193,7 +193,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     }
 
     const stakePairedToken = async () => {
-        console.log(maxPairedLiquidityRatio)
         const stakeToken = async () => {
             setFresh(false);
             const wei = ethers.utils.parseEther(amountPairTokenToStake);
@@ -231,7 +230,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const stakeBaseToken = async () => {
         const stakeToken = async () => {
             setFresh(false);
-            console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
             const wei = ethers.utils.parseEther(amountBaseTokenToStake);
             let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei, newMaxBaseLiquidityRatio);
             if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake));
@@ -291,7 +289,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             marketMakingPoolId: marketMakingPool.id,
             id: marketMakingSettingsId ? marketMakingSettingsId : "",
         };
-        console.log(marketMakingSettings)
         await helper.marketMaking.updateMarketMakingSettings({
                                                                  marketMakingSettings, wallet, fresh
                                                              });

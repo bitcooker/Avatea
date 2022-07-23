@@ -10,9 +10,21 @@ import MyVestedPools from "../src/components/pages/myActivity/MyVestedPools";
 import MyVaults from "../src/components/pages/myActivity/MyVaults";
 import Projects from "../src/components/pages/myActivity/Projects";
 import ConnectYourWallet from "../src/components/core/ConnectYourWallet";
+import {useEffect, useState} from "react";
+import helpers from "../src/helpers";
 
 export default function Activity() {
     const wallet = useWallet();
+    const [loaded,setIsLoaded] = useState(false);
+    const [projects, setProjects] = useState([]);
+    useEffect(() => {
+        if(wallet.isConnected()) {
+            (async () => {
+                setProjects(await helpers.user.userActivity(wallet))
+                setIsLoaded(true);
+            })()
+        }
+    },[wallet.status])
 
     return (
         <>
@@ -21,7 +33,7 @@ export default function Activity() {
                     <>
                         {/*<Info />*/}
 
-                        <Projects />
+                        <Projects projects={projects} loaded={loaded} />
 
                         <div className="space-y-3.75 lg:space-y-0 lg:grid lg:grid-cols-1 lg:gap-5">
                             {/*<Chart />*/}

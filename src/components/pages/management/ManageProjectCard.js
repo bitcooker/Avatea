@@ -42,7 +42,6 @@ export default function ManageProjectCard({project}) {
     useEffect(() => {
         if (isFile(image)) setImageUrl(URL.createObjectURL(image))
     }, [image])
-    console.log(project)
 
     const updateProjectInfo = async () => {
         const formData = new FormData();

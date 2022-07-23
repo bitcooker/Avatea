@@ -81,7 +81,7 @@ export default function Header({ menu, setMenu, title }) {
             <div className="flex flex-row items-center bg-white p-1 rounded-4xl">
               <div className="hidden sm:flex sm:items-center px-2">
                 <span className="mr-1">{Number(ethers.utils.formatEther(wallet.balance)).toFixed(4)}</span>
-                <Image src={currentNetwork.icon} alt="netImage" width={20} height={20}/>
+                <Image src={currentNetwork?.icon} alt="netImage" width={20} height={20}/>
               </div>
               <button
                 className="flex justify-center box-border items-center px-7.5 py-3 bg-indigo-500 text-white rounded-4xl hover:cursor-pointer hover:bg-indigo-500/80 transition"

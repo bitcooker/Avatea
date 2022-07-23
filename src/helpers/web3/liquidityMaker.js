@@ -21,7 +21,6 @@ const withdraw = async (wallet, liquidityMakerAddress, full_withdrawal, slippage
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "LMW",
             data: {
@@ -30,7 +29,6 @@ const withdraw = async (wallet, liquidityMakerAddress, full_withdrawal, slippage
                 full_withdrawal
             }
         })
-        console.log('withdraw success')
     } catch (e) {
         console.log('withdraw error', e);
         toast.error(e.reason);
@@ -53,7 +51,6 @@ const getReward = async (wallet, liquidityMakerAddress, callback) => {
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "LMR",
             data: {
@@ -61,7 +58,6 @@ const getReward = async (wallet, liquidityMakerAddress, callback) => {
                 wallet,
             }
         })
-        console.log('getReward success')
     } catch (e) {
         console.log('getReward error', e);
         toast.error(e.reason);
@@ -85,7 +81,6 @@ const compoundLPReward = async (wallet, liquidityMakerAddress, callback) => {
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "LMC",
             data: {
@@ -93,7 +88,6 @@ const compoundLPReward = async (wallet, liquidityMakerAddress, callback) => {
                 wallet,
             }
         })
-        console.log('compoundLPReward success')
     } catch (e) {
         console.log('compoundLPReward error', e);
         toast.error(e.reason);
@@ -116,7 +110,6 @@ const exit = async (wallet, liquidityMakerAddress, full_withdrawal, slippage = D
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "LME",
             data: {
@@ -125,7 +118,6 @@ const exit = async (wallet, liquidityMakerAddress, full_withdrawal, slippage = D
                 full_withdrawal
             }
         })
-        console.log('exit success')
     } catch (e) {
         console.log('exit error', e);
         toast.error(e.reason);
@@ -149,7 +141,6 @@ const addReward = async (wallet, liquidityMakerAddress, amount, callback) => {
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "LMA",
             data: {
@@ -157,7 +148,6 @@ const addReward = async (wallet, liquidityMakerAddress, amount, callback) => {
                 wallet,
             }
         })
-        console.log('addReward success')
     } catch (e) {
         console.log('addReward error', e);
         toast.error(e.reason);
@@ -181,7 +171,6 @@ const addLiquidityReward = async (wallet, liquidityMakerAddress, amount, callbac
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "LML",
             data: {
@@ -189,7 +178,6 @@ const addLiquidityReward = async (wallet, liquidityMakerAddress, amount, callbac
                 wallet,
             }
         })
-        console.log('addLiquidityReward success')
     } catch (e) {
         console.log('addLiquidityReward error', e);
         toast.error(e.reason);
@@ -213,7 +201,6 @@ const setMaxTotalSupply = async (wallet, liquidityMakerAddress, amount, callback
             }
         )
         await tx.wait();
-        console.log('setMaxTotalSupply success')
     } catch (e) {
         console.log('setMaxTotalSupply error', e);
         toast.error(e.reason);
@@ -237,7 +224,6 @@ const setLockingPeriod = async (wallet, liquidityMakerAddress, amount, callback)
             }
         )
         await tx.wait();
-        console.log('setLockingPeriod success')
     } catch (e) {
         console.log('setLockingPeriod error', e);
         toast.error(e.reason);

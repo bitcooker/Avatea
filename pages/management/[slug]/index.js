@@ -42,7 +42,6 @@ export default function ManagementIndex(props) {
             };
             fetchProject();
         }
-        console.log(project)
     }, [props]);
 
     return (

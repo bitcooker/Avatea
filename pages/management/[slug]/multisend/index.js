@@ -41,7 +41,6 @@ export default function VestingAdd(props) {
                                                                                     project: project.slug, type: 'MMBB'
                                                                                 })
             setTransactions(transactionsData);
-            console.log(transactionsData)
         };
         fetchTransactions();
     }, [project]);

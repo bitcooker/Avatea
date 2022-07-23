@@ -10,7 +10,6 @@ import ButtonFit from "../../../core/Button/ButtonFit";
 export default function NewsCard(props) {
   const router = useRouter();
   const { slug } = router.query;
-  console.log()
 
   return (
     <div className="relative flex flex-col w-full bg-white rounded-lg overflow-hidden shadow-lg">

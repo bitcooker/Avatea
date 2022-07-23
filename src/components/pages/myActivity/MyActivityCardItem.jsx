@@ -8,12 +8,12 @@ import Spinner from "../../../components/core/Spinner";
 const badgeColors = {
     "vested": "bg-lime-500",
     "invested": "bg-fuchsia-500",
-    "vault": "bg-indigo-500"
+    "vault_vested": "bg-indigo-500"
 }
 
 export default function MyActivityCardItem(props) {
-    return  <div className="rounded-2.5xl overflow-hidden hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
-                <CardContent project={props.project} name={props.name} image={props.banner} tokenImage={props.image} type={props.type}/>
+    return  <div className="rounded-2.5xl overflow-hidden transition-all delay-300 hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
+                <CardContent project={props.slug} name={props.name} image={props.banner} tokenImage={props.image} type={props.type}/>
             </div>
 }
 
@@ -49,7 +49,7 @@ export const CardContent = (props) => {
                 <div className="absolute w-full flex flex-row items-center justify-end top-5 space-x-1 px-2">
                     {props.type.map((type, index) => 
                         <div className={`flex items-center justify-center text-white capitalize w-20 h-5 rounded-full mb-1 ${badgeColors[type]}`} key={index}>
-                            {type}
+                            {type === "vault_vested" ? "Vault" : type}
                         </div>)
                     }
                 </div>

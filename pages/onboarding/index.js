@@ -339,7 +339,6 @@ export default function Linked(props) {
         if (isFile(image)) setImageUrl(URL.createObjectURL(image))
     }, [image])
 
-    console.log(image)
 
     return (
         <NoSsr>

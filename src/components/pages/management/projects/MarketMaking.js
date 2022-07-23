@@ -109,7 +109,6 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
             marketMakingPoolId: marketMakingPool.id,
             id: marketMakingSettingsId ? marketMakingSettingsId : "",
         };
-        console.log(marketMakingSettings)
         await helper.marketMaking.updateMarketMakingSettings({
             marketMakingSettings, wallet, fresh
         });
@@ -143,7 +142,6 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
 
 
     const stakeMarketMaker = useCallback(async () => {
-        console.log(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))
         const wei = ethers.utils.parseEther(amountBaseTokenToStake);
         let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
         if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake))

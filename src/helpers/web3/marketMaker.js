@@ -64,8 +64,6 @@ const deploy = async (wallet,
                 wallet,
             }
         })
-
-        console.log('deploy success')
         return true;
     } catch (e) {
         console.log('deploy error', e);
@@ -98,7 +96,6 @@ const stake = async (wallet, marketMakerAddress, amount) => {
                 wallet
             }
         })
-        console.log('stake success')
         return true;
     } catch (e) {
         console.log('stake error', e);
@@ -133,8 +130,6 @@ const stakeBatch = async (wallet, marketMakerAddress, user_addresses, amountsInW
                 amounts
             }
         })
-
-        console.log('stakeBatch success')
         return true;
     } catch (e) {
         console.log('stakeBatch error', e);
@@ -196,7 +191,6 @@ const createVesting = async (wallet,
                 projectName
             }
         })
-        console.log('createVesting success')
         return true;
     } catch (e) {
         console.log('createVesting error', e);
@@ -228,7 +222,6 @@ const stakePairedToken = async (wallet, marketMakerAddres, amount) => {
                 wallet,
             }
         })
-        console.log('stakePairedToken success')
         return true;
     } catch (e) {
         console.log('stakePairedToken error', e);
@@ -253,7 +246,6 @@ const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount) => {
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "MMPD",
             data: {
@@ -284,7 +276,6 @@ const withdrawBaseToken = async (wallet, marketMakerAddress, amount, full_withdr
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "MMBW",
             data: {
@@ -293,7 +284,6 @@ const withdrawBaseToken = async (wallet, marketMakerAddress, amount, full_withdr
                 full_withdrawal
             }
         })
-        console.log('withdrawBaseToken success')
         return true;
     } catch (e) {
         console.log('withdrawBaseToken error', e);
@@ -318,7 +308,6 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, full_withdr
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "MMPW",
             data: {
@@ -327,7 +316,6 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, full_withdr
                 full_withdrawal
             }
         })
-        console.log('withdrawPairedToken success')
         return true;
     } catch (e) {
         console.log('withdrawPairedToken error', e);
@@ -353,7 +341,6 @@ const release = async (wallet, marketMakerAddress, full_withdrawal, callback) =>
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "MMVR",
             data: {
@@ -362,7 +349,6 @@ const release = async (wallet, marketMakerAddress, full_withdrawal, callback) =>
                 full_withdrawal
             }
         })
-        console.log('release success')
         return true;
     } catch (e) {
         console.log('release error', e);
@@ -387,7 +373,6 @@ const revoke = async (wallet, marketMakerAddress, user_address, callback) => {
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "MMRT",
             data: {
@@ -396,7 +381,6 @@ const revoke = async (wallet, marketMakerAddress, user_address, callback) => {
                 user_address
             }
         })
-        console.log('revoke success')
         return true;
     } catch (e) {
         console.log('revoke error', e);
@@ -412,7 +396,6 @@ const computeReleasableAmount = async (wallet, marketMakerAddress, userAddress) 
         const signer = provider.getSigner();
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
         const result = await marketMakerContract.computeReleasableAmount(userAddress);
-        console.log('computeReleasableAmount success')
         return result
     } catch (e) {
         console.log('computeReleasableAmount error', e);
@@ -526,7 +509,6 @@ const setAllowSelling = async (wallet, marketMakerAddress, allowSelling, callbac
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "MMAS",
             data: {
@@ -534,7 +516,6 @@ const setAllowSelling = async (wallet, marketMakerAddress, allowSelling, callbac
                 wallet,
             }
         })
-        console.log('setAllowSelling success')
         return true;
     } catch (e) {
         console.log('setAllowSelling error', e);
@@ -560,7 +541,6 @@ const setAllowReleasing = async (wallet, marketMakerAddress, allowReleasing, cal
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "MMAR",
             data: {
@@ -568,7 +548,6 @@ const setAllowReleasing = async (wallet, marketMakerAddress, allowReleasing, cal
                 wallet,
             }
         })
-        console.log('setAllowReleasing success')
         return true;
     } catch (e) {
         console.log('setAllowReleasing error', e);
@@ -593,7 +572,6 @@ const setMaxBaseLiquidityRatio = async (wallet, marketMakerAddress, maxBaseLiqui
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "MMBR",
             data: {
@@ -601,7 +579,6 @@ const setMaxBaseLiquidityRatio = async (wallet, marketMakerAddress, maxBaseLiqui
                 wallet,
             }
         })
-        console.log('setMaxBaseStakingRatio success')
         return true;
     } catch (e) {
         console.log('setMaxBaseStakingRatio error', e);
@@ -626,7 +603,6 @@ const setMaxPairedLiquidityRatio = async (wallet, marketMakerAddress, maxPairedL
             }
         )
         const receipt = await tx.wait();
-        console.log(receipt);
         await helpers.callback.hook({
             type: "MMPR",
             data: {
@@ -634,7 +610,6 @@ const setMaxPairedLiquidityRatio = async (wallet, marketMakerAddress, maxPairedL
                 wallet,
             }
         })
-        console.log('setMaxPairedStakingRatio success')
         return true;
     } catch (e) {
         console.log('setMaxPairedStakingRatio error', e);

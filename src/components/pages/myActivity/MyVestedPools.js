@@ -28,7 +28,6 @@ export default function MyVestedPools({wallet}) {
         }
     }, [wallet]);
 
-    console.log('Vested Pools', vestedPools)
     return (
         <div>
             {vestedPools?.length === 0 && loaded === false ? (

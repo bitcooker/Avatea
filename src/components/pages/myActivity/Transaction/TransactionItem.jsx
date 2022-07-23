@@ -72,13 +72,43 @@ const hoverBorderColors = {
     "MMPD": "hover:border-stone-500"
 }
 
+const TRANSACTION_TYPES = {
+    'AR': 'Avatea Rewards',
+    'VD': 'Vault Deposit',
+    'VW': 'Vault Withdrawal',
+    'VR': 'Vault Rewards',
+    'VE': 'Vault Exit',
+    'VA': 'Vault Reward Adding',
+    'LMD': 'Liquidity Maker Deposit',
+    'LMW': 'Liquidity Maker Withdrawal',
+    'LMR': 'Liquidity Maker Rewards',
+    'LMC': 'Liquidity Maker Compound',
+    'LME': 'Liquidity Maker Exit',
+    'LMA': 'Liquidity Maker Reward Adding',
+    'LML': 'Liquidity Maker Liquidity Adding',
+    'MMBD': 'Market Making Base Deposit',
+    'MMPD': 'Market Making Paired Deposit',
+    'MMVD': 'Market Making Vesting Deposit',
+    'MMVR': 'Market Making Vesting Release',
+    'MMRT': 'Market Making Revoke Tokens',
+    'MMBW': 'Market Making Base Withdrawal',
+    'MMPW': 'Market Making Paired Withdrawal',
+    'MMSC': 'Market Making Settings Change',
+    'MMCD': 'Market Making Contract Deployment',
+    'MMAS': 'Market Making Allow Selling',
+    'MMAR': 'Market Making Allow Releasing',
+    'MMBR': 'Market Making Base Staking Ratio',
+    'MMPR': 'Market Making Paired Staking Ratio',
+}
 export default function TransactionItem(props) {
   return (
     <div className="grid grid-cols-12 items-center w-full p-2">
         <TableCol className="truncate col-span-7 font-medium text-base tracking-[.0125rem]">
             <div>
                 <div className={`inline-block px-2 py-1 ${bgColors[props.type]} rounded-full text-white`}>
-                    <h1 className="text-base leading-none">{props.type}</h1>
+                    <p className="hidden sm:block text-base leading-none">{TRANSACTION_TYPES[props.type]}</p>
+                    <p className="sm:hidden text-base leading-none">{props.type}</p>
+
                 </div>
             </div>
             <small>{moment(props.timestamp).format('llll')}</small>

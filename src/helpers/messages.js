@@ -70,7 +70,6 @@ const getMessage = async ({id, callback = () => {}} = {}) => {
                 url: `${API_URL}Message/${id}/`,
             }
         )
-        console.log(data)
         return data
     } catch (e) {
         console.log('getMessage error:', e);

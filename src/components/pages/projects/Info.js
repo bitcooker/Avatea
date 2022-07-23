@@ -42,7 +42,7 @@ export default function Vault({project, setTab }) {
 
                 <div className="card-content pt-5.5">
                     <div>{
-                        typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(project.description))
+                        typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(project?.description))
                     }</div>
                 </div>
             </Card>

@@ -5,7 +5,6 @@ import { useAppContext } from '../src/context/AppContext'
 
 export default function Home() {
   const projects = useAppContext();
-  console.log(projects)
 
   return (
     <div>

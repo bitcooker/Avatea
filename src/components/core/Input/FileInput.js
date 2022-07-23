@@ -17,7 +17,6 @@ export default function FileInput(props) {
   }
 
   const handleDrop = (e) => {
-    console.log(e.type);
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);

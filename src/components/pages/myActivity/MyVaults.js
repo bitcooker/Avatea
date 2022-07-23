@@ -21,7 +21,6 @@ export default function MyVaults({wallet}) {
                 const result = await helpers.vaultRest.getVaults({
                     invested: wallet.account
                 })
-                console.log('Vaults', result)
                 setVaults(result)
                 setLoaded(true);
             };

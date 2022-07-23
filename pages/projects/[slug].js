@@ -37,7 +37,6 @@ export default function ProjectDetail(props) {
         else {
             const fetchProject = async () => {
                 const result = await helper.project.getProject(slug);
-                console.log(result)
                 setProject(result?.project);
                 setMarketMakingPool(result?.marketMakingPool);
                 setVault(result?.vault);
