@@ -104,6 +104,27 @@
     ethers "~4.0.4"
     lodash "^4.17.11"
 
+"@albs1/use-wallet@0.13.6-1":
+  version "0.13.6-1"
+  resolved "https://registry.yarnpkg.com/@albs1/use-wallet/-/use-wallet-0.13.6-1.tgz#22562c1f5ee5cfa2c3c7c75d9d2f547bd2c43c01"
+  integrity sha512-mVdPcoZ0aPqQYLpBPnQtoXmvPrkWl9eBO89wnDt74/d4AO+Av6o5pfVzb6CcmYteT/ohUwA33GpxtKg3Xy7dMg==
+  dependencies:
+    "@aragon/provided-connector" "^6.0.8"
+    "@typescript-eslint/parser" "^4.1.0"
+    "@web3-react/core" "6.1.9"
+    "@web3-react/fortmatic-connector" "6.1.6"
+    "@web3-react/frame-connector" "6.0.9"
+    "@web3-react/injected-connector" "6.0.7"
+    "@web3-react/ledger-connector" "6.1.9"
+    "@web3-react/portis-connector" "6.1.6"
+    "@web3-react/torus-connector" "6.1.7"
+    "@web3-react/walletconnect-connector" "6.2.4"
+    "@web3-react/walletlink-connector" "6.2.5"
+    jsbi "^3.1.4"
+    prop-types "^15.7.2"
+    regenerator-runtime "^0.13.7"
+    rollup-plugin-image-files "^1.4.2"
+
 "@aragon/provided-connector@^6.0.8":
   version "6.0.8"
   resolved "https://registry.yarnpkg.com/@aragon/provided-connector/-/provided-connector-6.0.8.tgz#5d22ccb2a0ff599fbe6c23fdf96cb06d59ff2716"

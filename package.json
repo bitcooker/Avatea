@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@albs1/use-wallet": "0.13.6-1",
     "axios": "^0.27.2",
     "chart.js": "^3.8.0",
     "dompurify": "^2.3.9",
