@@ -104,6 +104,27 @@
     ethers "~4.0.4"
     lodash "^4.17.11"
 
+"@albs1/use-wallet@0.13.6-1":
+  version "0.13.6-1"
+  resolved "https://registry.yarnpkg.com/@albs1/use-wallet/-/use-wallet-0.13.6-1.tgz#22562c1f5ee5cfa2c3c7c75d9d2f547bd2c43c01"
+  integrity sha512-mVdPcoZ0aPqQYLpBPnQtoXmvPrkWl9eBO89wnDt74/d4AO+Av6o5pfVzb6CcmYteT/ohUwA33GpxtKg3Xy7dMg==
+  dependencies:
+    "@aragon/provided-connector" "^6.0.8"
+    "@typescript-eslint/parser" "^4.1.0"
+    "@web3-react/core" "6.1.9"
+    "@web3-react/fortmatic-connector" "6.1.6"
+    "@web3-react/frame-connector" "6.0.9"
+    "@web3-react/injected-connector" "6.0.7"
+    "@web3-react/ledger-connector" "6.1.9"
+    "@web3-react/portis-connector" "6.1.6"
+    "@web3-react/torus-connector" "6.1.7"
+    "@web3-react/walletconnect-connector" "6.2.4"
+    "@web3-react/walletlink-connector" "6.2.5"
+    jsbi "^3.1.4"
+    prop-types "^15.7.2"
+    regenerator-runtime "^0.13.7"
+    rollup-plugin-image-files "^1.4.2"
+
 "@aragon/provided-connector@^6.0.8":
   version "6.0.8"
   resolved "https://registry.yarnpkg.com/@aragon/provided-connector/-/provided-connector-6.0.8.tgz#5d22ccb2a0ff599fbe6c23fdf96cb06d59ff2716"
@@ -7528,7 +7549,7 @@ promise-to-callback@^1.0.0:
     is-fn "^1.0.0"
     set-immediate-shim "^1.0.1"
 
-prop-types@^15.5.10, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -7781,6 +7802,13 @@ react-flags-select@^2.2.3:
     classnames "^2.2.6"
     sass "^1.49.7"
 
+react-image-crop@^10.0.4:
+  version "10.0.4"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-10.0.4.tgz#f51588117a35c59e4e674f542a10b6c49cdab4e0"
+  integrity sha512-ArJK1cIBRotWmsxEATLm3aYMQLo8aInjbBuz8tAM3WHCKmeUfEuZsRvDEsKsdpsZ58BbtGUvvsfsrfS21+JYug==
+  dependencies:
+    clsx "^1.1.1"
+
 react-infinite-scroll-component@^4.0.2:
   version "4.5.3"
   resolved "https://registry.yarnpkg.com/react-infinite-scroll-component/-/react-infinite-scroll-component-4.5.3.tgz#008c2ec358628b490117ffc4aa6ce6982b26f8be"
@@ -7790,6 +7818,11 @@ react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-multi-carousel@^2.8.2:
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/react-multi-carousel/-/react-multi-carousel-2.8.2.tgz#4bbd7a9656d8e49e081745331593e5500eefdbe4"
+  integrity sha512-M9Y7DfAp8bA/r6yexttU6RLA7uyppje4c0ELRuCHZWswH+u7nr0uVP6qHNPjc4XGOEY1MYFOb5nBg7JvoKutuQ==
 
 react-property@2.0.0:
   version "2.0.0"
@@ -9219,26 +9252,6 @@ use-local-storage@^2.3.6:
   version "2.3.6"
   resolved "https://registry.yarnpkg.com/use-local-storage/-/use-local-storage-2.3.6.tgz#11058465143aa7537556af482b21c6b1f77a78a6"
   integrity sha512-OJQHWYbH2M5mMaSY6uYIbfzOm7eVz1fBYFw1wqQurCR2+gQb+FjVt0KzzDAsgTOSEUNVAbaiJ0I4WcNjRn7u5w==
-
-"use-wallet@https://github.com/albsa/use-wallet.git":
-  version "0.13.5"
-  resolved "https://github.com/albsa/use-wallet.git#08270d6d13801cbc6b13c7cc5318280ec48ff65d"
-  dependencies:
-    "@aragon/provided-connector" "^6.0.8"
-    "@typescript-eslint/parser" "^4.1.0"
-    "@web3-react/core" "6.1.9"
-    "@web3-react/fortmatic-connector" "6.1.6"
-    "@web3-react/frame-connector" "6.0.9"
-    "@web3-react/injected-connector" "6.0.7"
-    "@web3-react/ledger-connector" "6.1.9"
-    "@web3-react/portis-connector" "6.1.6"
-    "@web3-react/torus-connector" "6.1.7"
-    "@web3-react/walletconnect-connector" "6.2.4"
-    "@web3-react/walletlink-connector" "6.2.5"
-    jsbi "^3.1.4"
-    prop-types "^15.7.2"
-    regenerator-runtime "^0.13.7"
-    rollup-plugin-image-files "^1.4.2"
 
 use@^3.1.0:
   version "3.1.1"

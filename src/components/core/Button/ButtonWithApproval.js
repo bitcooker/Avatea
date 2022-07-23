@@ -1,5 +1,5 @@
 import {Loading} from "../../SVG";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import * as React from "react";
 import {useCallback, useEffect, useState} from "react";
 import helper from "../../../helpers";

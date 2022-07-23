@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 // core components
 import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 import helper from "../../../../src/helpers";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import VestingBatchTable from "../../../../src/components/pages/management/vesting/Table/VestingBatchTable";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 import {useRouter} from "next/router";

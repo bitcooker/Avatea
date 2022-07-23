@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@albs1/use-wallet": "0.13.6-1",
     "axios": "^0.27.2",
     "chart.js": "^3.8.0",
     "dompurify": "^2.3.9",
@@ -25,12 +26,13 @@
     "react-dom": "18.1.0",
     "react-dropdown-tree-select": "^2.7.1",
     "react-flags-select": "^2.2.3",
+    "react-image-crop": "^10.0.4",
+    "react-multi-carousel": "^2.8.2",
     "react-toastify": "^9.0.1",
     "sass": "^1.51.0",
     "sharp": "^0.30.7",
     "sweetalert2": "^11.4.18",
-    "use-local-storage": "^2.3.6",
-    "use-wallet": "https://github.com/albsa/use-wallet.git"
+    "use-local-storage": "^2.3.6"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",

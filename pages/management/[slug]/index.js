@@ -14,7 +14,7 @@ import VaultCard from "../../../src/components/pages/management/VaultCard";
 import MarketMakingCard from "../../../src/components/pages/management/MarketMakingCard";
 import ManageProjectCard from "../../../src/components/pages/management/ManageProjectCard";
 import LiquidityMakerCard from "../../../src/components/pages/management/LiquidityMakerCard";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import {useRouter} from "next/router";
 import ManagementAuthentication from "../../../src/components/pages/management/ManagementAuthentication";
 

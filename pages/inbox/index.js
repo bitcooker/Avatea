@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import moment from "moment";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 

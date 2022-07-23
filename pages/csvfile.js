@@ -1,6 +1,6 @@
 import {useState} from "react";
 import helper from "../src/helpers";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import Papa from "papaparse";
 import InputWithIconSubmit from "../src/components/core/Input/InputWithIconSubmit";
 import {Chart} from "../src/components/pages/projects/Vesting/Chart";

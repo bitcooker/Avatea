@@ -9,7 +9,7 @@ import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 import NewsCard from "../../../../src/components/pages/management/news/NewsCard";
 import helper from "../../../../src/helpers";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import {useRouter} from "next/router";
 import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
 

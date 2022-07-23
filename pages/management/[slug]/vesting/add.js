@@ -2,7 +2,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import Papa from "papaparse";
 import {ethers} from "ethers";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import Swal from "sweetalert2";
 import {useRouter} from "next/router";
 

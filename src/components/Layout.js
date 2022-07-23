@@ -1,5 +1,5 @@
 import React from "react";
-import { UseWalletProvider } from "use-wallet";
+import { UseWalletProvider } from "@albs1/use-wallet";
 import { Slide, ToastContainer } from "react-toastify";
 import Script from "next/script";
 import Head from "next/head";

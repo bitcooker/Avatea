@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import networks from "../../network/network.json";
 import {useCallback, useEffect} from "react";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import {ethers} from "ethers";
 
 const variants = {

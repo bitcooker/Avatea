@@ -1,4 +1,4 @@
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import helper from "../../../../../../src/helpers";

@@ -1,7 +1,7 @@
 import Button from "../../core/Button/Button";
 import InputWithIcon from "../../core/Input/InputWithIcon";
 import {useEffect, useState} from "react";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import helper from "../../../helpers";
 import {PAIRED_TOKEN_DEFAULT_IMAGE, PAIRED_TOKEN_IMAGES} from "../../../helpers/constants";
 import {ethers} from "ethers";

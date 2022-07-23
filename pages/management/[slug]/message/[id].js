@@ -2,7 +2,7 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import moment from "moment";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import helper from "../../../../src/helpers";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";

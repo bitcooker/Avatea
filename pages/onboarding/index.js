@@ -20,7 +20,7 @@ import Button from "../../src/components/core/Button/Button";
 import helpers from "../../src/helpers";
 import axios from "axios";
 import {API_URL} from "../../src/helpers/constants";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import {useCallback, useState} from "react";
 import {ethers} from "ethers";
 import {toast} from "react-toastify";

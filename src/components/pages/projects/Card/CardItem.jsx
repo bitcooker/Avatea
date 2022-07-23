@@ -6,7 +6,7 @@ import {motion} from "framer-motion"
 
 // core components
 import Spinner from "../../../core/Spinner";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 
 export default function CardItem(props) {
     const wallet = useWallet();

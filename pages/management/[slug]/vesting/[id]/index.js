@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 
 // core components
 import ButtonFit from "../../../../../src/components/core/Button/ButtonFit";

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import TransactionItem from "./TransactionItem";
 import { ActModul } from "./ActModul";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import helpers from "../../../../helpers";
 import Spinner from "../../../core/Spinner";
 

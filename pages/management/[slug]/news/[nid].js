@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useRouter } from "next/router";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import {useEffect, useState} from "react";
 
 // core components
