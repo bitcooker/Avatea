@@ -7,6 +7,7 @@ export const WETH_ADDRESS = {"4": "0xc778417E063141139Fce010982780140Aa0cD5Ab"}
 export const PAIRED_TOKEN_IMAGES = {"0xc778417E063141139Fce010982780140Aa0cD5Ab": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"} //WETH
 export const PAIRED_TOKEN_DEFAULT_IMAGE = "https://rinkeby.etherscan.io/images/main/empty-token.png"
 export const AVATEA_TOKEN = '0xB991Da4310CdeE737DE53E1C700c363c9aF69631';
+export const AVATEA_TOKEN_ADDRESS = AVATEA_TOKEN;
 export const AVATEA_TOKEN_IMAGE = '/avatea-token.png';
 export const DEFAULT_SLIPPAGE = '990000000000000000';
 export const SOCIALDATA = [
