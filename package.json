@@ -30,7 +30,7 @@
     "sharp": "^0.30.7",
     "sweetalert2": "^11.4.18",
     "use-local-storage": "^2.3.6",
-    "use-wallet": "https://github.com/albsa/use-wallet.git"
+    "use-wallet": "0.13.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
