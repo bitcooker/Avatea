@@ -1,4 +1,3 @@
-import "../styles/main.scss";
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-multi-carousel/lib/styles.css";

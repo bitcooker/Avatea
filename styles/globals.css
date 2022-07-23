@@ -10,6 +10,18 @@
   font-style: normal;
 }
 
+body {
+  font-family: "Poppins";
+  font-size: 14px;
+  color: $black;
+  line-height: 1.7em;
+  font-weight: 400;
+  background: #ebf3ff;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+}
+
+
 /*  h tags  */
 h1 {
   @apply text-4xl;
@@ -28,6 +40,27 @@ h5 {
 }
 h6 {
   @apply text-base;
+}
+
+/* scrollbar width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .auto__container {
@@ -199,7 +232,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .ql-toolbar {
-  @apply bg-gray-100 !border-none !rounded-t-0.5xl
+  @apply !flex bg-gray-100 !border-none !rounded-t-0.5xl
 }
 
 .ql-container {
