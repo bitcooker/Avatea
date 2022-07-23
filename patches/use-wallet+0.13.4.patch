@@ -1,0 +1,13 @@
+diff --git a/node_modules/use-wallet/dist/esm/index.js b/node_modules/use-wallet/dist/esm/index.js
+index c4cf45d..64b81e4 100644
+--- a/node_modules/use-wallet/dist/esm/index.js
++++ b/node_modules/use-wallet/dist/esm/index.js
+@@ -1827,7 +1827,7 @@ function _getAccountIsContract() {
+           case 0:
+             _context3.prev = 0;
+             _context3.next = 3;
+-            return ethereumRequest(ethereum, 'eth_getCode', [account]);
++              return ethereumRequest(ethereum, 'eth_getCode', [account,'latest']);
+ 
+           case 3:
+             code = _context3.sent;
