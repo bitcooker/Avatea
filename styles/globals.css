@@ -151,15 +151,6 @@ input[type="range"]::-webkit-slider-thumb {
     box-shadow: 0px 0px 0px 8px rgba(63, 81, 181, 0.16);
 }
 
-/*  Avoid making two toolbars in Quill - !the other solution -> next.config.js - we need to change the strict mode into false  */
-.quill > .ql-toolbar:first-child {
-    display: none !important;
-}
-
-.quill > .ql-container {
-    min-height: 100px;
-}
-
 /* carousel arrow z-index */
 .react-multiple-carousel__arrow {
     z-index: 20 !important;
@@ -232,7 +223,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .ql-toolbar {
-  @apply !flex bg-gray-100 !border-none !rounded-t-0.5xl
+  @apply bg-gray-100 !border-none !rounded-t-0.5xl
 }
 
 .ql-container {
@@ -241,4 +232,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 .ql-editor {
   @apply grow
+}
+
+.quill > .ql-container {
+    min-height: 100px;
 }
