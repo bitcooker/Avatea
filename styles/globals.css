@@ -237,3 +237,7 @@ input[type="range"]::-webkit-slider-thumb {
 .quill > .ql-container {
     min-height: 100px;
 }
+
+* {
+  @apply border-none m-0 p-0 outline-none
+}
