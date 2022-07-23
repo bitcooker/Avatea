@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {API_URL} from "../src/helpers/constants";
 import helpers from "../src/helpers";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import axios from 'axios';
 
 export default function File() {

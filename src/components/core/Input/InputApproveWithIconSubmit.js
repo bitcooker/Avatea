@@ -1,7 +1,7 @@
 import * as React from "react";
 import InputSubmit from "./InputSubmit";
 import {useState, useEffect, useCallback} from "react";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import helper from "../../../helpers";
 
 export default function Input(props) {

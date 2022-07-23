@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useState} from "react";
 import useLocalStorage from "use-local-storage";
-import { useWallet } from "use-wallet";
+import { useWallet } from "@albs1/use-wallet";
 import Image from "next/image";
 import {ethers} from "ethers";
 import hashicon from "hashicon";

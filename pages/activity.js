@@ -1,5 +1,5 @@
 import * as React from "react";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 
 // page components
 import Act from "../src/components/pages/myActivity/Transaction/TransactionWrapper";

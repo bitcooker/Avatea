@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import helper from "../helpers/";
-import { useWallet } from "use-wallet";
+import { useWallet } from "@albs1/use-wallet";
 import { ethers } from "ethers";
 
 const menus = [

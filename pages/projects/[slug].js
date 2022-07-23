@@ -1,4 +1,4 @@
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import {useEffect, useState, useRef} from "react";
 import {useRouter} from "next/router";
 import { motion } from "framer-motion"

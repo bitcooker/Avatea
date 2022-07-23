@@ -1,5 +1,5 @@
 import Button from "../../core/Button/Button";
-import {useWallet} from "use-wallet";
+import {useWallet} from "@albs1/use-wallet";
 import MaxButton from "../projects/Button/MaxButton";
 import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
 import Card from "../projectDetail/Card/Card";
