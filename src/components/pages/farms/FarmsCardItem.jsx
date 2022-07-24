@@ -145,7 +145,7 @@ export default function FarmsCardItem({liquidityMaker}) {
                 </div>
 
                 <div className="flex flex-col px-2 gap-1">
-                    <label className="text-indigo-500"><span className="font-semibold">{liquidityMaker.earn}</span> VATE EARNED</label>
+                    <label className="text-indigo-500"><span className="font-semibold"></span> VATE EARNED</label>
                     <div className="grid grid-cols-2 gap-2">
                         <InputEmpty id="mercor-earned" name="earned" type="number" value={rewardEarned} readOnly/>
                         <ButtonFit name="Harvest" handleClick={claimReward} disabled={parseFloat(rewardEarned) === 0.0}/>
@@ -153,7 +153,7 @@ export default function FarmsCardItem({liquidityMaker}) {
                 </div>
 
                 <div className="flex flex-col px-2 gap-1">
-                    <label className="text-indigo-500"><span className="font-semibold">{liquidityMaker.earn}</span> LP EARNED</label>
+                    <label className="text-indigo-500"><span className="font-semibold"></span> LP EARNED</label>
                     <div className="grid grid-cols-2 gap-2">
                         <InputEmpty id="mercor-earned" name="earned" type="number" value={liquidityRewardEarned} readOnly/>
                         <ButtonFit name="Compound" handleClick={compoundReward} disabled={parseFloat(liquidityRewardEarned) === 0.0}/>
@@ -230,10 +230,6 @@ export default function FarmsCardItem({liquidityMaker}) {
                         <span>Max Total Liquidity:</span>
                         <span>{maxTotalSupply}</span>
                     </div>
-                    <a className="flex justify-between text-indigo-500 hover:text-indigo-500/80 hover:cursor-pointer transition">
-                        <span>Get {liquidityMaker.title}</span>
-                        <span><i className="fa-solid fa-arrow-up-right-from-square"/></span>
-                    </a>
                     <a className="flex justify-between text-indigo-500 hover:text-indigo-500/80 hover:cursor-pointer transition">
                         <span>View Contract</span>
                         <span><i className="fa-solid fa-arrow-up-right-from-square"/></span>
