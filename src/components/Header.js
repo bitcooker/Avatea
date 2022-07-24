@@ -14,9 +14,13 @@ import WalletConnect from "./core/WalletConnect";
 import SwitchNetwork from "./core/SwitchNetwork";
 import {useRouter} from "next/router";
 
-export default function Header({ menu, setMenu, title }) {
+// context
+import { usePageTitleContext } from "../context/PageTitleContext";
+
+export default function Header({ menu, setMenu }) {
   const wallet = useWallet();
   const router = useRouter();
+  const { title } = usePageTitleContext();
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isRegistered,setIsRegistered] = useLocalStorage('isRegistered', false);
   const [modalOpen, setModalOpen] = useState(false);

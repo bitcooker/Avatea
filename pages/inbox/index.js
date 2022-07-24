@@ -14,8 +14,14 @@ import helper from "../../src/helpers";
 // page components
 import SkeletonInbox from "../../src/components/pages/inbox/SkeletonInbox";
 
+import { usePageTitleContext } from "../../src/context/PageTitleContext";
+
 export default function Inbox(props) {
     const wallet = useWallet();
+    const { setTitle } = usePageTitleContext();
+
+    setTitle("Inbox");
+
     const [selectAll, setSelectAll] = React.useState(false);
     const [messages, setMessages] = React.useState([]);
     const [select, setSelect] = React.useState(...Array(2).fill(false));

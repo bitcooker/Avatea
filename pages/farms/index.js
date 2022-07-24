@@ -7,6 +7,8 @@ import Toggle from "../../src/components/core/Toggle/Toggle";
 import FarmsCard from "../../src/components/pages/farms/FarmsCard";
 import FarmsCardItem from "../../src/components/pages/farms/FarmsCardItem";
 
+import { usePageTitleContext } from "../../src/context/PageTitleContext";
+
 const farms = [
     {
         id: 1,
@@ -37,6 +39,10 @@ const farms = [
 ]
 
 export default function Farms(props) {
+    const { setTitle } =  usePageTitleContext();
+    
+    setTitle("Farms")
+    
     return (
         <div className="flex flex-col gap-5 divide-y divide-dashed">
             <div className="flex flex-col items-center justify-center gap-3">

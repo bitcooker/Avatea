@@ -15,11 +15,16 @@ import MarketMaking from "../../src/components/pages/projects/MarketMaking";
 import Vesting from "../../src/components/pages/projects/Vesting";
 import Liquidity from "../../src/components/pages/projects/LiquidityMaker";
 import Info from "../../src/components/pages/projects/Info";
+import { usePageTitleContext } from '../../src/context/PageTitleContext';
 
 const tabItems = ["Info","Market Making", "Liquidity", "Vault", "Vesting"];
 
 export default function ProjectDetail(props) {
     //@Todo add min buy limit and max buy limit fields (stop-loss)
+    const { setTitle } = usePageTitleContext();
+
+    setTitle("Project Detail")
+
     const wallet = useWallet();
     const router = useRouter();
     const {slug} = router.query;

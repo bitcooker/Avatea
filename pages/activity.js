@@ -12,11 +12,16 @@ import Projects from "../src/components/pages/myActivity/Projects";
 import ConnectYourWallet from "../src/components/core/ConnectYourWallet";
 import {useEffect, useState} from "react";
 import helpers from "../src/helpers";
+import { usePageTitleContext } from "../src/context/PageTitleContext";
 
 export default function Activity() {
+    const { setTitle } = usePageTitleContext();
     const wallet = useWallet();
     const [loaded,setIsLoaded] = useState(false);
     const [projects, setProjects] = useState([]);
+    
+    setTitle("Activity")
+    
     useEffect(() => {
         if(wallet.isConnected()) {
             (async () => {

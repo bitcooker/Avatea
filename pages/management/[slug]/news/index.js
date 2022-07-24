@@ -13,11 +13,16 @@ import {useWallet} from "@albs1/use-wallet";
 import {useRouter} from "next/router";
 import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
 
+import { usePageTitleContext } from "../../../../src/context/PageTitleContext";
+
 
 export default function NewsList(props) {
-
     const router = useRouter();
     const wallet = useWallet();
+    const { setTitle } = usePageTitleContext();
+
+    setTitle("Edit Article")
+
     const [articles, setArticles] = useState([]);
     const [project, setProject] = React.useState({});
     const { slug } = router.query;
