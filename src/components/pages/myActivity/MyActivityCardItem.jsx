@@ -14,7 +14,7 @@ const badgeColors = {
 }
 
 export default function MyActivityCardItem(props) {
-    return  <div className="rounded-2.5xl overflow-hidden transition-all delay-300 hover:shadow-[0_5px_10px_rgba(0,0,0,0.2)]">
+    return  <div className="rounded-2.5xl overflow-hidden transition-all delay-200 hover:shadow-sm">
                 <CardContent project={props.slug} name={props.name} image={props.banner} tokenImage={props.image} type={props.type}/>
             </div>
 }
