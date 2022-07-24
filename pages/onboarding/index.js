@@ -33,8 +33,6 @@ export default function Linked(props) {
     const router = useRouter();
     const { setTitle } = usePageTitleContext();
 
-    setTitle("Onboarding")
-
     const [step, setStep] = React.useState(1);
     const [projectName, setProjectName] = useLocalStorage("projectName", "");
     const [website, setWebsite] = useLocalStorage("website", "");
@@ -343,6 +341,10 @@ export default function Linked(props) {
     React.useEffect(() => {
         if (isFile(image)) setImageUrl(URL.createObjectURL(image))
     }, [image])
+
+    React.useEffect(() => {
+        setTitle("Onboarding")
+    }, [setTitle])
 
 
     return (

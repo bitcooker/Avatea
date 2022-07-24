@@ -24,8 +24,6 @@ export default function ManagementIndex(props) {
     const wallet = useWallet();
     const router = useRouter();
     const { setTitle } = usePageTitleContext();
-
-    setTitle("Project Management")
     
     const { slug } = router.query;
     const [project, setProject] = React.useState({});
@@ -34,6 +32,7 @@ export default function ManagementIndex(props) {
     const [liquidityMaker, setLiquidityMaker] = useState({})
 
     useEffect(() => {
+        setTitle("Project Management")
         if (props.projectDetail) setProject(props.projectDetail);
         if (props.marketMakingPool) setMarketMakingPool(props.marketMakingPool);
         if (props.vault) setVault(props.vault);
@@ -48,7 +47,7 @@ export default function ManagementIndex(props) {
             };
             fetchProject();
         }
-    }, [props]);
+    }, [props, setTitle, slug]);
 
     return (
             <ManagementAuthentication wallet={wallet} project={project}>

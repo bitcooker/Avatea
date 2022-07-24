@@ -40,8 +40,10 @@ const farms = [
 
 export default function Farms(props) {
     const { setTitle } =  usePageTitleContext();
-    
-    setTitle("Farms")
+
+    React.useEffect(() => {
+        setTitle("Farms")   
+    , [setTitle]})
     
     return (
         <div className="flex flex-col gap-5 divide-y divide-dashed">

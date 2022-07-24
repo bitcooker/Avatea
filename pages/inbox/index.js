@@ -20,14 +20,11 @@ export default function Inbox(props) {
     const wallet = useWallet();
     const { setTitle } = usePageTitleContext();
 
-    setTitle("Inbox");
-
     const [selectAll, setSelectAll] = React.useState(false);
     const [messages, setMessages] = React.useState([]);
     const [select, setSelect] = React.useState(...Array(2).fill(false));
 
     useEffect(() => {
-
         const fetchMessages = async () => {
             if (wallet.account) {
                 const result = await helper.messages.getMessages({recipient: wallet.account});
@@ -37,6 +34,10 @@ export default function Inbox(props) {
         fetchMessages();
 
     }, [wallet]);
+
+    useEffect(() => {
+        setTitle("Inbox");
+    }, [setTitle])
 
     return (
         <div className="grow rounded-2.5xl bg-white overflow-hidden">

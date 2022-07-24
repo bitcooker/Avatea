@@ -1,3 +1,4 @@
+import * as React from "react";
 import helper from "../src/helpers";
 import Card from "../src/components/pages/projects/Card/Card";
 
@@ -8,7 +9,9 @@ export default function Home() {
   const projects = useAppContext();
   const { setTitle } = usePageTitleContext();
 
-  setTitle("Home")
+  React.useEffect(() => {
+    setTitle("Home")
+  }, [setTitle])
 
   return (
     <div>

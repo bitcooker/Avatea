@@ -21,8 +21,6 @@ export default function NewsList(props) {
     const wallet = useWallet();
     const { setTitle } = usePageTitleContext();
 
-    setTitle("Edit Article")
-
     const [articles, setArticles] = useState([]);
     const [project, setProject] = React.useState({});
     const { slug } = router.query;
@@ -35,7 +33,7 @@ export default function NewsList(props) {
                 setProject(result?.project);
             })();
         }
-    }, [props]);
+    }, [props, slug]);
 
     useEffect(() => {
         const fetchArticles = async () => {
@@ -44,7 +42,11 @@ export default function NewsList(props) {
             );
         };
         fetchArticles();
-    }, [props]);
+    }, [props, slug]);
+
+    useEffect(() => {
+        setTitle("Edit Article")
+    }, [setTitle])
 
 
     return (

@@ -20,16 +20,16 @@ export default function Activity() {
     const [loaded,setIsLoaded] = useState(false);
     const [projects, setProjects] = useState([]);
     
-    setTitle("Activity")
     
     useEffect(() => {
+        setTitle("Activity")
         if(wallet.isConnected()) {
             (async () => {
                 setProjects(await helpers.user.userActivity(wallet))
                 setIsLoaded(true);
             })()
         }
-    },[wallet.status])
+    },[setTitle, wallet])
 
     return (
         <>

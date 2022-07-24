@@ -23,8 +23,6 @@ export default function ProjectDetail(props) {
     //@Todo add min buy limit and max buy limit fields (stop-loss)
     const { setTitle } = usePageTitleContext();
 
-    setTitle("Project Detail")
-
     const wallet = useWallet();
     const router = useRouter();
     const {slug} = router.query;
@@ -35,6 +33,7 @@ export default function ProjectDetail(props) {
     const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
     const tabRef = useRef(null);
     useEffect(() => {
+        setTitle("Project Detail");
         if (props.projectDetail) setProject(props.projectDetail);
         if (props.marketMakingPool) setMarketMakingPool(props.marketMakingPool);
         if (props.vault) setVault(props.vault);
@@ -50,7 +49,7 @@ export default function ProjectDetail(props) {
             };
             fetchProject();
         }
-    }, [props, slug]);
+    }, [props, slug, setTitle]);
 
     useEffect(() => {
         //@TODO Error handling if empty market making pool or vault
