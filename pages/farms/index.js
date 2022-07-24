@@ -8,6 +8,9 @@ import FarmsCard from "../../src/components/pages/farms/FarmsCard";
 import FarmsCardItem from "../../src/components/pages/farms/FarmsCardItem";
 
 import { usePageTitleContext } from "../../src/context/PageTitleContext";
+import {useEffect} from "react";
+import helper from "../../src/helpers";
+import {useWallet} from "@albs1/use-wallet";
 
 const farms = [
     {
@@ -40,10 +43,23 @@ const farms = [
 
 export default function Farms(props) {
     const { setTitle } =  usePageTitleContext();
+    const wallet = useWallet();
+    const [liquidityMakers, setLiquidityMakers] = React.useState([]);
 
     React.useEffect(() => {
         setTitle("Farms")   
     , [setTitle]})
+
+        useEffect(() => {
+        const fetchMessages = async () => {
+            if (wallet.account) {
+                const result = await helper.liquidityMaker.getLiquidityMakers();
+                setLiquidityMakers(result);
+            }
+        };
+        fetchMessages();
+
+    }, [wallet]);
     
     return (
         <div className="flex flex-col gap-5 divide-y divide-dashed">
@@ -53,7 +69,7 @@ export default function Farms(props) {
             </div>
             <div className="pt-5">
                 <FarmsCard>
-                    {farms.map((farm, index) => <FarmsCardItem key={index} {...farm} />)}
+                    {liquidityMakers.map((liquidityMaker, index) => <FarmsCardItem key={index} liquidityMaker={liquidityMaker} />)}
                 </FarmsCard>
             </div>
         </div>

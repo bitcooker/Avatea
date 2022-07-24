@@ -258,6 +258,18 @@ const hook = async ({
                 })
                 callback()
                 break;
+            case 'LMD':
+                event = data.receipt.events.find(x => x.event === "Staked").args;
+                await axios.post(`${API_URL}Transaction/`, {
+                    hash: data.receipt.transactionHash,
+                    type: type,
+                    contract: data.receipt.to,
+                    amount: Number(ethers.utils.formatEther(event.amount)).toFixed(2),
+                    user_address: data.receipt.from,
+                    network: data.wallet.chainId,
+                })
+                callback()
+                break;
             case 'LMA':
                 event = data.receipt.events.find(x => x.event === "RewardAdded").args;
                 await axios.post(`${API_URL}Transaction/`, {

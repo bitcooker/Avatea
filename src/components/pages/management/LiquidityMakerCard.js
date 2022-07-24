@@ -24,10 +24,8 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
     const [rewardTokenWalletBalance, setRewardTokenWalletBalance] = useState("0");
     const [amountRewardTokenToStake, setAmountRewardTokenToStake] = useState("0");
 
-    const [liquidityAddress, setLiquidityAddress] = useState("");
     const [liquidityRewardTokenWalletBalance, setLiquidityRewardTokenWalletBalance] = useState("0");
     const [amountLiquidityRewardTokenToStake, setAmountLiquidityRewardTokenToStake] = useState("0");
-
 
     const [baseTotalSupply, setBaseTotalSupply] = useState('0');
     const [pairedTotalSupply, setPairedTotalSupply] = useState('0');
@@ -60,10 +58,6 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                 setMaxTotalSupply(maxTotalSupply);
                 setNewMaxTotalSupply(maxTotalSupply);
 
-                setLiquidityAddress(
-                    await helper.web3.liquidityMaker.getPairAddress(wallet, liquidityMaker.address)
-                );
-
                 let TVL = await helper.web3.liquidityMaker.getTVL(wallet, liquidityMaker.address, project.token, liquidityMaker.paired_token)
                 setBaseTotalSupply(helper.formatting.web3Format(TVL.baseValue));
                 setPairedTotalSupply(helper.formatting.web3Format(TVL.pairedValue));
@@ -72,6 +66,12 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                 setRewardTokenWalletBalance(
                     helper.formatting.web3Format(
                         await helper.token.balanceOf(wallet, AVATEA_TOKEN, wallet.account)
+                    )
+                );
+
+                setLiquidityRewardTokenWalletBalance(
+                    helper.formatting.web3Format(
+                        await helper.token.balanceOf(wallet, liquidityMaker.pair_address, wallet.account)
                     )
                 );
 
@@ -85,30 +85,15 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
     }, [newLockingPeriod]);
 
 
-    const addReward = useCallback(async () => {
+    const addReward = async () => {
         const wei = ethers.utils.parseEther(amountRewardTokenToStake);
         let success = await helper.web3.liquidityMaker.addReward(wallet, liquidityMaker.address, wei);
-    }, [amountRewardTokenToStake, wallet, liquidityMaker]);
+    };
 
-
-    const addLiquidityReward = useCallback(async () => {
+    const addLiquidityReward = async () => {
         const wei = ethers.utils.parseEther(amountLiquidityRewardTokenToStake);
         let success = await helper.web3.liquidityMaker.addLiquidityReward(wallet, liquidityMaker.address, wei);
-    }, [amountLiquidityRewardTokenToStake, wallet, liquidityMaker]);
-
-
-    useEffect(() => {
-        if (wallet.status === "connected" && liquidityAddress) {
-            const LiquidityRewardToken = async () => {
-                setLiquidityRewardTokenWalletBalance(
-                    helper.formatting.web3Format(
-                        await helper.token.balanceOf(wallet, liquidityAddress, wallet.account)
-                    )
-                );
-            };
-            LiquidityRewardToken();
-        }
-    }, [wallet, liquidityMaker, liquidityAddress]);
+    };
 
 
     const setMax = useCallback(async (amount, setter) => {
@@ -222,9 +207,7 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                         value={amountLiquidityRewardTokenToStake}
                         setValue={setAmountLiquidityRewardTokenToStake}
                         address={liquidityMaker.address}
-
-                        token={liquidityAddress && liquidityAddress}
-
+                        token={liquidityMaker.pair_address}
                     />
                     <div className="flex flex-row items-center justify-between text-base">
                         <div>

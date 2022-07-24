@@ -19,10 +19,8 @@ export default function Inbox(props) {
     const wallet = useWallet();
     const {setTitle} = usePageTitleContext();
 
-    const [selectAll, setSelectAll] = React.useState(false);
     const [messages, setMessages] = React.useState([]);
     const [readMessages, setReadMessages] = React.useState(0);
-    const [select, setSelect] = React.useState(...Array(2).fill(false));
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -48,7 +46,7 @@ export default function Inbox(props) {
                     <div className="flex px-2 space-x-1">
                         {messages.length - readMessages} unread
                         {messages.length - readMessages === 1 ?
-                            ' message':
+                            ' message' :
                             ' messages'
                         }
                     </div>

@@ -94,7 +94,7 @@ const compoundLPReward = async (wallet, liquidityMakerAddress, callback) => {
     }
 }
 
-const exit = async (wallet, liquidityMakerAddress, full_withdrawal, slippage = DEFAULT_SLIPPAGE) => {
+const exit = async (wallet, liquidityMakerAddress, slippage = DEFAULT_SLIPPAGE) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
@@ -115,7 +115,36 @@ const exit = async (wallet, liquidityMakerAddress, full_withdrawal, slippage = D
             data: {
                 receipt,
                 wallet,
-                full_withdrawal
+            }
+        })
+    } catch (e) {
+        console.log('exit error', e);
+        toast.error(e.reason);
+    }
+}
+
+
+const exitInLP = async (wallet, liquidityMakerAddress) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
+
+    try {
+        const tx = await liquidityMaker.exitInLP();
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        const receipt = await tx.wait();
+        await helpers.callback.hook({
+            type: "LME",
+            data: {
+                receipt,
+                wallet,
             }
         })
     } catch (e) {
@@ -180,6 +209,35 @@ const addLiquidityReward = async (wallet, liquidityMakerAddress, amount, callbac
         })
     } catch (e) {
         console.log('addLiquidityReward error', e);
+        toast.error(e.reason);
+    }
+}
+
+const stake = async (wallet, liquidityMakerAddress, amount, callback) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
+
+    try {
+        const tx = await liquidityMaker.stake(amount);
+        toast.promise(
+            tx.wait(),
+            {
+                pending: 'Pending transaction',
+                success: `Transaction succeeded!`,
+                error: 'Transaction failed!'
+            }
+        )
+        const receipt = await tx.wait();
+        await helpers.callback.hook({
+            type: "LMD",
+            data: {
+                receipt,
+                wallet,
+            }
+        })
+    } catch (e) {
+        console.log('stake error', e);
         toast.error(e.reason);
     }
 }
@@ -432,6 +490,8 @@ export default {
     liquidityRewardPerToken,
     fetchHoldersMapping,
     exit,
+    exitInLP,
+    stake,
     rewardPerToken,
     totalSupply,
     getLockingPeriod,

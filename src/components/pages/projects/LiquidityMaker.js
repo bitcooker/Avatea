@@ -113,8 +113,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
     };
 
     const exitLiquidity = async () => {
-        //@Todo inspect full_withdrawal here if it makes sense? Because no wei value or something is passed
-        let full_withdrawal = false;
         await helper.web3.liquidityMaker.exit(wallet, liquidityMaker.address);
         initWalletConnected();
     };
