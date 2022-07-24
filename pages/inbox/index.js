@@ -8,20 +8,20 @@ import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 
 // core components
-import Checkbox from "../../src/components/core/Checkbox/Checkbox";
 import helper from "../../src/helpers";
 
 // page components
 import SkeletonInbox from "../../src/components/pages/inbox/SkeletonInbox";
 
-import { usePageTitleContext } from "../../src/context/PageTitleContext";
+import {usePageTitleContext} from "../../src/context/PageTitleContext";
 
 export default function Inbox(props) {
     const wallet = useWallet();
-    const { setTitle } = usePageTitleContext();
+    const {setTitle} = usePageTitleContext();
 
     const [selectAll, setSelectAll] = React.useState(false);
     const [messages, setMessages] = React.useState([]);
+    const [readMessages, setReadMessages] = React.useState(0);
     const [select, setSelect] = React.useState(...Array(2).fill(false));
 
     useEffect(() => {
@@ -29,6 +29,9 @@ export default function Inbox(props) {
             if (wallet.account) {
                 const result = await helper.messages.getMessages({recipient: wallet.account});
                 setMessages(result);
+                let i = 0;
+                result.filter(item => item.read_at).forEach(item => i++);
+                setReadMessages(i)
             }
         };
         fetchMessages();
@@ -44,20 +47,13 @@ export default function Inbox(props) {
             {/* Header */}
             <div className="flex justify-between p-4 border-b">
                 <div className="flex divide-x">
-                    {/* <div className="flex items-center pr-3">
-                        <Checkbox initialValue={selectAll} setValue={setSelectAll} />
-                    </div> */}
-                    {/* <div className="flex px-2 space-x-1">
-                        <div className="flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer transition"> 
-                            <i className="fa-solid fa-trash-can text-xl" />
-                        </div>
-                        <div className="flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer transition"> 
-                            <i className="fa-solid fa-envelope text-xl" />
-                        </div>
-                        <div className="flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer transition"> 
-                            <i className="fa-solid fa-circle-info text-xl" />
-                        </div>
-                    </div> */}
+                    <div className="flex px-2 space-x-1">
+                        {messages.length - readMessages} unread
+                        {messages.length - readMessages === 1 ?
+                            ' message':
+                            ' messages'
+                        }
+                    </div>
                 </div>
 
                 <div className="flex items-center space-x-3">
@@ -70,7 +66,7 @@ export default function Inbox(props) {
                         <i className="fa-solid fa-arrow-right text-xl"/>
                     </div>
                     <div className="hidden md:flex text-gray-500 items-center">
-                        Show&nbsp;<span className="text-black">1-25</span>&nbsp;of&nbsp;<span className="text-black">2290</span>
+                        Show&nbsp;<span className="text-black">1-25</span>&nbsp;of&nbsp;<span className="text-black">{messages.length}</span>
                     </div>
                 </div>
             </div>
@@ -92,7 +88,7 @@ export default function Inbox(props) {
                                 </div>
                             </div>
                         </Link>
-                    )) : <SkeletonInbox />
+                    )) : <SkeletonInbox/>
                 }
             </div>
         </div>
