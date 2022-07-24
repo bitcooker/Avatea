@@ -114,7 +114,7 @@ export const CardImage = (props) => {
     const handleImageLoad = (event) => {
         const target = event.target;
         if (target.complete) {
-            setTimeout(() => setImgLoaded(true), 2000);
+            setTimeout(() => setImgLoaded(true), 500);
         }
     };
 
