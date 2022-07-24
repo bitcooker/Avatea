@@ -22,6 +22,7 @@ export default function FarmsCardItem({liquidityMaker}) {
     const [amountLiquidityTokenToStake, setAmountLiquidityTokenToStake] = useState("0");
 
     const [maxTotalSupply, setMaxTotalSupply] = useState('0');
+    const [liquidityBalance, setLiquidityBalance] = useState('0');
 
     const [rewardPerToken, setRewardPerToken] = useState('0');
     const [liquidityRewardPerToken, setLiquidityRewardPerToken] = useState('0');
@@ -70,10 +71,11 @@ export default function FarmsCardItem({liquidityMaker}) {
                         await helper.web3.liquidityMaker.liquidityRewardEarned(wallet, liquidityMaker.address, wallet.account)
                     )
                 );
-                
-                setHoldersMapping(
-                    await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address, wallet.account)
-                );
+
+                let holdersMappingData = await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address, wallet.account)
+                setHoldersMapping(holdersMappingData);
+
+                setLiquidityBalance(holdersMappingData.liquidityBalance)
 
             };
 
@@ -158,7 +160,7 @@ export default function FarmsCardItem({liquidityMaker}) {
                     </div>
                 </div>
 
-                <ButtonFit name="Exit" handleClick={exitLiquidity} disabled={parseFloat(holdersMapping?.liquidityBalance) === 0.0}/>
+                <ButtonFit name="Exit" handleClick={exitLiquidity} disabled={parseFloat(liquidityBalance) === 0.0}/>
 
                 <div className="flex justify-between">
                     <span className="text-sm"><i className="fa-solid fa-clock"/> Locking Period</span>
