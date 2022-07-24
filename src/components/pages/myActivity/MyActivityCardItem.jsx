@@ -8,7 +8,9 @@ import Spinner from "../../../components/core/Spinner";
 const badgeColors = {
     "vested": "bg-lime-500",
     "invested": "bg-fuchsia-500",
-    "vault_vested": "bg-indigo-500"
+    "vault": "bg-indigo-500",
+    "liquidity": "bg-sky-500"
+
 }
 
 export default function MyActivityCardItem(props) {
@@ -49,7 +51,7 @@ export const CardContent = (props) => {
                 <div className="absolute w-full flex flex-row items-center justify-end top-5 space-x-1 px-2">
                     {props.type.map((type, index) => 
                         <div className={`flex items-center justify-center text-white capitalize w-20 h-5 rounded-full mb-1 ${badgeColors[type]}`} key={index}>
-                            {type === "vault_vested" ? "Vault" : type}
+                            {type}
                         </div>)
                     }
                 </div>
