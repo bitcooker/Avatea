@@ -23,7 +23,7 @@ export default function NewsCard(props) {
       />
       <div className="grow px-6 py-4">
         <div className="font-bold text-xl mb-2">{props.news.title}</div>
-        <p className="text-gray-700 text-base">{parse(DOMPurify.sanitize(props.news.description))}</p>
+        <div className="text-gray-700 text-base">{parse(DOMPurify.sanitize(props.news.description))}</div>
       </div>
       <div className="flex items-center justify-between px-6 pt-4 pb-2">
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
