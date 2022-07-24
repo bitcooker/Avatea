@@ -81,10 +81,6 @@ export default function Inbox(props) {
                     messages.length ? messages.map((message, index) => (
                         <Link href={{pathname: `/inbox/` + message.id}} key={index}>
                             <div className="flex p-4 gap-5 items-center hover:bg-gray-100/50 hover:cursor-pointer transition">
-                                <div className="flex" onClick={(e) => e.stopPropagation()}>
-                                    <Checkbox initialValue={select[index]} setValue={() => {
-                                    }}/>
-                                </div>
                                 <div className="flex w-6">
                                     <Image src={message.image} alt="" width={24} height={24}/>
                                 </div>

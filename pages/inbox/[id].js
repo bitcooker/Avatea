@@ -54,15 +54,17 @@ export default function InboxDetail() {
                         onClick={() => router.back()}>
                         <i className="fa-solid fa-arrow-left text-xl"/>
                     </div>
-                    <h1 className="text-2xl md-lg:pl-10">
-                        {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.subject))}
+                    <h1 className="text-xl md-lg:pl-10">
+                        {typeof window === 'undefined' ? '' : parse(DOMPurify.sanitize(message.subject))}
                     </h1>
                 </div>
                 <span>
                     {moment(message.sent_at).format("llll")}
                 </span>
             </div>
-            {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.body))}
+            <div className="grow p-5">
+                {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.body))}
+            </div>
 
             <Button handleClick={() => deleteMessage()} name="Delete Message"/>
         </div>

@@ -6,8 +6,7 @@ export default function SkeletonInbox(props) {
             {[...Array(12)].map((item,index) => (
                 <div className="flex justify-between" key={index}>
                     <div className="flex grow gap-1">
-                        <div className="rounded w-1/12 h-2 bg-slate-200" />
-                        <div className="rounded w-1/2 h-2 bg-slate-200" />
+                        <div className="rounded w-3/5 h-2 bg-slate-200" />
                     </div>
                     <div className="rounded w-1/5 h-2 bg-slate-200" />
                 </div>
