@@ -29,9 +29,7 @@ export default function Inbox(props) {
             if (wallet.account) {
                 const result = await helper.messages.getMessages({recipient: wallet.account});
                 setMessages(result);
-                let i = 0;
-                result.filter(item => item.read_at).forEach(item => i++);
-                setReadMessages(i)
+                setReadMessages(result.filter(item => item.read_at).length)
             }
         };
         fetchMessages();
