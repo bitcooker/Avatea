@@ -18,9 +18,15 @@ import {useWallet} from "@albs1/use-wallet";
 import {useRouter} from "next/router";
 import ManagementAuthentication from "../../../src/components/pages/management/ManagementAuthentication";
 
+import { usePageTitleContext } from "../../../src/context/PageTitleContext";
+
 export default function ManagementIndex(props) {
     const wallet = useWallet();
     const router = useRouter();
+    const { setTitle } = usePageTitleContext();
+
+    setTitle("Project Management")
+    
     const { slug } = router.query;
     const [project, setProject] = React.useState({});
     const [vault, setVault] = useState({});

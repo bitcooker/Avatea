@@ -26,9 +26,14 @@ import {ethers} from "ethers";
 import {toast} from "react-toastify";
 import NoSsr from "../../src/components/NoSsr";
 
+import { usePageTitleContext } from "../../src/context/PageTitleContext";
+
 export default function Linked(props) {
     const wallet = useWallet();
     const router = useRouter();
+    const { setTitle } = usePageTitleContext();
+
+    setTitle("Onboarding")
 
     const [step, setStep] = React.useState(1);
     const [projectName, setProjectName] = useLocalStorage("projectName", "");

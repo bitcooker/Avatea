@@ -51,7 +51,7 @@ const variants = {
     close: { opacity: 0, transitionEnd: { zIndex: -10 }}
 }
 
-export default function Sidebar({ menu, setMenu, setTitle }) {
+export default function Sidebar({ menu, setMenu }) {
 
   return (
     <div className="relative h-[100%]">
@@ -77,7 +77,6 @@ export default function Sidebar({ menu, setMenu, setTitle }) {
                                 href={menu.href}
                                 label={menu.label}
                                 icon={menu.icon}
-                                setTitle={setTitle}
                                 key={index}
                             />
                         ))}
@@ -102,7 +101,6 @@ export const MenuItem = (props) => {
             ? "bg-indigo-500 text-white"
             : "bg-white text-black"
         }`}
-        onClick={() => props.setTitle(props.label)}
       >
         <i className={props.icon + " mr-2"} />
         {props.label}
