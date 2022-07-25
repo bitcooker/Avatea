@@ -143,7 +143,7 @@ export default function VestingAdd(props) {
 
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
-            <div className="relative flex flex-col h-[70vh] md-lg:h-[85vh] space-y-7.5">
+            <div className="relative flex flex-col min-h-[70vh] md-lg:min-h-[85vh] space-y-7.5">
                 <div className="flex flex-row items-center justify-between">
                     <h1 className="text-2xl">Vesting Overview</h1>
                     {step === 1 &&
