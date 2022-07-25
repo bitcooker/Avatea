@@ -98,6 +98,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Whitepaper URL'}
                                     value={whitepaper}
+                                    icon="fa-solid fa-file-code"
                                     setValue={setWhitepaper}
                                 />
                             </div>
@@ -108,6 +109,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Audit URL'}
                                     value={audit}
+                                    icon="fa-solid fa-check-double"
                                     setValue={setAudit}
                                 />
                             </div>
@@ -121,7 +123,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Facebook'}
                                     value={facebook}
-                                    icon="fa-facebook-f"
+                                    icon="fa-brands fa-facebook-f"
                                     setValue={setFacebook}
                                 />
                             </div>
@@ -132,7 +134,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'LinkedIn'}
                                     value={linkedIn}
-                                    icon="fa-linkedin"
+                                    icon="fa-brands fa-linkedin"
                                     setValue={setLinkedIn}
                                 />
                             </div>
@@ -143,7 +145,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'GitHub'}
                                     value={github}
-                                    icon="fa-github"
+                                    icon="fa-brands fa-github"
                                     setValue={setGithub}
                                 />
                             </div>
@@ -154,7 +156,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Telegram'}
                                     value={telegram}
-                                    icon="fa-telegram"
+                                    icon="fa-brands fa-telegram"
                                     setValue={setTelegram}
                                 />
                             </div>
@@ -165,7 +167,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Discord'}
                                     value={discord}
-                                    icon="fa-discord"
+                                    icon="fa-brands fa-discord"
                                     setValue={setDiscord}
                                 />
                             </div>
@@ -176,7 +178,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Medium'}
                                     value={medium}
-                                    icon="fa-medium"
+                                    icon="fa-brands fa-medium"
                                     setValue={setMedium}
                                 />
                             </div>
@@ -187,7 +189,7 @@ export default function ManageProjectCard({project}) {
                                     type="text"
                                     placeholder={'Twitter'}
                                     value={twitter}
-                                    icon="fa-twitter"
+                                    icon="fa-brands fa-twitter"
                                     setValue={setTwitter}
                                 />
                             </div>

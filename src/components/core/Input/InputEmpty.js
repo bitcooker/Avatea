@@ -5,7 +5,7 @@ export default function InputEmpty(props) {
     <div className={`flex gap-2 items-center justify-center shadow-sm h-12.5 w-full bg-gray-100 rounded-0.5xl pl-5 pr-3.75 py-2.5 ${props.classNames}`}>
       {props.icon && (
         <div className="flex items-center w-6 h-6">
-            <i className={`fa-brands ${props.icon} text-xl`} />
+            <i className={`${props.icon} text-xl`} />
         </div>
       )}
       <input
