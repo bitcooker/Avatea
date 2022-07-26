@@ -19,7 +19,7 @@ const menus = [
     icon: "fa-solid fa-chart-area",
   },
   {
-    label: "Vault List",
+    label: "Projects",
     href: "/projects",
     icon: "fa-solid fa-diagram-project",
   },
