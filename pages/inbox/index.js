@@ -33,6 +33,8 @@ export default function Inbox(props) {
         }
         if(currentPage + 1 == totalPages) {
             setDisableNextButton(true);
+        } else {
+            setDisableNextButton(false);
             setDisablePrevButton(false);
         }
         setCurrentPage(currentPage + 1);
@@ -48,7 +50,9 @@ export default function Inbox(props) {
         }
         if(currentPage - 1 == 1) {
             setDisablePrevButton(true);
+        } else {
             setDisableNextButton(false);
+            setDisablePrevButton(false);
         }
         setCurrentPage(currentPage - 1);
         if(currentPage - 1 == 0) {

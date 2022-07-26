@@ -19,10 +19,49 @@ import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 export default function Inbox(props) {
     const wallet = useWallet();
     const router = useRouter();
+
+    const [disableNextButton, setDisableNextButton] = React.useState(false);
+    const [disablePrevButton, setDisablePrevButton] = React.useState(true);
     const [messages, setMessages] = React.useState([]);
-    const [select, setSelect] = React.useState(...Array(2).fill(false));
+    const [currentPage, setCurrentPage] = React.useState(1);
     const [project, setProject] = useState({});
     const {slug} = router.query;
+
+    const totalPages = Math.floor(messages.length / 10) + 1;
+
+    const handleNext = React.useCallback(() => {
+        if(currentPage == totalPages) {
+            return;
+        }
+        if(currentPage + 1 == totalPages) {
+            setDisableNextButton(true);
+        } else {
+            setDisableNextButton(false);
+            setDisablePrevButton(false);
+        }
+        setCurrentPage(currentPage + 1);
+        if(currentPage + 1 === totalPages + 1) {
+            setDisableNextButton(true);
+            setDisablePrevButton(false);
+        }
+    }, [currentPage, totalPages])
+
+    const handlePrev = React.useCallback(() => {
+        if(currentPage == 1) {
+            return;
+        }
+        if(currentPage - 1 == 1) {
+            setDisablePrevButton(true);
+        } else {
+            setDisableNextButton(false);
+            setDisablePrevButton(false);
+        }
+        setCurrentPage(currentPage - 1);
+        if(currentPage - 1 == 0) {
+            setDisablePrevButton(true);
+            setDisableNextButton(false);
+        }
+    }, [currentPage])
 
     useEffect(() => {
         if (props.projectDetail) setProject(props.projectDetail);
@@ -45,6 +84,41 @@ export default function Inbox(props) {
         fetchMessages();
 
     }, [wallet, project]);
+
+    const Messages = React.useMemo(() => {
+        const currentMessages = messages.filter((message, index) => index >= (currentPage - 1) * 10 && index < currentPage * 10 )
+        return currentMessages.length ? currentMessages.map((message, index) => (
+            <Link href={{pathname: `/management/cloud-project/message/` + message.id}} key={index}>
+            <div className="flex p-4 gap-5 items-center hover:bg-gray-100/50 hover:cursor-pointer transition">
+                <div>
+                    {message.recipient}
+                </div>
+                <div className="grow w-1 truncate">
+                    {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.subject))}
+                </div>
+                <div className="grow w-1 truncate relative">
+                    {message.read_at ?
+
+                        <span className="relative  flex-row group">
+                            <i className="fa-solid fa-eye fa-xs text-slate-600"></i>
+                            <Tooltip className={'top-0 left-5 py-0.5'} title={moment(message.read_at).format("llll")}/>
+                        </span>
+
+                        :
+                        ' '
+                    }
+                </div>
+                <div className="hidden md:flex">
+                    {moment(message.sent_at).format("llll")}
+                </div>
+            </div>
+        </Link>
+        )) : <></>
+    }, [currentPage, messages])
+
+    const pageBar = React.useMemo(() => {
+        return <div>Show&nbsp;<span className="text-black">{(currentPage - 1) * 10 + 1} - {(currentPage == totalPages ? messages.length : (currentPage * 10))}</span>&nbsp;of&nbsp;<span className="text-black">{messages.length}</span></div>
+    }, [currentPage, totalPages, messages.length])
 
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
@@ -69,71 +143,25 @@ export default function Inbox(props) {
         <div className="rounded-2.5xl bg-white overflow-hidden">
             {/* Header */}
             <div className="flex justify-between p-4 border-b">
-                <div className="flex divide-x">
-                    {/* <div className="flex items-center pr-3">
-                        <Checkbox initialValue={selectAll} setValue={setSelectAll} />
-                    </div> */}
-                    {/* <div className="flex px-2 space-x-1">
-                        <div className="flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer transition"> 
-                            <i className="fa-solid fa-trash-can text-xl" />
-                        </div>
-                        <div className="flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer transition"> 
-                            <i className="fa-solid fa-envelope text-xl" />
-                        </div>
-                        <div className="flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer transition"> 
-                            <i className="fa-solid fa-circle-info text-xl" />
-                        </div>
-                    </div> */}
-                </div>
-
+                <div></div>
                 <div className="flex items-center space-x-3">
                     <div
-                        className="flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer transition">
+                        className={`flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer ${disablePrevButton ? 'text-gray-300 hover:bg-white hover:text-gray-300 hover:cursor-not-allowed' : ''} transition`} onClick={handlePrev}>
                         <i className="fa-solid fa-arrow-left text-xl"/>
                     </div>
                     <div
-                        className="flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer transition">
+                        className={`flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer ${disableNextButton ? 'text-gray-300 hover:bg-white hover:text-gray-300 hover:cursor-not-allowed' : ''} transition`} onClick={handleNext}>
                         <i className="fa-solid fa-arrow-right text-xl"/>
                     </div>
                     <div className="hidden md:flex text-gray-500 items-center">
-                        Show&nbsp;<span className="text-black">1-25</span>&nbsp;of&nbsp;<span className="text-black">2290</span>
+                        {pageBar}
                     </div>
                 </div>
             </div>
 
             {/* content */}
             <div className="">
-                {messages.map((message, index) => (
-                    <Link href={{pathname: `/management/cloud-project/message/` + message.id}} key={index}>
-                        <div className="flex p-4 gap-5 items-center hover:bg-gray-100/50 hover:cursor-pointer transition">
-                            <div className="flex" onClick={(e) => e.stopPropagation()}>
-                                <Checkbox initialValue={select[index]} setValue={() => {
-                                }}/>
-                            </div>
-                            <div>
-                                {message.recipient}
-                            </div>
-                            <div className="grow w-1 truncate">
-                                {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.subject))}
-                            </div>
-                            <div className="grow w-1 truncate relative">
-                                {message.read_at ?
-
-                                    <span className="relative  flex-row group">
-                                        <i className="fa-solid fa-eye fa-xs text-slate-600"></i>
-                                        <Tooltip className={'top-0 left-5 py-0.5'} title={moment(message.read_at).format("llll")}/>
-                                    </span>
-
-                                    :
-                                    ' '
-                                }
-                            </div>
-                            <div className="hidden md:flex">
-                                {moment(message.sent_at).format("llll")}
-                            </div>
-                        </div>
-                    </Link>
-                ))}
+                {Messages}
             </div>
         </div>
         </ManagementAuthentication>
