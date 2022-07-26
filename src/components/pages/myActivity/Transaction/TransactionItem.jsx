@@ -30,7 +30,8 @@ const bgColors = {
     'LMR': "bg-stone-500",
     'LMC': "bg-stone-500",
     'LME': "bg-stone-500",
-    'LMA': "bg-stone-500"
+    'LMA': "bg-stone-500",
+    'MMBB': "bg-stone-500"
 }
 
 const textColors = {
@@ -59,7 +60,8 @@ const textColors = {
     'LMR': "text-stone-500",
     'LMC': "text-stone-500",
     'LME': "text-stone-500",
-    'LMA': "text-stone-500"
+    'LMA': "text-stone-500",
+    'MMBB': "text-stone-500"
 }
 
 const borderColors = {
@@ -88,7 +90,8 @@ const borderColors = {
     'LMR': "border-stone-500/50",
     'LMC': "border-stone-500/50",
     'LME': "border-stone-500/50",
-    'LMA': "border-stone-500/50"
+    'LMA': "border-stone-500/50",
+    'MMBB': "border-stone-500/50"
 }
 
 const hoverBorderColors = {
@@ -117,7 +120,8 @@ const hoverBorderColors = {
     'LMR': "hover:border-stone-500",
     'LMC': "hover:border-stone-500",
     'LME': "hover:border-stone-500",
-    'LMA': "hover:border-stone-500"
+    'LMA': "hover:border-stone-500",
+    'MMBB': "hover:border-stone-500"
 }
 
 const TRANSACTION_TYPES = {
@@ -135,6 +139,7 @@ const TRANSACTION_TYPES = {
     'MMCD': 'Market Making Contract Deployment', // Done
     'MMAS': 'Market Making Allow Selling', // Done
     'MMBR': 'Market Making Base Staking Ratio', // Done
+    'MMBB': 'Market Making Base Batch',
     'AR': 'Avatea Rewards',
     'VD': 'Vault Deposit',
     'VE': 'Vault Exit',
