@@ -18,7 +18,19 @@ const bgColors = {
     "MMBD": "bg-emerald-500",
     "MMAS": "bg-amber-500",
     "MMBW": "bg-purple-500",
-    "MMPD": "bg-stone-500"
+    "MMPD": "bg-stone-500",
+    'AR': "bg-stone-500",
+    'VD': "bg-stone-500",
+    'VE': "bg-stone-500",
+    'LMD': "bg-stone-500",
+    'MMSC': "bg-stone-500",
+    'MMRT': "bg-stone-500",
+    'MMAR': "bg-stone-500",
+    'MMPR': "bg-stone-500",
+    'LMR': "bg-stone-500",
+    'LMC': "bg-stone-500",
+    'LME': "bg-stone-500",
+    'LMA': "bg-stone-500"
 }
 
 const textColors = {
@@ -35,7 +47,19 @@ const textColors = {
     "MMBD": "text-emerald-500",
     "MMAS": "text-amber-500",
     "MMBW": "text-purple-500",
-    "MMPD": "text-stone-500"
+    "MMPD": "text-stone-500",
+    'AR': "text-stone-500",
+    'VD': "text-stone-500",
+    'VE': "text-stone-500",
+    'LMD': "text-stone-500",
+    'MMSC': "text-stone-500",
+    'MMRT': "text-stone-500",
+    'MMAR': "text-stone-500",
+    'MMPR': "text-stone-500",
+    'LMR': "text-stone-500",
+    'LMC': "text-stone-500",
+    'LME': "text-stone-500",
+    'LMA': "text-stone-500"
 }
 
 const borderColors = {
@@ -52,7 +76,19 @@ const borderColors = {
     "MMBD": "border-emerald-500/50",
     "MMAS": "border-amber-500/50",
     "MMBW": "border-purple-500/50",
-    "MMPD": "border-stone-500/50"
+    "MMPD": "border-stone-500/50",
+    'AR': "border-stone-500/50",
+    'VD': "border-stone-500/50",
+    'VE': "border-stone-500/50",
+    'LMD': "border-stone-500/50",
+    'MMSC': "border-stone-500/50",
+    'MMRT': "border-stone-500/50",
+    'MMAR': "border-stone-500/50",
+    'MMPR': "border-stone-500/50",
+    'LMR': "border-stone-500/50",
+    'LMC': "border-stone-500/50",
+    'LME': "border-stone-500/50",
+    'LMA': "border-stone-500/50"
 }
 
 const hoverBorderColors = {
@@ -69,36 +105,49 @@ const hoverBorderColors = {
     "MMBD": "hover:border-emerald-500",
     "MMAS": "hover:border-amber-500",
     "MMBW": "hover:border-purple-500",
-    "MMPD": "hover:border-stone-500"
+    "MMPD": "hover:border-stone-500",
+    'AR': "hover:border-stone-500",
+    'VD': "hover:border-stone-500",
+    'VE': "hover:border-stone-500",
+    'LMD': "hover:border-stone-500",
+    'MMSC': "hover:border-stone-500",
+    'MMRT': "hover:border-stone-500",
+    'MMAR': "hover:border-stone-500",
+    'MMPR': "hover:border-stone-500",
+    'LMR': "hover:border-stone-500",
+    'LMC': "hover:border-stone-500",
+    'LME': "hover:border-stone-500",
+    'LMA': "hover:border-stone-500"
 }
 
 const TRANSACTION_TYPES = {
+    'VW': 'Vault Withdrawal', // Done
+    'VR': 'Vault Rewards', // Done
+    'VA': 'Vault Reward Adding', // Done
+    'LMW': 'Liquidity Maker Withdrawal', // Done
+    'LML': 'Liquidity Maker Liquidity Adding', // Done
+    'MMBD': 'Market Making Base Deposit', // Done
+    'MMPD': 'Market Making Paired Deposit', // Done
+    'MMVD': 'Market Making Vesting Deposit', // Done
+    'MMVR': 'Market Making Vesting Release', // Done
+    'MMBW': 'Market Making Base Withdrawal', // Done
+    'MMPW': 'Market Making Paired Withdrawal', // Done
+    'MMCD': 'Market Making Contract Deployment', // Done
+    'MMAS': 'Market Making Allow Selling', // Done
+    'MMBR': 'Market Making Base Staking Ratio', // Done
     'AR': 'Avatea Rewards',
     'VD': 'Vault Deposit',
-    'VW': 'Vault Withdrawal',
-    'VR': 'Vault Rewards',
     'VE': 'Vault Exit',
-    'VA': 'Vault Reward Adding',
     'LMD': 'Liquidity Maker Deposit',
-    'LMW': 'Liquidity Maker Withdrawal',
+    'MMSC': 'Market Making Settings Change',
+    'MMRT': 'Market Making Revoke Tokens',
+    'MMAR': 'Market Making Allow Releasing',
+    'MMPR': 'Market Making Paired Staking Ratio',
     'LMR': 'Liquidity Maker Rewards',
     'LMC': 'Liquidity Maker Compound',
     'LME': 'Liquidity Maker Exit',
     'LMA': 'Liquidity Maker Reward Adding',
-    'LML': 'Liquidity Maker Liquidity Adding',
-    'MMBD': 'Market Making Base Deposit',
-    'MMPD': 'Market Making Paired Deposit',
-    'MMVD': 'Market Making Vesting Deposit',
-    'MMVR': 'Market Making Vesting Release',
-    'MMRT': 'Market Making Revoke Tokens',
-    'MMBW': 'Market Making Base Withdrawal',
-    'MMPW': 'Market Making Paired Withdrawal',
-    'MMSC': 'Market Making Settings Change',
-    'MMCD': 'Market Making Contract Deployment',
-    'MMAS': 'Market Making Allow Selling',
-    'MMAR': 'Market Making Allow Releasing',
-    'MMBR': 'Market Making Base Staking Ratio',
-    'MMPR': 'Market Making Paired Staking Ratio',
+
 }
 export default function TransactionItem(props) {
   return (
