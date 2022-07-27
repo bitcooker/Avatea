@@ -112,7 +112,7 @@ export default function Vault({ vault, wallet, project, marketMakingPool }) {
                                 <span className="text-base font-medium">{vaultTLV}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-hands-holding-dollar"/> Reward Per Avatea Token Per Day</span>
+                                <span className="text-sm"><i className="fa-solid fa-hands-holding-dollar"/> Reward Per Avatea Token</span>
                                 <span className="text-base font-medium">{rewardPerToken}</span>
                             </div>
                         </div>
