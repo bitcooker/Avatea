@@ -18,6 +18,14 @@ export default function SkeletonMarketMaking(props) {
                             <div className="rounded w-1/6 h-5 bg-slate-200" />
                             <div className="rounded w-1/12 h-5 bg-slate-200" />
                         </div>
+                        <div className="flex justify-between">
+                            <div className="rounded w-1/6 h-5 bg-slate-200" />
+                            <div className="rounded w-1/12 h-5 bg-slate-200" />
+                        </div>
+                        <div className="flex justify-between">
+                            <div className="rounded w-1/6 h-5 bg-slate-200" />
+                            <div className="rounded w-1/12 h-5 bg-slate-200" />
+                        </div>
                     </div>
                 </div>
                 <div className="card-content pt-4.5 space-y-3.75">
