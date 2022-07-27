@@ -8,7 +8,7 @@ import MyActivityCardItem from "./MyActivityCardItem";
 
 
 export default function Projects({projects, loaded}) {
-    return <div className="my-10">
+    return <div className="mb-10">
                 {projects?.length === 0 && loaded === false ? (
                     <div className="flex items-center justify-center w-full h-[85vh]">
                         <Spinner size={5} />
