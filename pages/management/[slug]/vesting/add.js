@@ -37,16 +37,16 @@ export default function VestingAdd(props) {
     const [amounts, setAmounts] = useState([]);
     const [amountsInWei, setAmountsInWei] = useState([]);
 
-    const [start, setStart] = useLocalStorage();
-    const [startInDays, setStartInDays] = useLocalStorage();
-    const [cliff, setCliff] = useLocalStorage();
-    const [cliffInDays, setCliffInDays] = useLocalStorage();
-    const [duration, setDuration] = useLocalStorage();
-    const [durationInDays, setDurationInDays] = useLocalStorage();
-    const [slicePeriodSeconds, setSlicePeriodSeconds] = useLocalStorage();
-    const [slicePeriodSecondsInDays, setSlicePeriodSecondsInDays] = useLocalStorage();
+    const [start, setStart] = useLocalStorage('start','');
+    const [startInDays, setStartInDays] = useLocalStorage('startInDays','');
+    const [cliff, setCliff] = useLocalStorage('cliff',);
+    const [cliffInDays, setCliffInDays] = useLocalStorage('cliffInDays','');
+    const [duration, setDuration] = useLocalStorage('duration','');
+    const [durationInDays, setDurationInDays] = useLocalStorage('durationInDays','');
+    const [slicePeriodSeconds, setSlicePeriodSeconds] = useLocalStorage('slicePeriodSeconds','');
+    const [slicePeriodSecondsInDays, setSlicePeriodSecondsInDays] = useLocalStorage('slicePeriodSecondInDays','');
 
-    const [revocable, setRevocable] = useLocalStorage(true);
+    const [revocable, setRevocable] = useLocalStorage('revocable',true);
     const [batchName, setBatchName] = useState('');
     const [totalAmount, setTotalAmount] = useState(0);
 
