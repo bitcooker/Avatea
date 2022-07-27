@@ -73,8 +73,8 @@ input[type="range"] {
     linear,
     50% 0%,
     50% 100%,
-    color-stop(0%, #6366f1),
-    color-stop(100%, #6366f1)
+    color-stop(0%, #ea580c),
+    color-stop(100%, #ea580c)
   );
   background-repeat: no-repeat;
 }
