@@ -3,9 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
-import helper from "../helpers/";
-import { useWallet } from "@albs1/use-wallet";
-import { ethers } from "ethers";
+
 
 const menus = [
   {
@@ -68,12 +66,12 @@ export default function Sidebar({ menu, setMenu }) {
         <motion.div initial={{ opacity: 0 }} variants={variants} animate={menu ? "open" : "close"} className="overlay fixed w-[100vw] h-[100vh] bg-black/30" />
         <div
             className={
-                "fixed w-[100vw] h-[100vh] top-0 left-0 z-[70] lg-xl:rounded-r-2.5xl transition duration-300 lg-xl:translate-x-0 lg-xl:w-50 xl-2xl:w-66.25 " +
+                "fixed w-[100vw] h-[100vh] top-0 left-0 z-[70] shadow-md transition duration-300 lg-xl:translate-x-0 lg-xl:w-50 xl-2xl:w-66.25 " +
                 (menu ? "translate-x-0" : "-translate-x-full")
             }
             onClick={() => setMenu(false)}
             >
-            <div className="px-3.75 max-w-66.25 bg-white rounded-r-2.5xl h-[100vh] z-1500">
+            <div className="px-3.75 max-w-66.25 bg-white h-[100vh] z-1500">
                 <div className="flex items-center justify-start px-3.75">
                     <Image src={"/logo.svg"} alt="logo" width={126} height="100%" />
                 </div>
