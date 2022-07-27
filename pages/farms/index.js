@@ -63,10 +63,10 @@ export default function Farms(props) {
     
     return (
         <div className="flex flex-col gap-5 divide-y divide-dashed">
-            <div className="flex flex-col items-center justify-center gap-3">
-                <label className="text-2xl text-center font-medium">Stake LP tokens to earn MERCOR</label>
-                <Toggle label="Staked only" />
-            </div>
+            {/*<div className="flex flex-col items-center justify-center gap-3">*/}
+            {/*    <label className="text-2xl text-center font-medium">Stake LP tokens</label>*/}
+            {/*    <Toggle label="Staked only" />*/}
+            {/*</div>*/}
             <div className="pt-5">
                 <FarmsCard>
                     {liquidityMakers.map((liquidityMaker, index) => <FarmsCardItem key={index} liquidityMaker={liquidityMaker} />)}
