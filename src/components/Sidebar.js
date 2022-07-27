@@ -39,6 +39,16 @@ const menus = [
     href: "/inbox",
     icon: "fa-solid fa-envelope",
   },
+    {
+        label: "Documentation",
+        href: "#",
+        icon: "fa-solid fa-book",
+    },
+    {
+        label: "Support Center",
+        href: "#",
+        icon: "fa-solid fa-circle-question",
+    },
   {
     label: "Logout",
     href: "/logout",
