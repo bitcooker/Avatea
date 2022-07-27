@@ -8,6 +8,11 @@ module.exports = {
       fontFamily: {
         poppins: ["Poppins"],
       },
+      colors: {
+        'indigo': {
+            500: '#ea580c'
+        }
+      },
       width: {
         25: "6.25rem",
         38: "9.5rem",
