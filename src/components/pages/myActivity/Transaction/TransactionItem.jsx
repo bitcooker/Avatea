@@ -1,128 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import moment from 'moment';
+import stc from 'string-to-color'
 
 import TableCol from "../../../core/table/TableCol";
-
-const bgColors = {
-    "MMVD": "bg-sky-500",
-    "MMVR": "bg-orange-500",
-    "MMCD": "bg-lime-500",
-    "VW": "bg-orange-300",
-    "MMPW": "bg-blue-500",
-    "VR": "bg-teal-500",
-    "LML": "bg-violet-500",
-    "LMW": "bg-rose-500",
-    "MMBR": "bg-fuchsia-500",
-    "VA": "bg-pink-500",
-    "MMBD": "bg-emerald-500",
-    "MMAS": "bg-amber-500",
-    "MMBW": "bg-purple-500",
-    "MMPD": "bg-stone-500",
-    'AR': "bg-stone-500",
-    'VD': "bg-stone-500",
-    'VE': "bg-stone-500",
-    'LMD': "bg-stone-500",
-    'MMSC': "bg-stone-500",
-    'MMRT': "bg-stone-500",
-    'MMAR': "bg-stone-500",
-    'MMPR': "bg-stone-500",
-    'LMR': "bg-stone-500",
-    'LMC': "bg-stone-500",
-    'LME': "bg-stone-500",
-    'LMA': "bg-stone-500",
-    'MMBB': "bg-stone-500"
-}
-
-const textColors = {
-    "MMVD": "text-sky-500",
-    "MMVR": "text-orange-500",
-    "MMCD": "text-lime-500",
-    "VW": "text-orange-300",
-    "MMPW": "text-blue-500",
-    "VR": "text-teal-500",
-    "LML": "text-violet-500",
-    "LMW": "text-rose-500",
-    "MMBR": "text-fuchsia-500",
-    "VA": "text-pink-500",
-    "MMBD": "text-emerald-500",
-    "MMAS": "text-amber-500",
-    "MMBW": "text-purple-500",
-    "MMPD": "text-stone-500",
-    'AR': "text-stone-500",
-    'VD': "text-stone-500",
-    'VE': "text-stone-500",
-    'LMD': "text-stone-500",
-    'MMSC': "text-stone-500",
-    'MMRT': "text-stone-500",
-    'MMAR': "text-stone-500",
-    'MMPR': "text-stone-500",
-    'LMR': "text-stone-500",
-    'LMC': "text-stone-500",
-    'LME': "text-stone-500",
-    'LMA': "text-stone-500",
-    'MMBB': "text-stone-500"
-}
-
-const borderColors = {
-    "MMVD": "border-sky-500/50",
-    "MMVR": "border-orange-500/50",
-    "MMCD": "border-lime-500/50",
-    "VW": "border-orange-300/50",
-    "MMPW": "border-blue-500/50",
-    "VR": "border-teal-500/50",
-    "LML": "border-violet-500/50",
-    "LMW": "border-rose-500/50",
-    "MMBR": "border-fuchsia-500/50",
-    "VA": "border-pink-500/50",
-    "MMBD": "border-emerald-500/50",
-    "MMAS": "border-amber-500/50",
-    "MMBW": "border-purple-500/50",
-    "MMPD": "border-stone-500/50",
-    'AR': "border-stone-500/50",
-    'VD': "border-stone-500/50",
-    'VE': "border-stone-500/50",
-    'LMD': "border-stone-500/50",
-    'MMSC': "border-stone-500/50",
-    'MMRT': "border-stone-500/50",
-    'MMAR': "border-stone-500/50",
-    'MMPR': "border-stone-500/50",
-    'LMR': "border-stone-500/50",
-    'LMC': "border-stone-500/50",
-    'LME': "border-stone-500/50",
-    'LMA': "border-stone-500/50",
-    'MMBB': "border-stone-500/50"
-}
-
-const hoverBorderColors = {
-    "MMVD": "hover:border-sky-500",
-    "MMVR": "hover:border-orange-500",
-    "MMCD": "hover:border-lime-500",
-    "VW": "hover:border-orange-300",
-    "MMPW": "hover:border-blue-500",
-    "VR": "hover:border-teal-500",
-    "LML": "hover:border-violet-500",
-    "LMW": "hover:border-rose-500",
-    "MMBR": "hover:border-fuchsia-500",
-    "VA": "hover:border-pink-500",
-    "MMBD": "hover:border-emerald-500",
-    "MMAS": "hover:border-amber-500",
-    "MMBW": "hover:border-purple-500",
-    "MMPD": "hover:border-stone-500",
-    'AR': "hover:border-stone-500",
-    'VD': "hover:border-stone-500",
-    'VE': "hover:border-stone-500",
-    'LMD': "hover:border-stone-500",
-    'MMSC': "hover:border-stone-500",
-    'MMRT': "hover:border-stone-500",
-    'MMAR': "hover:border-stone-500",
-    'MMPR': "hover:border-stone-500",
-    'LMR': "hover:border-stone-500",
-    'LMC': "hover:border-stone-500",
-    'LME': "hover:border-stone-500",
-    'LMA': "hover:border-stone-500",
-    'MMBB': "hover:border-stone-500"
-}
 
 const TRANSACTION_TYPES = {
     'VW': 'Vault Withdrawal', // Done
@@ -159,10 +40,9 @@ export default function TransactionItem(props) {
     <div className="grid grid-cols-12 items-center w-full p-2">
         <TableCol className="truncate col-span-7 font-medium text-base tracking-[.0125rem]">
             <div>
-                <div className={`inline-block px-2 py-1 ${bgColors[props.type]} rounded-full text-white`}>
-                    <p className="hidden sm:block text-base leading-none">{TRANSACTION_TYPES[props.type]}</p>
-                    <p className="sm:hidden text-base leading-none">{props.type}</p>
-
+                <div className={`inline-block px-2 py-2 rounded-full text-white`} style={{ backgroundColor: stc(props.type) }}>
+                    <p className="hidden sm:block text-sm leading-none">{TRANSACTION_TYPES[props.type]}</p>
+                    <p className="sm:hidden text-sm leading-none">{props.type}</p>
                 </div>
             </div>
             <small>{moment(props.timestamp).format('llll')}</small>
