@@ -62,7 +62,7 @@ export default function SwitchNetwork(props) {
 
   return (
     <div
-      className="relative bg-indigo-50 hover:bg-indigo-50/50 md:hover:bg-white/50 md:bg-white rounded-full p-4 hover:cursor-pointer transition"
+      className="relative shadow bg-indigo-50 hover:bg-indigo-50/50 md:hover:bg-white/50 md:bg-white rounded-full p-4 hover:cursor-pointer transition"
       onClick={() => setOpen(!open)}
     >
         <div className="flex flex-row items-center space-x-2">

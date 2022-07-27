@@ -82,7 +82,7 @@ export default function Header({ menu, setMenu }) {
                 <SwitchNetwork />
             </div>
         {wallet.status === "connected" ? (
-            <div className="flex flex-row items-center bg-white p-1 rounded-4xl">
+            <div className="flex flex-row items-center bg-white p-1 rounded-4xl shadow">
               <div className="hidden sm:flex sm:items-center px-2">
                 <span className="mr-1">{Number(ethers.utils.formatEther(wallet.balance)).toFixed(4)}</span>
                 <Image src={'/avatea-token.png'} alt="netImage" width={20} height={20}/>
