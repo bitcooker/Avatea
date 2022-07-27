@@ -21,6 +21,7 @@ import {Chart} from "../../../../src/components/pages/projects/Vesting/Chart";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
 import ButtonWithApproval from "../../../../src/components/core/Button/ButtonWithApproval";
+import useLocalStorage from "use-local-storage";
 
 
 export default function VestingAdd(props) {
@@ -36,16 +37,16 @@ export default function VestingAdd(props) {
     const [amounts, setAmounts] = useState([]);
     const [amountsInWei, setAmountsInWei] = useState([]);
 
-    const [start, setStart] = useState();
-    const [startInDays, setStartInDays] = useState();
-    const [cliff, setCliff] = useState();
-    const [cliffInDays, setCliffInDays] = useState();
-    const [duration, setDuration] = useState();
-    const [durationInDays, setDurationInDays] = useState();
-    const [slicePeriodSeconds, setSlicePeriodSeconds] = useState();
-    const [slicePeriodSecondsInDays, setSlicePeriodSecondsInDays] = useState();
+    const [start, setStart] = useLocalStorage();
+    const [startInDays, setStartInDays] = useLocalStorage();
+    const [cliff, setCliff] = useLocalStorage();
+    const [cliffInDays, setCliffInDays] = useLocalStorage();
+    const [duration, setDuration] = useLocalStorage();
+    const [durationInDays, setDurationInDays] = useLocalStorage();
+    const [slicePeriodSeconds, setSlicePeriodSeconds] = useLocalStorage();
+    const [slicePeriodSecondsInDays, setSlicePeriodSecondsInDays] = useLocalStorage();
 
-    const [revocable, setRevocable] = useState(true);
+    const [revocable, setRevocable] = useLocalStorage(true);
     const [batchName, setBatchName] = useState('');
     const [totalAmount, setTotalAmount] = useState(0);
 
