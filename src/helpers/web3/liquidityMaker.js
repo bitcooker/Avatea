@@ -100,7 +100,7 @@ const exit = async (wallet, liquidityMakerAddress, slippage = DEFAULT_SLIPPAGE) 
     const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
 
     try {
-        const tx = await liquidityMaker.exit(slippage);
+        const tx = await liquidityMaker.exitTokens(slippage);
         toast.promise(
             tx.wait(),
             {
@@ -130,7 +130,7 @@ const exitInLP = async (wallet, liquidityMakerAddress) => {
     const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
 
     try {
-        const tx = await liquidityMaker.exitInLP();
+        const tx = await liquidityMaker.exit();
         toast.promise(
             tx.wait(),
             {
