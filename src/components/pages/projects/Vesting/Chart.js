@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import {Line} from 'react-chartjs-2';
 import {useState, useEffect} from "react";
+import tailwindConfig from '../../../../../tailwind.config';
 
 
 ChartJS.register(
@@ -24,7 +25,7 @@ ChartJS.register(
 );
 
 const CHART_COLORS = {
-    primary: '#635bff',
+    primary: tailwindConfig.theme.extend.colors.indigo["500"],
     black: '#000000',
 };
 
