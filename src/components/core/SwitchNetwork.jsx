@@ -58,12 +58,13 @@ export default function SwitchNetwork(props) {
                 }
             }
         }
-    },[wallet,currentNetwork])
+    },[wallet])
 
   return (
     <div
       className="relative shadow bg-indigo-50 hover:bg-indigo-50/50 md:hover:bg-white/50 md:bg-white rounded-full p-4 hover:cursor-pointer transition"
-      onClick={() => setOpen(!open)}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
     >
         <div className="flex flex-row items-center space-x-2">
             <Image src={`${currentNetwork?.icon}`} alt="network" width={20} height={20} />
@@ -111,10 +112,10 @@ export const NetworkDropdown = (props) => {
 export const NetworkItem = (props) => {
   return (
     <div
-      className="flex flex-row items-center justify-between p-2 rounded-md hover:cursor-pointer hover:bg-gray-100"
+      className="flex items-center justify-between p-2 rounded-md hover:cursor-pointer hover:bg-gray-100"
       onClick={() => props.handleClick(props.network)}
     >
-      <div className="flex flex-row gap-2">
+      <div className="flex items-center gap-2">
         <Image
           src={props.network.icon}
           alt="network_item"
