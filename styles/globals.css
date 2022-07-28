@@ -13,7 +13,6 @@
 body {
   font-family: "Poppins";
   font-size: 14px;
-  color: $black;
   line-height: 1.7em;
   font-weight: 400;
   background: #ebf3ff;
@@ -73,8 +72,8 @@ input[type="range"] {
     linear,
     50% 0%,
     50% 100%,
-    color-stop(0%, #ea580c),
-    color-stop(100%, #ea580c)
+    color-stop(0%, #203354),
+    color-stop(100%, #203354)
   );
   background-repeat: no-repeat;
 }

@@ -76,7 +76,7 @@ export default function VaultCard({project, vault}) {
                     <div className="flex justify-between">
                       <span className="text-sm">
                         <i className="fa-solid fa-hands-holding-dollar"/>{" "}
-                          Reward Per Avatea Token Per Day
+                          Reward Per Avatea Token
                       </span>
                         <span className="flex text-base font-medium">
                         <img

@@ -113,7 +113,7 @@ export default function Vault({vault, wallet, project, setTab}) {
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-sm">
-                                    <i className="fa-solid fa-treasure-chest"/> Reward Per Avatea Token Per Day
+                                    <i className="fa-solid fa-treasure-chest"/> Reward Per Avatea Token
                                 </span>
                                 <span className="flex text-base font-medium">
                                     <Image src={project.image} alt="" width={24} height={24}/>
