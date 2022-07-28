@@ -238,5 +238,5 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 * {
-  @apply border-none m-0 p-0 outline-none
+  @apply m-0 p-0 outline-none
 }
