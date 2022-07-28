@@ -10,7 +10,7 @@ module.exports = {
       },
       colors: {
         'indigo': {
-            500: '#23395d'
+            500: '#334a6f'
         }
       },
       width: {
