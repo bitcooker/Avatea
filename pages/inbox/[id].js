@@ -45,7 +45,7 @@ export default function InboxDetail() {
     };
 
     return (
-        <div className="flex flex-col gap-5 p-4 md:p-10 h-[70vh] md:h-[80vh] bg-white rounded-2.5xl">
+        <div className="flex flex-col gap-5 p-4 md:p-10 min-h-[65vh] bg-white rounded-2.5xl">
             {/* Header */}
             <div className="flex flex-col md:flex-row items-center justify-between leading-7">
                 <div className="relative flex w-full md-lg:w-fit items-center justify-center gap-5">
@@ -55,11 +55,11 @@ export default function InboxDetail() {
                         <i className="fa-solid fa-arrow-left text-xl"/>
                     </div>
                     <h1 className="text-xl md-lg:pl-10">
-                        {typeof window === 'undefined' ? '' : parse(DOMPurify.sanitize(message.subject))}
+                        {typeof window === 'undefined' || !message.subject ? <div className="animate-pulse w-40 h-7 rounded-md bg-gray-200"></div> : parse(DOMPurify.sanitize(message.subject))}
                     </h1>
                 </div>
-                <span>
-                    {moment(message.sent_at).format("llll")}
+                <span className="w-full h-7 flex items-center justify-center">
+                    {!message.sent_at ? <div className="animate-pulse w-1/3 h-4 rounded-md bg-gray-200"></div> : moment(message.sent_at).format("llll")}
                 </span>
             </div>
             <div className="grow p-5">
