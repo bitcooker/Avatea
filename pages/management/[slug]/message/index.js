@@ -127,34 +127,34 @@ export default function Mail(props) {
         <ManagementAuthentication project={project} wallet={wallet}>
             <div className="flex flex-row items-center justify-between mb-5">
                 <h1 className="text-2xl">New Message</h1>
-                <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
-                    <div className={'grid grid-cols-1 gap-2.5'}>
-                        <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
-                    </div>
+                <div className="hidden w-full -bottom-16 md-lg:w-fit md-lg:flex">
+                    <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
                 </div>
             </div>
+            <div className="flex flex-col min-h-[59vh] p-5 rounded-2.5xl bg-white gap-3.5">
+                <div className="flex flex-col gap-3">
+                    <span>To {addresses.length > 0 && '(' + addresses.length + ' addresses)'}</span>
+                    {DropdownTreeSelectMemo}
+                </div>
 
+                <div className="flex flex-col gap-3">
+                    <span>Title</span>
+                    <InputEmpty id="title" name="title" type="text" placeholder="Please enter title" value={title} setValue={setTitle}/>
+                </div>
 
-            <div className="flex flex-col min-h-[85vh] p-5 rounded-2.5xl bg-white gap-3.5">
-            <div className="flex flex-col gap-3">
-                <span>To {addresses.length > 0 && '(' + addresses.length + ' addresses)'}</span>
-                {DropdownTreeSelectMemo}
+                <div className="grow flex flex-col gap-3">
+                    <span>Content</span>
+                    <RichEditor value={content} setValue={setContent}/>
+                </div>
+
+                <div className="flex justify-end">
+                    <ButtonFit handleClick={() => sendMessage()} name="Send" icon="fa-solid fa-paper-plane"/>
+                </div>
             </div>
-
-            <div className="flex flex-col gap-3">
-                <span>Title</span>
-                <InputEmpty id="title" name="title" type="text" placeholder="Please enter title" value={title} setValue={setTitle}/>
+            
+            <div className="w-full mt-5 md-lg:w-fit md-lg:hidden">
+                <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
             </div>
-
-            <div className="grow flex flex-col gap-3">
-                <span>Content</span>
-                <RichEditor value={content} setValue={setContent}/>
-            </div>
-
-            <div className="flex justify-end">
-                <ButtonFit handleClick={() => sendMessage()} name="Send" icon="fa-solid fa-paper-plane"/>
-            </div>
-        </div>
         </ManagementAuthentication>
     )
 }
