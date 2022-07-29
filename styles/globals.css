@@ -243,11 +243,15 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* date time pciker  */
 .react-datetime-picker {
-  @apply inline-flex items-center pl-5 pr-3.75 py-2.5 bg-gray-100 rounded-0.5xl;
+  @apply w-full h-12.5 inline-flex items-center pl-5 pr-3.75 py-2.5 bg-gray-100 rounded-0.5xl;
 }
 
 .react-datetime-picker__wrapper {
   @apply !border-none
+}
+
+.react-datetime-picker__calendar {
+  @apply !right-0 !left-auto 
 }
 
 /** Calendar **/
