@@ -55,11 +55,11 @@ export default function InboxDetail() {
                         <i className="fa-solid fa-arrow-left text-xl"/>
                     </div>
                     <h1 className="text-xl md-lg:pl-10">
-                        {typeof window === 'undefined' || !message.subject ? <div className="animate-pulse w-40 h-7 rounded-md bg-gray-200"></div> : parse(DOMPurify.sanitize(message.subject))}
+                        {typeof window === 'undefined' || !message.subject ? <div className="animate-pulse w-60 h-7 rounded-md bg-gray-200"></div> : parse(DOMPurify.sanitize(message.subject))}
                     </h1>
                 </div>
-                <span className="w-full h-7 flex items-center justify-center">
-                    {!message.sent_at ? <div className="animate-pulse w-1/3 h-4 rounded-md bg-gray-200"></div> : moment(message.sent_at).format("llll")}
+                <span className="w-full md-lg:w-fit h-7 flex items-center justify-center">
+                    {!message.sent_at ? <div className="animate-pulse w-40 h-4 rounded-md bg-gray-200"></div> : moment(message.sent_at).format("llll")}
                 </span>
             </div>
             <div className="grow p-5">
