@@ -240,3 +240,52 @@ input[type="range"]::-webkit-slider-thumb {
 * {
   @apply m-0 p-0 outline-none
 }
+
+/* date time pciker  */
+.react-datetime-picker {
+  @apply inline-flex items-center pl-5 pr-3.75 py-2.5 bg-gray-100 rounded-0.5xl;
+}
+
+.react-datetime-picker__wrapper {
+  @apply !border-none
+}
+
+/** Calendar **/
+.react-calendar {
+  font-family: "Poppins" !important;
+  @apply p-2 !bg-gray-100 !border-none rounded-lg mt-1
+}
+
+.react-calendar abbr {
+  @apply !no-underline !font-extralight !text-sm
+}
+
+.react-calendar__tile {
+  @apply hover:!bg-gray-200 hover:!rounded-md transition
+}
+
+.react-calendar__tile--now {
+  @apply !bg-gray-200 rounded-md
+}
+
+.react-calendar__tile--active, .react-calendar__tile--hasActive {
+  @apply !bg-sky-500/80 !text-white hover:!bg-sky-500 rounded-md
+}
+
+.react-calendar__navigation__arrow, .react-calendar__navigation__label {
+  @apply hover:!bg-gray-200 rounded-md transition
+}
+
+.react-datetime-picker__button__icon {
+  @apply hover:!stroke-sky-500 transition
+}
+
+/**  AM, PM  **/
+.react-datetime-picker__inputGroup__amPm option {
+  @apply !bg-gray-100 !border-none
+}
+
+/** clock  **/
+.react-datetime-picker__clock {
+  @apply !hidden
+}
