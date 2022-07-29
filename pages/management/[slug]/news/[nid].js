@@ -39,7 +39,7 @@ export default function News(props) {
                 setProject(result?.project);
             })();
         }
-    }, [props]);
+    }, [props, slug]);
 
     useEffect(() => {
         (async() => {
@@ -47,8 +47,9 @@ export default function News(props) {
             setTitle(data.title);
             setDescription(data.description);
             setLink(data.link);
+            setNewsImageURL(data.image);
         })()
-    },[])
+    },[nid])
 
     const updateArticle = async() => {
         await helper.article.updateArticle({
