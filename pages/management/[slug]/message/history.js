@@ -2,6 +2,8 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import Link from "next/link";
 import moment from "moment";
+import hashicon from "hashicon"
+import Image from "next/image";
 
 // core components
 import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
@@ -95,13 +97,23 @@ export default function Inbox(props) {
         return currentMessages.length ? currentMessages.map((message, index) => (
             <Link href={{pathname: `/management/cloud-project/message/` + message.id}} key={index}>
             <div className="flex p-4 gap-5 items-center hover:bg-gray-100/50 hover:cursor-pointer transition">
-                <div>
-                    {message.recipient}
+                <div className="flex items-center gap-1">
+                    <Image
+                    src={hashicon(
+                        message.recipient == null ? "" : message.recipient
+                    ).toDataURL()}
+                    alt="hashicon"
+                    width={20}
+                    height={20}
+                    />
+                    <div className="truncate">
+                        {message.recipient}
+                    </div>
                 </div>
-                <div className="grow w-1 truncate">
+                <div className="hidden md-lg:block grow w-1 truncate">
                     {typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(message.subject))}
                 </div>
-                <div className="grow w-1 truncate relative">
+                <div className="hidden md-lg:block grow w-1 truncate relative">
                     {message.read_at ?
 
                         <span className="relative  flex-row group">
