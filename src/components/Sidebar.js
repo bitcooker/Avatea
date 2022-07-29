@@ -4,39 +4,32 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 
-
-const menus = [
-  {
-    label: "Home",
-    href: "/",
-    icon: "fa-solid fa-home-user",
-  },
-  {
-    label: "My Activity",
-    href: "/activity",
-    icon: "fa-solid fa-chart-area",
-  },
-  {
-    label: "Projects",
-    href: "/projects",
-    icon: "fa-solid fa-diagram-project",
-  },
-  // {
-  //   label: "Settings",
-  //   href: "/settings",
-  //   icon: "fa-solid fa-gears",
-  // },
+const userMenus = [
     {
-      label: "Farms",
-      href: "/farms",
-      icon: "fa-solid fa-farm",
+        label: "Home",
+        href: "/",
+        icon: "fa-solid fa-home-user",
     },
-
-  {
-    label: "Inbox",
-    href: "/inbox",
-    icon: "fa-solid fa-envelope",
-  },
+    {
+        label: "My Activity",
+        href: "/activity",
+        icon: "fa-solid fa-chart-area",
+    },
+    {
+        label: "Projects",
+        href: "/projects",
+        icon: "fa-solid fa-diagram-project",
+    },
+    {
+        label: "Farms",
+        href: "/farms",
+        icon: "fa-solid fa-farm",
+    },
+    {
+        label: "Inbox",
+        href: "/inbox",
+        icon: "fa-solid fa-envelope",
+    },
     {
         label: "Documentation",
         href: "#",
@@ -47,11 +40,59 @@ const menus = [
         href: "#",
         icon: "fa-solid fa-circle-question",
     },
-  {
-    label: "Logout",
-    href: "/logout",
-    icon: "fa-solid fa-right-from-bracket",
-  },
+    {
+        label: "Logout",
+        href: "/logout",
+        icon: "fa-solid fa-right-from-bracket",
+    },
+];
+
+const adminMenus = [
+    {
+        label: "Home",
+        href: "/",
+        icon: "fa-solid fa-home-user",
+    },
+    {
+        label: "My Activity",
+        href: "/activity",
+        icon: "fa-solid fa-chart-area",
+    },
+    {
+        label: "Projects",
+        href: "/projects",
+        icon: "fa-solid fa-diagram-project",
+    },
+    {
+        label: "Manage Projects",
+        href: "#",
+        icon: "fa-solid fa-gears",
+    },
+    {
+        label: "Farms",
+        href: "/farms",
+        icon: "fa-solid fa-farm",
+    },
+    {
+        label: "Inbox",
+        href: "/inbox",
+        icon: "fa-solid fa-envelope",
+    },
+    {
+        label: "Documentation",
+        href: "#",
+        icon: "fa-solid fa-book",
+    },
+    {
+        label: "Support Center",
+        href: "#",
+        icon: "fa-solid fa-circle-question",
+    },
+    {
+        label: "Logout",
+        href: "/logout",
+        icon: "fa-solid fa-right-from-bracket",
+    },
 ];
 
 const variants = {
@@ -60,40 +101,43 @@ const variants = {
 }
 
 export default function Sidebar({ menu, setMenu }) {
+    const [isAdmin, setIsAdmin] = React.useState(true);
 
-  return (
-    <div className="relative h-[100%]">
-        <motion.div initial={{ opacity: 0 }} variants={variants} animate={menu ? "open" : "close"} className="overlay fixed w-[100vw] h-[100vh] bg-black/30" />
-        <div
-            className={
-                "fixed w-[100vw] h-[100vh] top-0 left-0 z-[70] shadow-md transition duration-300 lg-xl:translate-x-0 lg-xl:w-50 xl-2xl:w-66.25 " +
-                (menu ? "translate-x-0" : "-translate-x-full")
-            }
-            onClick={() => setMenu(false)}
-            >
-            <div className="px-3.75 max-w-66.25 bg-white h-[100vh] z-1500">
-                <div className="flex items-center justify-start px-3.75">
-                    <Image src={"/logo.svg"} alt="logo" width={126} height="100%" />
-                </div>
-                <nav
-                    className="relative flex flex-col justify-between"
-                    style={{ height: "calc(100% - 105px)" }}
+    const menus = isAdmin ? adminMenus : userMenus;
+
+    return (
+        <div className="relative h-[100%]">
+            <motion.div initial={{ opacity: 0 }} variants={variants} animate={menu ? "open" : "close"} className="overlay fixed w-[100vw] h-[100vh] bg-black/30" />
+            <div
+                className={
+                    "fixed w-[100vw] h-[100vh] top-0 left-0 z-[70] shadow-md transition duration-300 lg-xl:translate-x-0 lg-xl:w-50 xl-2xl:w-66.25 " +
+                    (menu ? "translate-x-0" : "-translate-x-full")
+                }
+                onClick={() => setMenu(false)}
                 >
-                    <div className="flex flex-col">
-                        {menus.map((menu, index) => (
-                            <MenuItem
-                                href={menu.href}
-                                label={menu.label}
-                                icon={menu.icon}
-                                key={index}
-                            />
-                        ))}
+                <div className="px-3.75 max-w-66.25 bg-white h-[100vh] z-1500">
+                    <div className="flex items-center justify-start px-3.75">
+                        <Image src={"/logo.svg"} alt="logo" width={126} height="100%" />
                     </div>
-                </nav>
+                    <nav
+                        className="relative flex flex-col justify-between"
+                        style={{ height: "calc(100% - 105px)" }}
+                    >
+                        <div className="flex flex-col">
+                            {menus.map((menu, index) => (
+                                <MenuItem
+                                    href={menu.href}
+                                    label={menu.label}
+                                    icon={menu.icon}
+                                    key={index}
+                                />
+                            ))}
+                        </div>
+                    </nav>
+                </div>
             </div>
         </div>
-    </div>
-  );
+    );
 }
 
 export const MenuItem = (props) => {
