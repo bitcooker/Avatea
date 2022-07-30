@@ -1,14 +1,14 @@
 import axios from 'axios';
-import {API_URL, CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID} from "./constants";
+import {API_URL, DEFAULT_CHAIN_ID} from "./constants";
 import helpers from "./index";
 import Swal from "sweetalert2";
 
 
-const getProjects = async ({live = 'True', network = DEFAULT_CHAIN_ID} = {}) => {
+const getProjects = async ({live = 'True', admin} = {}) => {
 
     let parameters = "?";
     if (live) parameters += `live=${live}&`
-    if (network) parameters += `network=${network}&`
+    if (admin) parameters += `admin=${admin}&`
 
     try {
         const {data} = await axios.get(`${API_URL}Project/${parameters}`);
@@ -58,7 +58,6 @@ const getProjectServerSide = async (context, network = DEFAULT_CHAIN_ID, user_ad
 }
 
 
-
 //@TODO Handle error for market maker settings if no wallet is available
 const getArticles = async (slug) => {
     try {
@@ -87,7 +86,7 @@ const getVesting = async (id) => {
     }
 }
 
-const updateProjectInformation = async (formData,projectId,wallet) => {
+const updateProjectInformation = async (formData, projectId, wallet) => {
     const signature = await helpers.web3.authentication.getSignature(wallet);
     formData.append("signature", signature);
     try {
@@ -107,7 +106,7 @@ const updateProjectInformation = async (formData,projectId,wallet) => {
             });
         }
     } catch (e) {
-        console.log('updateProjectInformation',e);
+        console.log('updateProjectInformation', e);
     }
 };
 
