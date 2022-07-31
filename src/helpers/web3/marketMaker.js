@@ -385,7 +385,7 @@ const revoke = async (wallet, marketMakerAddress, user_address, callback) => {
     } catch (e) {
         console.log('revoke error', e);
         toast.error(e.reason);
-        return false;
+        throw e;
     }
 }
 

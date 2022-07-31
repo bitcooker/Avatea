@@ -24,6 +24,7 @@ export default function Vesting({
                                 }) {
 
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
     const [releaseAbleAmount, setReleaseAbleAmount] = useState(0);
     const [amountVested, setAmountVested] = useState(0);
     const [amountReleased, setAmountReleased] = useState(0);
@@ -90,6 +91,7 @@ export default function Vesting({
     };
 
     const revokeVesting = async () => {
+        setIsLoading(true);
         Swal.fire({
             title: 'Read before proceeding',
             text: "The revoke action can not be reverted, proceed with caution.",
@@ -101,11 +103,19 @@ export default function Vesting({
         }).then(async (result) => {
             if (result.isConfirmed) {
                 Swal.close();
-                await helper.marketMaker.revoke(
-                    wallet,
-                    marketMakingPool.address,
-                    userAddress
-                );
+                try {
+                    await helper.marketMaker.revoke(
+                        wallet,
+                        marketMakingPool.address,
+                        userAddress
+                    );
+                    router.back();
+                    setIsLoading(false)
+                } catch(e) {
+                    console.log(e);
+                    setIsLoading(false)
+                }
+
             }
         })
 
@@ -175,7 +185,7 @@ export default function Vesting({
                 <div className="flex flex-row space-x-5">
 
                     {(setAction === 'revoke' && revocable) &&
-                        <Button name="Revoke Tokens" handleClick={revokeVesting}>
+                        <Button name="Revoke Tokens" handleClick={revokeVesting} isLoading={isLoading} disabled={isLoading}>
                             {" "}
                             <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/>
                         </Button>
