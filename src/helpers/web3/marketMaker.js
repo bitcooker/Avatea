@@ -134,7 +134,7 @@ const stakeBatch = async (wallet, marketMakerAddress, user_addresses, amountsInW
     } catch (e) {
         console.log('stakeBatch error', e);
         toast.error(e.reason);
-        return false;
+        throw e;
     }
 }
 
@@ -195,7 +195,7 @@ const createVesting = async (wallet,
     } catch (e) {
         console.log('createVesting error', e);
         toast.error(e.reason);
-        return false;
+        throw e;
     }
 }
 

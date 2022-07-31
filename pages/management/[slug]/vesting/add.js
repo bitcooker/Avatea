@@ -145,7 +145,6 @@ export default function VestingAdd(props) {
             }
         } catch (error) {
             setIsLoading(false);
-
             console.log(error);
         }
     };
@@ -340,6 +339,7 @@ export default function VestingAdd(props) {
                         {step > 1 &&
                             <Button
                                 name="Previous"
+                                disabled={isLoading}
                                 handleClick={() => {
                                     setStep(step - 1)
                                 }}
@@ -348,7 +348,7 @@ export default function VestingAdd(props) {
                         {step < 3 ?
                             <Button
                                 name="Next"
-                                disabled={!(addresses.length > 0) || isLoading}
+                                disabled={!(addresses.length > 0)}
                                 handleClick={() => {
                                     setStep(step + 1)
                                 }}

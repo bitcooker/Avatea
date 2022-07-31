@@ -25,6 +25,7 @@ export default function VestingAdd(props) {
     const wallet = useWallet();
     const [marketMakingPool, setMarketMakingPool] = useState({});
 
+    const [isLoading,setIsLoading] = useState(false);
     const [step, setStep] = React.useState(1);
     const [fileName, setFileName] = React.useState("");
     const [addresses, setAddresses] = useState([]);
@@ -76,6 +77,7 @@ export default function VestingAdd(props) {
 
     const createMultiSend = async () => {
         try {
+            setIsLoading(true)
             const response = await helper.web3.marketMaker.stakeBatch(
                 wallet,
                 marketMakingPool.address,
@@ -85,6 +87,7 @@ export default function VestingAdd(props) {
             );
 
             if (response) {
+                setIsLoading(false);
                 await Swal.fire({
                                     position: "center",
                                     icon: "success",
@@ -97,6 +100,7 @@ export default function VestingAdd(props) {
                                 });
             }
         } catch (error) {
+            setIsLoading(false);
             console.log(error);
         }
     };
@@ -157,6 +161,7 @@ export default function VestingAdd(props) {
                                 handleClick={() => {
                                     setStep(step - 1)
                                 }}
+                                disabled={isLoading}
                             />
                         }
                         {step < 2 ?
@@ -167,7 +172,7 @@ export default function VestingAdd(props) {
                                     setStep(step + 1)
                                 }}
                             /> :
-                            <ButtonWithApproval name="Create multi send - " handleClick={createMultiSend} address={marketMakingPool.address}
+                            <ButtonWithApproval isLoading={isLoading} name="Create multi send - " handleClick={createMultiSend} address={marketMakingPool.address}
                                                 token={project.token} amount={totalAmount} ticker={project.ticker}/>
                         }
                     </div>
