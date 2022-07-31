@@ -17,6 +17,7 @@ import {useRouter} from "next/router";
 // context
 import { usePageTitleContext } from "../context/PageTitleContext";
 import {useAdminContext} from "../context/AdminContext";
+import Button from "./core/Button/Button";
 
 export default function Header({ menu, setMenu }) {
   const wallet = useWallet();
@@ -112,13 +113,19 @@ export default function Header({ menu, setMenu }) {
             </div>
           ) : (
             <div className="bg-white p-1 rounded-4xl">
-              <button
+              <Button
                 className="flex justify-center items-center px-7.5 py-3 bg-indigo-500 text-white rounded-4xl hover:cursor-pointer hover:bg-indigo-500/80 transition"
-                onClick={() => setModalOpen(!modalOpen)}
+                handleClick={() => setModalOpen(!modalOpen)}
+                isLoading={modalOpen}
               >
-                <span className="hidden md-lg:inline-block text-base">Connect with wallet</span>
-                <span className="inline-block md-lg:hidden"> Connect </span>
-              </button>
+                  {
+                      !modalOpen ? <>
+                          <span className="hidden md-lg:inline-block text-base">Connect with wallet</span>
+                          <span className="inline-block md-lg:hidden"> Connect </span>
+                      </> : <span>Connecting</span>
+                  }
+
+              </Button>
             </div>
           )}
           <WalletConnect open={modalOpen} handleClose={() => setModalOpen(false)}/>
