@@ -12,6 +12,7 @@ import { PageTitleWrapper } from "../context/PageTitleContext";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./core/Footer";
+import {AdminWrapper} from "../context/AdminContext";
 
 const SidebarWithNoSSR = dynamic(() => import("./Sidebar"), { ssr: false });
 
@@ -44,7 +45,8 @@ export default function Layout({ children }) {
       >
         <AppWrapper>
             <PageTitleWrapper>
-                <Sidebar menu={menu} setMenu={setMenu} />
+                <AdminWrapper>
+                    <Sidebar menu={menu} setMenu={setMenu} />
                 <main>
                     <div className="flex flex-col pt-24 md:pt-0 min-h-[100vh] pb-5 px-[15px] lg-xl:px-5 lg-xl:pl-[220px] xl-2xl:pr-5 xl-2xl:pl-[295px]">
                     <Header menu={menu} setMenu={setMenu} />
@@ -67,6 +69,7 @@ export default function Layout({ children }) {
                     <Footer />
                     </div>
                 </main>
+                </AdminWrapper>
             </PageTitleWrapper>
         </AppWrapper>
       </UseWalletProvider>

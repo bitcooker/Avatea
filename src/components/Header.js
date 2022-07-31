@@ -16,11 +16,13 @@ import {useRouter} from "next/router";
 
 // context
 import { usePageTitleContext } from "../context/PageTitleContext";
+import {useAdminContext} from "../context/AdminContext";
 
 export default function Header({ menu, setMenu }) {
   const wallet = useWallet();
   const router = useRouter();
   const { title } = usePageTitleContext();
+  const { setIsAdmin } = useAdminContext();
   const [unreadMessages, setUnreadMessages] = useState(0);
   const [isRegistered,setIsRegistered] = useLocalStorage('isRegistered', false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -34,14 +36,18 @@ export default function Header({ menu, setMenu }) {
   useEffect(() => {
     // if (wallet.isConnected() && !isRegistered) {
     if (wallet.isConnected()) {
-      const initWallet = setInterval(async () => {
-        await helpers.user.registerUser(wallet,setIsRegistered,setUnreadMessages);
-      },10000);
+      const initWallet = async () => {
+          await helpers.user.registerUser(wallet,setIsRegistered,setUnreadMessages, setIsAdmin);
+      }
+      initWallet();
+      const pollingMessage = setInterval(initWallet,10000);
       return () => {
-          clearInterval(initWallet);
+          clearInterval(pollingMessage);
       }
     } else if(wallet.status === "disconnected") {
         setIsRegistered(false);
+        setIsAdmin(false);
+
     }
   }, [wallet.status,isRegistered]);
 

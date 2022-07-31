@@ -116,12 +116,15 @@ export const NetworkItem = (props) => {
       onClick={() => props.handleClick(props.network)}
     >
       <div className="flex items-center gap-2">
-        <Image
-          src={props.network.icon}
-          alt="network_item"
-          width={20}
-          height={20}
-        />
+          {
+              props?.network?.icon ?  <Image
+                      src={props?.network?.icon}
+                      alt="network_item"
+                      width={20}
+                      height={20}
+              /> : ""
+          }
+
         <span>{props.network.displayName}</span>
       </div>
       {props.currentNetwork?.networkName == props.network?.networkName && (

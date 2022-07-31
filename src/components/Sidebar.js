@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
+import {useAdminContext} from "../context/AdminContext";
 
 const userMenus = [
     {
@@ -65,7 +66,7 @@ const adminMenus = [
     },
     {
         label: "Manage Projects",
-        href: "#",
+        href: "/management",
         icon: "fa-solid fa-gears",
     },
     {
@@ -101,7 +102,8 @@ const variants = {
 }
 
 export default function Sidebar({ menu, setMenu }) {
-    const [isAdmin, setIsAdmin] = React.useState(true);
+
+    const { isAdmin } = useAdminContext();
 
     const menus = isAdmin ? adminMenus : userMenus;
 

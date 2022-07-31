@@ -1,13 +1,16 @@
 import axios from 'axios';
 import {API_URL} from "./constants";
 
-const registerUser = async(wallet,setter,setUnreadMessages) => {
+const registerUser = async(wallet,setter,setUnreadMessages,setIsAdmin) => {
     try {
         const {data} = await axios.post(`${API_URL}UserAddress/`, {
             address: wallet.account,
         });
         setUnreadMessages(data.num_unread_messages);
         setter(true);
+        if(data?.Project_of_admin) {
+            setIsAdmin(true);
+        }
     } catch (e) {
         setter(true);
     }
