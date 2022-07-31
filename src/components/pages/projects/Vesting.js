@@ -12,6 +12,7 @@ import Card from "../projectDetail/Card/Card";
 import {Chart} from "./Vesting/Chart";
 import SkeletonVesting from "./Skeleton/SkeletonVesting";
 import {useRouter} from "next/router";
+import Swal from "sweetalert2";
 
 export default function Vesting({
                                     wallet,
@@ -89,12 +90,25 @@ export default function Vesting({
     };
 
     const revokeVesting = async () => {
-        await helper.marketMaker.revoke(
-            wallet,
-            marketMakingPool.address,
-            userAddress
-        );
-        router.back()
+        Swal.fire({
+            title: 'Read before proceeding',
+            text: "The revoke action can not be reverted, proceed with caution.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, revoke'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                Swal.close();
+                await helper.marketMaker.revoke(
+                    wallet,
+                    marketMakingPool.address,
+                    userAddress
+                );
+            }
+        })
+
     };
 
     const toggleAutoRelease = async () => {
