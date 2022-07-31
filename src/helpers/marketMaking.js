@@ -65,6 +65,7 @@ const updateMarketMakingPool = async ({settings, wallet}) => {
     } catch (e) {
         console.log('updateMarketMakingSettings error:', e);
         toast.error('Something wen\'t wrong.')
+        throw e;
     }
 }
 
@@ -115,6 +116,7 @@ const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh})
     } catch (e) {
         console.log('updateMarketMakingSettings error:', e);
         toast.error('Something wen\'t wrong.')
+        throw e;
     }
 }
 

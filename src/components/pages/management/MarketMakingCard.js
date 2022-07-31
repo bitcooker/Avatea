@@ -18,6 +18,7 @@ export default function MarketMakingCard({project, marketMakingPool}) {
 
     const wallet = useWallet();
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
     const [baseTokenBalance, setBaseTokenBalance] = useState("0");
     const [pairedTokenBalance, setPairedTokenBalance] = useState("0");
     const [maxBuyingAmount, setMaxBuyingAmount] = useState("0");
@@ -55,20 +56,27 @@ export default function MarketMakingCard({project, marketMakingPool}) {
     }, [wallet, marketMakingPool, project]);
 
     const updateMarketMakingPool = useCallback(async () => {
-        const settings = {
-            volume,
-            max_selling_amount: maxSellingAmount,
-            max_buying_amount: maxBuyingAmount,
-            max_preferred_drawdown: maxPreferredDrawdown,
-            lower_preferred_price_range: lowerPreferredPriceRange,
-            upper_preferred_price_range: upperPreferredPriceRange,
-            id: marketMakingPool.id,
-        };
+        try {
+            setIsLoading(true);
+            const settings = {
+                volume,
+                max_selling_amount: maxSellingAmount,
+                max_buying_amount: maxBuyingAmount,
+                max_preferred_drawdown: maxPreferredDrawdown,
+                lower_preferred_price_range: lowerPreferredPriceRange,
+                upper_preferred_price_range: upperPreferredPriceRange,
+                id: marketMakingPool.id,
+            };
 
-        await helper.marketMaking.updateMarketMakingPool({
-                                                             settings,
-                                                             wallet,
-                                                         });
+            await helper.marketMaking.updateMarketMakingPool({
+                settings,
+                wallet,
+            });
+            setIsLoading(false);
+        } catch(e) {
+            setIsLoading(false);
+        }
+
     }, [volume, maxBuyingAmount, maxSellingAmount, maxPreferredDrawdown, lowerPreferredPriceRange, upperPreferredPriceRange, marketMakingPool, wallet]);
 
 
@@ -202,6 +210,8 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                     <Button
                         name="Update Market Making Pool Settings"
                         handleClick={updateMarketMakingPool}
+                        isLoading={isLoading}
+                        disabled={isLoading}
                     />
                     {/* Edit Button */}
                     <div className="w-full grid grid-cols-2 gap-3.75">

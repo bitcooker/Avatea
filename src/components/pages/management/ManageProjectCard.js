@@ -18,9 +18,11 @@ export default function ManageProjectCard({project}) {
 
     const wallet = useWallet();
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
     const [openEditProject, setOpenEditProject] = useState(false);
     const [projectDescription, setProjectDescription] = useState(project.description);
     const [whitepaper, setWhitepaper] = useState(project.whitepaper);
+    const [website, setWebsite] = useState(project.website);
     const [audit, setAudit] = useState(project.audit);
     const [banner, setBanner] = useState(project.banner);
     const [image, setImage] = useState(project.image);
@@ -44,22 +46,29 @@ export default function ManageProjectCard({project}) {
     }, [image])
 
     const updateProjectInfo = async () => {
-        const formData = new FormData();
-        formData.append("slug", project.slug);
-        formData.append("description", projectDescription);
-        formData.append("whitepaper", whitepaper);
-        if (isFile(banner)) formData.append("banner", banner);
-        if (isFile(image)) formData.append("image", image);
-        formData.append("social_linkedin", linkedIn);
-        formData.append("social_github", github);
-        formData.append("social_facebook", facebook);
-        formData.append("social_twitter", twitter);
-        formData.append("social_telegram", telegram);
-        formData.append("social_discord", discord);
-        formData.append("social_medium", medium);
-        formData.append("user_address", wallet.account);
+        try {
+            setIsLoading(true);
+            const formData = new FormData();
+            formData.append("slug", project.slug);
+            formData.append("description", projectDescription);
+            formData.append("whitepaper", whitepaper);
+            formData.append("website", website);
+            if (isFile(banner)) formData.append("banner", banner);
+            if (isFile(image)) formData.append("image", image);
+            formData.append("social_linkedin", linkedIn);
+            formData.append("social_github", github);
+            formData.append("social_facebook", facebook);
+            formData.append("social_twitter", twitter);
+            formData.append("social_telegram", telegram);
+            formData.append("social_discord", discord);
+            formData.append("social_medium", medium);
+            formData.append("user_address", wallet.account);
+            await helpers.project.updateProjectInformation(formData, project.slug, wallet);
+            setIsLoading(false);
+        } catch(e) {
+            setIsLoading(false);
+        }
 
-        await helpers.project.updateProjectInformation(formData, project.slug, wallet);
     }
 
     return (
@@ -71,13 +80,15 @@ export default function ManageProjectCard({project}) {
                     <div className="w-full flex flex-col space-y-3.75">
                         {/* Project name */}
                         <div className="w-full space-y-3.5">
-                            <span className="text-base">Project Name</span>
+                            <span className="text-base">Website</span>
                             <InputEmpty
-                                id="projectName"
-                                name="projectName"
+                                id="website"
+                                name="website"
                                 type="text"
-                                value={project.name}
-                                readOnly={true}
+                                placeholder={'Project URL'}
+                                value={website}
+                                icon="fa-solid fa-globe"
+                                setValue={setWebsite}
                             />
                         </div>
 
@@ -205,6 +216,8 @@ export default function ManageProjectCard({project}) {
                     </div>
 
                     <Button
+                        isLoading={isLoading}
+                        disabled={isLoading}
                         name="Update Information"
                         handleClick={updateProjectInfo}
                     />

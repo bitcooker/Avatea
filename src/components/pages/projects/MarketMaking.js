@@ -22,6 +22,7 @@ import Swal from "sweetalert2";
 
 export default function MarketMaking({wallet, project, marketMakingPool}) {
 
+    const [isLoading,setIsLoading] = useState(false);
     const [baseTokenValueLocked, setBaseTokenValueLocked] = useState("0");
     const [pairedTokenValueLocked, setPairedTokenValueLocked] = useState("0");
     const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState('0');
@@ -281,17 +282,24 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     }
 
     const updateSettings = async (amount = 0) => {
-        const marketMakingSettings = {
-            marketMakingType: mode,
-            amountSettings: amount,
-            pressure,
-            priceLimit,
-            marketMakingPoolId: marketMakingPool.id,
-            id: marketMakingSettingsId ? marketMakingSettingsId : "",
-        };
-        await helper.marketMaking.updateMarketMakingSettings({
-                                                                 marketMakingSettings, wallet, fresh
-                                                             });
+        try {
+            setIsLoading(true);
+            const marketMakingSettings = {
+                marketMakingType: mode,
+                amountSettings: amount,
+                pressure,
+                priceLimit,
+                marketMakingPoolId: marketMakingPool.id,
+                id: marketMakingSettingsId ? marketMakingSettingsId : "",
+            };
+            await helper.marketMaking.updateMarketMakingSettings({
+                marketMakingSettings, wallet, fresh
+            });
+            setIsLoading(false)
+        } catch(e) {
+            setIsLoading(false)
+        }
+
     };
 
 
@@ -481,7 +489,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                         />
                     </div>
                     {allowSelling ?
-                        <Button name="Save Settings" handleClick={(e) => {
+                        <Button name="Save Settings"
+                        isLoading={isLoading}
+                                disabled={isLoading}
+                                handleClick={(e) => {
                             updateSettings(mode === 'sell' ? amountBaseTokenBalance : amountPairTokenBalance)
                         }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
                         :

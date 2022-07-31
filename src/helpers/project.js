@@ -107,6 +107,7 @@ const updateProjectInformation = async (formData, projectId, wallet) => {
         }
     } catch (e) {
         console.log('updateProjectInformation', e);
+        throw e;
     }
 };
 

@@ -226,7 +226,7 @@ const stakePairedToken = async (wallet, marketMakerAddres, amount) => {
     } catch (e) {
         console.log('stakePairedToken error', e);
         toast.error(e.reason);
-        return false;
+        throw e;
     }
 }
 
@@ -257,7 +257,7 @@ const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount) => {
     } catch (e) {
         console.log('stakePairedTokenInETH error', e);
         toast.error(e.reason);
-        return false;
+        throw e;
     }
 }
 
