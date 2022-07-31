@@ -1,8 +1,6 @@
 import * as React from "react";
-import helper from '../../src/helpers';
 import Card from "./../../src/components/pages/projects/Card/Card";
 
-import { useAppContext } from '../../src/context/AppContext'
 import { usePageTitleContext } from '../../src/context/PageTitleContext';
 import {useEffect, useState} from "react";
 import {useWallet} from "@albs1/use-wallet";
@@ -20,6 +18,7 @@ export default function Management() {
         if (wallet.isConnected()) {
             (async() => {
                 const res = await helpers.project.getProjects({
+                    live: "",
                     admin: wallet.account
                 })
                 setProjects(res);

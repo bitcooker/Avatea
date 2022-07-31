@@ -5,6 +5,7 @@ import {ethers} from "ethers";
 import {useWallet} from "@albs1/use-wallet";
 import Swal from "sweetalert2";
 import {useRouter} from "next/router";
+import moment from 'moment';
 
 import helper from "../../../../src/helpers";
 import helpers from "../../../../src/helpers";
@@ -32,6 +33,7 @@ export default function VestingAdd(props) {
     const wallet = useWallet();
     const [marketMakingPool, setMarketMakingPool] = useState({});
 
+    const [isLoading,setIsLoading] = useState(false);
     const [step, setStep] = React.useState(1);
     const [fileName, setFileName] = React.useState("");
     const [addresses, setAddresses] = useState([]);
@@ -39,8 +41,7 @@ export default function VestingAdd(props) {
     const [amountsInWei, setAmountsInWei] = useState([]);
 
     const [start, setStart] = useLocalStorage('start','');
-    const [startDate, setStartDate] = useState();
-    const [startInDays, setStartInDays] = useLocalStorage('startInDays','');
+    const [startDate, setStartDate] = useLocalStorage('startDate','');
     const [cliff, setCliff] = useLocalStorage('cliff',);
     const [cliffInDays, setCliffInDays] = useLocalStorage('cliffInDays','');
     const [duration, setDuration] = useLocalStorage('duration','');
@@ -51,6 +52,7 @@ export default function VestingAdd(props) {
     const [revocable, setRevocable] = useLocalStorage('revocable',true);
     const [batchName, setBatchName] = useState('');
     const [totalAmount, setTotalAmount] = useState(0);
+
 
     useEffect(() => {
         if (props.projectDetail) setProject(props.projectDetail);
@@ -66,8 +68,8 @@ export default function VestingAdd(props) {
     }, [props]);
 
     useEffect(() => {
-        setStartInDays(helpers.formatting.dateFormat(start, true))
-    }, [start]);
+        setStart(moment(startDate).unix());
+    },[startDate])
 
     useEffect(() => {
         setCliffInDays(helpers.formatting.secondFormat(cliff, true))
@@ -111,11 +113,12 @@ export default function VestingAdd(props) {
     const createVesting = async () => {
 
         try {
+            setIsLoading(true);
             const response = await helper.web3.marketMaker.createVesting(
                 wallet,
                 marketMakingPool.address,
                 addresses,
-                start,
+                moment(startDate).unix(),
                 cliff,
                 duration,
                 slicePeriodSeconds,
@@ -127,6 +130,7 @@ export default function VestingAdd(props) {
             );
 
             if (response) {
+                setIsLoading(false);
                 await Swal.fire({
                     position: "center",
                     icon: "success",
@@ -137,8 +141,11 @@ export default function VestingAdd(props) {
                         router.push(`/management/${project.slug}/vesting`);
                     },
                 });
+
             }
         } catch (error) {
+            setIsLoading(false);
+
             console.log(error);
         }
     };
@@ -218,7 +225,7 @@ export default function VestingAdd(props) {
 
                                     <div>
                                         <div className={'flex flex-row'}>
-                                            <label className={'pr-2'} htmlFor="start">Start {startInDays}</label>
+                                            <label className={'pr-2'} htmlFor="start">Start</label>
 
                                             <span className="relative flex flex-col items-center justify-center group">
                                                 <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
@@ -341,12 +348,12 @@ export default function VestingAdd(props) {
                         {step < 3 ?
                             <Button
                                 name="Next"
-                                disabled={!(addresses.length > 0)}
+                                disabled={!(addresses.length > 0) || isLoading}
                                 handleClick={() => {
                                     setStep(step + 1)
                                 }}
                             /> :
-                            <ButtonWithApproval name="Create Vesting batch - " handleClick={createVesting} address={marketMakingPool.address}
+                            <ButtonWithApproval disabled={isLoading} isLoading={isLoading} name="Create Vesting batch - " handleClick={createVesting} address={marketMakingPool.address}
                                                 token={project.token} amount={totalAmount} ticker={project.ticker}/>
                         }
                     </div>
