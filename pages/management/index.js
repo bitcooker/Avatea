@@ -24,7 +24,8 @@ export default function Management() {
                 setProjects(res);
             })()
         }
-    })
+    },[wallet.status])
+    console.log(projects)
 
     const { setTitle } = usePageTitleContext();
 

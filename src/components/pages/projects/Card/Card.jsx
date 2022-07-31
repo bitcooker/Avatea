@@ -24,25 +24,17 @@ const cardVariants = {
     show: { opacity: 1 }
 }
 
-export default function Card({ projectProps }) {
-  const [projects, setProjects] = useState([]);
-
-  useEffect(() => {
-    const initProjects = async () => {
-      if (!projectProps) setProjects(await helper.project.getProjects());
-    };
-    initProjects();
-  }, [projectProps]);
+export default function Card( {projectsProps} ) {
 
   return (
     <div>
-      {projects.length == 0 ? (
+      {projectsProps?.length == 0 ? (
         <div className="flex items-center justify-center w-full h-[85vh]">
           <Spinner size={5} />
         </div>
       ) : (
             <motion.div className="grid sm-md:grid-cols-2 xl-2xl:grid-cols-3 gap-5" variants={variants} initial="hidden" animate="show">
-                    {projects.map((project) =>
+                    {projectsProps?.map((project) =>
                         <motion.div variants={cardVariants} transition={{ duration: .5 }} key={project.slug}>
                             <CardItem key={project.slug} {...project} />
                         </motion.div>
