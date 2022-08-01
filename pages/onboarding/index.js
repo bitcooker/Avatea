@@ -1,12 +1,10 @@
 import * as React from "react";
-import Swal from "sweetalert2";
-import {useRouter} from "next/router";
 import useLocalStorage from "use-local-storage";
 import ReactFlagsSelect from "react-flags-select";
-import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import { SOCIALDATA } from "../../src/helpers/constants";
 // core components
+import SuccessModal from '../../src/components/core/SuccessModal';
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
 import Select from "../../src/components/core/Select/Select";
 import TextArea from "../../src/components/core/TextArea/TextArea";
@@ -30,7 +28,8 @@ import { usePageTitleContext } from "../../src/context/PageTitleContext";
 
 export default function Linked(props) {
     const wallet = useWallet();
-    const router = useRouter();
+    const [showAlert, setShowAlert] = React.useState(false);
+    const [redirectURL, setRedirectURL] = React.useState("");
     const { setTitle } = usePageTitleContext();
 
     const [step, setStep] = React.useState(1);
@@ -117,16 +116,18 @@ export default function Linked(props) {
                 headers: {"Content-Type": "multipart/form-data"},
             });
             if (response.status === 201) {
-                await Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Your project has been created",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    didClose() {
-                        router.push(`/management/${response.data.slug}`);
-                    },
-                });
+                // await Swal.fire({
+                //     position: "center",
+                //     icon: "success",
+                //     title: "Your project has been created",
+                //     showConfirmButton: false,
+                //     timer: 3000,
+                //     didClose() {
+                //         router.push(`/management/${response.data.slug}`);
+                //     },
+                // });
+                setRedirectURL(`/management/${response.data.slug}`);
+                setShowAlert(true);
             }
         } catch (error) {
             console.log(error);
@@ -349,6 +350,7 @@ export default function Linked(props) {
 
     return (
         <NoSsr>
+            <SuccessModal show={showAlert} setShow={setShowAlert} redirectURL={redirectURL} />
             <div className="flex flex-row w-full min-h-[80vh] md-lg:min-h-[85vh] bg-white rounded-3xl">
                 {/* Background */}
                 <div className="hidden md-lg:block md-lg:relative md-lg:w-1/2 md-lg:grow">
@@ -366,7 +368,8 @@ export default function Linked(props) {
                             />
                         </svg>
                     </div>
-                    <img src="/linked/bg.svg" className="h-[85vh]"/>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/linked/bg.svg" alt="" className="h-[85vh]"/>
                     <div className="absolute bottom-0 flex justify-center w-full">
                         <svg
                             width="90%"
