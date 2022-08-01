@@ -4,16 +4,14 @@ import { useRouter } from 'next/router'
 export default function SuccessModal(props) {
     const router = useRouter();
 
-    console.log(props);
-
     React.useEffect(() => {
         import("@lottiefiles/lottie-player");
         setTimeout(() => {
             props.setShow(false);
-            if(props.redirectURL) {
+            if(props.option.redirectURL) {
                 router.push(props.redirectURL);
             }
-        }, props.timer ?? 3000);
+        }, props.option.timer ?? 3000);
     }, [props, router]);
     
     return (
@@ -22,9 +20,9 @@ export default function SuccessModal(props) {
                 <div className="flex items-center justify-center w-[500px] h-[500px] bg-transparent rounded-2.5xl px-5" onClick={(e) => e.stopPropagation()}>
                     <lottie-player
                         autoplay
-                        loop={props.loop}
+                        loop={props.option.isLoop}
                         mode="normal"
-                        src={props.url}
+                        src={props.option.lottieUrl}
                         style={{ width: "300px", height: "300px" }}
                     >
                     </lottie-player>
