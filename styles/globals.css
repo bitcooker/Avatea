@@ -293,3 +293,24 @@ input[type="range"]::-webkit-slider-thumb {
 .react-datetime-picker__clock {
   @apply !hidden
 }
+
+/*  React flag  */
+.ReactFlagsSelect-module_flagsSelect__2pfa2 {
+  @apply h-12.5
+}
+
+.ReactFlagsSelect-module_selectBtn__19wW7 {
+  @apply h-12.5 !bg-gray-100 !border-none !rounded-0.5xl !text-black
+}
+
+.ReactFlagsSelect-module_selectOptions__3LNBJ {
+  @apply !bg-gray-100 !border-none shadow-lg !rounded-0.5xl
+}
+
+.ReactFlagsSelect-module_filterBox__3m8EU {
+  @apply !bg-gray-100
+}
+
+.ReactFlagsSelect-module_filterBox__3m8EU input {
+  @apply !bg-gray-100
+}
