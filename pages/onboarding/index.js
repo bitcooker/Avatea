@@ -30,6 +30,9 @@ export default function Linked(props) {
     const wallet = useWallet();
     const [showAlert, setShowAlert] = React.useState(false);
     const [redirectURL, setRedirectURL] = React.useState("");
+    const [lottieUrl, setLottieUrl] = React.useState("");
+    const [isLoop, setIsLoop] = React.useState(false); 
+    const [timer, setTimer] = useState(3000);
     const { setTitle } = usePageTitleContext();
 
     const [step, setStep] = React.useState(1);
@@ -109,6 +112,11 @@ export default function Linked(props) {
         socials.map((e) => formData.append(e.value, e.URL));
 
         try {
+            setLottieUrl("https://assets8.lottiefiles.com/packages/lf20_dkz94xcg.json");
+            setTimer(30000);
+            setIsLoop(true);
+            setShowAlert(true);
+
             const response = await axios({
                 method: "post",
                 url: `${API_URL}Project/`,
@@ -116,19 +124,12 @@ export default function Linked(props) {
                 headers: {"Content-Type": "multipart/form-data"},
             });
             if (response.status === 201) {
-                // await Swal.fire({
-                //     position: "center",
-                //     icon: "success",
-                //     title: "Your project has been created",
-                //     showConfirmButton: false,
-                //     timer: 3000,
-                //     didClose() {
-                //         router.push(`/management/${response.data.slug}`);
-                //     },
-                // });
-                setRedirectURL(`/management/${response.data.slug}`);
+                setTimer(3000);
+                setLottieUrl("https://assets5.lottiefiles.com/packages/lf20_wh3v4btw.json");
+                setIsLoop(false);
                 setShowAlert(true);
             }
+
         } catch (error) {
             console.log(error);
         }
@@ -347,10 +348,13 @@ export default function Linked(props) {
         setTitle("Onboarding")
     }, [setTitle])
 
+    const ConfirmModal = React.useMemo(() => {
+        return showAlert && <SuccessModal show={showAlert} setShow={setShowAlert} redirectURL={redirectURL} url={lottieUrl} timer={timer} loop={isLoop} />
+    }, [isLoop, lottieUrl, redirectURL, showAlert, timer])
 
     return (
         <NoSsr>
-            <SuccessModal show={showAlert} setShow={setShowAlert} redirectURL={redirectURL} />
+            {ConfirmModal}
             <div className="flex flex-row w-full min-h-[80vh] md-lg:min-h-[85vh] bg-white rounded-3xl">
                 {/* Background */}
                 <div className="hidden md-lg:block md-lg:relative md-lg:w-1/2 md-lg:grow">
