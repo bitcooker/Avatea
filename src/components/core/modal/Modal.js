@@ -9,7 +9,6 @@ export default function Modal(props) {
             (props.size == "sm" ? " pr-4 xl:px-100" : " md-lg:px-40")
           : "fixed -z-[80] w-[100vw] md-lg:h-[100vh] top-0 left-0 bg-black/20 backdrop-blur-[1px] px-40 opacity-0"
       }
-      onClick={props.handleClose}
     >
       <div
         className="w-full bg-white my-2 mx-auto md-lg:max-w-[900px] md-lg:my-20 rounded-3xl p-8"
