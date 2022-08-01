@@ -48,10 +48,10 @@ export default function VestingAdd(props) {
 
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
-            <div className="relative flex flex-col h-[80vh] md-lg:h-[85vh] space-y-7.5">
+            <div className="relative flex flex-col min-h-[80vh] md-lg:min-h-[85vh] space-y-7.5">
                 <div className="flex flex-row items-center justify-between">
                     <h1 className="text-2xl">Multi Sender</h1>
-                    <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
+                    <div className="hidden w-full -bottom-16 md-lg:w-fit md-lg:block">
                         <div className={'grid grid-cols-2 gap-2.5'}>
                             <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
 
@@ -71,6 +71,20 @@ export default function VestingAdd(props) {
                             className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
                             <AddressAndAmountAndTimeTable tokenImage={project.image} transactions={transactions}/>
                         </div>
+                    </div>
+                </div>
+                
+                <div className="w-full -bottom-16 md-lg:w-fit md-lg:hidden">
+                    <div className={'grid grid-cols-2 gap-2.5'}>
+                        <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
+
+                        <ButtonFit handleClick={() => router.push(`/management/${slug}/multisend/add`)}>
+                            <div className="flex items-center gap-2" >
+                                <i className={'fa-solid fa-plus'}/>
+                                <span className="hidden md-lg:block"> New batch </span>
+                                <span className="inline-block md-lg:hidden"> Add </span>
+                            </div>
+                        </ButtonFit>
                     </div>
                 </div>
             </div>

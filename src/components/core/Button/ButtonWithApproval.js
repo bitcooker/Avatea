@@ -41,7 +41,7 @@ export default function ButtonWithApproval(props) {
 
     return (
         <button
-            className={`disabled:bg-indigo-500/50 flex justify-center items-center w-full h-10 bg-indigo-500 text-white rounded-full hover:bg-indigo-500/80 transition  ${props.className ? props.className : ''}`}
+            className={`disabled:bg-indigo-500/50 flex justify-center items-center w-full py-4 px-7.5 bg-indigo-500 text-white rounded-full hover:bg-indigo-500/80 transition  ${props.className ? props.className : ''}`}
             onClick={approved ? props.handleClick : e => {
                 approve(props.address, props.token)
             }}

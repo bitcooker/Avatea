@@ -108,11 +108,11 @@ export default function VestingAdd(props) {
 
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
-            <div className="relative flex flex-col h-[70vh] md-lg:h-[85vh] space-y-7.5">
+            <div className="relative flex flex-col min-h-[70vh] md-lg:min-h-[85vh] space-y-7.5">
                 <div className="flex flex-row items-center justify-between">
                     <h1 className="text-2xl">Multi Sender</h1>
                     {step === 1 &&
-                        <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
+                        <div className="hidden w-full -bottom-16 md-lg:w-fit md-lg:block">
                             <div className={'grid grid-cols-2 gap-2.5'}>
                                 <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
 
@@ -177,6 +177,22 @@ export default function VestingAdd(props) {
                         }
                     </div>
                 </div>
+
+                {step === 1 &&
+                    <div className="w-full -bottom-16 md-lg:w-fit md-lg:hidden">
+                        <div className={'grid grid-cols-2 gap-2.5'}>
+                            <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
+
+                            <ButtonFit>
+                                <a href={'/multisend-template.csv'} download={true}>
+                                    <i className={'fa-solid fa-cloud-arrow-up'}/> Download
+                                </a>
+                            </ButtonFit>
+
+                        </div>
+
+                    </div>
+                }
             </div>
         </ManagementAuthentication>
 
