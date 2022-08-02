@@ -25,13 +25,12 @@ export default function Management() {
             })()
         }
     },[wallet.status])
-    console.log(projects)
 
     const { setTitle } = usePageTitleContext();
 
     React.useEffect(() => {
         setTitle("Management")
-    }, [setTitle])
+    }, [])
 
     return (
         <div>
