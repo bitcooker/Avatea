@@ -1,15 +1,15 @@
 export const CLOUD_2_TOKEN_ADDRESS = "0xB991Da4310CdeE737DE53E1C700c363c9aF69631";
-export const API_URL = "https://avatea-rest-development.herokuapp.com/";
-export const DEFAULT_CHAIN_ID = 4;
-export const DEPLOYMENT_GAS_COST = '0.1';
-export const MARKET_MAKER_DEPLOYER_ADDRESS = {"4": "0xDAC7926E9a479582C5b4231ad9c0509563619Bb3"}
-export const WETH_ADDRESS = {"4": "0xc778417E063141139Fce010982780140Aa0cD5Ab"}
-export const PAIRED_TOKEN_IMAGES = {"0xc778417E063141139Fce010982780140Aa0cD5Ab": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"} //WETH
-export const PAIRED_TOKEN_DEFAULT_IMAGE = "https://rinkeby.etherscan.io/images/main/empty-token.png"
-export const AVATEA_TOKEN = '0xB991Da4310CdeE737DE53E1C700c363c9aF69631';
-export const AVATEA_TOKEN_ADDRESS = AVATEA_TOKEN;
-export const AVATEA_TOKEN_IMAGE = '/avatea-token.png';
-export const DEFAULT_SLIPPAGE = '990000000000000000';
+export const API_URL = process.env.NEXT_PUBLIC_API_URL;
+export const DEFAULT_CHAIN_ID = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;
+export const DEPLOYMENT_GAS_COST = process.env.NEXT_PUBLIC_DEPLOYMENT_GAS_COST;
+export const MARKET_MAKER_DEPLOYER_ADDRESS = process.env.NEXT_PUBLIC_MARKET_MAKER_DEPLOYER_ADDRESS;
+export const WETH_ADDRESS = process.env.NEXT_PUBLIC_WETH_ADDRESS;
+export const PAIRED_TOKEN_IMAGES = process.env.NEXT_PUBLIC_PAIRED_TOKEN_IMAGES;
+export const PAIRED_TOKEN_DEFAULT_IMAGE = process.env.NEXT_PUBLIC_PAIRED_TOKEN_DEFAULT_IMAGE;
+export const AVATEA_TOKEN = process.env.NEXT_PUBLIC_AVATEA_TOKEN;
+export const AVATEA_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_AVATEA_TOKEN;
+export const AVATEA_TOKEN_IMAGE = process.env.NEXT_PUBLIC_AVATEA_TOKEN_IMAGE;
+export const DEFAULT_SLIPPAGE = process.env.NEXT_PUBLIC_DEFAULT_SLIPPAGE;
 export const SOCIALDATA = [
     {
         name: "LinkedIn",
