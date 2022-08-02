@@ -100,9 +100,9 @@ export default function ManageProjectCard({project}) {
                         </div>
                     </div>
                     <div className="w-full space-y-3.75">
-                        <span className="text-base">Technical Links</span>
-                        <div className="w-full gap-2.5 grid lg:grid-cols-2">
-                            <div className={'col-span-1'}>
+                        <div className="flex gap-2.5">
+                            <div className="flex flex-col gap-3.75">
+                                <span className="text-base">Whitepaper</span>
                                 <InputEmpty
                                     id="whitepaper"
                                     name="whitepaper"
@@ -113,7 +113,9 @@ export default function ManageProjectCard({project}) {
                                     setValue={setWhitepaper}
                                 />
                             </div>
-                            <div className={'col-span-1'}>
+                            
+                            <div className="flex flex-col gap-3.75">
+                                <span className="text-base">Audit</span>
                                 <InputEmpty
                                     id="audit"
                                     name="audit"
