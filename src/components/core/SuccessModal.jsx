@@ -9,7 +9,7 @@ export default function SuccessModal(props) {
         setTimeout(() => {
             props.setShow(false);
             if(props.option.redirectURL) {
-                router.push(props.redirectURL);
+                router.push(props.option.redirectURL);
             }
         }, props.option.timer ?? 3000);
     }, [props, router]);
