@@ -10,6 +10,7 @@ export const AVATEA_TOKEN = process.env.NEXT_PUBLIC_AVATEA_TOKEN;
 export const AVATEA_TOKEN_ADDRESS = process.env.NEXT_PUBLIC_AVATEA_TOKEN;
 export const AVATEA_TOKEN_IMAGE = process.env.NEXT_PUBLIC_AVATEA_TOKEN_IMAGE;
 export const DEFAULT_SLIPPAGE = process.env.NEXT_PUBLIC_DEFAULT_SLIPPAGE;
+export const ENVIRONMENT_MODE = process.env.NEXT_PUBLIC_VERCEL_ENV;
 export const SOCIALDATA = [
     {
         name: "LinkedIn",
