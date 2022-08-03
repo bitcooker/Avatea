@@ -2,7 +2,6 @@ import * as React from "react";
 import Image from "next/image";
 
 // core components
-import InputEmpty from "../src/components/core/Input/InputEmpty";
 import ButtonFit from "../src/components/core/Button/ButtonFit";
 
 // page components
@@ -16,7 +15,6 @@ import { usePageTitleContext } from "../src/context/PageTitleContext";
 
 export default function Home() {
   const { setTitle } = usePageTitleContext();
-  const [email, setEmail] = React.useState("");
 
   React.useEffect(() => {
     setTitle("Home")
@@ -28,10 +26,8 @@ export default function Home() {
         <div className="grid grid-cols-1 md-lg:grid-cols-2 rounded-xl p-5">
             <div className="flex flex-col items-center justify-center gap-10 mr-25">
                 <h1 className="text-4xl md-lg:text-5xl leading-[64px]">Buy, trade, and hold 600+ cryptocurrencies on Binance</h1>
-                <div className="grid grid-cols-2 gap-5">
-                    <InputEmpty id="email" name="email" value={email} setValue={setEmail} placeholder="Email/Phone number" />
-                    <ButtonFit name="Get Started" classNames="!h-12.5"/>
-                </div>
+                
+                <ButtonFit name="Get Started" classNames="!h-12.5"/>
             </div>
 
             <div className="p-5">
