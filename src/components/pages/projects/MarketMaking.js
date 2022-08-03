@@ -88,6 +88,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         setAllowSelling(allowSelling);
         setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
         setMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
+        //@TODO Configure right amount
         setNewMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
         setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
         if (mode === 'sell' && maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
