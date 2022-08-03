@@ -155,15 +155,14 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                         </div>
                         <span>
                             <MaxButton
+                                balance={rewardTokenWalletBalance}
                                 handleClick={() =>
                                     setMax(
                                         rewardTokenWalletBalance,
                                         setAmountRewardTokenToStake
                                     )
                                 }
-                            /> <span className={'pr-0.5'}></span>
-                            {rewardTokenWalletBalance}
-
+                            />
                       </span>
                     </div>
                     <InputApproveWithIconSubmit
@@ -185,15 +184,14 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                         </div>
                         <span>
                             <MaxButton
+                                balance={liquidityRewardTokenWalletBalance}
                                 handleClick={() =>
                                     setMax(
                                         liquidityRewardTokenWalletBalance,
                                         setAmountLiquidityRewardTokenToStake
                                     )
                                 }
-                            /> <span className={'pr-0.5'}></span>
-                            {liquidityRewardTokenWalletBalance}
-
+                            />
                       </span>
                     </div>
                     <InputApproveWithIconSubmit

@@ -1,12 +1,18 @@
-import Button from "../../core/Button/Button";
-import {useWallet} from "@albs1/use-wallet";
-import MaxButton from "../projects/Button/MaxButton";
-import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
-import Card from "../projectDetail/Card/Card";
 import {useCallback, useEffect, useState} from "react";
-import helper from "../../../helpers";
+import {useWallet} from "@albs1/use-wallet";
 import {ethers} from "ethers";
+import Image from "next/image";
+
+import helper from "../../../helpers";
 import {AVATEA_TOKEN_IMAGE} from "../../../helpers/constants";
+
+// core components
+import Button from "../../core/Button/Button";
+import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
+
+// page components
+import MaxButton from "../projects/Button/MaxButton";
+import Card from "../projectDetail/Card/Card";
 
 export default function VaultCard({project, vault}) {
 
@@ -66,11 +72,13 @@ export default function VaultCard({project, vault}) {
                         <i className="fa-solid fa-money-bill-transfer"/> TVL
                       </span>
                         <span className="flex text-base font-medium">
-                        <img
+                        <Image
                             src={AVATEA_TOKEN_IMAGE}
-                            className="w-6 h-6 ml-2.5 mr-2.5"
-                        />{" "}
-                            {vaultTLV}
+                            alt="avateaTokenImage"
+                            width={24}
+                            height={24}
+                        />
+                        <span className="ml-2.5">{vaultTLV}</span>
                       </span>
                     </div>
                     <div className="flex justify-between">
@@ -79,11 +87,13 @@ export default function VaultCard({project, vault}) {
                           Reward Per Avatea Token
                       </span>
                         <span className="flex text-base font-medium">
-                        <img
+                        <Image
                             src={project.image}
-                            className="w-6 h-6 ml-2.5 mr-2.5"
-                        />{" "}
-                            {rewardPerToken}
+                            alt="projectImage"
+                            width={24}
+                            height={24}
+                        />
+                        <span className="ml-2.5">{rewardPerToken}</span>
                       </span>
                     </div>
 
@@ -93,15 +103,14 @@ export default function VaultCard({project, vault}) {
                         </div>
                         <span>
                             <MaxButton
+                                balance={baseTokenWalletBalance}
                                 handleClick={() =>
                                     setMax(
                                         baseTokenWalletBalance,
                                         setAmountBaseTokenToStake
                                     )
                                 }
-                            /> <span className={'pr-0.5'}></span>
-                            {baseTokenWalletBalance}
-
+                            />
                       </span>
                     </div>
                     <InputApproveWithIconSubmit
