@@ -198,15 +198,14 @@ export default function FarmsCardItem({liquidityMaker}) {
                         </div>
                         <span>
                                 <MaxButton
+                                    balance={liquidityRewardTokenWalletBalance}
                                     handleClick={() =>
                                         setMax(
                                             liquidityRewardTokenWalletBalance,
                                             setAmountLiquidityTokenToStake
                                         )
                                     }
-                                /> <span className={'pr-0.5'}></span>
-                            {liquidityRewardTokenWalletBalance}
-
+                                />
                         </span>
                     </div>
                     <InputApproveWithIconSubmit
