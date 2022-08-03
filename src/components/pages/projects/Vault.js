@@ -136,13 +136,10 @@ export default function Vault({vault, wallet, project, setTab}) {
                             <div>
                                 <i className="fa-regular fa-sack-dollar mr-1"></i> Invest
                             </div>
-                            &nbsp;
-                            <span>
-                          {avateaBalance} &nbsp;
-                                <MaxButton
-                                    handleClick={() => setMax(avateaBalance, setAmountToVaultStake)}
-                                />
-                        </span>
+                            <MaxButton
+                                balance={avateaBalance}
+                                handleClick={() => setMax(avateaBalance, setAmountToVaultStake)}
+                            />
                         </div>
                         <InputApproveWithIconSubmit
                             id="max"
@@ -163,12 +160,10 @@ export default function Vault({vault, wallet, project, setTab}) {
                                 <i className="fa-regular fa-circle-minus mr-1"/>
                                 Withdraw Avatea
                             </div>
-                            <span>
-                          {stakedVaultBalance} &nbsp;
-                                <MaxButton
-                                    handleClick={() => setMax(stakedVaultBalance, setVaultBalance)}
-                                />
-                        </span>
+                            <MaxButton
+                                balance={stakedVaultBalance}
+                                handleClick={() => setMax(stakedVaultBalance, setVaultBalance)}
+                            />
                         </div>
                         <InputWithIconSubmit
                             id="withdrawAvatea"
