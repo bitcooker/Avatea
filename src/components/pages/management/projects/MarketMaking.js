@@ -1,4 +1,10 @@
-import Card from "../projectDetail/Card/Card";
+import {useState, useEffect, useCallback} from "react";
+import {ethers} from "ethers";
+import Image from "next/image";
+
+import helper from "../../../../helpers";
+
+// core components
 import MaxButton from "./Button/MaxButton";
 import InputWithIconSubmit from "../../../core/Input/InputWithIconSubmit";
 import RangeSlider from "../../../core/RangeSlider/RangeSlider";
@@ -6,9 +12,9 @@ import InputEmpty from "../../../core/Input/InputEmpty";
 import Radio from "../../../core/Radio/Radio";
 import Button from "../../../core/Button/Button";
 import InputApproveWithIconSubmit from "../../../core/Input/InputApproveWithIconSubmit";
-import {useState, useEffect, useCallback} from "react";
-import {ethers} from "ethers";
-import helper from "../../../../helpers";
+
+// page components
+import Card from "../projectDetail/Card/Card";
 
 export default function MarketMaking({vault, wallet, project, marketMakingPool}) {
 
@@ -158,28 +164,40 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                     <div className="flex justify-between">
                         <span className="text-sm"><i className="fa-solid fa-circle-minus"/> Sold</span>
                         <span className="flex text-base font-medium">
-                    <img
-                        src={project.image}
-                        className="w-6 h-6 mr-2.5"
-                    />
-                            {activity.baseAmountSold} <img
-                            src={marketMakingPool.paired_token_image}
-                            className="w-6 h-6 ml-2.5 mr-2.5"
-                        /> {activity.pairedAmountSold}
-                  </span>
+                            <Image
+                                src={project.image}
+                                alt="projectImage"
+                                width={24}
+                                height={24}
+                            />
+                            <span className="mx-2.5">{activity.baseAmountSold}</span> 
+                            <Image
+                                src={marketMakingPool.paired_token_image}
+                                alt="pairedTokenImage"
+                                width={24}
+                                height={24}
+                            />
+                            <span className="mx-2.5">{activity.pairedAmountSold}</span>
+                        </span>
                     </div>
                     <div className="flex justify-between">
                         <span className="text-sm"><i className="fa-solid fa-circle-plus"/> Bought</span>
                         <span className="flex text-base font-medium">
-                    <img
-                        src={project.image}
-                        className="w-6 h-6 mr-2.5"
-                    />
-                            {activity.baseAmountBought} <img
-                            src={marketMakingPool.paired_token_image}
-                            className="w-6 h-6 ml-2.5 mr-2.5"
-                        /> {activity.pairedAmountBought}
-                  </span>
+                            <Image
+                                src={project.image}
+                                alt="projectImage"
+                                width={24}
+                                height={24}
+                            />
+                            <span className="mx-2.5">{activity.baseAmountBought} </span>
+                            <Image
+                                src={marketMakingPool.paired_token_image}
+                                alt="pairedTokenImage"
+                                width={24}
+                                height={24}
+                            />
+                            <span className="mx-2.5">{activity.pairedAmountBought}</span>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -192,12 +210,10 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                                 <i className="fa-solid fa-circle-dollar mr-1" />
                                 Cash
                             </div>
-                            <span>
-                      {amountPairTokenBalance} &nbsp;
-                                <MaxButton
-                                    handleClick={() => setMax(amountPairTokenBalance, setAmountPairTokenToWithdraw)}
-                                />
-                    </span>
+                            <MaxButton
+                                balance={amountPairTokenBalance}
+                                handleClick={() => setMax(amountPairTokenBalance, setAmountPairTokenToWithdraw)}
+                            />
                         </div>
                         <InputWithIconSubmit
                             id="withdrawCash"
@@ -218,12 +234,10 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                                 <i className="fa-solid fa-coin mr-1" />
                                 Tokens
                             </div>
-                            <span>
-                      {amountBaseTokenBalance} &nbsp;
-                                <MaxButton
-                                    handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}
-                                />
-                    </span>
+                            <MaxButton
+                                balance={amountBaseTokenBalance}
+                                handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}
+                            />
                         </div>
                         <InputWithIconSubmit
                             id="withdrawToken"
@@ -304,12 +318,10 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                             <div>
                                 <i className="fa-solid fa-coin" /> Cash
                             </div>
-                            <span>
-                        {pairedTokenWalletBalance} &nbsp;
-                                <MaxButton
-                                    handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
-                                />
-                      </span>
+                            <MaxButton
+                                balance={pairedTokenWalletBalance}
+                                handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
+                            />
                         </div>
                         <InputApproveWithIconSubmit
                             id="cash"
@@ -331,12 +343,10 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
                             <div>
                                 <i className="fa-solid fa-coin" /> Token
                             </div>
-                            <span>
-                        {baseTokenWalletBalance} &nbsp;
-                                <MaxButton
-                                    handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}
-                                />
-                      </span>
+                            <MaxButton
+                                balance={baseTokenWalletBalance}
+                                handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}
+                            />
                         </div>
                         <InputApproveWithIconSubmit
                             id="token"

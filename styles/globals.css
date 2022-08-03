@@ -72,8 +72,8 @@ input[type="range"] {
     linear,
     50% 0%,
     50% 100%,
-    color-stop(0%, #203354),
-    color-stop(100%, #203354)
+    color-stop(0%, #334a6f),
+    color-stop(100%, #334a6f)
   );
   background-repeat: no-repeat;
 }

@@ -386,12 +386,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                     <i className="fa-solid fa-circle-dollar mr-1"/>
                                     Cash
                                 </div>
-                                <span>
-                      {amountPairTokenBalance} &nbsp;
-                                    <MaxButton
-                                        handleClick={() => setMax(amountPairTokenBalance, setAmountPairTokenToWithdraw)}
-                                    />
-                    </span>
+                                <MaxButton
+                                    balance={amountPairTokenBalance}
+                                    handleClick={() => setMax(amountPairTokenBalance, setAmountPairTokenToWithdraw)}
+                                />
                             </div>
                             <InputWithIconSubmit
                                 id="withdrawCash"
@@ -412,12 +410,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                     <i className="fa-solid fa-coin mr-1"/>
                                     Tokens
                                 </div>
-                                <span>
-                      {amountBaseTokenBalance} &nbsp;
-                                    <MaxButton
-                                        handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}
-                                    />
-                    </span>
+                                <MaxButton
+                                    balance={amountBaseTokenBalance}
+                                    handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}
+                                />
                             </div>
                             <InputWithIconSubmit
                                 id="withdrawToken"
@@ -544,12 +540,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 <div>
                                     <i className="fa-solid fa-coin"/> Cash
                                 </div>
-                                <span>
-                        {pairedTokenWalletBalance} &nbsp;
-                                    <MaxButton
-                                        handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
-                                    />
-                      </span>
+                                <MaxButton
+                                    balance={pairedTokenWalletBalance}
+                                    handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
+                                />
                             </div>
                             <InputApproveWithIconSubmit
                                 id="cash"
@@ -571,12 +565,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 <div>
                                     <i className="fa-solid fa-coin"/> Token
                                 </div>
-                                <span>
-                        {baseTokenWalletBalance} &nbsp;
-                                    <MaxButton
-                                        handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}
-                                    />
-                      </span>
+                                <MaxButton
+                                    balance={baseTokenWalletBalance}
+                                    handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}
+                                />
                             </div>
                             <InputApproveWithIconSubmit
                                 id="token"
