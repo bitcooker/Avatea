@@ -40,8 +40,8 @@ export default function VestingAdd(props) {
     const [amounts, setAmounts] = useState([]);
     const [amountsInWei, setAmountsInWei] = useState([]);
 
-    const [start, setStart] = useLocalStorage('start','');
-    const [startDate, setStartDate] = useLocalStorage('startDate','');
+    const [start, setStart] = useState('');
+    const [startDate, setStartDate] = useState('');
     const [cliff, setCliff] = useLocalStorage('cliff',);
     const [cliffInDays, setCliffInDays] = useLocalStorage('cliffInDays','');
     const [duration, setDuration] = useLocalStorage('duration','');
