@@ -7,6 +7,7 @@ import ButtonFit from "../src/components/core/Button/ButtonFit";
 // page components
 import HomeWrapper from "../src/components/pages/Home/HomeWrapper";
 import HomeCard from "../src/components/pages/Home/HomeCard";
+import HomeCheckMark from "../src/components/pages/Home/HomeCheckMark";
 
 // SVG
 import {Installation, ArchitectureGuide, Plugins, APIReference} from "../src/components/SVG";
@@ -56,7 +57,52 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
+
+        {/* Developers */}
+        <div className="bg-indigo-500 text-white shadow-lg rounded-xl grid grid-cols-1 md-lg:grid-cols-2 md-lg:p-10 ">
+            {/* left */}
+            <div className="max-w-lg flex flex-col h-full items-center md-lg:items-start justify-between p-5 gap-5">
+                <div>
+                    <h2 className="mb-6 lg:mb-4 md:mb-4 sm:mb-4">
+                        Built by developers, for developers
+                    </h2>
+                    <p className="body-md mb-5 md:mb-4 sm:mb-6 opacity-80">
+                        Polygon combines the best of Ethereum and sovereign blockchains into a full-fledged multi-chain system.
+                    </p>
+                    
+                    <ul className="flex flex-col gap-4">
+                        <li className="flex items-center opacity-80 gap-3">
+                            <div className="w-6 h-6">
+                                <HomeCheckMark />
+                            </div>
+                            <span>It is able to fully benefit from Ethereum’s network effects</span>
+                        </li>
+                        <li className="flex items-center opacity-80 gap-3">
+                            <div className="w-6 h-6">
+                                <HomeCheckMark />
+                            </div>
+                            <span>It is inherently more secure</span>
+                        </li>
+                        <li className="flex items-center opacity-80 gap-3">
+                            <div className="w-6 h-6">
+                                <HomeCheckMark />
+                            </div>
+                            <span>It is more open and powerful</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div className="flex items-center w-fit h-12.5 justify-center py-4 px-7.5 bg-white text-black rounded-full hover:cursor-pointer">
+                    Get Started
+                </div>
+            </div>
+
+            {/* right */}
+            <div className="flex justify-center md-lg:justify-end">
+                <Image src="/developer.png" alt="developer" width={550} height={350} objectFit="contain" />
+            </div>
+        </div>
 
         {/* features */}
         <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
