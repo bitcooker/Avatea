@@ -22,6 +22,7 @@ const deploy = async (wallet,
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const options = {value: ethers.utils.parseEther(DEPLOYMENT_GAS_COST)}
+    console.log(MARKET_MAKER_DEPLOYER_ADDRESS)
     const MarketMakerDeployerContract = await new ethers.Contract(MARKET_MAKER_DEPLOYER_ADDRESS[wallet.chainId], MarketMakerDeployer.abi, signer);
 
     try {

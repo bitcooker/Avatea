@@ -33,6 +33,7 @@ export default function VestingAdd(props) {
     const wallet = useWallet();
     const [marketMakingPool, setMarketMakingPool] = useState({});
 
+    const [isRevocableContract,setIsRevocableContract] = useState(false);
     const [isLoading,setIsLoading] = useState(false);
     const [step, setStep] = React.useState(1);
     const [fileName, setFileName] = React.useState("");
@@ -70,6 +71,15 @@ export default function VestingAdd(props) {
     useEffect(() => {
         setStart(moment(startDate).unix());
     },[startDate])
+
+    useEffect(()=> {
+        if(wallet.isConnected() && marketMakingPool?.address) {
+            (async() => {
+                setIsRevocableContract(await helpers.web3.marketMaker.getRevocableContract(wallet,marketMakingPool.address));
+            })()
+        }
+
+    },[wallet,marketMakingPool])
 
     useEffect(() => {
         setCliffInDays(helpers.formatting.secondFormat(cliff, true))
@@ -304,21 +314,24 @@ export default function VestingAdd(props) {
                                             setValue={setSlicePeriodSeconds}
                                         />
                                     </div>
-                                    <div>
-                                        <div className={'flex flex-row'}>
-                                            <label className={'pr-2'}>Should this batch be revocable?</label>
-                                            <span className="relative flex flex-col items-center justify-center group">
+                                    {
+                                        isRevocableContract ?                                     <div>
+                                            <div className={'flex flex-row'}>
+                                                <label className={'pr-2'}>Should this batch be revocable?</label>
+                                                <span className="relative flex flex-col items-center justify-center group">
                                                 <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
                                                 <Tooltip title="This is test tooltip"/>
                                             </span>
-                                        </div>
+                                            </div>
 
-                                        <Checkbox
-                                            classNames={'mt-5'}
-                                            setValue={setRevocable}
-                                            initialValue={revocable}/>
+                                            <Checkbox
+                                                classNames={'mt-5'}
+                                                setValue={setRevocable}
+                                                initialValue={revocable}/>
 
-                                    </div>
+                                        </div> : ""
+
+                                    }
 
                                 </div>
 
