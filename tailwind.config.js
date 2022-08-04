@@ -82,6 +82,15 @@ module.exports = {
       },
       backgroundSize: {
         "50%": "50%",
+      },
+      animation: {
+        marquee: 'marquee 40s linear infinite'
+      },
+      keyframes: {
+        marquee: {
+            '0%': { transform: 'translateX(0)' },
+            '100%': { transform: 'translateX(-100%)' }
+        }
       }
     },
   },
