@@ -404,6 +404,19 @@ const computeReleasableAmount = async (wallet, marketMakerAddress, userAddress) 
     }
 }
 
+const getRevocableContract = async (wallet, marketMakerAddress) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
+        return await marketMakerContract.revocableContract()
+    } catch (e) {
+        console.log('getRevocableContract error', e);
+        toast.error(e.reason);
+        return false;
+    }
+}
+
 const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, callback) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
@@ -628,6 +641,7 @@ export default {
     release,
     computeReleasableAmount,
     getWithdrawablePairedTokens,
+    getRevocableContract,
     deploy,
     fetchHoldersMapping,
     fetchHoldersVestingMapping,

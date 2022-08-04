@@ -196,7 +196,7 @@ const hook = async ({
                 callback()
                 break;
             case 'MMBR':
-                event = data.receipt.events.find(x => x.event === "SetMaxBaseStakingRatio").args;
+                event = data.receipt.events.find(x => x.event === "SetMaxBaseLiquidityRatio").args;
                 await axios.post(`${API_URL}Transaction/`, {
                     hash: data.receipt.transactionHash,
                     type: type,
@@ -209,7 +209,7 @@ const hook = async ({
                 callback()
                 break;
             case 'MMPR':
-                event = data.receipt.events.find(x => x.event === "SetMaxPairedStakingRatio").args;
+                event = data.receipt.events.find(x => x.event === "SetMaxPairedLiquidityRatio").args;
                 await axios.post(`${API_URL}Transaction/`, {
                     hash: data.receipt.transactionHash,
                     type: type,
