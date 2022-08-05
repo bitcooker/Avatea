@@ -2,7 +2,7 @@ import {ethers} from 'ethers';
 import LiquidityMaker from '../../abi/LiquidityMaker.json';
 import {toast} from "react-toastify";
 import helpers from "../index";
-import {DEFAULT_SLIPPAGE, RPC_URL} from "../constants";
+import {DEFAULT_CHAIN_ID, DEFAULT_SLIPPAGE, RPC_URL} from "../constants";
 
 
 const withdraw = async (wallet, liquidityMakerAddress, full_withdrawal, slippage = DEFAULT_SLIPPAGE) => {
@@ -316,7 +316,7 @@ const liquidityRewardEarned = async (wallet, liquidityMakerAddress, address) => 
     }
 }
 
-const totalSupply = async (wallet, liquidityMakerAddress, withoutWallet, chainId = 4) => {
+const totalSupply = async (wallet, liquidityMakerAddress, withoutWallet, chainId = DEFAULT_CHAIN_ID) => {
     try {
         let provider;
         let signer;
@@ -336,7 +336,7 @@ const totalSupply = async (wallet, liquidityMakerAddress, withoutWallet, chainId
     }
 }
 
-const maxTotalSupply = async (wallet, liquidityMakerAddress, withoutWallet, chainId = 4) => {
+const maxTotalSupply = async (wallet, liquidityMakerAddress, withoutWallet, chainId = DEFAULT_CHAIN_ID) => {
     try {
         let provider;
         let signer;
@@ -356,7 +356,7 @@ const maxTotalSupply = async (wallet, liquidityMakerAddress, withoutWallet, chai
     }
 }
 
-const getLockingPeriod = async (wallet, liquidityMakerAddress, withoutWallet, chainId = 4) => {
+const getLockingPeriod = async (wallet, liquidityMakerAddress, withoutWallet, chainId = DEFAULT_CHAIN_ID) => {
     try {
         let provider;
         let signer;
@@ -389,7 +389,7 @@ const getPairAddress = async (wallet, liquidityMakerAddress) => {
     }
 }
 
-const rewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet, chainId = 4) => {
+const rewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet, chainId = DEFAULT_CHAIN_ID) => {
     try {
         let provider;
         let signer;
@@ -412,7 +412,7 @@ const rewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet, chai
     }
 }
 
-const liquidityRewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet = false, chainId = 4) => {
+const liquidityRewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet = false, chainId = DEFAULT_CHAIN_ID) => {
     try {
         let provider;
         let signer;
