@@ -38,7 +38,7 @@ export default function Management() {
                 {
                     isAdmin ? (
                         projects.length === 0 ? "You are no admin in any project" :
-                            <Card projectsProps={projects}/>
+                            <Card projectsProps={projects} management={true}/>
                     ) :
                         <p>You are no admin</p>
                 }

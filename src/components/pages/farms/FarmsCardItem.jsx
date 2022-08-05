@@ -54,7 +54,7 @@ export default function FarmsCardItem({liquidityMaker}) {
                 let maxTotalSupply = helper.formatting.web3Format((await helper.web3.liquidityMaker.maxTotalSupply(wallet, liquidityMaker.address)));
                 setMaxTotalSupply(maxTotalSupply);
 
-                let TVL = await helper.web3.liquidityMaker.totalSupply(wallet, liquidityMaker.address, liquidityMaker.token, liquidityMaker.paired_token)
+                let TVL = await helper.web3.liquidityMaker.totalSupply(wallet, liquidityMaker.address)
                 setTotalSupply(helper.formatting.web3Format(TVL));
 
                 setLiquidityTokenWalletBalance(
@@ -78,10 +78,34 @@ export default function FarmsCardItem({liquidityMaker}) {
                 let holdersMappingData = await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address, wallet.account)
                 setHoldersMapping(holdersMappingData);
 
-                setLiquidityBalance(holdersMappingData.liquidityBalance)
+                setLiquidityBalance(holdersMappingData.liquidityBalance);
+
             };
 
             initWalletConnected();
+        }
+
+        if (wallet.status === "disconnected" && liquidityMaker.address) {
+            const initWithoutWallet = async () => {
+                setRewardPerToken(
+                        await helper.web3.liquidityMaker.rewardPerToken(wallet, liquidityMaker.address,true)
+                );
+                setLiquidityRewardPerToken(
+                        await helper.web3.liquidityMaker.liquidityRewardPerToken(wallet, liquidityMaker.address,true)
+                );
+
+                let lockingPeriod = Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address,true));
+                setLockingPeriod(lockingPeriod);
+
+                let maxTotalSupply = helper.formatting.web3Format((await helper.web3.liquidityMaker.maxTotalSupply(wallet, liquidityMaker.address,true)));
+                setMaxTotalSupply(maxTotalSupply);
+
+                let TVL = await helper.web3.liquidityMaker.totalSupply(wallet, liquidityMaker.address, true)
+                setTotalSupply(helper.formatting.web3Format(TVL));
+                setLoading(false)
+            };
+
+            initWithoutWallet();
         }
     }, [wallet, liquidityMaker]);
 
@@ -153,74 +177,95 @@ export default function FarmsCardItem({liquidityMaker}) {
                         </div>
                     </div>
 
-                    <div className="flex flex-col px-2 gap-1">
-                        <label className="text-indigo-500"><span className="font-semibold"></span> VATE EARNED</label>
-                        <div className="grid grid-cols-2 gap-2">
-                            <InputEmpty id="mercor-earned" name="earned" type="number" value={rewardEarned} readOnly/>
-                            <ButtonFit name="Harvest" handleClick={claimReward} disabled={parseFloat(rewardEarned) === 0.0}/>
-                        </div>
-                    </div>
+                    {
+                        wallet.status === "connected" ? <>
+                            <div className="flex flex-col px-2 gap-1">
+                                <label className="text-indigo-500"><span className="font-semibold"></span> VATE EARNED</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <InputEmpty id="mercor-earned" name="earned" type="number" value={rewardEarned} readOnly/>
+                                    <ButtonFit name="Harvest" handleClick={claimReward} disabled={parseFloat(rewardEarned) === 0.0}/>
+                                </div>
+                            </div>
 
-                    <div className="flex flex-col px-2 gap-1">
-                        <label className="text-indigo-500"><span className="font-semibold"></span> LP EARNED</label>
-                        <div className="grid grid-cols-2 gap-2">
-                            <InputEmpty id="mercor-earned" name="earned" type="number" value={liquidityRewardEarned} readOnly/>
-                            <ButtonFit name="Compound" handleClick={compoundReward} disabled={parseFloat(liquidityRewardEarned) === 0.0}/>
-                        </div>
-                    </div>
+                            <div className="flex flex-col px-2 gap-1">
+                                <label className="text-indigo-500"><span className="font-semibold"></span> LP EARNED</label>
+                                <div className="grid grid-cols-2 gap-2">
+                                    <InputEmpty id="mercor-earned" name="earned" type="number" value={liquidityRewardEarned} readOnly/>
+                                    <ButtonFit name="Compound" handleClick={compoundReward} disabled={parseFloat(liquidityRewardEarned) === 0.0}/>
+                                </div>
+                            </div>
+                        </>
+                                :
+                                ""
+                    }
 
-                    <ButtonFit name="Exit" handleClick={exitLiquidity} disabled={parseFloat(liquidityBalance) === 0.0}/>
+
+                    {
+                        wallet.status === "connected" ? <ButtonFit name="Exit" handleClick={exitLiquidity} disabled={parseFloat(liquidityBalance) === 0.0}/>
+                                :
+                                ""
+                    }
 
                     <div className="flex justify-between">
                         <span className="text-sm"><i className="fa-solid fa-clock"/> Locking Period</span>
                         <span className="text-base font-medium">{helper.formatting.secondFormat(lockingPeriod)}
                                     </span>
                     </div>
-                    <div className="flex justify-between">
-                        <span className="text-sm"><i className="fa-solid fa-timer"/> Unlocked on</span>
-                        <span
-                            className="text-base font-medium">
+                    {
+                        wallet.status === "connected" ?  <div className="flex justify-between">
+                            <span className="text-sm"><i className="fa-solid fa-timer"/> Unlocked on</span>
+                            <span
+                                    className="text-base font-medium">
                                         {helper.formatting.dateFormat(parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod))}
                                     </span>
-                    </div>
-                    <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                        </div> : ""
+                    }
+
+                    {
+                        wallet.status === "connected" ?  <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
                                 <span className="text-center md-lg:text-left">
                                     <i className="fa-solid fa-money-bill-transfer"/> Staked
                                 </span>
-                        <span className="flex justify-center items-center text-base font-medium">
+                            <span className="flex justify-center items-center text-base font-medium">
                                     <p className="mx-2.5">{holdersMapping?.liquidityBalance}</p>
                                 </span>
-                    </div>
+                        </div> : ""
+                    }
 
-                    <div className="flex flex-row items-center justify-between text-base">
-                        <div>
-                            <i className="fa-solid fa-coin"/> Stake LP tokens
-                        </div>
-                        <span>
+
+                    {
+                        wallet.status === "connected" ? <>
+                            <div className="flex flex-row items-center justify-between text-base">
+                                <div>
+                                    <i className="fa-solid fa-coin"/> Stake LP tokens
+                                </div>
+                                <span>
                                 <MaxButton
-                                    balance={liquidityRewardTokenWalletBalance}
-                                    handleClick={() =>
-                                        setMax(
-                                            liquidityRewardTokenWalletBalance,
-                                            setAmountLiquidityTokenToStake
-                                        )
-                                    }
+                                        balance={liquidityRewardTokenWalletBalance}
+                                        handleClick={() =>
+                                                setMax(
+                                                        liquidityRewardTokenWalletBalance,
+                                                        setAmountLiquidityTokenToStake
+                                                )
+                                        }
                                 />
                         </span>
-                    </div>
-                    <InputApproveWithIconSubmit
-                        id="cash"
-                        name="cash"
-                        type="number"
-                        icon="fa-light fa-circle-plus"
-                        submitName="Stake"
-                        image={PAIRED_TOKEN_DEFAULT_IMAGE}
-                        submitFunction={stakeLP}
-                        value={amountLiquidityTokenToStake}
-                        setValue={setAmountLiquidityTokenToStake}
-                        address={liquidityMaker.address}
-                        token={liquidityMaker.pair_address}
-                    />
+                            </div>
+                            <InputApproveWithIconSubmit
+                                    id="cash"
+                                    name="cash"
+                                    type="number"
+                                    icon="fa-light fa-circle-plus"
+                                    submitName="Stake"
+                                    image={PAIRED_TOKEN_DEFAULT_IMAGE}
+                                    submitFunction={stakeLP}
+                                    value={amountLiquidityTokenToStake}
+                                    setValue={setAmountLiquidityTokenToStake}
+                                    address={liquidityMaker.address}
+                                    token={liquidityMaker.pair_address}
+                            /></> : ""
+                    }
+
                 </div>
 
                 {/* details collapse */}

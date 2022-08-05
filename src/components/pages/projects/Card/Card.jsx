@@ -24,7 +24,7 @@ const cardVariants = {
     show: { opacity: 1 }
 }
 
-export default function Card( {projectsProps} ) {
+export default function Card( {projectsProps, management = false} ) {
 
   return (
     <div>
@@ -36,7 +36,7 @@ export default function Card( {projectsProps} ) {
             <motion.div className="grid sm-md:grid-cols-2 xl-2xl:grid-cols-3 gap-5" variants={variants} initial="hidden" animate="show">
                     {projectsProps?.map((project) =>
                         <motion.div variants={cardVariants} transition={{ duration: .5 }} key={project.slug}>
-                            <CardItem key={project.slug} {...project} />
+                            <CardItem key={project.slug} {...project} management={management} />
                         </motion.div>
                     )}
             </motion.div>

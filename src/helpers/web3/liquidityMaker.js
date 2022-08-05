@@ -2,7 +2,7 @@ import {ethers} from 'ethers';
 import LiquidityMaker from '../../abi/LiquidityMaker.json';
 import {toast} from "react-toastify";
 import helpers from "../index";
-import {DEFAULT_SLIPPAGE} from "../constants";
+import {DEFAULT_SLIPPAGE, RPC_URL} from "../constants";
 
 
 const withdraw = async (wallet, liquidityMakerAddress, full_withdrawal, slippage = DEFAULT_SLIPPAGE) => {
@@ -316,10 +316,17 @@ const liquidityRewardEarned = async (wallet, liquidityMakerAddress, address) => 
     }
 }
 
-const totalSupply = async (wallet, liquidityMakerAddress) => {
+const totalSupply = async (wallet, liquidityMakerAddress, withoutWallet, chainId = 4) => {
     try {
-        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-        const signer = provider.getSigner();
+        let provider;
+        let signer;
+        if(withoutWallet) {
+            provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+            signer = provider;
+        } else {
+            provider = new ethers.providers.Web3Provider(wallet.ethereum);
+            signer = provider.getSigner();
+        }
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         return await liquidityMaker.totalSupply();
     } catch (e) {
@@ -329,10 +336,17 @@ const totalSupply = async (wallet, liquidityMakerAddress) => {
     }
 }
 
-const maxTotalSupply = async (wallet, liquidityMakerAddress) => {
+const maxTotalSupply = async (wallet, liquidityMakerAddress, withoutWallet, chainId = 4) => {
     try {
-        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-        const signer = provider.getSigner();
+        let provider;
+        let signer;
+        if(withoutWallet) {
+            provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+            signer = provider;
+        } else {
+            provider = new ethers.providers.Web3Provider(wallet.ethereum);
+            signer = provider.getSigner();
+        }
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         return await liquidityMaker.maxTotalSupply();
     } catch (e) {
@@ -342,10 +356,17 @@ const maxTotalSupply = async (wallet, liquidityMakerAddress) => {
     }
 }
 
-const getLockingPeriod = async (wallet, liquidityMakerAddress) => {
+const getLockingPeriod = async (wallet, liquidityMakerAddress, withoutWallet, chainId = 4) => {
     try {
-        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-        const signer = provider.getSigner();
+        let provider;
+        let signer;
+        if(withoutWallet) {
+            provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+            signer = provider;
+        } else {
+            provider = new ethers.providers.Web3Provider(wallet.ethereum);
+            signer = provider.getSigner();
+        }
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         return await liquidityMaker.lockingPeriod();
     } catch (e) {
@@ -368,10 +389,17 @@ const getPairAddress = async (wallet, liquidityMakerAddress) => {
     }
 }
 
-const rewardPerToken = async (wallet, liquidityMakerAddress) => {
+const rewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet, chainId = 4) => {
     try {
-        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-        const signer = provider.getSigner();
+        let provider;
+        let signer;
+        if(withoutWallet) {
+            provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+            signer = provider;
+        } else {
+            provider = new ethers.providers.Web3Provider(wallet.ethereum);
+            signer = provider.getSigner();
+        }
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         let rewardRate = await liquidityMaker.rewardRate();
         let totalSupply = await liquidityMaker.totalSupply();
@@ -384,10 +412,17 @@ const rewardPerToken = async (wallet, liquidityMakerAddress) => {
     }
 }
 
-const liquidityRewardPerToken = async (wallet, liquidityMakerAddress) => {
+const liquidityRewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet = false, chainId = 4) => {
     try {
-        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-        const signer = provider.getSigner();
+        let provider;
+        let signer;
+        if(withoutWallet) {
+            provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+            signer = provider;
+        } else {
+            provider = new ethers.providers.Web3Provider(wallet.ethereum);
+            signer = provider.getSigner();
+        }
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         let rewardRate = await liquidityMaker.liquidityRewardRate();
         let totalSupply = await liquidityMaker.totalSupply();

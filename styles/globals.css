@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    .text-balance {
+        font-family: Noto Sans Mono, 'sans-serif';
+    }
+}
+
 @font-face {
   font-family: "Poppins";
   src: url("../asset/Poppins/Poppins-Light.ttf");

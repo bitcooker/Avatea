@@ -80,7 +80,7 @@ export default function Header({ menu, setMenu }) {
                   {/*<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>*/}
                   <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
                 </span>
-                <span className="flex absolute -top-[0.7rem] -right-[0.1rem] text-white text-[0.5rem] z-20">
+                <span className={`flex absolute ${unreadMessages >= 10 ? " -top-[0.7rem] -right-[0.1rem] text-[0.5rem]" : " -top-[0.72rem] -right-[0.08rem] text-[0.7rem]"} text-white z-20`}>
                     {unreadMessages}
                 </span>
                 <i className="relative fa-light fa-envelope text-2xl hover:cursor-pointer z-0" />

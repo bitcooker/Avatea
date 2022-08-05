@@ -246,7 +246,7 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                 </div>
             ) : (
                 <div className="flex flex-col p-3.75 space-y-4">
-                    <h1 className="text-2xl text-center"><i className="fa-solid fa-nfc-lock"/> liquidityMaker</h1>
+                    <h1 className="text-2xl text-center"><i className="fa-solid fa-nfc-lock"/> Liquidity Maker</h1>
                     <div className="bg-gray-200 border border-gray-400 px-4 py-3 rounded relative text-center"
                          role="alert">
                         <span>No liquidity maker created yet</span>

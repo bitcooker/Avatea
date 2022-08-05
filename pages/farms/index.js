@@ -51,13 +51,11 @@ export default function Farms(props) {
     , [setTitle]})
 
         useEffect(() => {
-        const fetchMessages = async () => {
-            if (wallet.account) {
-                const result = await helper.liquidityMaker.getLiquidityMakers();
-                setLiquidityMakers(result);
-            }
+        const fetchFarms = async () => {
+            const result = await helper.liquidityMaker.getLiquidityMakers();
+            setLiquidityMakers(result);
         };
-        fetchMessages();
+            fetchFarms();
 
     }, [wallet]);
     

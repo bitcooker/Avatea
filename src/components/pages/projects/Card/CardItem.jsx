@@ -98,11 +98,17 @@ export default function CardItem(props) {
                         </div>
                     </>
                 }
-                <Link href={`projects/${props.slug}`}>
-                    <a className="block py-2.5 mt-5 w-full bg-indigo-500 text-white text-center rounded-full hover:bg-indigo-500/80 transition">
-                        View Project
-                    </a>
-                </Link>
+                {
+                    props.management ? <Link href={`/management/${props.slug}`}>
+                        <a className="block py-2.5 mt-5 w-full bg-indigo-500 text-white text-center rounded-full hover:bg-indigo-500/80 transition">
+                            Manage Project
+                        </a>
+                    </Link> : <Link href={`/projects/${props.slug}`}>
+                        <a className="block py-2.5 mt-5 w-full bg-indigo-500 text-white text-center rounded-full hover:bg-indigo-500/80 transition">
+                            View Project
+                        </a>
+                    </Link>
+                }
             </div>
         </div>
     );

@@ -14,6 +14,9 @@ import helper from "../../src/helpers";
 import SkeletonInbox from "../../src/components/pages/inbox/SkeletonInbox";
 
 import {usePageTitleContext} from "../../src/context/PageTitleContext";
+import Projects from "../../src/components/pages/myActivity/Projects";
+import Act from "../../src/components/pages/myActivity/Transaction/TransactionWrapper";
+import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
 
 export default function Inbox(props) {
     const wallet = useWallet();
@@ -102,38 +105,47 @@ export default function Inbox(props) {
     }, [currentPage, totalPages, messages.length])
 
     return (
-        <div className="grow rounded-2.5xl bg-white overflow-hidden">
-            {/* Header */}
-            <div className="flex justify-between p-4 border-b">
-                <div className="flex divide-x">
-                    <div className="flex px-2 space-x-1">
-                        {messages.length - readMessages} unread
-                        {messages.length - readMessages === 1 ?
-                            ' message' :
-                            ' messages'
-                        }
-                    </div>
-                </div>
+        <>
+        {
+            wallet.status === "connected" ? (
+                <>
+                    <div className="grow rounded-2.5xl bg-white overflow-hidden">
+                        {/* Header */}
+                        <div className="flex justify-between p-4 border-b">
+                            <div className="flex divide-x">
+                                <div className="flex px-2 space-x-1">
+                                    {messages.length - readMessages} unread
+                                    {messages.length - readMessages === 1 ?
+                                        ' message' :
+                                        ' messages'
+                                    }
+                                </div>
+                            </div>
 
-                <div className="flex items-center space-x-3">
-                    <div
-                        className={`flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer ${disablePrevButton ? 'text-gray-300 hover:bg-white hover:text-gray-300 hover:cursor-not-allowed' : ''} transition`} onClick={handlePrev}>
-                        <i className="fa-solid fa-arrow-left text-xl"/>
-                    </div>
-                    <div
-                        className={`flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer ${disableNextButton ? 'text-gray-300 hover:bg-white hover:text-gray-300 hover:cursor-not-allowed' : ''} transition`} onClick={handleNext}>
-                        <i className="fa-solid fa-arrow-right text-xl"/>
-                    </div>
-                    <div className="hidden md:flex text-gray-500 items-center">
-                        {pageBar}
-                    </div>
-                </div>
-            </div>
+                            <div className="flex items-center space-x-3">
+                                <div
+                                    className={`flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer ${disablePrevButton ? 'text-gray-300 hover:bg-white hover:text-gray-300 hover:cursor-not-allowed' : ''} transition`} onClick={handlePrev}>
+                                    <i className="fa-solid fa-arrow-left text-xl"/>
+                                </div>
+                                <div
+                                    className={`flex items-center justify-center p-2 text-indigo-500 hover:text-indigo-800 rounded-md hover:bg-indigo-500/10 hover:cursor-pointer ${disableNextButton ? 'text-gray-300 hover:bg-white hover:text-gray-300 hover:cursor-not-allowed' : ''} transition`} onClick={handleNext}>
+                                    <i className="fa-solid fa-arrow-right text-xl"/>
+                                </div>
+                                <div className="hidden md:flex text-gray-500 items-center">
+                                    {pageBar}
+                                </div>
+                            </div>
+                        </div>
 
-            {/* content */}
-            <div className="">
-                {Messages}
-            </div>
-        </div>
+                        {/* content */}
+                        <div className="">
+                            {Messages}
+                        </div>
+                    </div>
+                </>
+            ) : <ConnectYourWallet/>
+        }
+        </>
+
     )
 }

@@ -16,6 +16,12 @@ import Vesting from "../../src/components/pages/projects/Vesting";
 import Liquidity from "../../src/components/pages/projects/LiquidityMaker";
 import Info from "../../src/components/pages/projects/Info";
 import { usePageTitleContext } from '../../src/context/PageTitleContext';
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
+import moment from "moment/moment";
+import Button from "../../src/components/core/Button/Button";
+import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
+import * as React from "react";
 
 const tabItems = ["Info","Market Making", "Liquidity", "Vault", "Vesting"];
 
@@ -85,47 +91,75 @@ export default function ProjectDetail(props) {
             {tab === 1 &&
                 <div className="min-h-[800px] md-lg:min-h-[600px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
-                        <MarketMaking
-                            wallet={wallet}
-                            marketMakingPool={marketMakingPool}
-                            project={project}
-                        />
+                        <>
+                            {
+                                wallet.status === "connected" ? (
+                                    <MarketMaking
+                                        wallet={wallet}
+                                        marketMakingPool={marketMakingPool}
+                                        project={project}
+                                    />
+                                ) : <ConnectYourWallet/>
+                            }
+                        </>
+
                     </motion.div>
                 </div>
             }
             {tab === 2 &&
                 <div className="min-h-[500px] md-lg:min-h-[300px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
-                        <Liquidity
-                            wallet={wallet}
-                            project={project}
-                            marketMakingPool={marketMakingPool}
-                            liquidityMaker={liquidityMaker}
-                        />
+                        <>
+                            {
+                                wallet.status === "connected" ? (
+                                    <Liquidity
+                                        wallet={wallet}
+                                        project={project}
+                                        marketMakingPool={marketMakingPool}
+                                        liquidityMaker={liquidityMaker}
+                                    />
+                                ) : <ConnectYourWallet/>
+                            }
+                        </>
+
                     </motion.div>
                 </div>
             }
             {tab === 3 &&
                 <div className="min-h-[550px] md-lg:min-h-[350px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
-                        <Vault
-                            vault={vault}
-                            wallet={wallet}
-                            project={project}
-                            setTab={setTab}
-                        />
+                        <>
+                            {
+                                wallet.status === "connected" ? (
+                                    <Vault
+                                        vault={vault}
+                                        wallet={wallet}
+                                        project={project}
+                                        setTab={setTab}
+                                    />
+                                ) : <ConnectYourWallet/>
+                            }
+                        </>
+
                     </motion.div>
                 </div>
             }
             {tab === 4 &&
                 <div className="md-lg:min-h-[500px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
-                        <Vesting
-                            wallet={wallet}
-                            marketMakingPool={marketMakingPool}
-                            project={project}
-                            setTab={setTab}
-                        />
+                        <>
+                            {
+                                wallet.status === "connected" ? (
+                                    <Vesting
+                                        wallet={wallet}
+                                        marketMakingPool={marketMakingPool}
+                                        project={project}
+                                        setTab={setTab}
+                                    />
+                                ) : <ConnectYourWallet/>
+                            }
+                        </>
+
                     </motion.div>
                 </div>
             }

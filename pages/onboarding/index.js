@@ -25,6 +25,7 @@ import {toast} from "react-toastify";
 import NoSsr from "../../src/components/NoSsr";
 
 import { usePageTitleContext } from "../../src/context/PageTitleContext";
+import RichEditor from "../../src/components/core/RichEditor/RichEditor";
 
 export default function Linked(props) {
     const wallet = useWallet();
@@ -369,7 +370,7 @@ export default function Linked(props) {
 
     const Success = React.useMemo(() => {
         console.log(showSuccess);
-        return showSuccess && <SuccessModal show={showSuccess} setShow={setShowSuccess} option={successOption} />
+        return showSuccess && <SuccessModal  show={showSuccess} setShow={setShowSuccess} option={successOption} />
     }, [successOption, showSuccess])
 
     return (
@@ -597,7 +598,7 @@ export default function Linked(props) {
                                 )}
                                 <div className="flex flex-col space-y-3.75">
                                     <h1 className="text-xl">Description</h1>
-                                    <TextArea
+                                    <RichEditor
                                         id="description"
                                         name="description"
                                         placeholder="Type here"
