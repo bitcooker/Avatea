@@ -1,9 +1,9 @@
 import React from "react";
-import Image from "next/image";
 import moment from 'moment';
 import stc from 'string-to-color'
 
 import TableCol from "../../../core/table/TableCol";
+import Image from "next/image";
 
 const TRANSACTION_TYPES = {
     'VW': 'Vault Withdrawal', // Done
@@ -35,30 +35,49 @@ const TRANSACTION_TYPES = {
     'LMA': 'Liquidity Maker Reward Adding',
 
 }
+
+function parseValue(value, type) {
+
+    if (["MMBR", "MMPR"].includes(type)) {
+        value += '%'
+    }
+    if (["MMAS", "MMAR"].includes(type)) {
+        console.log(value)
+        value === 'true' ? value = 'check' : value = 'not check'
+    }
+    return value
+}
+
 export default function TransactionItem(props) {
-  return (
-    <div className="grid grid-cols-12 items-center w-full p-2">
-        <TableCol className="truncate col-span-7 font-medium text-base tracking-[.0125rem]">
-            <div>
-                <div className={`inline-block px-2 py-2 rounded-full text-white`} style={{ backgroundColor: stc(props.type) }}>
-                    <p className="hidden sm:block text-sm leading-none">{TRANSACTION_TYPES[props.type]}</p>
-                    <p className="sm:hidden text-sm leading-none">{props.type}</p>
+    return (
+        <div className="grid grid-cols-12 items-center w-full p-2">
+            <TableCol className="truncate col-span-7 font-medium text-base tracking-[.0125rem]">
+                <div>
+                    {props.image ?
+                        <Image src={props.image} alt="" width={24} height={24}/>
+                        : ''
+                    }
+                    <div className={`inline-block px-2 py-2 rounded-full text-white`} style={{backgroundColor: stc(props.type)}}>
+                        <p className="hidden sm:block text-sm leading-none">{TRANSACTION_TYPES[props.type]}</p>
+                        <p className="sm:hidden text-sm leading-none">{props.type}</p>
+                    </div>
                 </div>
-            </div>
-            <small>{moment(props.timestamp).format('llll')}</small>
-        </TableCol>
-        <TableCol className="col-span-4 font-medium text-base tracking-[.0125rem] text-white">
-            <div className={`text-slate-600 text-sm`}>
-                {props.amount > 0 ? props.amount : ""}
-            </div>
-        </TableCol>
-        <TableCol className="col-span-1 flex items-center justify-center">
-            <a target={'_blank'} href={`https://rinkeby.etherscan.io/tx/${props.hash}`} rel={'noreferrer'}>
-                <div className={`flex items-center justify-center w-6 h-6 pt-[1.5px] rounded-md border border-slate-600/50 hover:border-slate-600`}>
-                    <i className={`fa-solid fa-eye fa-xs text-slate-600`}/>
+                <small>{moment(props.timestamp).format('llll')}</small>
+            </TableCol>
+            <TableCol className="col-span-4 font-medium text-base tracking-[.0125rem] text-white">
+                <div className={`text-slate-600 text-sm`}>
+                    {props.amount > 0 ? props.amount :
+                        parseValue(props.value, props.type)
+                    }
                 </div>
-            </a>
-        </TableCol>
-    </div>
-  );
+            </TableCol>
+            <TableCol className="col-span-1 flex items-center justify-center">
+                <a target={'_blank'} href={`https://rinkeby.etherscan.io/tx/${props.hash}`} rel={'noreferrer'}>
+                    <div className={`flex items-center justify-center w-6 h-6 pt-[1.5px] rounded-md border border-slate-600/50 hover:border-slate-600`}>
+                        <i className={`fa-solid fa-eye fa-xs text-slate-600`}/>
+                    </div>
+                </a>
+            </TableCol>
+        </div>
+    );
 }

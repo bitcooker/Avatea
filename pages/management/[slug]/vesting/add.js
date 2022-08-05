@@ -13,6 +13,7 @@ import helpers from "../../../../src/helpers";
 import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 import Button from "../../../../src/components/core/Button/Button";
 import InputEmpty from "../../../../src/components/core/Input/InputEmpty";
+import InputTime from "../../../../src/components/core/Input/InputTime";
 import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
 import AddressAndAmountTable from "../../../../src/components/pages/management/vesting/Table/AddressAndAmountTable";
 import Tooltip from '../../../../src/components/core/Tooltip/Tooltip';
@@ -209,7 +210,7 @@ export default function VestingAdd(props) {
                         }
                         {step === 3 &&
                             <div
-                                className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
+                                className="grow md-lg:p-7.5 bg-white overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 mb-5">
                                     <div>
                                         <div className={'flex flex-row'}>
@@ -241,15 +242,6 @@ export default function VestingAdd(props) {
                                                 <Tooltip title="This is test tooltip"/>
                                             </span>
                                         </div>
-                                        {/* <InputEmpty
-                                            id="start"
-                                            name="start"
-                                            type="number"
-                                            placeholder="Enter a startdate in UNIX"
-                                            value={start}
-                                            classNames={'mt-3'}
-                                            setValue={setStart}
-                                        /> */}
                                         <div className="mt-3">
                                             <DateTimePicker value={startDate} onChange={setStartDate} />
                                         </div>
@@ -263,12 +255,10 @@ export default function VestingAdd(props) {
                                                 <Tooltip title="This is test tooltip"/>
                                             </span>
                                         </div>
-                                        <InputEmpty
+                                        <InputTime
                                             id="cliff"
                                             name="cliff"
-                                            type="number"
                                             classNames={'mt-3'}
-
                                             placeholder="Enter a cliff period in seconds "
                                             value={cliff}
                                             setValue={setCliff}
@@ -283,12 +273,10 @@ export default function VestingAdd(props) {
                                                 <Tooltip title="This is test tooltip"/>
                                             </span>
                                         </div>
-                                        <InputEmpty
+                                        <InputTime
                                             id="duration"
                                             name="duration"
-                                            type="number"
                                             classNames={'mt-3'}
-
                                             placeholder="Enter the duration in seconds"
                                             value={duration}
                                             setValue={setDuration}
@@ -304,10 +292,9 @@ export default function VestingAdd(props) {
                                                 <Tooltip title="This is test tooltip"/>
                                             </span>
                                         </div>
-                                        <InputEmpty
+                                        <InputTime
                                             id="slicePeriodSeconds"
                                             name="slicePeriodSeconds"
-                                            type="number"
                                             classNames={'mt-3'}
                                             placeholder="Enter the slice period in seconds"
                                             value={slicePeriodSeconds}
@@ -315,19 +302,21 @@ export default function VestingAdd(props) {
                                         />
                                     </div>
                                     {
-                                        isRevocableContract ?                                     <div>
-                                            <div className={'flex flex-row'}>
-                                                <label className={'pr-2'}>Should this batch be revocable?</label>
-                                                <span className="relative flex flex-col items-center justify-center group">
-                                                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
-                                                <Tooltip title="This is test tooltip"/>
-                                            </span>
+                                        isRevocableContract ? 
+                                        <div className="flex h-12.5 self-end">
+                                            <div className="flex gap-2 items-center">
+                                                <Checkbox
+                                                    setValue={setRevocable}
+                                                    initialValue={revocable}/>
+                                                
+                                                <div className={'flex flex-row'}>
+                                                    <label className={'pr-2'}>Should this batch be revocable?</label>
+                                                    <span className="relative flex flex-col items-center justify-center group">
+                                                        <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
+                                                        <Tooltip title="This is test tooltip"/>
+                                                    </span>
+                                                </div>
                                             </div>
-
-                                            <Checkbox
-                                                classNames={'mt-5'}
-                                                setValue={setRevocable}
-                                                initialValue={revocable}/>
 
                                         </div> : ""
 
