@@ -45,10 +45,7 @@ const createMessage = async ({wallet, subject, body, user_addresses,project, cal
 };
 
 
-const readMessage = async ({
-                              id, callback = () => {
-    }
-                          } = {}) => {
+const readMessage = async ({id, callback = () => {}} = {}) => {
     try {
         const {data} = await axios(
             {
