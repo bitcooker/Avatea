@@ -13,7 +13,7 @@ export default function Checkbox(props) {
       className={`flex items-center justify-center w-6 h-6 border border-indigo-500 rounded-md bg-indigo-500 hover:ring-2 hover:ring-indigo-500/50 hover:cursor-pointer transition ${props.classNames ? props.classNames : ""}`}
       onClick={() => setIsChecked(!isChecked)}
     >
-      <i className="fa-regular fa-check text-white mt-1" />
+      <i className="fa-regular fa-check text-white" />
     </div>
   ) : (
     <div
