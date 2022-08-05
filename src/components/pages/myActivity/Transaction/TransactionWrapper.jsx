@@ -27,6 +27,7 @@ export default function TransactionWrapper() {
         }
     },[wallet])
 
+    console.log(transactions);
 
     return (
     <div className="grow p-5 rounded-2.5xl bg-white">

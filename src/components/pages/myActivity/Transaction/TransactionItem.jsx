@@ -36,14 +36,34 @@ const TRANSACTION_TYPES = {
 
 }
 
-function parseValue(value, type) {
+const CheckMark = () => {
+    return <i className="fa-regular fa-check"></i>
+}
 
+const DoubleCheckMark = () => {
+    return <i className="fa-regular fa-check-double"></i>
+}
+
+const CircularProgressBar = (props) => {
+    return (
+        <div className="relative flex w-fit items-center">
+            <svg className="w-7 h-7">
+                <circle className="text-gray-300" strokeWidth="2" stroke="currentColor" fill="transparent" r="10" cx="14" cy="14"></circle>
+                <circle className={`${props.percent === 100 ? 'text-green-500' : 'text-sky-500'}`} strokeWidth="2" strokeDasharray={10 * 2 * Math.PI} strokeDashoffset={10 * 2 * Math.PI - (props.percent / 100) * 10 * 2 * Math.PI} strokeLinecap="round" stroke="currentColor" fill="transparent" r="10" cx="14" cy="14"></circle>
+
+                <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize={10} fill="#0ea5e9">{props.percent === 100 ? '✓' : props.percent}</text>
+            </svg>
+        </div>
+    )
+}
+
+function parseValue(value, type) {
     if (["MMBR", "MMPR"].includes(type)) {
-        value += '%'
+        value = <CircularProgressBar percent={value} />
     }
     if (["MMAS", "MMAR"].includes(type)) {
         console.log(value)
-        value === 'true' ? value = 'check' : value = 'not check'
+        value = value === 'true' ? <CircularProgressBar percent={100} /> : <CheckMark />
     }
     return value
 }
@@ -53,12 +73,14 @@ export default function TransactionItem(props) {
         <div className="grid grid-cols-12 items-center w-full p-2">
             <TableCol className="truncate col-span-7 font-medium text-base tracking-[.0125rem]">
                 <div>
-                    {props.image ?
-                        <Image src={props.image} alt="" width={24} height={24}/>
-                        : ''
-                    }
                     <div className={`inline-block px-2 py-2 rounded-full text-white`} style={{backgroundColor: stc(props.type)}}>
-                        <p className="hidden sm:block text-sm leading-none">{TRANSACTION_TYPES[props.type]}</p>
+                        <div className="hidden sm:flex items-center gap-2 text-sm leading-none">
+                            {props.image ?
+                                <Image src={props.image} alt="" width={16} height={16}/>
+                                : ''
+                            }
+                            {TRANSACTION_TYPES[props.type]}
+                        </div>
                         <p className="sm:hidden text-sm leading-none">{props.type}</p>
                     </div>
                 </div>
