@@ -75,16 +75,19 @@ export default function Header({ menu, setMenu }) {
         {/* title */}
         <h1 className="hidden lg-xl:block lg-xl:text-2xl">{title}</h1>
         <div className="flex items-center">
-            <div className={`relative mr-5 ${unreadMessages > 0 ? "md-lg:flex " : "hidden"}`} onClick={() => router.push('/inbox')}>
+            {
+                wallet.status === "connected" ? <div className={`relative mr-5 ${unreadMessages > 0 ? "md-lg:flex " : "hidden"}`} onClick={() => router.push('/inbox')}>
                 <span className="flex h-5 w-5 absolute -top-2 -right-2.5 z-10">
                   {/*<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>*/}
-                  <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
+                    <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
                 </span>
-                <span className={`flex absolute ${unreadMessages >= 10 ? " -top-[0.7rem] -right-[0.1rem] text-[0.5rem]" : " -top-[0.72rem] -right-[0.08rem] text-[0.7rem]"} text-white z-20`}>
+                    <span className={`flex absolute ${unreadMessages >= 10 ? " -top-[0.7rem] -right-[0.1rem] text-[0.5rem]" : " -top-[0.72rem] -right-[0.08rem] text-[0.7rem]"} text-white z-20`}>
                     {unreadMessages}
                 </span>
-                <i className="relative fa-light fa-envelope text-2xl hover:cursor-pointer z-0" />
-            </div>
+                    <i className="relative fa-light fa-envelope text-2xl hover:cursor-pointer z-0" />
+                </div> : ""
+            }
+
             <div className="mr-2.5">
                 <SwitchNetwork />
             </div>

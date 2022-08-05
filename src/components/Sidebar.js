@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import {useAdminContext} from "../context/AdminContext";
+import {useWallet} from "@albs1/use-wallet";
 
 const userMenus = [
     {
@@ -40,12 +41,7 @@ const userMenus = [
         label: "Support Center",
         href: "#",
         icon: "fa-solid fa-circle-question",
-    },
-    {
-        label: "Logout",
-        href: "/logout",
-        icon: "fa-solid fa-right-from-bracket",
-    },
+    }
 ];
 
 const adminMenus = [
@@ -88,12 +84,7 @@ const adminMenus = [
         label: "Support Center",
         href: "#",
         icon: "fa-solid fa-circle-question",
-    },
-    {
-        label: "Logout",
-        href: "/logout",
-        icon: "fa-solid fa-right-from-bracket",
-    },
+    }
 ];
 
 const variants = {
@@ -103,6 +94,7 @@ const variants = {
 
 export default function Sidebar({ menu, setMenu }) {
 
+    const wallet = useWallet();
     const { isAdmin } = useAdminContext();
 
     const menus = isAdmin ? adminMenus : userMenus;
@@ -134,6 +126,15 @@ export default function Sidebar({ menu, setMenu }) {
                                     key={index}
                                 />
                             ))}
+                            {
+                                wallet.status === "connected" ?
+                                    <MenuItem
+                                        handleClick={() => wallet.reset()}
+                                        label="Logout"
+                                        icon="fa-solid fa-right-from-bracket"
+                                    /> : ""
+                            }
+
                         </div>
                     </nav>
                 </div>
@@ -145,20 +146,33 @@ export default function Sidebar({ menu, setMenu }) {
 export const MenuItem = (props) => {
   const router = useRouter();
 
-  return (
-    <Link href={props.href}>
-      <a
-        className={`link flex items-center font-medium text-base rounded-4xl transition p-3.75 hover:cursor-pointer ${
-          router.asPath == props.href
-            ? "bg-indigo-500 text-white"
-            : router.asPath.indexOf(props.href) == 0 && props.href != "/"
-            ? "bg-indigo-500 text-white"
-            : "bg-white text-black"
-        }`}
-      >
-        <i className={props.icon + " mr-2"} />
-        {props.label}
-      </a>
-    </Link>
-  );
+  if(props.handleClick) {
+      return (
+          <div
+              onClick={props.handleClick}
+              className={"link flex items-center font-medium text-base rounded-4xl transition p-3.75 hover:cursor-pointer"}
+          >
+              <i className={props.icon + " mr-2"} />
+              {props.label}
+          </div>
+      )
+  } else {
+      return (
+          <Link href={props.href}>
+              <a
+                  className={`link flex items-center font-medium text-base rounded-4xl transition p-3.75 hover:cursor-pointer ${
+                      router.asPath == props.href
+                          ? "bg-indigo-500 text-white"
+                          : router.asPath.indexOf(props.href) == 0 && props.href != "/"
+                              ? "bg-indigo-500 text-white"
+                              : "bg-white text-black"
+                  }`}
+              >
+                  <i className={props.icon + " mr-2"} />
+                  {props.label}
+              </a>
+          </Link>
+      );
+  }
+
 };
