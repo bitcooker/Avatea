@@ -13,11 +13,13 @@ import Modal from "../../core/modal/Modal";
 // page components
 import Card from "../projectDetail/Card/Card";
 import MarketMakingDeployment from "./MarketMakingDeployment";
+import MarketMakingFunds from "./MarketMakingFunds";
 
 export default function MarketMakingCard({project, marketMakingPool}) {
 
     const wallet = useWallet();
     const router = useRouter();
+    const [depositFunds,setDepositFunds] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [baseTokenBalance, setBaseTokenBalance] = useState("0");
     const [pairedTokenBalance, setPairedTokenBalance] = useState("0");
@@ -100,6 +102,14 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                 handleClose={() => setCreateMMPool(false)}
             >
                 <MarketMakingDeployment project={project}/>
+            </Modal>
+            <Modal
+                title="Deposit tokens & funds"
+                size="sm"
+                open={depositFunds}
+                handleClose={() => setDepositFunds(false)}
+            >
+                <MarketMakingFunds project={project} marketMakingPool={marketMakingPool}/>
             </Modal>
             {marketMakingPool?.address ? (
                 <div className="flex flex-col p-3.75 space-y-4">
@@ -207,12 +217,18 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                             />
                         </div>
                     </div>
+                    <div className="w-full grid grid-cols-2 gap-3.75">
                     <Button
-                        name="Update Market Making Pool Settings"
+                        name="Update Settings"
                         handleClick={updateMarketMakingPool}
                         isLoading={isLoading}
                         disabled={isLoading}
                     />
+                    <Button
+                        name="Deposit Funds"
+                        handleClick={() => setDepositFunds(true)}
+                    />
+                    </div>
                     {/* Edit Button */}
                     <div className="w-full grid grid-cols-2 gap-3.75">
                         <Button name="Multi Send" handleClick={(e) => {
