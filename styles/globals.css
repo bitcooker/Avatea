@@ -320,3 +320,12 @@ input[type="range"]::-webkit-slider-thumb {
 .ReactFlagsSelect-module_filterBox__3m8EU input {
   @apply !bg-gray-100
 }
+
+#nprogress .bar {
+    background: #334a6f !important;
+}
+
+#nprogress .spinner-icon {
+    border-top-color: #334a6f !important;
+    border-left-color: #334a6f !important;
+}
