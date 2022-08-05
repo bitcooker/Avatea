@@ -33,7 +33,7 @@ export default function Vault({project, setTab }) {
 
 
     return  (
-        <div className="grid md-lg:grid-cols-2 gap-7.5">
+        <div className="flex flex-col md-lg:flex-row gap-7.5">
             <Card title="Project Info">
                 {/* Card Header */}
                 <div className="card-header">
@@ -41,7 +41,7 @@ export default function Vault({project, setTab }) {
                 </div>
 
                 <div className="card-content pt-5.5">
-                    <div>{
+                    <div className="break-all">{
                         typeof window === 'undefined' ? "" : parse(DOMPurify.sanitize(project?.description))
                     }</div>
                 </div>
