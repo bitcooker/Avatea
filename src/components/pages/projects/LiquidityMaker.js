@@ -141,7 +141,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project}) {
                             <div className="flex justify-between">
                                 <span className="text-sm"><i
                                     className="fa-solid fa-treasure-chest"/> Total Value Locked</span>
-                                <span className="flex text-base font-medium">
+                                <span className="flex items-center text-base font-medium">
                                     <Image src={project.image} alt="projectImage" width={24} height={24}/>
                                     <p className="mx-2.5">{baseTotalSupply}</p>
                                     <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
