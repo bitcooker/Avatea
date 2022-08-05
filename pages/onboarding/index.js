@@ -61,7 +61,7 @@ export default function Linked(props) {
     const [city, setCity] = useLocalStorage("city", "");
     const [companyState, setCompanyState] = useLocalStorage("companyState", "");
     const [postalCode, setPostalCode] = useLocalStorage("postalCode", "");
-    const [country, setCountry] = React.useState("");
+    const [country, setCountry] = useLocalStorage("country","");
     const [firstName, setFirstName] = useLocalStorage("firstName", "");
     const [lastName, setLastName] = useLocalStorage("lastName", "");
     const [email, setEmail] = useLocalStorage("email", "");
@@ -143,6 +143,7 @@ export default function Linked(props) {
                     redirectURL: `/management/${response.data.slug}`
                 })
                 setShowSuccess(true);
+                toast.success('Project created successfully!')
             }
         } catch (error) {
             setShowLoading(false);
