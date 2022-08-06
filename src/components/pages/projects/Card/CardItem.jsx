@@ -30,7 +30,7 @@ export default function CardItem(props) {
                         target={"_blank"}
                         rel={"noReferrer"}
                     >
-                        <div className="w-10 h-10 bg-indigo-500 hover:bg-indigo-500/80 rounded-full px-3 py-3 flex items-center justify-center">
+                        <div className="w-10 h-10 bg-indigo-500 hover:bg-indigo-500/80 rounded-full px-3 py-3 flex items-center justify-center transition">
                             <i
                                 className={`text-white text-base fa-brands fa-${social[0].replace(
                                     "social_",
