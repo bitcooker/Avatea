@@ -134,10 +134,12 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                         <span className="text-sm">
                             <i className="fa-solid fa-treasure-chest"/> Total Value Locked</span>
                         <span className="flex text-base font-medium">
-                        <Image src={project.image} alt="tokenImage" width={24} height={24}/>
-                        <span className="mx-2.5">{baseTotalSupply}</span>
-                        <Image src={liquidityMaker.paired_token_image} alt="tokenImage" width={24} height={24}/>
-                        <span className="mx-2.5">{pairedTotalSupply}</span>
+                        <div className="flex items-center">
+                            <Image src={project.image} alt="tokenImage" width={24} height={24}/>
+                            <span className="mx-2.5">{baseTotalSupply}</span>
+                            <Image src={liquidityMaker.paired_token_image} alt="tokenImage" width={24} height={24}/>
+                            <span className="mx-2.5">{pairedTotalSupply}</span>
+                        </div>
                       </span>
                     </div>
                     <div className="flex justify-between">
