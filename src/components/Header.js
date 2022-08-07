@@ -41,10 +41,10 @@ export default function Header({ menu, setMenu }) {
           await helpers.user.registerUser(wallet,setIsRegistered,setUnreadMessages, setIsAdmin);
       }
       initWallet();
-      const pollingMessage = setInterval(initWallet,10000);
-      return () => {
-          clearInterval(pollingMessage);
-      }
+      //const pollingMessage = setInterval(initWallet,30000);
+      // return () => {
+      //     clearInterval(pollingMessage);
+      // }
     } else if(wallet.status === "disconnected") {
         setIsRegistered(false);
         setIsAdmin(false);
