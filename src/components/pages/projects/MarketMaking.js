@@ -208,9 +208,9 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             const wei = ethers.utils.parseEther(amountPairTokenToStake);
             let success;
             if (pairedTokenIsWeth) {
-                success = await helper.web3.marketMaker.stakePairedTokenInETH(wallet, marketMakingPool.address, wei, newMaxPairedLiquidityRatio);
+                success = await helper.web3.marketMaker.stakePairedTokenInETH(wallet, marketMakingPool.address, wei);
             } else {
-                success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei, newMaxPairedLiquidityRatio);
+                success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
             }
             if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
             setAmountPairTokenBalance(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake));
@@ -241,7 +241,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         const stakeToken = async () => {
             setFresh(false);
             const wei = ethers.utils.parseEther(amountBaseTokenToStake);
-            let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei, newMaxBaseLiquidityRatio);
+            let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
             if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake));
             loadWeb3();
         }
