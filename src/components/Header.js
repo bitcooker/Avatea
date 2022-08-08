@@ -37,14 +37,14 @@ export default function Header({ menu, setMenu }) {
   useEffect(() => {
     // if (wallet.isConnected() && !isRegistered) {
     if (wallet.isConnected()) {
-      // const initWallet = async () => {
-      //     await helpers.user.registerUser(wallet,setIsRegistered,setUnreadMessages, setIsAdmin);
-      // }
-      // initWallet();
-      //const pollingMessage = setInterval(initWallet,30000);
-      // return () => {
-      //     clearInterval(pollingMessage);
-      // }
+      const initWallet = async () => {
+          await helpers.user.registerUser(wallet,setIsRegistered,setUnreadMessages, setIsAdmin);
+      }
+      initWallet();
+      const pollingMessage = setInterval(initWallet,30000);
+      return () => {
+          clearInterval(pollingMessage);
+      }
     } else if(wallet.status === "disconnected") {
         setIsRegistered(false);
         setIsAdmin(false);
