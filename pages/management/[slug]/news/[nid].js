@@ -63,7 +63,9 @@ export default function News(props) {
         })
     }
 
-  return (
+    console.log(description)
+
+    return (
       <ManagementAuthentication project={project} wallet={wallet}>
 
           <div className="flex flex-col min-h-[80vh] md-lg:min-h-[85vh] space-y-7.5">
@@ -90,7 +92,9 @@ export default function News(props) {
                   </div>
                   <div className="grow flex flex-col">
                       <h2 className={'text-xl mb-2.5'}>Description</h2>
-                      <RichEditor value={description} setValue={setDescription}/>
+                      {
+                          description ? <RichEditor value={description} setValue={setDescription}/> : ""
+                      }
                   </div>
                   <div className="flex flex-row justify-end gap-3.75">
                       <ButtonFit name="Update" icon="fa-regular fa-plus" handleClick={() => updateArticle()} />
