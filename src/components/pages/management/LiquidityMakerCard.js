@@ -11,6 +11,7 @@ import {AVATEA_TOKEN, AVATEA_TOKEN_IMAGE, PAIRED_TOKEN_DEFAULT_IMAGE} from "../.
 import Button from "../../core/Button/Button";
 import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
 import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
+import InputTime from "../../core/Input/InputTime";
 
 // page components
 import MaxButton from "../projects/Button/MaxButton";
@@ -231,10 +232,9 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                             <i className="fa-solid fa-clock"/> Update Locking Period {newLockingPeriodInDays}
                         </div>
                     </div>
-                    <InputWithIconSubmit
+                    <InputTime
                         id="cash"
                         name="cash"
-                        type="number"
                         icon="fa-light fa-wrench"
                         submitName="Update"
                         image={PAIRED_TOKEN_DEFAULT_IMAGE}
@@ -243,7 +243,6 @@ export default function LiquidityMakerCard({project, liquidityMaker}) {
                         setValue={setNewLockingPeriod}
                         hideButton={parseFloat(lockingPeriod) === parseFloat(newLockingPeriod)}
                         hideIcon={true}
-
                     />
                 </div>
             ) : (

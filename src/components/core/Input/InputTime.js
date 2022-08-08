@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import InputSubmit from "./InputSubmit";
+
 const timeOptions = [
     {
         label: "SEC",
@@ -23,6 +25,8 @@ const timeOptions = [
     },
 ]
 
+const reg = /^\d+$/;
+
 export default function InputTime(props) {
     const [open, setOpen] = React.useState(false);
     const [currentOption, setCurrentOption] = React.useState(timeOptions[0]);
@@ -34,7 +38,7 @@ export default function InputTime(props) {
                 name={props.name}
                 type={props.type}
                 value={props.value === undefined || props.value === null ? "" : props.value / currentOption.unit}
-                onChange={e => props.setValue(e.target.value * currentOption.unit)}
+                onChange={e => reg.test(e.target.value) && props.setValue(e.target.value * currentOption.unit)}
                 className={`block w-full bg-gray-100`}
                 placeholder={props.placeholder}
                 readOnly={props.readOnly}
@@ -51,7 +55,13 @@ export default function InputTime(props) {
                     </div>
                 </div>
             </div>
-
+            {
+                props.hideButton ? "" : <InputSubmit
+                    name={props.submitName}
+                    icon={props.icon}
+                    submitFunction={props.submitFunction}
+                />
+            }
         </div>
     )
 }
