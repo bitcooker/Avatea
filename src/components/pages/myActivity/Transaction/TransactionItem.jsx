@@ -49,9 +49,9 @@ const CircularProgressBar = (props) => {
         <div className="relative flex w-fit items-center">
             <svg className="w-7 h-7">
                 <circle className="text-gray-300" strokeWidth="2" stroke="currentColor" fill="transparent" r="10" cx="14" cy="14"></circle>
-                <circle className={`${props.percent === 100 ? 'text-green-500' : 'text-sky-500'}`} strokeWidth="2" strokeDasharray={10 * 2 * Math.PI} strokeDashoffset={10 * 2 * Math.PI - (props.percent / 100) * 10 * 2 * Math.PI} strokeLinecap="round" stroke="currentColor" fill="transparent" r="10" cx="14" cy="14"></circle>
+                <circle className={`${props.color}`} strokeWidth="2" strokeDasharray={10 * 2 * Math.PI} strokeDashoffset={10 * 2 * Math.PI - (props.percent / 100) * 10 * 2 * Math.PI} strokeLinecap="round" stroke="currentColor" fill="transparent" r="10" cx="14" cy="14"></circle>
 
-                <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize={10} fill="#0ea5e9">{props.percent === 100 ? '✓' : props.percent}</text>
+                <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize={10} fill={`${props.fill}`}>{props.label}</text>
             </svg>
         </div>
     )
@@ -59,11 +59,11 @@ const CircularProgressBar = (props) => {
 
 function parseValue(value, type) {
     if (["MMBR", "MMPR"].includes(type)) {
-        value = <CircularProgressBar percent={value} />
+        value = <CircularProgressBar percent={value} label={value} color="text-sky-500" fill="#0ea5e9" />
     }
     if (["MMAS", "MMAR"].includes(type)) {
         console.log(value)
-        value = value === 'true' ? <CircularProgressBar percent={100} /> : <CheckMark />
+        value = value === 'true' ? <CircularProgressBar percent={100} label="✓" color="text-green-500" fill="#22c55e" /> : <CircularProgressBar percent={100} label="-" color="text-red-500" fill="#ef4444" />
     }
     return value
 }
