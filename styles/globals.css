@@ -325,6 +325,6 @@ input[type="range"]::-webkit-slider-thumb {
     border-left-color: #334a6f !important;
 }
 
-.text-balance {
-    font-family: Noto Sans Mono, 'sans-serif';
-}
+/*.text-balance {*/
+/*    font-family: Noto Sans Mono, 'sans-serif';*/
+/*}*/
