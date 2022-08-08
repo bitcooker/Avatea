@@ -262,6 +262,7 @@ export default function VestingAdd(props) {
                                             placeholder="Enter a cliff period in seconds "
                                             value={cliff}
                                             setValue={setCliff}
+                                            hideButton={true}
                                         />
                                     </div>
                                     <div>
@@ -280,6 +281,7 @@ export default function VestingAdd(props) {
                                             placeholder="Enter the duration in seconds"
                                             value={duration}
                                             setValue={setDuration}
+                                            hideButton={true}
                                         />
                                     </div>
 
@@ -299,6 +301,7 @@ export default function VestingAdd(props) {
                                             placeholder="Enter the slice period in seconds"
                                             value={slicePeriodSeconds}
                                             setValue={setSlicePeriodSeconds}
+                                            hideButton={true}
                                         />
                                     </div>
                                     {
