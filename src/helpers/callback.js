@@ -157,6 +157,7 @@ const hook = async ({
                     network: data.wallet.chainId,
                 })
                 callback()
+                await hook({type: "MMVR", data});
                 break;
             case 'MMCD':
                 await axios.post(`${API_URL}Transaction/`, {
