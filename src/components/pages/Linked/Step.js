@@ -33,7 +33,7 @@ export default function Step(props) {
           />
         )}
         {props.step == 6 ? (
-          <Button name="Save"
+          <Button name="Finish"
                       handleClick={() => {
                           if(!props.validateStep()) {
                               props.handleClick();

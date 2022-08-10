@@ -56,11 +56,12 @@ export default function ManagementIndex(props) {
 
                     {!project.signed_contract ? (
                         <Card>
-                            <div className="card-header mb-5">
-                                <h1 className="text-2xl">
-                                    First you need to verify the contract which has bent sent to
-                                    your email.
+                            <div className="card-header mb-5 text-center">
+                                <h1 className="text-2xl mb-2.5">
+                                    Verification Pending
                                 </h1>
+                                <p className={'text-small'}>We have sent a confirmation email to your email address, please confirm and sign the form.
+                                </p>
                             </div>
                             <div className="w-full space-y-3.75">
                                 {/* Edit Button */}
