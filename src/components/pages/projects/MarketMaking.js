@@ -212,7 +212,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             } else {
                 success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
             }
-            if (success) await updateSettings((parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
+            if (success) await updateSettings(parseFloat(amountBaseTokenBalance) ,(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
             setAmountPairTokenBalance(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake));
             loadWeb3();
         }
@@ -242,7 +242,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             setFresh(false);
             const wei = ethers.utils.parseEther(amountBaseTokenToStake);
             let success = await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
-            if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake));
+            if (success) await updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake), parseFloat(amountPairTokenBalance));
             loadWeb3();
         }
         if (newMaxBaseLiquidityRatio > 0) {
@@ -270,7 +270,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         const wei = ethers.utils.parseEther(amountPairTokenToWithdraw);
         let success = await helper.web3.marketMaker.withdrawPairToken(wallet, marketMakingPool.address, wei, full_withdrawal);
         if (mode === 'buy' && success) {
-            await updateSettings((parseFloat(amountPairTokenBalance) - parseFloat(amountPairTokenToWithdraw)))
+            await updateSettings(parseFloat(amountBaseTokenBalance),(parseFloat(amountPairTokenBalance) - parseFloat(amountPairTokenToWithdraw)))
         }
         loadWeb3();
     };
@@ -280,7 +280,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         const wei = ethers.utils.parseEther(amountBaseTokenToWithdraw);
         let success = await helper.marketMaker.withdrawBaseToken(wallet, marketMakingPool.address, wei, full_withdrawal);
         if (mode === 'sell' && success) {
-            await updateSettings((parseFloat(amountBaseTokenBalance) - parseFloat(amountBaseTokenToWithdraw)));
+            await updateSettings((parseFloat(amountBaseTokenBalance) - parseFloat(amountBaseTokenToWithdraw)), parseFloat(amountPairTokenBalance));
         }
         loadWeb3();
     };
@@ -290,12 +290,13 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         else await helper.web3.marketMaker.setMaxPairedLiquidityRatio(wallet, marketMakingPool.address, newMaxPairedLiquidityRatio);
     }
 
-    const updateSettings = async (amount = 0) => {
+    const updateSettings = async (baseAmount = 0, pairedAmount = 0) => {
         try {
             setIsLoading(true);
             const marketMakingSettings = {
                 marketMakingType: mode,
-                amountSettings: amount,
+                baseAmountSettings: baseAmount,
+                pairedAmountSettings: pairedAmount,
                 pressure,
                 priceLimit,
                 marketMakingPoolId: marketMakingPool.id,
@@ -312,9 +313,9 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     };
 
 
-    const AllowSellingAndUpdateSettings = async (amount = 0) => {
+    const AllowSellingAndUpdateSettings = async () => {
         let success = await helper.marketMaker.setAllowSelling(wallet, marketMakingPool.address, true);
-        if (success) updateSettings(amount)
+        if (success) updateSettings(parseFloat(amountBaseTokenBalance), parseFloat(amountPairTokenBalance))
     };
 
 
@@ -498,11 +499,11 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 isLoading={isLoading}
                                 disabled={isLoading}
                                 handleClick={(e) => {
-                                    updateSettings(mode === 'sell' ? amountBaseTokenBalance : amountPairTokenBalance)
+                                    updateSettings(parseFloat(amountBaseTokenBalance), parseFloat(amountPairTokenBalance))
                                 }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
                         :
                         <Button name="Allow Market Making And Save Settings" handleClick={(e) => {
-                            AllowSellingAndUpdateSettings(mode === 'sell' ? amountBaseTokenBalance : amountPairTokenBalance)
+                            AllowSellingAndUpdateSettings()
                         }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
                     }
 
