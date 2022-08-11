@@ -55,15 +55,19 @@ export default function WalletConnect(props) {
                             </div>
                             <div className="flex flex-row items-center justify-between border border-gray-300 bg-gray-300/50 rounded-xl p-5 hover:border-indigo-500/50 hover:cursor-pointer"  onClick={() => wallet.connect('walletconnect')}>
                                 <p className="text-base">WalletConnect</p>
-                                <Image src="https://www.blocknative.com/hubfs/Imported%20sitepage%20images/walletconnect-circle-blue.svg" alt="metamask" width={24} height={24}/>
+                                <Image src="https://www.blocknative.com/hubfs/Imported%20sitepage%20images/walletconnect-circle-blue.svg" alt="walletconnect" width={24} height={24}/>
                             </div>
-                            <div className="flex flex-row items-center justify-between border border-gray-300 bg-gray-300/50 rounded-xl p-5 hover:border-indigo-500/50 hover:cursor-pointer">
-                                <p className="text-base">Coinbase Wallet</p>
-                                <Image src="https://www.blocknative.com/hubfs/Icons%20and%20Illustrations/coinbase%20wallet%20icon.svg" alt="metamask" width={24} height={24}/>
-                            </div>
-                            <div className="flex flex-row items-center justify-between border border-gray-300 bg-gray-300/50 rounded-xl p-5 hover:border-indigo-500/50 hover:cursor-pointer">
+                            {/*<div className="flex flex-row items-center justify-between border border-gray-300 bg-gray-300/50 rounded-xl p-5 hover:border-indigo-500/50 hover:cursor-pointer">*/}
+                            {/*    <p className="text-base">Coinbase Wallet</p>*/}
+                            {/*    <Image src="https://www.blocknative.com/hubfs/Icons%20and%20Illustrations/coinbase%20wallet%20icon.svg" alt="metamask" width={24} height={24}/>*/}
+                            {/*</div>*/}
+                            <div className="flex flex-row items-center justify-between border border-gray-300 bg-gray-300/50 rounded-xl p-5 hover:border-indigo-500/50 hover:cursor-pointer" onClick={() => wallet.connect('formatic')}>
                                 <p className="text-base">Fortmatic</p>
-                                <Image src="https://www.blocknative.com/hubfs/Icons%20and%20Illustrations/fortmatic%20wallet%20icon.svg" alt="metamask" width={24} height={24} />
+                                <Image src="https://www.blocknative.com/hubfs/Icons%20and%20Illustrations/fortmatic%20wallet%20icon.svg" alt="formatic" width={24} height={24} />
+                            </div>
+                            <div className="flex flex-row items-center justify-between border border-gray-300 bg-gray-300/50 rounded-xl p-5 hover:border-indigo-500/50 hover:cursor-pointer" onClick={() => wallet.connect('frame')}>
+                                <p className="text-base">Frame</p>
+                                <Image src="https://www.blocknative.com/hubfs/frame-1.jpeg" alt="frame" width={24} height={24} />
                             </div>
                         </div>
                         <div className="connect-footer text-sm p-5 my-5 border border-gray-200 bg-gray-300/10 rounded-xl break-words">

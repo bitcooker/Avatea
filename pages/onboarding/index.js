@@ -26,6 +26,7 @@ import NoSsr from "../../src/components/NoSsr";
 
 import { usePageTitleContext } from "../../src/context/PageTitleContext";
 import RichEditor from "../../src/components/core/RichEditor/RichEditor";
+import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
 
 export default function Linked(props) {
     const wallet = useWallet();
@@ -361,7 +362,7 @@ export default function Linked(props) {
     }, [image])
 
     React.useEffect(() => {
-        setTitle("Onboarding")
+        setTitle("Let's get started")
     }, [setTitle])
 
     const Loading = React.useMemo(() => {
@@ -375,551 +376,556 @@ export default function Linked(props) {
     }, [successOption, showSuccess])
 
     return (
-        <NoSsr>
-            {Loading}
-            {Success}
-            <div className="flex flex-row w-full min-h-[80vh] md-lg:min-h-[85vh] bg-white rounded-3xl">
-                {/* Background */}
-                <div className="hidden md-lg:block md-lg:relative md-lg:w-1/2 md-lg:grow">
-                    <div className="absolute w-full h-full">
-                        <svg
-                            width="100%"
-                            height="100%"
-                            viewBox="0 0 100% 100%"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M22.8714 0C7.5 0 0 8.5 0 23.8714V418.283H2.45327V193.416C2.45327 87.9498 87.9498 2.45327 193.416 2.45327L559.792 2.00719L559.346 0L22.8714 0Z"
-                                fill="#E6E6E6"
-                            />
-                        </svg>
+        <>
+            {
+                wallet.status === "connected" ?  <NoSsr>
+                    {Loading}
+                    {Success}
+                    <div className="flex flex-row w-full min-h-[80vh] md-lg:min-h-[85vh] bg-white rounded-3xl">
+                        {/* Background */}
+                        <div className="hidden md-lg:block md-lg:relative md-lg:w-1/2 md-lg:grow">
+                            <div className="absolute w-full h-full">
+                                <svg
+                                    width="100%"
+                                    height="100%"
+                                    viewBox="0 0 100% 100%"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M22.8714 0C7.5 0 0 8.5 0 23.8714V418.283H2.45327V193.416C2.45327 87.9498 87.9498 2.45327 193.416 2.45327L559.792 2.00719L559.346 0L22.8714 0Z"
+                                        fill="#E6E6E6"
+                                    />
+                                </svg>
+                            </div>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src="/linked/bg.svg" alt="" className="h-[85vh]"/>
+                            <div className="absolute bottom-0 flex justify-center w-full">
+                                <svg
+                                    width="90%"
+                                    height="3"
+                                    viewBox="0 0 90% 3"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M0.689453 1.57147C0.689453 2.36372 1.32567 2.99987 2.11792 2.99987H486.2C486.993 2.99987 487.629 2.36372 487.629 1.57147C487.629 0.779282 486.993 0.143066 486.2 0.143066H2.11792C1.32567 0.143066 0.689453 0.779282 0.689453 1.57147Z"
+                                        fill="#CCCCCC"
+                                    />
+                                </svg>
+                            </div>
+                        </div>
+                        {/* Step */}
+                        <div className="flex flex-col w-full md-lg:w-1/2 px-6.25 py-7.5">
+                            {/* Step header */}
+                            <h1 className="text-2xl mb-10">Create a New Project</h1>
+                            {/* Step 1 */}
+                            {step == 1 && (
+                                <Step
+                                    validateStep={validateFirstStep}
+                                    title="Create Your Project"
+                                    step={step}
+                                    setStep={setStep}
+                                >
+                                    <div className="flex flex-col space-y-6.25">
+                                        <div className="flex flex-col space-y-3.75">
+                                            <h1 className="text-xl">Project Name</h1>
+                                            <InputEmpty
+                                                id="projectName"
+                                                name="projectName"
+                                                type="text"
+                                                placeholder="Enter Your Project Name"
+                                                value={projectName}
+                                                setValue={setProjectName}
+                                                classNames={
+                                                    validationClass.projectName
+                                                        ? "border-2 border-red-600"
+                                                        : ""
+                                                }
+                                            />
+                                            {validationClass.projectName ? (
+                                                <small className={"text-red-600"}>
+                                                    Project Name is required.
+                                                </small>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
+                                        <div className="flex flex-col space-y-3.75">
+                                            <h1 className="text-xl">Token Ticker</h1>
+                                            <InputEmpty
+                                                id="tokenTicker"
+                                                name="tokenTicker"
+                                                placeholder="Token Ticker"
+                                                value={tokenTicker}
+                                                setValue={setTokenTicker}
+                                                classNames={
+                                                    validationClass.tokenTicker
+                                                        ? "border-2 border-red-600"
+                                                        : ""
+                                                }
+                                            />
+                                            {validationClass.tokenTicker ? (
+                                                <small className={"text-red-600"}>
+                                                    Token Ticker is required.
+                                                </small>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
+                                        <div className="flex flex-col space-y-3.75">
+                                            <h1 className="text-xl">Token Address</h1>
+                                            <InputEmpty
+                                                id="tokenAddress"
+                                                name="tokenAddress"
+                                                placeholder="Token Address"
+                                                value={tokenAddress}
+                                                classNames={
+                                                    validationClass.tokenAddress
+                                                        ? "border-2 border-red-600"
+                                                        : ""
+                                                }
+                                                setValue={setTokenAddress}
+                                            />
+                                            {validationClass.tokenAddress ? (
+                                                <small className={"text-red-600"}>
+                                                    Enter a valid token address.
+                                                </small>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
+                                    </div>
+                                </Step>
+                            )}
+                            {/* Step 2 */}
+                            {step == 2 && (
+                                <Step
+                                    validateStep={validateSecondStep}
+                                    title="Create Your Project"
+                                    step={step}
+                                    setStep={setStep}
+                                >
+                                    <div className="flex flex-col space-y-6.25">
+                                        <div className="grid md-lg:grid-cols-2 gap-5">
+                                            <FileInput id="tokenImage" label="Token Image" image={imageUrl} setValue={setImage} type={"image/*"}/>
+                                            <FileInput id="bannerImage" label="Banner Image" image={bannerUrl} setValue={setBanner} type={"image/*"}/>
+                                            {/*{*/}
+                                            {/*    banner ?  <ReactCrop crop={crop} onChange={c => setCrop(c)}>*/}
+                                            {/*        <img src={URL.createObjectURL(banner)} />*/}
+                                            {/*    </ReactCrop> : ""*/}
+                                            {/*}*/}
+
+                                            {/*<div>*/}
+                                            {/*    <ReactCrop crop={crop} onChange={c => setCrop(c)}>*/}
+                                            {/*        <img src={image.mozFullPath} />*/}
+                                            {/*    </ReactCrop>*/}
+                                            {/*</div>*/}
+
+
+                                        </div>
+                                    </div>
+                                </Step>
+                            )}
+                            {/* Step 3 */}
+                            {step == 3 && (
+                                <Step
+                                    title="Add Your Project Information"
+                                    step={step}
+                                    setStep={setStep}
+                                    validateStep={validateThirdStep}
+                                >
+                                    <div className="flex flex-col space-y-6.25">
+                                        <div className="flex flex-col space-y-3.75">
+                                            <h1 className="text-xl">Website</h1>
+                                            <InputEmpty
+                                                id="website"
+                                                name="website"
+                                                placeholder="Enter Your Website"
+                                                value={website}
+                                                classNames={
+                                                    validationClass.website ? "border-2 border-red-600" : ""
+                                                }
+                                                setValue={setWebsite}
+                                            />
+                                        </div>
+                                        {validationClass.website ? (
+                                            <small className={"text-red-600"}>
+                                                Enter a valid URL starting with https://.
+                                            </small>
+                                        ) : (
+                                            ""
+                                        )}
+                                        <div className="grid md-lg:grid-cols-2 gap-5">
+                                            <div className="flex flex-col space-y-3.75">
+                                                <h1 className="text-xl">Whitepaper</h1>
+                                                <InputEmpty
+                                                    id="Whitepager"
+                                                    name="Whitepager"
+                                                    placeholder="Whitepager"
+                                                    value={whitepaper}
+                                                    classNames={
+                                                        validationClass.whitepaper
+                                                            ? "border-2 border-red-600"
+                                                            : ""
+                                                    }
+                                                    setValue={setWhitepaper}
+                                                />
+                                            </div>
+                                            {validationClass.whitepaper ? (
+                                                <small className={"text-red-600"}>
+                                                    Enter a valid URL starting with https://.
+                                                </small>
+                                            ) : (
+                                                ""
+                                            )}
+                                            <div className="flex flex-col space-y-3.75">
+                                                <h1 className="text-xl">Audit</h1>
+                                                <InputEmpty
+                                                    id="Audit"
+                                                    name="Audit"
+                                                    placeholder="Audit"
+                                                    value={audit}
+                                                    classNames={
+                                                        validationClass.audit ? "border-2 border-red-600" : ""
+                                                    }
+                                                    setValue={setAudit}
+                                                />
+                                            </div>
+                                        </div>
+                                        {validationClass.audit ? (
+                                            <small className={"text-red-600"}>
+                                                Enter a valid URL starting with https://.
+                                            </small>
+                                        ) : (
+                                            ""
+                                        )}
+                                        <div className="flex flex-col space-y-3.75">
+                                            <h1 className="text-xl">Description</h1>
+                                            <RichEditor
+                                                id="description"
+                                                name="description"
+                                                placeholder="Type here"
+                                                value={description}
+                                                setValue={setDescription}
+                                                classNames={
+                                                    validationClass.description
+                                                        ? "border-2 border-red-600"
+                                                        : ""
+                                                }
+                                            />
+                                            {validationClass.description ? (
+                                                <small className={"text-red-600"}>
+                                                    Description is required.
+                                                </small>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
+                                    </div>
+                                </Step>
+                            )}
+                            {step == 4 && (
+                                <Step
+                                    title="Add Your Social Information"
+                                    step={step}
+                                    setStep={setStep}
+                                    validateStep={() => false}
+                                >
+                                    <div className="flex flex-col space-y-6.25">
+                                        <div className="flex flex-col space-y-3.75">
+                                            <h1 className="text-xl">Add Social Information</h1>
+                                            <Select
+                                                id="socialName"
+                                                name="socialName"
+                                                placeholder="Social Name"
+                                                options={SOCIALDATA}
+                                                setValue={setSocialIndex}
+                                            />
+                                            <InputEmpty
+                                                id="URL"
+                                                name="URL"
+                                                placeholder="URL"
+                                                value={url}
+                                                setValue={setUrl}
+                                            />
+                                            <Button name="Add" handleClick={addSocial}/>
+                                        </div>
+                                        <div className="flex flex-row gap-3.75">
+                                            {socials.map((social) => (
+                                                <SocialItem
+                                                    icon={social.icon}
+                                                    bgColor={social.color}
+                                                    key={social.name}
+                                                    name={social.name}
+                                                    deleteValue={removeSocial}
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </Step>
+                            )}
+                            {step == 5 && (
+                                <Step
+                                    title="Add Contact Information"
+                                    step={step}
+                                    setStep={setStep}
+                                    validateStep={validateFifthStep}
+                                >
+                                    <div className="flex flex-col space-y-6.25">
+                                        <div className="grid md-lg:grid-cols-2 gap-5">
+                                            <div className="flex flex-col space-y-3.75">
+                                                <h1 className="text-xl">First Name</h1>
+                                                <InputEmpty
+                                                    id="firstName"
+                                                    name="firstName"
+                                                    placeholder="First Name"
+                                                    value={firstName}
+                                                    setValue={setFirstName}
+                                                    classNames={
+                                                        validationClass.firstName
+                                                            ? "border-2 border-red-600"
+                                                            : ""
+                                                    }
+                                                />
+                                                {validationClass.firstName ? (
+                                                    <small className={"text-red-600"}>
+                                                        First Name is required.
+                                                    </small>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
+                                            <div className="flex flex-col space-y-3.75">
+                                                <h1 className="text-xl">Last Name</h1>
+                                                <InputEmpty
+                                                    id="lastName"
+                                                    name="lastName"
+                                                    placeholder="Last Name"
+                                                    value={lastName}
+                                                    setValue={setLastName}
+                                                    classNames={
+                                                        validationClass.lastName
+                                                            ? "border-2 border-red-600"
+                                                            : ""
+                                                    }
+                                                />
+                                                {validationClass.lastName ? (
+                                                    <small className={"text-red-600"}>
+                                                        Last Name is required.
+                                                    </small>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col space-y-3.75">
+                                            <h1 className="text-xl">Email</h1>
+                                            <InputEmpty
+                                                id="email"
+                                                name="email"
+                                                placeholder="Email"
+                                                value={email}
+                                                setValue={setEmail}
+                                                classNames={
+                                                    validationClass.email ? "border-2 border-red-600" : ""
+                                                }
+                                            />
+                                            {validationClass.email ? (
+                                                <small className={"text-red-600"}>
+                                                    Valid e-mail is required.
+                                                </small>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
+
+                                        <div className="flex flex-col space-y-3.75">
+                                            <h1 className="text-xl">Phone Number</h1>
+                                            <InputEmpty
+                                                id="website"
+                                                name="website"
+                                                placeholder="Phone Number"
+                                                value={phoneNumber}
+                                                setValue={setPhoneNumber}
+                                                classNames={
+                                                    validationClass.phoneNumber
+                                                        ? "border-2 border-red-600"
+                                                        : ""
+                                                }
+                                            />
+                                            {validationClass.phoneNumber ? (
+                                                <small className={"text-red-600"}>
+                                                    Valid phone number is required.
+                                                </small>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
+
+                                        <div className="flex flex-col space-y-3.75">
+                                            <h1 className="text-xl">Telegram</h1>
+                                            <InputEmpty
+                                                id="telegram"
+                                                name="telegram"
+                                                placeholder="Telegram"
+                                                value={telegram}
+                                                setValue={setTelegram}
+                                            />
+                                        </div>
+                                    </div>
+                                </Step>
+                            )}
+                            {step == 6 && (
+                                <Step
+                                    title="Add Company Information"
+                                    step={step}
+                                    setStep={setStep}
+                                    handleClick={postProject}
+                                    validateStep={validateSixthStep}
+                                >
+                                    <div className="flex flex-col space-y-6.25">
+                                        <div className="flex flex-col space-y-3.75">
+                                            <h1 className="text-xl">Company Name</h1>
+                                            <InputEmpty
+                                                id="companyName"
+                                                name="companyName"
+                                                placeholder="Company Name"
+                                                value={companyName}
+                                                setValue={setCompanyName}
+                                                classNames={
+                                                    validationClass.companyName
+                                                        ? "border-2 border-red-600"
+                                                        : ""
+                                                }
+                                            />
+                                            {validationClass.companyName ? (
+                                                <small className={"text-red-600"}>
+                                                    Company Name is required.
+                                                </small>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
+                                        <div className="flex flex-col space-y-3.75">
+                                            <h1 className="text-xl">Street Address</h1>
+                                            <InputEmpty
+                                                id="streetAddress"
+                                                name="streetAddress"
+                                                placeholder="Street Address"
+                                                value={streetAddress}
+                                                setValue={setStreetAddress}
+                                                classNames={
+                                                    validationClass.streetAddress
+                                                        ? "border-2 border-red-600"
+                                                        : ""
+                                                }
+                                            />
+                                            {validationClass.streetAddress ? (
+                                                <small className={"text-red-600"}>
+                                                    Street Address is required.
+                                                </small>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </div>
+
+                                        <div className="grid md-lg:grid-cols-2 gap-5">
+                                            <div className="flex flex-col space-y-3.75">
+                                                <h1 className="text-xl">City</h1>
+                                                <InputEmpty
+                                                    id="city"
+                                                    name="city"
+                                                    placeholder="City"
+                                                    value={city}
+                                                    setValue={setCity}
+                                                    classNames={
+                                                        validationClass.city ? "border-2 border-red-600" : ""
+                                                    }
+                                                />
+                                                {validationClass.city ? (
+                                                    <small className={"text-red-600"}>
+                                                        City is required.
+                                                    </small>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
+                                            <div className="flex flex-col space-y-3.75">
+                                                <h1 className="text-xl">State</h1>
+                                                <InputEmpty
+                                                    id="State"
+                                                    name="State"
+                                                    placeholder="State"
+                                                    value={companyState}
+                                                    setValue={setCompanyState}
+                                                    classNames={
+                                                        validationClass.companyState
+                                                            ? "border-2 border-red-600"
+                                                            : ""
+                                                    }
+                                                />
+                                                {validationClass.companyState ? (
+                                                    <small className={"text-red-600"}>
+                                                        State is required.
+                                                    </small>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="grid md-lg:grid-cols-2 gap-5">
+                                            <div className="flex flex-col space-y-3.75">
+                                                <h1 className="text-xl">Postal Code</h1>
+                                                <InputEmpty
+                                                    id="postalCode"
+                                                    name="postalCode"
+                                                    placeholder="Postal Code"
+                                                    value={postalCode}
+                                                    setValue={setPostalCode}
+                                                    classNames={
+                                                        validationClass.postalCode
+                                                            ? "border-2 border-red-600"
+                                                            : ""
+                                                    }
+                                                />
+                                                {validationClass.postalCode ? (
+                                                    <small className={"text-red-600"}>
+                                                        Postal Code is required.
+                                                    </small>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
+                                            <div className="flex flex-col space-y-3.75">
+                                                <h1 className="text-xl">Country</h1>
+                                                <ReactFlagsSelect
+                                                    selected={country}
+                                                    onSelect={(code) => setCountry(code)}
+                                                    placeholder="Select Country"
+                                                    searchable
+                                                    selectButtonClassName={
+                                                        validationClass.country ? "border-2 border-red-600" : ""
+                                                    }
+                                                />
+                                                {validationClass.country ? (
+                                                    <small className={"text-red-600"}>
+                                                        Country is required.
+                                                    </small>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Step>
+                            )}
+                        </div>
                     </div>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/linked/bg.svg" alt="" className="h-[85vh]"/>
-                    <div className="absolute bottom-0 flex justify-center w-full">
-                        <svg
-                            width="90%"
-                            height="3"
-                            viewBox="0 0 90% 3"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M0.689453 1.57147C0.689453 2.36372 1.32567 2.99987 2.11792 2.99987H486.2C486.993 2.99987 487.629 2.36372 487.629 1.57147C487.629 0.779282 486.993 0.143066 486.2 0.143066H2.11792C1.32567 0.143066 0.689453 0.779282 0.689453 1.57147Z"
-                                fill="#CCCCCC"
-                            />
-                        </svg>
-                    </div>
-                </div>
-                {/* Step */}
-                <div className="flex flex-col w-full md-lg:w-1/2 px-6.25 py-7.5">
-                    {/* Step header */}
-                    <h1 className="text-2xl mb-10">Create a New Project</h1>
-                    {/* Step 1 */}
-                    {step == 1 && (
-                        <Step
-                            validateStep={validateFirstStep}
-                            title="Create Your Project"
-                            step={step}
-                            setStep={setStep}
-                        >
-                            <div className="flex flex-col space-y-6.25">
-                                <div className="flex flex-col space-y-3.75">
-                                    <h1 className="text-xl">Project Name</h1>
-                                    <InputEmpty
-                                        id="projectName"
-                                        name="projectName"
-                                        type="text"
-                                        placeholder="Enter Your Project Name"
-                                        value={projectName}
-                                        setValue={setProjectName}
-                                        classNames={
-                                            validationClass.projectName
-                                                ? "border-2 border-red-600"
-                                                : ""
-                                        }
-                                    />
-                                    {validationClass.projectName ? (
-                                        <small className={"text-red-600"}>
-                                            Project Name is required.
-                                        </small>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-                                <div className="flex flex-col space-y-3.75">
-                                    <h1 className="text-xl">Token Ticker</h1>
-                                    <InputEmpty
-                                        id="tokenTicker"
-                                        name="tokenTicker"
-                                        placeholder="Token Ticker"
-                                        value={tokenTicker}
-                                        setValue={setTokenTicker}
-                                        classNames={
-                                            validationClass.tokenTicker
-                                                ? "border-2 border-red-600"
-                                                : ""
-                                        }
-                                    />
-                                    {validationClass.tokenTicker ? (
-                                        <small className={"text-red-600"}>
-                                            Token Ticker is required.
-                                        </small>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-                                <div className="flex flex-col space-y-3.75">
-                                    <h1 className="text-xl">Token Address</h1>
-                                    <InputEmpty
-                                        id="tokenAddress"
-                                        name="tokenAddress"
-                                        placeholder="Token Address"
-                                        value={tokenAddress}
-                                        classNames={
-                                            validationClass.tokenAddress
-                                                ? "border-2 border-red-600"
-                                                : ""
-                                        }
-                                        setValue={setTokenAddress}
-                                    />
-                                    {validationClass.tokenAddress ? (
-                                        <small className={"text-red-600"}>
-                                            Enter a valid token address.
-                                        </small>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-                            </div>
-                        </Step>
-                    )}
-                    {/* Step 2 */}
-                    {step == 2 && (
-                        <Step
-                            validateStep={validateSecondStep}
-                            title="Create Your Project"
-                            step={step}
-                            setStep={setStep}
-                        >
-                            <div className="flex flex-col space-y-6.25">
-                                <div className="grid md-lg:grid-cols-2 gap-5">
-                                    <FileInput id="tokenImage" label="Token Image" image={imageUrl} setValue={setImage} type={"image/*"}/>
-                                    <FileInput id="bannerImage" label="Banner Image" image={bannerUrl} setValue={setBanner} type={"image/*"}/>
-                                    {/*{*/}
-                                    {/*    banner ?  <ReactCrop crop={crop} onChange={c => setCrop(c)}>*/}
-                                    {/*        <img src={URL.createObjectURL(banner)} />*/}
-                                    {/*    </ReactCrop> : ""*/}
-                                    {/*}*/}
+                </NoSsr> : <ConnectYourWallet/>
+            }
+        </>
 
-                                    {/*<div>*/}
-                                    {/*    <ReactCrop crop={crop} onChange={c => setCrop(c)}>*/}
-                                    {/*        <img src={image.mozFullPath} />*/}
-                                    {/*    </ReactCrop>*/}
-                                    {/*</div>*/}
-
-
-                                </div>
-                            </div>
-                        </Step>
-                    )}
-                    {/* Step 3 */}
-                    {step == 3 && (
-                        <Step
-                            title="Add Your Project Information"
-                            step={step}
-                            setStep={setStep}
-                            validateStep={validateThirdStep}
-                        >
-                            <div className="flex flex-col space-y-6.25">
-                                <div className="flex flex-col space-y-3.75">
-                                    <h1 className="text-xl">Website</h1>
-                                    <InputEmpty
-                                        id="website"
-                                        name="website"
-                                        placeholder="Enter Your Website"
-                                        value={website}
-                                        classNames={
-                                            validationClass.website ? "border-2 border-red-600" : ""
-                                        }
-                                        setValue={setWebsite}
-                                    />
-                                </div>
-                                {validationClass.website ? (
-                                    <small className={"text-red-600"}>
-                                        Enter a valid URL starting with https://.
-                                    </small>
-                                ) : (
-                                    ""
-                                )}
-                                <div className="grid md-lg:grid-cols-2 gap-5">
-                                    <div className="flex flex-col space-y-3.75">
-                                        <h1 className="text-xl">Whitepaper</h1>
-                                        <InputEmpty
-                                            id="Whitepager"
-                                            name="Whitepager"
-                                            placeholder="Whitepager"
-                                            value={whitepaper}
-                                            classNames={
-                                                validationClass.whitepaper
-                                                    ? "border-2 border-red-600"
-                                                    : ""
-                                            }
-                                            setValue={setWhitepaper}
-                                        />
-                                    </div>
-                                    {validationClass.whitepaper ? (
-                                        <small className={"text-red-600"}>
-                                            Enter a valid URL starting with https://.
-                                        </small>
-                                    ) : (
-                                        ""
-                                    )}
-                                    <div className="flex flex-col space-y-3.75">
-                                        <h1 className="text-xl">Audit</h1>
-                                        <InputEmpty
-                                            id="Audit"
-                                            name="Audit"
-                                            placeholder="Audit"
-                                            value={audit}
-                                            classNames={
-                                                validationClass.audit ? "border-2 border-red-600" : ""
-                                            }
-                                            setValue={setAudit}
-                                        />
-                                    </div>
-                                </div>
-                                {validationClass.audit ? (
-                                    <small className={"text-red-600"}>
-                                        Enter a valid URL starting with https://.
-                                    </small>
-                                ) : (
-                                    ""
-                                )}
-                                <div className="flex flex-col space-y-3.75">
-                                    <h1 className="text-xl">Description</h1>
-                                    <RichEditor
-                                        id="description"
-                                        name="description"
-                                        placeholder="Type here"
-                                        value={description}
-                                        setValue={setDescription}
-                                        classNames={
-                                            validationClass.description
-                                                ? "border-2 border-red-600"
-                                                : ""
-                                        }
-                                    />
-                                    {validationClass.description ? (
-                                        <small className={"text-red-600"}>
-                                            Description is required.
-                                        </small>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-                            </div>
-                        </Step>
-                    )}
-                    {step == 4 && (
-                        <Step
-                            title="Add Your Social Information"
-                            step={step}
-                            setStep={setStep}
-                            validateStep={() => false}
-                        >
-                            <div className="flex flex-col space-y-6.25">
-                                <div className="flex flex-col space-y-3.75">
-                                    <h1 className="text-xl">Add Social Information</h1>
-                                    <Select
-                                        id="socialName"
-                                        name="socialName"
-                                        placeholder="Social Name"
-                                        options={SOCIALDATA}
-                                        setValue={setSocialIndex}
-                                    />
-                                    <InputEmpty
-                                        id="URL"
-                                        name="URL"
-                                        placeholder="URL"
-                                        value={url}
-                                        setValue={setUrl}
-                                    />
-                                    <Button name="Add" handleClick={addSocial}/>
-                                </div>
-                                <div className="flex flex-row gap-3.75">
-                                    {socials.map((social) => (
-                                        <SocialItem
-                                            icon={social.icon}
-                                            bgColor={social.color}
-                                            key={social.name}
-                                            name={social.name}
-                                            deleteValue={removeSocial}
-                                        />
-                                    ))}
-                                </div>
-                            </div>
-                        </Step>
-                    )}
-                    {step == 5 && (
-                        <Step
-                            title="Add Contact Information"
-                            step={step}
-                            setStep={setStep}
-                            validateStep={validateFifthStep}
-                        >
-                            <div className="flex flex-col space-y-6.25">
-                                <div className="grid md-lg:grid-cols-2 gap-5">
-                                    <div className="flex flex-col space-y-3.75">
-                                        <h1 className="text-xl">First Name</h1>
-                                        <InputEmpty
-                                            id="firstName"
-                                            name="firstName"
-                                            placeholder="First Name"
-                                            value={firstName}
-                                            setValue={setFirstName}
-                                            classNames={
-                                                validationClass.firstName
-                                                    ? "border-2 border-red-600"
-                                                    : ""
-                                            }
-                                        />
-                                        {validationClass.firstName ? (
-                                            <small className={"text-red-600"}>
-                                                First Name is required.
-                                            </small>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </div>
-                                    <div className="flex flex-col space-y-3.75">
-                                        <h1 className="text-xl">Last Name</h1>
-                                        <InputEmpty
-                                            id="lastName"
-                                            name="lastName"
-                                            placeholder="Last Name"
-                                            value={lastName}
-                                            setValue={setLastName}
-                                            classNames={
-                                                validationClass.lastName
-                                                    ? "border-2 border-red-600"
-                                                    : ""
-                                            }
-                                        />
-                                        {validationClass.lastName ? (
-                                            <small className={"text-red-600"}>
-                                                Last Name is required.
-                                            </small>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </div>
-                                </div>
-                                <div className="flex flex-col space-y-3.75">
-                                    <h1 className="text-xl">Email</h1>
-                                    <InputEmpty
-                                        id="email"
-                                        name="email"
-                                        placeholder="Email"
-                                        value={email}
-                                        setValue={setEmail}
-                                        classNames={
-                                            validationClass.email ? "border-2 border-red-600" : ""
-                                        }
-                                    />
-                                    {validationClass.email ? (
-                                        <small className={"text-red-600"}>
-                                            Valid e-mail is required.
-                                        </small>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-
-                                <div className="flex flex-col space-y-3.75">
-                                    <h1 className="text-xl">Phone Number</h1>
-                                    <InputEmpty
-                                        id="website"
-                                        name="website"
-                                        placeholder="Phone Number"
-                                        value={phoneNumber}
-                                        setValue={setPhoneNumber}
-                                        classNames={
-                                            validationClass.phoneNumber
-                                                ? "border-2 border-red-600"
-                                                : ""
-                                        }
-                                    />
-                                    {validationClass.phoneNumber ? (
-                                        <small className={"text-red-600"}>
-                                            Valid phone number is required.
-                                        </small>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-
-                                <div className="flex flex-col space-y-3.75">
-                                    <h1 className="text-xl">Telegram</h1>
-                                    <InputEmpty
-                                        id="telegram"
-                                        name="telegram"
-                                        placeholder="Telegram"
-                                        value={telegram}
-                                        setValue={setTelegram}
-                                    />
-                                </div>
-                            </div>
-                        </Step>
-                    )}
-                    {step == 6 && (
-                        <Step
-                            title="Add Company Information"
-                            step={step}
-                            setStep={setStep}
-                            handleClick={postProject}
-                            validateStep={validateSixthStep}
-                        >
-                            <div className="flex flex-col space-y-6.25">
-                                <div className="flex flex-col space-y-3.75">
-                                    <h1 className="text-xl">Company Name</h1>
-                                    <InputEmpty
-                                        id="companyName"
-                                        name="companyName"
-                                        placeholder="Company Name"
-                                        value={companyName}
-                                        setValue={setCompanyName}
-                                        classNames={
-                                            validationClass.companyName
-                                                ? "border-2 border-red-600"
-                                                : ""
-                                        }
-                                    />
-                                    {validationClass.companyName ? (
-                                        <small className={"text-red-600"}>
-                                            Company Name is required.
-                                        </small>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-                                <div className="flex flex-col space-y-3.75">
-                                    <h1 className="text-xl">Street Address</h1>
-                                    <InputEmpty
-                                        id="streetAddress"
-                                        name="streetAddress"
-                                        placeholder="Street Address"
-                                        value={streetAddress}
-                                        setValue={setStreetAddress}
-                                        classNames={
-                                            validationClass.streetAddress
-                                                ? "border-2 border-red-600"
-                                                : ""
-                                        }
-                                    />
-                                    {validationClass.streetAddress ? (
-                                        <small className={"text-red-600"}>
-                                            Street Address is required.
-                                        </small>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-
-                                <div className="grid md-lg:grid-cols-2 gap-5">
-                                    <div className="flex flex-col space-y-3.75">
-                                        <h1 className="text-xl">City</h1>
-                                        <InputEmpty
-                                            id="city"
-                                            name="city"
-                                            placeholder="City"
-                                            value={city}
-                                            setValue={setCity}
-                                            classNames={
-                                                validationClass.city ? "border-2 border-red-600" : ""
-                                            }
-                                        />
-                                        {validationClass.city ? (
-                                            <small className={"text-red-600"}>
-                                                City is required.
-                                            </small>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </div>
-                                    <div className="flex flex-col space-y-3.75">
-                                        <h1 className="text-xl">State</h1>
-                                        <InputEmpty
-                                            id="State"
-                                            name="State"
-                                            placeholder="State"
-                                            value={companyState}
-                                            setValue={setCompanyState}
-                                            classNames={
-                                                validationClass.companyState
-                                                    ? "border-2 border-red-600"
-                                                    : ""
-                                            }
-                                        />
-                                        {validationClass.companyState ? (
-                                            <small className={"text-red-600"}>
-                                                State is required.
-                                            </small>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </div>
-                                </div>
-
-                                <div className="grid md-lg:grid-cols-2 gap-5">
-                                    <div className="flex flex-col space-y-3.75">
-                                        <h1 className="text-xl">Postal Code</h1>
-                                        <InputEmpty
-                                            id="postalCode"
-                                            name="postalCode"
-                                            placeholder="Postal Code"
-                                            value={postalCode}
-                                            setValue={setPostalCode}
-                                            classNames={
-                                                validationClass.postalCode
-                                                    ? "border-2 border-red-600"
-                                                    : ""
-                                            }
-                                        />
-                                        {validationClass.postalCode ? (
-                                            <small className={"text-red-600"}>
-                                                Postal Code is required.
-                                            </small>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </div>
-                                    <div className="flex flex-col space-y-3.75">
-                                        <h1 className="text-xl">Country</h1>
-                                        <ReactFlagsSelect
-                                            selected={country}
-                                            onSelect={(code) => setCountry(code)}
-                                            placeholder="Select Country"
-                                            searchable
-                                            selectButtonClassName={
-                                                validationClass.country ? "border-2 border-red-600" : ""
-                                            }
-                                        />
-                                        {validationClass.country ? (
-                                            <small className={"text-red-600"}>
-                                                Country is required.
-                                            </small>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </Step>
-                    )}
-                </div>
-            </div>
-        </NoSsr>
     );
 }

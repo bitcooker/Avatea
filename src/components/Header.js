@@ -123,7 +123,7 @@ export default function Header({ menu, setMenu }) {
               >
                   {
                       !modalOpen ? <>
-                          <span className="hidden md-lg:inline-block text-base">Connect with wallet</span>
+                          <span className="hidden md-lg:inline-block text-base">Connect Wallet</span>
                           <span className="inline-block md-lg:hidden"> Connect </span>
                       </> : <span>Connecting</span>
                   }
