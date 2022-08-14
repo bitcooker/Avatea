@@ -73,7 +73,16 @@ const updateMarketMakingPool = async ({settings, wallet}) => {
 //@Todo check api to allow API method and how to fix authentication
 const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh}) => {
     try {
-        const {marketMakingType, amountSettings, pressure, priceLimit, marketMakingPoolId, id} = marketMakingSettings;
+        const {
+            marketMakingType,
+            baseAmountSettings,
+            pairedAmountSettings,
+            pressure,
+            priceLimit,
+            marketMakingPoolId,
+            id
+        } = marketMakingSettings;
+
         const signature = await helpers.web3.authentication.getSignature(wallet);
         if (fresh) {
             //Consider it as a new post
@@ -83,7 +92,8 @@ const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh})
                     url: `${API_URL}UserSettings/`,
                     data: {
                         market_making_type: marketMakingType,
-                        amount: amountSettings,
+                        base_amount: baseAmountSettings,
+                        paired_amount: pairedAmountSettings,
                         buy_sell_pressure: pressure,
                         price_limit: priceLimit,
                         market_making_pool: marketMakingPoolId,
@@ -96,15 +106,14 @@ const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh})
         } else {
             await axios(
                 {
-                    method: 'put',
+                    method: 'patch',
                     url: `${API_URL}UserSettings/${id}/`,
                     data: {
                         market_making_type: marketMakingType,
-                        amount: amountSettings,
+                        base_amount: baseAmountSettings,
+                        paired_amount: pairedAmountSettings,
                         buy_sell_pressure: pressure,
                         price_limit: priceLimit,
-                        market_making_pool: marketMakingPoolId,
-                        user_address: wallet.account,
                         signature
                     }
                 }
