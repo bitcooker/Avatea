@@ -23,7 +23,7 @@ import Button from "../../src/components/core/Button/Button";
 import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
 import * as React from "react";
 
-const tabItems = ["Info","Market Making", "Liquidity", "Vault", "Vesting"];
+const tabItems = ["Info","Sustainable Trading", "Liquidity", "Vault", "Vesting"];
 
 export default function ProjectDetail(props) {
     //@Todo add min buy limit and max buy limit fields (stop-loss)
