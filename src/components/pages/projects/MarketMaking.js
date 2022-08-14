@@ -482,7 +482,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                             setValue={setPriceLimit}
                         />
                     </div>
-                    {allowSelling && mode === "sell" ?
+                    {allowSelling || mode === "buy" ?
                         <Button name="Save Settings"
                                 isLoading={isLoading}
                                 disabled={isLoading}
