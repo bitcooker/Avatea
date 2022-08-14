@@ -106,8 +106,6 @@ const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh})
                     url: `${API_URL}UserSettings/${id}/`,
                     data: {
                         market_making_type: marketMakingType,
-                        base_amount: baseAmountSettings,
-                        paired_amount: pairedAmountSettings,
                         buy_sell_pressure: pressure,
                         price_limit: priceLimit,
                         signature
