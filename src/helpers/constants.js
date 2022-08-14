@@ -37,7 +37,7 @@ export const SOCIALDATA = [
         name: "Telegram",
         value: "social_telegram",
         icon: "telegram",
-        color: "bg-sky-400",
+        color: "bg-indigo-400",
     },
     {
         name: "Discord",
@@ -55,6 +55,6 @@ export const SOCIALDATA = [
         name: "Twitter",
         value: "social_twitter",
         icon: "twitter",
-        color: "bg-sky-400",
+        color: "bg-indigo-400",
     },
 ];
