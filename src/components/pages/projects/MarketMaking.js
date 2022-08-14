@@ -55,74 +55,75 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const [pairedTokenIsWeth, setPairedTokenIsWeth] = useState(false);
     const [load, setLoad] = useState(false);
 
-    const loadWeb3 = async () => {
-
-        if (marketMakingPool.paired_token === WETH_ADDRESS[wallet.chainId]) {
-            setPairedTokenIsWeth(true)
-            setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.wethBalanceOf(wallet, wallet.account)));
-        } else {
-            setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token, wallet.account)));
-        }
-
-        setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token, wallet.account)));
-        const {
-            balanceInBaseToken,
-            baseAmountBought,
-            pairedAmountBought,
-            baseAmountSold,
-            pairedAmountSold,
-            maxBaseLiquidityRatio,
-            maxPairedLiquidityRatio,
-            baseTokenStakedInLiquidity,
-            pairedTokenStakedInLiquidity,
-            allowSelling
-        } = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address, wallet.account);
-        setActivity({
-            baseAmountBought: helper.formatting.web3Format(baseAmountBought),
-            pairedAmountBought: helper.formatting.web3Format(pairedAmountBought),
-            baseAmountSold: helper.formatting.web3Format(baseAmountSold),
-            pairedAmountSold: helper.formatting.web3Format(pairedAmountSold),
-            baseTokenStakedInLiquidity: helper.formatting.web3Format(baseTokenStakedInLiquidity),
-            pairedTokenStakedInLiquidity: helper.formatting.web3Format(pairedTokenStakedInLiquidity),
-        })
-        setAllowSelling(allowSelling);
-        setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
-        setMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
-        //@TODO Configure right amount
-        setNewMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
-        setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
-        if (mode === 'sell' && maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
-        if (mode === 'buy' && maxPairedLiquidityRatio > 0) setPairedLiquiditySetting(true);
-        setAmountBaseTokenBalance(helper.formatting.web3Format(balanceInBaseToken));
-        setAmountPairTokenBalance(helper.formatting.web3Format(await helper.web3.marketMaker.getWithdrawablePairedTokens(
-            wallet,
-            marketMakingPool.address,
-            wallet.account
-        )));
-        setBaseTokenValueLocked(
-            helper.formatting.web3Format(
-                await helper.token.balanceOf(
-                    wallet,
-                    project.token,
-                    marketMakingPool.address
-                ) || '0'
-            )
-        );
-        setPairedTokenValueLocked(
-            helper.formatting.web3Format(
-                await helper.token.balanceOf(
-                    wallet,
-                    marketMakingPool.paired_token,
-                    marketMakingPool.address
-                ) || '0'
-            )
-        );
-        setLoad(true);
-    };
 
     useEffect(() => {
+
         if (wallet.isConnected() && marketMakingPool.address) {
-            loadWeb3();
+            const initWalletConnected = async () => {
+
+                if (marketMakingPool.paired_token === WETH_ADDRESS[wallet.chainId]) {
+                    setPairedTokenIsWeth(true)
+                    setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.wethBalanceOf(wallet, wallet.account)));
+                } else {
+                    setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token, wallet.account)));
+                }
+
+                setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token, wallet.account)));
+                const {
+                    balanceInBaseToken,
+                    baseAmountBought,
+                    pairedAmountBought,
+                    baseAmountSold,
+                    pairedAmountSold,
+                    maxBaseLiquidityRatio,
+                    maxPairedLiquidityRatio,
+                    baseTokenStakedInLiquidity,
+                    pairedTokenStakedInLiquidity,
+                    allowSelling
+                } = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address, wallet.account);
+                setActivity({
+                    baseAmountBought: helper.formatting.web3Format(baseAmountBought),
+                    pairedAmountBought: helper.formatting.web3Format(pairedAmountBought),
+                    baseAmountSold: helper.formatting.web3Format(baseAmountSold),
+                    pairedAmountSold: helper.formatting.web3Format(pairedAmountSold),
+                    baseTokenStakedInLiquidity: helper.formatting.web3Format(baseTokenStakedInLiquidity),
+                    pairedTokenStakedInLiquidity: helper.formatting.web3Format(pairedTokenStakedInLiquidity),
+                })
+                setAllowSelling(allowSelling);
+                setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
+                setMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
+                //@TODO Configure right amount
+                setNewMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
+                setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
+                if (mode === 'sell' && maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
+                if (mode === 'buy' && maxPairedLiquidityRatio > 0) setPairedLiquiditySetting(true);
+                setAmountBaseTokenBalance(helper.formatting.web3Format(balanceInBaseToken));
+                setAmountPairTokenBalance(helper.formatting.web3Format(await helper.web3.marketMaker.getWithdrawablePairedTokens(
+                    wallet,
+                    marketMakingPool.address,
+                    wallet.account
+                )));
+                setBaseTokenValueLocked(
+                    helper.formatting.web3Format(
+                        await helper.token.balanceOf(
+                            wallet,
+                            project.token,
+                            marketMakingPool.address
+                        ) || '0'
+                    )
+                );
+                setPairedTokenValueLocked(
+                    helper.formatting.web3Format(
+                        await helper.token.balanceOf(
+                            wallet,
+                            marketMakingPool.paired_token,
+                            marketMakingPool.address
+                        ) || '0'
+                    )
+                );
+                setLoad(true);
+            };
+            initWalletConnected();
         }
 
     }, [wallet]);
@@ -208,13 +209,11 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             const wei = ethers.utils.parseEther(amountPairTokenToStake);
             let success;
             if (pairedTokenIsWeth) {
-                success = helper.web3.marketMaker.stakePairedTokenInETH(wallet, marketMakingPool.address, wei);
+                success = await helper.web3.marketMaker.stakePairedTokenInETH(wallet, marketMakingPool.address, wei);
             } else {
-                success = helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
+                success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
             }
-            updateSettings(parseFloat(amountBaseTokenBalance), (parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake)))
             setAmountPairTokenBalance(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake));
-            loadWeb3();
         }
         if (newMaxPairedLiquidityRatio > 0) {
             Swal.fire({
@@ -241,9 +240,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         const stakeToken = async () => {
             setFresh(false);
             const wei = ethers.utils.parseEther(amountBaseTokenToStake);
-            helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
-            updateSettings(parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake), parseFloat(amountPairTokenBalance));
-            loadWeb3();
+            await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
         }
         if (newMaxBaseLiquidityRatio > 0) {
             Swal.fire({
@@ -269,20 +266,12 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         let full_withdrawal = parseFloat(amountPairTokenToWithdraw) === parseFloat(amountPairTokenBalance) && parseFloat(amountBaseTokenBalance) === 0;
         const wei = ethers.utils.parseEther(amountPairTokenToWithdraw);
         let success = await helper.web3.marketMaker.withdrawPairToken(wallet, marketMakingPool.address, wei, full_withdrawal);
-        if (mode === 'buy' && success) {
-            await updateSettings(parseFloat(amountBaseTokenBalance), (parseFloat(amountPairTokenBalance) - parseFloat(amountPairTokenToWithdraw)))
-        }
-        loadWeb3();
     };
 
     const withdrawBaseToken = async () => {
         let full_withdrawal = parseFloat(amountBaseTokenToWithdraw) === parseFloat(amountBaseTokenBalance) && parseFloat(amountPairTokenBalance) === 0;
         const wei = ethers.utils.parseEther(amountBaseTokenToWithdraw);
         let success = await helper.marketMaker.withdrawBaseToken(wallet, marketMakingPool.address, wei, full_withdrawal);
-        if (mode === 'sell' && success) {
-            await updateSettings((parseFloat(amountBaseTokenBalance) - parseFloat(amountBaseTokenToWithdraw)), parseFloat(amountPairTokenBalance));
-        }
-        loadWeb3();
     };
 
     const updateRatio = async () => {
@@ -290,13 +279,11 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         else await helper.web3.marketMaker.setMaxPairedLiquidityRatio(wallet, marketMakingPool.address, newMaxPairedLiquidityRatio);
     }
 
-    const updateSettings = async (baseAmount = 0, pairedAmount = 0) => {
+    const updateSettings = async () => {
         try {
             setIsLoading(true);
             const marketMakingSettings = {
                 marketMakingType: mode,
-                baseAmountSettings: baseAmount,
-                pairedAmountSettings: pairedAmount,
                 pressure,
                 priceLimit,
                 marketMakingPoolId: marketMakingPool.id,
@@ -316,7 +303,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const AllowSellingAndUpdateSettings = async () => {
         let success = helper.marketMaker.setAllowSelling(wallet, marketMakingPool.address, true);
         setFresh(false);
-        updateSettings(parseFloat(amountBaseTokenBalance), parseFloat(amountPairTokenBalance))
+        updateSettings()
     };
 
 
@@ -495,12 +482,12 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                             setValue={setPriceLimit}
                         />
                     </div>
-                    {allowSelling ?
+                    {allowSelling && mode === "sell" ?
                         <Button name="Save Settings"
                                 isLoading={isLoading}
                                 disabled={isLoading}
                                 handleClick={(e) => {
-                                    updateSettings(parseFloat(amountBaseTokenBalance), parseFloat(amountPairTokenBalance))
+                                    updateSettings()
                                 }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
                         :
                         <Button name="Allow Market Making And Save Settings" handleClick={(e) => {
