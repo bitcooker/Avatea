@@ -497,11 +497,11 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
                     <div className="card-content pt-1 space-y-3.75">
                         <Toggle
-                            label={(mode === 'buy' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
+                            label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
                             handleClick={() => {
-                                mode === 'buy' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)
+                                mode === 'sell' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)
                             }}
-                            checked={mode === 'buy' ? baseLiquiditySetting : pairedLiquiditySetting}
+                            checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}
                         />
                         <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
                             {
