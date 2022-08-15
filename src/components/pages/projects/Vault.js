@@ -128,7 +128,7 @@ export default function Vault({vault, wallet, project, setTab}) {
             <Card title="News Feed">
                 {/* Card Header */}
                 <div className="card-header">
-                    <h1 className="text-2xl"><i className="fa-solid fa-newspaper"/> News</h1>
+                    <h1 className="text-2xl"><i className="fa-solid fa-gear"/> Rewards Management</h1>
                 </div>
                 <div className="card-content pt-5 space-y-3.75">
                     <div>
