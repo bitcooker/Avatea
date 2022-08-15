@@ -495,41 +495,39 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                         }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
                     }
 
-                    {
-                        mode === 'buy' || mode === 'sell' ? <div className="card-content pt-1 space-y-3.75">
-                            <Toggle
-                                label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
-                                handleClick={() => {
-                                    mode === 'sell' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)
-                                }}
-                                checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}
-                            />
-                            <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
-                                {
-                                    ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?
-                                        <div className="flex items-center">
-                                            <RangeSlider
-                                                className="mt-5 md-lg:mt-0"
-                                                setPercent={mode === 'sell' ? setNewMaxBaseLiquidityRatio : setNewMaxPairedLiquidityRatio}
-                                                percent={mode === 'sell' ? newMaxBaseLiquidityRatio : newMaxPairedLiquidityRatio}
-                                            />
-                                        </div>
-                                        : ""
-                                }
-                                {(mode === 'sell' && (maxBaseLiquidityRatio.toString() !== newMaxBaseLiquidityRatio.toString())) &&
-                                    <Button name={'Update Ratio'} handleClick={updateRatio}>
-                                        <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                    </Button>
-                                }
-                                {(mode === 'buy' && (maxPairedLiquidityRatio.toString() !== newMaxPairedLiquidityRatio.toString())) &&
-                                    <Button name={'Update Ratio'} handleClick={updateRatio}>
-                                        <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                    </Button>
-                                }
-                            </div>
+                    <div className="card-content pt-1 space-y-3.75">
+                        <Toggle
+                            label={(mode === 'buy' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
+                            handleClick={() => {
+                                mode === 'buy' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)
+                            }}
+                            checked={mode === 'buy' ? baseLiquiditySetting : pairedLiquiditySetting}
+                        />
+                        <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
+                            {
+                                ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?
+                                    <div className="flex items-center">
+                                        <RangeSlider
+                                            className="mt-5 md-lg:mt-0"
+                                            setPercent={mode === 'sell' ? setNewMaxBaseLiquidityRatio : setNewMaxPairedLiquidityRatio}
+                                            percent={mode === 'sell' ? newMaxBaseLiquidityRatio : newMaxPairedLiquidityRatio}
+                                        />
+                                    </div>
+                                    : ""
+                            }
+                            {(mode === 'sell' && (maxBaseLiquidityRatio.toString() !== newMaxBaseLiquidityRatio.toString())) &&
+                                <Button name={'Update Ratio'} handleClick={updateRatio}>
+                                    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                                </Button>
+                            }
+                            {(mode === 'buy' && (maxPairedLiquidityRatio.toString() !== newMaxPairedLiquidityRatio.toString())) &&
+                                <Button name={'Update Ratio'} handleClick={updateRatio}>
+                                    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                                </Button>
+                            }
+                        </div>
 
-                        </div> : ""
-                    }
+                    </div>
 
                     <div className="card-content pt-1 space-y-3.75">
                         {mode === "buy" && (<div className="space-y-2.5">
