@@ -75,8 +75,6 @@ const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh})
     try {
         const {
             marketMakingType,
-            baseAmountSettings,
-            pairedAmountSettings,
             pressure,
             priceLimit,
             marketMakingPoolId,
@@ -92,8 +90,6 @@ const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh})
                     url: `${API_URL}UserSettings/`,
                     data: {
                         market_making_type: marketMakingType,
-                        base_amount: baseAmountSettings,
-                        paired_amount: pairedAmountSettings,
                         buy_sell_pressure: pressure,
                         price_limit: priceLimit,
                         market_making_pool: marketMakingPoolId,
@@ -110,8 +106,6 @@ const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh})
                     url: `${API_URL}UserSettings/${id}/`,
                     data: {
                         market_making_type: marketMakingType,
-                        base_amount: baseAmountSettings,
-                        paired_amount: pairedAmountSettings,
                         buy_sell_pressure: pressure,
                         price_limit: priceLimit,
                         signature
