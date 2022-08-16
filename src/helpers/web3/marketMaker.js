@@ -453,16 +453,16 @@ const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
             maxPairedLiquidityRatio
         } = data;
 
-        let base_allocation_liquidity = Math.max(Math.min((balanceInBaseToken.add(baseTokenStakedInLiquidity).add(baseAmountSold))
+        let baseAllocationLiquidity = Math.max(Math.min((balanceInBaseToken.add(baseTokenStakedInLiquidity).add(baseAmountSold))
             .mul(maxBaseLiquidityRatio).div(100).sub(baseTokenStakedInLiquidity), balanceInBaseToken), 0)
 
-        let base_allocation_trading = Math.max(Math.min((balanceInBaseToken.add(baseTokenStakedInLiquidity).add(baseAmountSold))
+        let baseAllocationTrading = Math.max(Math.min((balanceInBaseToken.add(baseTokenStakedInLiquidity).add(baseAmountSold))
             .mul(BigNumber.from(100).sub(maxBaseLiquidityRatio)).div(100).sub(baseAmountSold), balanceInBaseToken), 0)
 
-        let paired_allocation_liquidity = Math.max(Math.min((balanceInPairedToken.add(pairedTokenStakedInLiquidity).add(pairedAmountBought))
+        let pairedAllocationLiquidity = Math.max(Math.min((balanceInPairedToken.add(pairedTokenStakedInLiquidity).add(pairedAmountBought))
             .mul(maxPairedLiquidityRatio).div(100).sub(pairedTokenStakedInLiquidity), balanceInPairedToken), 0)
 
-        let paired_allocation_trading = Math.max(Math.min((balanceInPairedToken.add(pairedTokenStakedInLiquidity).add(pairedAmountBought))
+        let pairedAllocationTrading = Math.max(Math.min((balanceInPairedToken.add(pairedTokenStakedInLiquidity).add(pairedAmountBought))
             .mul(BigNumber.from(100).sub(maxPairedLiquidityRatio)).div(100).sub(pairedAmountBought), balanceInPairedToken), 0)
 
         return {
@@ -478,10 +478,10 @@ const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
             allowSelling,
             maxBaseLiquidityRatio,
             maxPairedLiquidityRatio,
-            base_allocation_liquidity,
-            base_allocation_trading,
-            paired_allocation_liquidity,
-            paired_allocation_trading
+            baseAllocationLiquidity,
+            baseAllocationTrading,
+            pairedAllocationLiquidity,
+            pairedAllocationTrading
         }
     } catch (e) {
         console.log('holdersMapping error', e);
