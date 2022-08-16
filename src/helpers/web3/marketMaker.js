@@ -453,16 +453,24 @@ const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
             maxPairedLiquidityRatio
         } = data;
 
-        let baseAllocationLiquidity = Math.max(Math.min((balanceInBaseToken.add(baseTokenStakedInLiquidity).add(baseAmountSold))
+        function max(a, b) {
+            return a.gt(b) ? a : b
+        }
+
+        function min(a, b) {
+            return a.lt(b) ? a : b
+        }
+
+        let baseAllocationLiquidity = max(min((balanceInBaseToken.add(baseTokenStakedInLiquidity).add(baseAmountSold))
             .mul(maxBaseLiquidityRatio).div(100).sub(baseTokenStakedInLiquidity), balanceInBaseToken), 0)
 
-        let baseAllocationTrading = Math.max(Math.min((balanceInBaseToken.add(baseTokenStakedInLiquidity).add(baseAmountSold))
+        let baseAllocationTrading = max(min((balanceInBaseToken.add(baseTokenStakedInLiquidity).add(baseAmountSold))
             .mul(BigNumber.from(100).sub(maxBaseLiquidityRatio)).div(100).sub(baseAmountSold), balanceInBaseToken), 0)
 
-        let pairedAllocationLiquidity = Math.max(Math.min((balanceInPairedToken.add(pairedTokenStakedInLiquidity).add(pairedAmountBought))
+        let pairedAllocationLiquidity = max(min((balanceInPairedToken.add(pairedTokenStakedInLiquidity).add(pairedAmountBought))
             .mul(maxPairedLiquidityRatio).div(100).sub(pairedTokenStakedInLiquidity), balanceInPairedToken), 0)
 
-        let pairedAllocationTrading = Math.max(Math.min((balanceInPairedToken.add(pairedTokenStakedInLiquidity).add(pairedAmountBought))
+        let pairedAllocationTrading = max(min((balanceInPairedToken.add(pairedTokenStakedInLiquidity).add(pairedAmountBought))
             .mul(BigNumber.from(100).sub(maxPairedLiquidityRatio)).div(100).sub(pairedAmountBought), balanceInPairedToken), 0)
 
         return {

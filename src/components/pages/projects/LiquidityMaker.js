@@ -13,7 +13,7 @@ import moment from "moment";
 import Toggle from "../../core/Toggle/Toggle";
 import RangeSlider from "../../core/RangeSlider/RangeSlider";
 
-export default function LiquidityMaker({liquidityMaker, wallet, project,marketMakingPool}) {
+export default function LiquidityMaker({liquidityMaker, wallet, project, marketMakingPool}) {
 
 
     const [rewardEarned, setRewardEarned] = useState('0');
@@ -36,8 +36,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project,marketMa
     const [newMaxPairedLiquidityRatio, setNewMaxPairedLiquidityRatio] = useState('0')
     const [baseLiquiditySetting, setBaseLiquiditySetting] = useState(false);
     const [pairedLiquiditySetting, setPairedLiquiditySetting] = useState(false);
-    const [baseAllocation,setBaseAllocation] = useState('0');
-    const [pairAllocation,setPairAllocation] = useState('0');
+    const [baseAllocation, setBaseAllocation] = useState('0');
+    const [pairAllocation, setPairAllocation] = useState('0');
 
     const initWalletConnected = async () => {
         const {
@@ -51,8 +51,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project,marketMa
         setMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
         setNewMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
         setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
-        setBaseAllocation(baseAllocationLiquidity)
-        setPairAllocation(pairedAllocationLiquidity)
+        setBaseAllocation(helper.formatting.web3Format(baseAllocationLiquidity))
+        setPairAllocation(helper.formatting.web3Format(pairedAllocationLiquidity))
         if (mode === 'sell' && maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
         if (mode === 'buy' && maxPairedLiquidityRatio > 0) setPairedLiquiditySetting(true);
 
@@ -194,7 +194,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project,marketMa
                 <div className="divide-y">
                     {/* Card Header */}
                     <div className="card-header">
-                        <h1 className="text-lg md-lg:text-2xl"><i className="fa-solid fa-nfc-lock"/> Liquidity Stats</h1>
+                        <h1 className="text-lg md-lg:text-2xl"><i className="fa-solid fa-nfc-lock"/> Liquidity Stats
+                        </h1>
                         <div className="py-5.5 space-y-4.5">
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-clock"/> Locking Period</span>
@@ -208,7 +209,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project,marketMa
                                 <span className="flex items-center text-base font-medium">
                                     <Image src={project.image} alt="projectImage" width={24} height={24}/>
                                     <p className="mx-2.5">{baseTotalSupply}</p>
-                                    <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
+                                    <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
+                                           height={24}/>
                                     <p className="mx-2.5">{pairedTotalSupply}</p>
                                 </span>
                             </div>
@@ -227,7 +229,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project,marketMa
                                 <span className="flex items-center text-base font-medium">
                                     <Image src={project.image} alt="projectImage" width={24} height={24}/>
                                     <p className="mx-2.5">{baseAllocation}</p>
-                                    <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
+                                    <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
+                                           height={24}/>
                                     <p className="mx-2.5">{pairAllocation}</p>
                                 </span>
                             </div>
@@ -238,45 +241,52 @@ export default function LiquidityMaker({liquidityMaker, wallet, project,marketMa
             <Card title="Liquidity & Reward Management">
                 {/* Card Header */}
                 <div className="card-header">
-                    <h1 className="text-lg md-lg:text-2xl"><i className="fa-solid fa-newspaper"/> Liquidity & Reward Management</h1>
+                    <h1 className="text-lg md-lg:text-2xl"><i className="fa-solid fa-newspaper"/> Liquidity & Reward
+                        Management</h1>
                 </div>
                 <div className="card-content pt-5 space-y-3.75">
                     <div>
-                        <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                        <div
+                            className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
                             <span className="text-center md-lg:text-left">
                                 <i className="fa-solid fa-money-bill-transfer"/> Staked
                             </span>
                             <span className="flex justify-center items-center text-base font-medium">
                                 <Image src={project.image} alt="projectImage" width={24} height={24}/>
                                 <p className="mx-2.5">{holdersMapping?.stakedInBaseToken}</p>
-                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
+                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
+                                       height={24}/>
                                 <p className="mx-2.5">{holdersMapping?.stakedInPairedToken}</p>
                             </span>
                         </div>
                     </div>
                     <div>
-                        <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                        <div
+                            className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
                             <span className="text-center md-lg:text-left">
                                 <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Liquidity
                             </span>
                             <span className="flex justify-center text-base font-medium">
                                 <Image src={project.image} alt="projectImage" width={24} height={24}/>
                                 <p className="mx-2.5">{currentBaseValue}</p>
-                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
+                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
+                                       height={24}/>
                                 <p className="mx-2.5">{currentPairedValue}</p>
                             </span>
                         </div>
                     </div>
 
                     <div>
-                        <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                        <div
+                            className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
                             <span className="text-center md-lg:text-left">
                                 <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Rewards
                             </span>
                             <span className="flex justify-center text-base font-medium">
                                 <Image src={project.image} alt="projectImage" width={24} height={24}/>
                                 <p className="mx-2.5">{currentRewardBaseValue}</p>
-                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
+                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
+                                       height={24}/>
                                 <p className="mx-2.5">{currentRewardPairedValue}</p>
                                 <Image src="/avatea-token.png" alt="pairTokeImage" width={24} height={24}/>
                                 <p className="mx-2.5">{rewardEarned}</p>
@@ -294,7 +304,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project,marketMa
                     </div>
                 </div>
 
-                <div className="card-content p-5 space-y-3.75 bg-gray-300 border-1 border-gray-400 border-2 rounded-2xl mt-2.5">
+                <div
+                    className="card-content p-5 space-y-3.75 bg-gray-300 border-1 border-gray-400 border-2 rounded-2xl mt-2.5">
                     <Toggle
                         label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
                         handleClick={() => {
@@ -336,8 +347,9 @@ export default function LiquidityMaker({liquidityMaker, wallet, project,marketMa
 
                 <div className="card-content pt-5.5">
                     <div className="grid md-lg:grid-cols-2 gap-3.75">
-                        <Button disabled={parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod) > moment().unix()}
-                                className={'col-span-full'} name="Withdraw All" handleClick={exitLiquidity}>
+                        <Button
+                            disabled={parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod) > moment().unix()}
+                            className={'col-span-full'} name="Withdraw All" handleClick={exitLiquidity}>
                             <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                         </Button>
                         <Button name="Claim Rewards" handleClick={claimReward}>
@@ -348,8 +360,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project,marketMa
                         </Button>
                     </div>
                 </div>
-
-
 
 
                 {/*<div className="card-content pt-1 space-y-3.75">*/}

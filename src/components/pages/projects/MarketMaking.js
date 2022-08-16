@@ -11,11 +11,8 @@ import RangeSlider from "../../core/RangeSlider/RangeSlider";
 import InputEmpty from "../../core/Input/InputEmpty";
 import Radio from "../../core/Radio/Radio";
 import Button from "../../core/Button/Button";
-import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
-import Toggle from "../../core/Toggle/Toggle";
 
 // page components
-import MaxButton from "./Button/MaxButton";
 import Card from "../projectDetail/Card/Card";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 import Swal from "sweetalert2";
@@ -90,11 +87,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     pairedAmountSold: helper.formatting.web3Format(pairedAmountSold),
                     baseTokenStakedInLiquidity: helper.formatting.web3Format(baseTokenStakedInLiquidity),
                     pairedTokenStakedInLiquidity: helper.formatting.web3Format(pairedTokenStakedInLiquidity),
-                    // pairedAllocationTrading: helper.formatting.web3Format(pairedAllocationTrading),
-                    // baseAllocationTrading: helper.formatting.web3Format(baseAllocationTrading),
-                    pairedAllocationTrading,
-                    baseAllocationTrading,
-
+                    pairedAllocationTrading: helper.formatting.web3Format(pairedAllocationTrading),
+                    baseAllocationTrading: helper.formatting.web3Format(baseAllocationTrading),
                 })
                 setAllowSelling(allowSelling);
                 setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
