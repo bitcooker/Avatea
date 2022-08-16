@@ -36,17 +36,23 @@ export default function LiquidityMaker({liquidityMaker, wallet, project,marketMa
     const [newMaxPairedLiquidityRatio, setNewMaxPairedLiquidityRatio] = useState('0')
     const [baseLiquiditySetting, setBaseLiquiditySetting] = useState(false);
     const [pairedLiquiditySetting, setPairedLiquiditySetting] = useState(false);
-
+    const [baseAllocation,setBaseAllocation] = useState('0');
+    const [pairAllocation,setPairAllocation] = useState('0');
 
     const initWalletConnected = async () => {
         const {
             maxBaseLiquidityRatio,
             maxPairedLiquidityRatio,
+            pairedAllocationLiquidity,
+            baseAllocationLiquidity
+
         } = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address, wallet.account);
         setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
         setMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
         setNewMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
         setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
+        setBaseAllocation(baseAllocationLiquidity)
+        setPairAllocation(pairedAllocationLiquidity)
         if (mode === 'sell' && maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
         if (mode === 'buy' && maxPairedLiquidityRatio > 0) setPairedLiquiditySetting(true);
 
@@ -213,6 +219,17 @@ export default function LiquidityMaker({liquidityMaker, wallet, project,marketMa
                             <div className="flex justify-between">
                                 <span className="text-sm"><i className="fa-solid fa-hands-holding-dollar"/> Liquidity Reward Per Token</span>
                                 <span className="text-base font-medium">{liquidityRewardPerToken}</span>
+                            </div>
+
+                            <div className="flex justify-between">
+                                <span className="text-sm"><i
+                                    className="fa-solid fa-treasure-chest"/> Allocated Liquidity</span>
+                                <span className="flex items-center text-base font-medium">
+                                    <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                    <p className="mx-2.5">{baseAllocation}</p>
+                                    <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24} height={24}/>
+                                    <p className="mx-2.5">{pairAllocation}</p>
+                                </span>
                             </div>
                         </div>
                     </div>

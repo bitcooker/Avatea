@@ -79,7 +79,9 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     maxPairedLiquidityRatio,
                     baseTokenStakedInLiquidity,
                     pairedTokenStakedInLiquidity,
-                    allowSelling
+                    allowSelling,
+                    pairedAllocationTrading,
+                    baseAllocationTrading
                 } = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address, wallet.account);
                 setActivity({
                     baseAmountBought: helper.formatting.web3Format(baseAmountBought),
@@ -88,6 +90,11 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     pairedAmountSold: helper.formatting.web3Format(pairedAmountSold),
                     baseTokenStakedInLiquidity: helper.formatting.web3Format(baseTokenStakedInLiquidity),
                     pairedTokenStakedInLiquidity: helper.formatting.web3Format(pairedTokenStakedInLiquidity),
+                    // pairedAllocationTrading: helper.formatting.web3Format(pairedAllocationTrading),
+                    // baseAllocationTrading: helper.formatting.web3Format(baseAllocationTrading),
+                    pairedAllocationTrading,
+                    baseAllocationTrading,
+
                 })
                 setAllowSelling(allowSelling);
                 setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
@@ -370,6 +377,20 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                     height={24}
                                 />
                                 <span className="mx-2.5">{activity.pairedTokenStakedInLiquidity}</span>
+                            </span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-sm"><i className="fa-solid fa-circle-minus"/> Allocated Trading Amount</span>
+                            <span className="flex text-base font-medium">
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <span className="mx-2.5">{activity.baseAllocationTrading} </span>
+                                <Image
+                                    src={marketMakingPool.paired_token_image}
+                                    alt="pairedTokenImage"
+                                    width={24}
+                                    height={24}
+                                />
+                                <span className="mx-2.5">{activity.pairedAllocationTrading}</span>
                             </span>
                         </div>
                     </div>
