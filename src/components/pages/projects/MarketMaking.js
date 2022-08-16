@@ -48,8 +48,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     pairedAmountBought,
                     baseAmountSold,
                     pairedAmountSold,
-                    baseTokenStakedInLiquidity,
-                    pairedTokenStakedInLiquidity,
                     allowSelling,
                     pairedAllocationTrading,
                     baseAllocationTrading
@@ -59,8 +57,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     pairedAmountBought: helper.formatting.web3Format(pairedAmountBought),
                     baseAmountSold: helper.formatting.web3Format(baseAmountSold),
                     pairedAmountSold: helper.formatting.web3Format(pairedAmountSold),
-                    baseTokenStakedInLiquidity: helper.formatting.web3Format(baseTokenStakedInLiquidity),
-                    pairedTokenStakedInLiquidity: helper.formatting.web3Format(pairedTokenStakedInLiquidity),
                     pairedAllocationTrading: helper.formatting.web3Format(pairedAllocationTrading),
                     baseAllocationTrading: helper.formatting.web3Format(baseAllocationTrading),
                 })
@@ -232,20 +228,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                             </span>
                         </div>
                         <div className="flex justify-between">
-                            <span className="text-sm"><i className="fa-solid fa-circle-plus"/> Added To Liquidity</span>
-                            <span className="flex text-base font-medium">
-                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
-                                <span className="mx-2.5">{activity.baseTokenStakedInLiquidity}</span>
-                                <Image
-                                    src={marketMakingPool.paired_token_image}
-                                    alt="pairedTokenImage"
-                                    width={24}
-                                    height={24}
-                                />
-                                <span className="mx-2.5">{activity.pairedTokenStakedInLiquidity}</span>
-                            </span>
-                        </div>
-                        <div className="flex justify-between">
                             <span className="text-sm"><i className="fa-solid fa-circle-minus"/> Allocated Trading Amount</span>
                             <span className="flex text-base font-medium">
                                 <Image src={project.image} alt="projectImage" width={24} height={24}/>
@@ -269,17 +251,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                 </div>
 
                 <div className="card-content pt-5.5 space-y-5">
-                    <div className="grid md-lg:grid-cols-2 md-lg:h-20 gap-5">
-                        <div className="flex flex-col space-y-8">
-                            <span className="text-sm"><i className="fa-solid fa-circle-bolt"/> Pressure</span>
-                            <RangeSlider setPercent={setPressure} percent={pressure}/>
-                        </div>
-                        <div className={`space-y-2.5 ${estimation === '- Days' ? 'hidden' : ''}`}>
-                            <span className="text-sm"><i className="fa-solid fa-timer"/> Estimation</span>
-                            <InputEmpty placeholder={estimation} readOnly/>
-                        </div>
-                    </div>
-
                     <div className="space-y-2.5">
                         <span className="text-sm"><i className="fa-solid fa-plus-minus"/> Mode</span>
                         <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
@@ -297,6 +268,16 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 checked={mode === "sell"}
                                 handleSetMode={handleSetMode}
                             />
+                        </div>
+                    </div>
+                    <div className="grid md-lg:grid-cols-2 md-lg:h-20 gap-5">
+                        <div className="flex flex-col space-y-8">
+                            <span className="text-sm"><i className="fa-solid fa-circle-bolt"/> Pressure</span>
+                            <RangeSlider setPercent={setPressure} percent={pressure}/>
+                        </div>
+                        <div className={`space-y-2.5 ${estimation === '- Days' ? 'hidden' : ''}`}>
+                            <span className="text-sm"><i className="fa-solid fa-timer"/> Estimation</span>
+                            <InputEmpty placeholder={estimation} readOnly/>
                         </div>
                     </div>
                     <div className="space-y-2.5">
