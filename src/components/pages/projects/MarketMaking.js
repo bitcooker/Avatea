@@ -1,9 +1,7 @@
 import {useEffect, useState} from "react";
 import Image from "next/image";
-import {ethers} from "ethers";
 
 import helper from "../../../helpers";
-import {WETH_ADDRESS} from "../../../helpers/constants";
 
 // core components
 import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
@@ -15,7 +13,6 @@ import Button from "../../core/Button/Button";
 // page components
 import Card from "../projectDetail/Card/Card";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
-import Swal from "sweetalert2";
 
 export default function MarketMaking({wallet, project, marketMakingPool}) {
 
@@ -24,12 +21,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const [pairedTokenValueLocked, setPairedTokenValueLocked] = useState("0");
     const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState('0');
     const [amountPairTokenBalance, setAmountPairTokenBalance] = useState('0');
-    const [amountBaseTokenToWithdraw, setAmountBaseTokenToWithdraw] = useState('0');
-    const [amountPairTokenToWithdraw, setAmountPairTokenToWithdraw] = useState('0');
-    const [amountBaseTokenToStake, setAmountBaseTokenToStake] = useState('0');
-    const [amountPairTokenToStake, setAmountPairTokenToStake] = useState('0');
-    const [baseTokenWalletBalance, setBaseTokenWalletBalance] = useState('0');
-    const [pairedTokenWalletBalance, setPairedTokenWalletBalance] = useState('0');
     const [pressure, setPressure] = useState('0');
     const [priceLimit, setPriceLimit] = useState('0');
     const [fresh, setFresh] = useState(false);
@@ -42,14 +33,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         baseAmountSold: '0',
         pairedAmountSold: '0'
     })
-    const [maxBaseLiquidityRatio, setMaxBaseLiquidityRatio] = useState('0')
-    const [maxPairedLiquidityRatio, setMaxPairedLiquidityRatio] = useState('0')
-    const [newMaxBaseLiquidityRatio, setNewMaxBaseLiquidityRatio] = useState('0')
-    const [newMaxPairedLiquidityRatio, setNewMaxPairedLiquidityRatio] = useState('0')
-    const [baseLiquiditySetting, setBaseLiquiditySetting] = useState(false);
-    const [pairedLiquiditySetting, setPairedLiquiditySetting] = useState(false);
     const [allowSelling, setAllowSelling] = useState(true);
-    const [pairedTokenIsWeth, setPairedTokenIsWeth] = useState(false);
     const [load, setLoad] = useState(false);
 
 
@@ -58,22 +42,12 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         if (wallet.isConnected() && marketMakingPool.address) {
             const initWalletConnected = async () => {
 
-                if (marketMakingPool.paired_token === WETH_ADDRESS[wallet.chainId]) {
-                    setPairedTokenIsWeth(true)
-                    setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.wethBalanceOf(wallet, wallet.account)));
-                } else {
-                    setPairedTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, marketMakingPool.paired_token, wallet.account)));
-                }
-
-                setBaseTokenWalletBalance(helper.formatting.web3Format(await helper.token.balanceOf(wallet, project.token, wallet.account)));
                 const {
                     balanceInBaseToken,
                     baseAmountBought,
                     pairedAmountBought,
                     baseAmountSold,
                     pairedAmountSold,
-                    maxBaseLiquidityRatio,
-                    maxPairedLiquidityRatio,
                     baseTokenStakedInLiquidity,
                     pairedTokenStakedInLiquidity,
                     allowSelling,
@@ -91,12 +65,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     baseAllocationTrading: helper.formatting.web3Format(baseAllocationTrading),
                 })
                 setAllowSelling(allowSelling);
-                setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
-                setMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
-                setNewMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
-                setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
-                if (mode === 'sell' && maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
-                if (mode === 'buy' && maxPairedLiquidityRatio > 0) setPairedLiquiditySetting(true);
                 setAmountBaseTokenBalance(helper.formatting.web3Format(balanceInBaseToken));
                 setAmountPairTokenBalance(helper.formatting.web3Format(await helper.web3.marketMaker.getWithdrawablePairedTokens(
                     wallet,
@@ -130,21 +98,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
 
     useEffect(() => {
-        if (wallet.status === "connected" && marketMakingPool.address) {
-            if (baseLiquiditySetting === false && mode === 'sell') {
-                setNewMaxBaseLiquidityRatio(0)
-            } else {
-                setNewMaxBaseLiquidityRatio(maxBaseLiquidityRatio)
-            }
-            if (pairedLiquiditySetting === false && mode === 'buy') {
-                setNewMaxPairedLiquidityRatio(0)
-            } else {
-                setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio)
-            }
-        }
-    }, [baseLiquiditySetting, pairedLiquiditySetting])
-
-    useEffect(() => {
         if (wallet.status === "connected") {
             const initWalletConnected = async () => {
                 //@TODO Wire Chain ID for production
@@ -174,13 +127,13 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         }
         if (mode === 'buy') {
             let max_buying_amount = marketMakingPool.max_buying_amount
-            let balance = parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake ? amountPairTokenToStake : 0)
+            let balance = parseFloat(activity.pairedAllocationTrading)
             let days = balance / (max_buying_amount * pressure / 100)
             days = Math.round(days * 10) / 10
             setEstimation(days + ' Days')
         } else if (mode === 'sell') {
             let max_selling_amount = marketMakingPool.max_selling_amount
-            let balance = parseFloat(amountBaseTokenBalance) + parseFloat(amountBaseTokenToStake ? amountBaseTokenToStake : 0)
+            let balance = parseFloat(activity.baseAllocationTrading)
             let days = balance / (max_selling_amount * pressure / 100)
             days = Math.round(days * 10) / 10
             setEstimation(days + ' Days')
@@ -188,12 +141,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             setEstimation('- Days')
         }
 
-    }, [mode, pressure, amountBaseTokenBalance, amountPairTokenBalance, amountPairTokenToStake, amountBaseTokenToStake, marketMakingPool]);
-
-    useEffect(() => {
-        if (mode === 'sell' && maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
-        if (mode === 'buy' && maxPairedLiquidityRatio > 0) setPairedLiquiditySetting(true);
-    }, [mode, maxBaseLiquidityRatio, maxPairedLiquidityRatio]);
+    }, [mode, pressure, amountBaseTokenBalance, amountPairTokenBalance, marketMakingPool]);
 
     const setMax = async (amount, setter) => {
         setter(amount);
@@ -201,82 +149,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
     const handleSetMode = (mode) => {
         setMode(mode);
-    }
-
-    const stakePairedToken = async () => {
-        const stakeToken = async () => {
-            setFresh(false);
-            const wei = ethers.utils.parseEther(amountPairTokenToStake);
-            let success;
-            if (pairedTokenIsWeth) {
-                success = await helper.web3.marketMaker.stakePairedTokenInETH(wallet, marketMakingPool.address, wei);
-            } else {
-                success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
-            }
-            setAmountPairTokenBalance(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake));
-        }
-        if (newMaxPairedLiquidityRatio > 0) {
-            Swal.fire({
-                title: 'Read before proceeding',
-                text: "Providing Liquidity exposes you to a certain risk reward situation, please use with caution.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, continue!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.close();
-                    stakeToken()
-                }
-            })
-        } else {
-            stakeToken()
-        }
-
-    };
-
-    const stakeBaseToken = async () => {
-        const stakeToken = async () => {
-            setFresh(false);
-            const wei = ethers.utils.parseEther(amountBaseTokenToStake);
-            await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
-        }
-        if (newMaxBaseLiquidityRatio > 0) {
-            Swal.fire({
-                title: 'Read before proceeding',
-                text: "Providing Liquidity exposes you to a certain risk reward situation, please use with caution.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, continue!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.close();
-                    stakeToken()
-                }
-            })
-        } else {
-            stakeToken()
-        }
-    };
-
-    const withdrawPairToken = async () => {
-        let full_withdrawal = parseFloat(amountPairTokenToWithdraw) === parseFloat(amountPairTokenBalance) && parseFloat(amountBaseTokenBalance) === 0;
-        const wei = ethers.utils.parseEther(amountPairTokenToWithdraw);
-        let success = await helper.web3.marketMaker.withdrawPairToken(wallet, marketMakingPool.address, wei, full_withdrawal);
-    };
-
-    const withdrawBaseToken = async () => {
-        let full_withdrawal = parseFloat(amountBaseTokenToWithdraw) === parseFloat(amountBaseTokenBalance) && parseFloat(amountPairTokenBalance) === 0;
-        const wei = ethers.utils.parseEther(amountBaseTokenToWithdraw);
-        let success = await helper.marketMaker.withdrawBaseToken(wallet, marketMakingPool.address, wei, full_withdrawal);
-    };
-
-    const updateRatio = async () => {
-        if (mode === 'sell') await helper.web3.marketMaker.setMaxBaseLiquidityRatio(wallet, marketMakingPool.address, newMaxBaseLiquidityRatio);
-        else await helper.web3.marketMaker.setMaxPairedLiquidityRatio(wallet, marketMakingPool.address, newMaxPairedLiquidityRatio);
     }
 
     const updateSettings = async () => {
@@ -389,59 +261,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                         </div>
                     </div>
                 </div>
-
-                {/*<div className="card-content space-y-5">*/}
-                {/*    <div className="space-y-3.75">*/}
-                {/*        <div className="space-y-2.5">*/}
-                {/*            <div className="flex flex-row items-center justify-between text-base">*/}
-                {/*                <div>*/}
-                {/*                    <i className="fa-solid fa-circle-dollar mr-1"/>*/}
-                {/*                    Cash*/}
-                {/*                </div>*/}
-                {/*                <MaxButton*/}
-                {/*                    balance={amountPairTokenBalance}*/}
-                {/*                    handleClick={() => setMax(amountPairTokenBalance, setAmountPairTokenToWithdraw)}*/}
-                {/*                />*/}
-                {/*            </div>*/}
-                {/*            <InputWithIconSubmit*/}
-                {/*                id="withdrawCash"*/}
-                {/*                name="withdrawCash"*/}
-                {/*                type="number"*/}
-                {/*                placeholder="Input amount to withdraw"*/}
-                {/*                submitName="Withdraw"*/}
-                {/*                image={marketMakingPool.paired_token_image}*/}
-                {/*                icon="fa-light fa-circle-minus"*/}
-                {/*                value={amountPairTokenToWithdraw}*/}
-                {/*                setValue={setAmountPairTokenToWithdraw}*/}
-                {/*                submitFunction={withdrawPairToken}*/}
-                {/*            />*/}
-                {/*        </div>*/}
-                {/*        <div className="space-y-2.5">*/}
-                {/*            <div className="flex flex-row items-center justify-between text-base">*/}
-                {/*                <div>*/}
-                {/*                    <i className="fa-solid fa-coin mr-1"/>*/}
-                {/*                    Tokens*/}
-                {/*                </div>*/}
-                {/*                <MaxButton*/}
-                {/*                    balance={amountBaseTokenBalance}*/}
-                {/*                    handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}*/}
-                {/*                />*/}
-                {/*            </div>*/}
-                {/*            <InputWithIconSubmit*/}
-                {/*                id="withdrawToken"*/}
-                {/*                name="withdrawToken"*/}
-                {/*                type="number"*/}
-                {/*                placeholder="Input amount to withdraw"*/}
-                {/*                submitName="Withdraw"*/}
-                {/*                image={project.image}*/}
-                {/*                icon="fa-light fa-circle-minus"*/}
-                {/*                value={amountBaseTokenToWithdraw}*/}
-                {/*                setValue={setAmountBaseTokenToWithdraw}*/}
-                {/*                submitFunction={withdrawBaseToken}*/}
-                {/*            />*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
             </Card>
             <Card title="Settings">
                 {/* Card Header */}
@@ -508,92 +327,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                             AllowSellingAndUpdateSettings()
                         }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
                     }
-
-                    {/*<div className="card-content pt-1 space-y-3.75">*/}
-                    {/*    <Toggle*/}
-                    {/*        label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}*/}
-                    {/*        handleClick={() => {*/}
-                    {/*            mode === 'sell' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)*/}
-                    {/*        }}*/}
-                    {/*        checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}*/}
-                    {/*    />*/}
-                    {/*    <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">*/}
-                    {/*        {*/}
-                    {/*            ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?*/}
-                    {/*                <div className="flex items-center">*/}
-                    {/*                    <RangeSlider*/}
-                    {/*                        className="mt-5 md-lg:mt-0"*/}
-                    {/*                        setPercent={mode === 'sell' ? setNewMaxBaseLiquidityRatio : setNewMaxPairedLiquidityRatio}*/}
-                    {/*                        percent={mode === 'sell' ? newMaxBaseLiquidityRatio : newMaxPairedLiquidityRatio}*/}
-                    {/*                    />*/}
-                    {/*                </div>*/}
-                    {/*                : ""*/}
-                    {/*        }*/}
-                    {/*        {(mode === 'sell' && (maxBaseLiquidityRatio.toString() !== newMaxBaseLiquidityRatio.toString())) &&*/}
-                    {/*            <Button name={'Update Ratio'} handleClick={updateRatio}>*/}
-                    {/*                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>*/}
-                    {/*            </Button>*/}
-                    {/*        }*/}
-                    {/*        {(mode === 'buy' && (maxPairedLiquidityRatio.toString() !== newMaxPairedLiquidityRatio.toString())) &&*/}
-                    {/*            <Button name={'Update Ratio'} handleClick={updateRatio}>*/}
-                    {/*                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>*/}
-                    {/*            </Button>*/}
-                    {/*        }*/}
-                    {/*    </div>*/}
-
-                    {/*</div>*/}
-
-                    {/*<div className="card-content pt-1 space-y-3.75">*/}
-                    {/*    {mode === "buy" && (<div className="space-y-2.5">*/}
-                    {/*        <div className="flex flex-row items-center justify-between text-base">*/}
-                    {/*            <div>*/}
-                    {/*                <i className="fa-solid fa-coin"/> Cash*/}
-                    {/*            </div>*/}
-                    {/*            <MaxButton*/}
-                    {/*                balance={pairedTokenWalletBalance}*/}
-                    {/*                handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}*/}
-                    {/*            />*/}
-                    {/*        </div>*/}
-                    {/*        <InputApproveWithIconSubmit*/}
-                    {/*            id="cash"*/}
-                    {/*            name="cash"*/}
-                    {/*            type="number"*/}
-                    {/*            icon="fa-light fa-circle-plus"*/}
-                    {/*            submitName="Deposit"*/}
-                    {/*            submitFunction={stakePairedToken}*/}
-                    {/*            value={amountPairTokenToStake}*/}
-                    {/*            image={marketMakingPool.paired_token_image}*/}
-                    {/*            setValue={setAmountPairTokenToStake}*/}
-                    {/*            address={marketMakingPool.address}*/}
-                    {/*            token={marketMakingPool.paired_token}*/}
-                    {/*        />*/}
-                    {/*    </div>)}*/}
-
-                    {/*    {mode === "sell" && (<div className="space-y-2.5">*/}
-                    {/*        <div className="flex flex-row items-center justify-between text-base">*/}
-                    {/*            <div>*/}
-                    {/*                <i className="fa-solid fa-coin"/> Token*/}
-                    {/*            </div>*/}
-                    {/*            <MaxButton*/}
-                    {/*                balance={baseTokenWalletBalance}*/}
-                    {/*                handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}*/}
-                    {/*            />*/}
-                    {/*        </div>*/}
-                    {/*        <InputApproveWithIconSubmit*/}
-                    {/*            id="token"*/}
-                    {/*            name="token"*/}
-                    {/*            type="number"*/}
-                    {/*            icon="fa-light fa-circle-plus"*/}
-                    {/*            submitName="Deposit"*/}
-                    {/*            image={project.image}*/}
-                    {/*            submitFunction={stakeBaseToken}*/}
-                    {/*            value={amountBaseTokenToStake}*/}
-                    {/*            setValue={setAmountBaseTokenToStake}*/}
-                    {/*            address={marketMakingPool.address}*/}
-                    {/*            token={project.token}*/}
-                    {/*        />*/}
-                    {/*    </div>)}*/}
-                    {/*</div>*/}
                 </div>
             </Card>
         </div>)
