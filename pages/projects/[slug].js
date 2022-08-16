@@ -95,6 +95,7 @@ export default function ProjectDetail(props) {
                                         wallet={wallet}
                                         marketMakingPool={marketMakingPool}
                                         project={project}
+                                        setTab={setTab}
                                     />
                                 ) : <ConnectYourWallet/>
                             }

@@ -19,9 +19,12 @@ import MaxButton from "./Button/MaxButton";
 import Card from "../projectDetail/Card/Card";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 import Swal from "sweetalert2";
+import moment from "moment/moment";
+import {useRouter} from "next/router";
 
-export default function DepositWithdraw({wallet, project, marketMakingPool}) {
+export default function DepositWithdraw({wallet, project, marketMakingPool,setTab}) {
 
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [baseTokenValueLocked, setBaseTokenValueLocked] = useState("0");
     const [pairedTokenValueLocked, setPairedTokenValueLocked] = useState("0");
@@ -317,7 +320,7 @@ export default function DepositWithdraw({wallet, project, marketMakingPool}) {
 
 
 
-                <div className="pt-10 card-content space-y-10">
+                <div className="pt-10 card-content space-y-5">
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
@@ -367,6 +370,18 @@ export default function DepositWithdraw({wallet, project, marketMakingPool}) {
                             token={project.token}
                         />
                     </div>
+                    <div>
+                        <Button
+                            className={'col-span-full'} name="Deposit LP Tokens" handleClick={() => router.push('/farms')}>
+                            <i className="pl-2 fa-solid fa-plus-circle"/>
+                        </Button>
+                    </div>
+                    <div>
+                        <Button
+                            className={''} name="Release Vesting" handleClick={() => setTab(5)}>
+                            <i className="pl-2 fa-solid fa-circle-plus"/>
+                        </Button>
+                    </div>
                 </div>
             </Card>
             <Card title="Activity">
@@ -375,7 +390,7 @@ export default function DepositWithdraw({wallet, project, marketMakingPool}) {
                     <h1 className="text-2xl"><i className="fa-solid fa-circle-minus"></i> Withdraw</h1>
                 </div>
 
-                <div className="pt-10 card-content space-y-10">
+                <div className="pt-10 card-content space-y-5">
                         <div className="space-y-2.5">
                             <div className="flex flex-row items-center justify-between text-base">
                                 <div>
@@ -400,7 +415,7 @@ export default function DepositWithdraw({wallet, project, marketMakingPool}) {
                                 submitFunction={withdrawPairToken}
                             />
                         </div>
-                        <div className="space-y-2.5">
+                        <div className="space-y-1">
                             <div className="flex flex-row items-center justify-between text-base">
                                 <div>
                                     <i className="fa-solid fa-coin mr-1"/>
@@ -424,6 +439,22 @@ export default function DepositWithdraw({wallet, project, marketMakingPool}) {
                                 submitFunction={withdrawBaseToken}
                             />
                         </div>
+                    <div>
+                        <Button
+                            className={'col-span-full'} name="Withdraw Liquidity" handleClick={() => setTab(3)}>
+                            <i className="pl-2 fa-solid fa-circle-minus"/>
+                        </Button>
+                    </div>
+                    <div className={'grid grid-cols-1 gap-2.5'}>
+
+                        <div>
+                            <Button
+                                className={''} name="Withdraw Vault Rewards" handleClick={() => setTab(4)}>
+                                <i className="pl-2 fa-solid fa-circle-minus"/>
+                            </Button>
+                        </div>
+                    </div>
+
                 </div>
             </Card>
         </div>)
