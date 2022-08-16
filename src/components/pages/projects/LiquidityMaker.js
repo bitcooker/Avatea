@@ -29,7 +29,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     const [currentRewardPairedValue, setCurrentRewardPairedValue] = useState('0');
     const [holdersMapping, setHoldersMapping] = useState();
     const [load, setLoad] = useState(false);
-    const [mode, setMode] = useState("sell");
     const [maxBaseLiquidityRatio, setMaxBaseLiquidityRatio] = useState('0')
     const [maxPairedLiquidityRatio, setMaxPairedLiquidityRatio] = useState('0')
     const [newMaxBaseLiquidityRatio, setNewMaxBaseLiquidityRatio] = useState('0')
@@ -41,60 +40,59 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     const [pairedTokenStakedInLiquidity, setPairedTokenStakedInLiquidity] = useState('0');
     const [baseTokenStakedInLiquidity, setBaseTokenStakedInLiquidity] = useState('0');
 
-    const initWalletConnected = async () => {
-        const {
-            maxBaseLiquidityRatio,
-            maxPairedLiquidityRatio,
-            pairedAllocationLiquidity,
-            baseAllocationLiquidity,
-            pairedTokenStakedInLiquidity,
-            baseTokenStakedInLiquidity
-
-        } = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address, wallet.account);
-        setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
-        setMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
-        setNewMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
-        setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
-        setBaseAllocation(helper.formatting.web3Format(baseAllocationLiquidity))
-        setPairAllocation(helper.formatting.web3Format(pairedAllocationLiquidity))
-        setBaseTokenStakedInLiquidity(helper.formatting.web3Format(baseTokenStakedInLiquidity))
-        setPairedTokenStakedInLiquidity(helper.formatting.web3Format(pairedTokenStakedInLiquidity))
-        if (mode === 'sell' && maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
-        if (mode === 'buy' && maxPairedLiquidityRatio > 0) setPairedLiquiditySetting(true);
-
-        setRewardEarned(
-            helper.formatting.web3Format(
-                await helper.web3.liquidityMaker.rewardEarned(wallet, liquidityMaker.address, wallet.account)
-            )
-        );
-        setLiquidityRewardEarned(
-            helper.formatting.web3Format(
-                await helper.web3.liquidityMaker.liquidityRewardEarned(wallet, liquidityMaker.address, wallet.account)
-            )
-        );
-        setRewardPerToken(
-            await helper.web3.liquidityMaker.rewardPerToken(wallet, liquidityMaker.address)
-        );
-        setLiquidityRewardPerToken(
-            await helper.web3.liquidityMaker.liquidityRewardPerToken(wallet, liquidityMaker.address)
-        );
-        setLockingPeriod(
-            Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address))
-        );
-
-
-        let TVL = await helper.web3.liquidityMaker.getTVL(wallet, liquidityMaker.address, project.token, liquidityMaker.paired_token)
-        setBaseTotalSupply(helper.formatting.web3Format(TVL.baseValue));
-        setPairedTotalSupply(helper.formatting.web3Format(TVL.pairedValue));
-        setHoldersMapping(
-            await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address, wallet.account)
-        );
-        setLoad(true);
-    };
 
     useEffect(() => {
         if (wallet.status === "connected") {
             const initWalletConnected = async () => {
+                const {
+                    maxBaseLiquidityRatio,
+                    maxPairedLiquidityRatio,
+                    pairedAllocationLiquidity,
+                    baseAllocationLiquidity,
+                    pairedTokenStakedInLiquidity,
+                    baseTokenStakedInLiquidity
+
+                } = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address, wallet.account);
+                setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
+                setMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
+                setNewMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
+                setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
+                setBaseAllocation(helper.formatting.web3Format(baseAllocationLiquidity))
+                setPairAllocation(helper.formatting.web3Format(pairedAllocationLiquidity))
+                setBaseTokenStakedInLiquidity(helper.formatting.web3Format(baseTokenStakedInLiquidity))
+                setPairedTokenStakedInLiquidity(helper.formatting.web3Format(pairedTokenStakedInLiquidity))
+                if (maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
+                if (maxPairedLiquidityRatio > 0) setPairedLiquiditySetting(true);
+
+                setRewardEarned(
+                    helper.formatting.web3Format(
+                        await helper.web3.liquidityMaker.rewardEarned(wallet, liquidityMaker.address, wallet.account)
+                    )
+                );
+                setLiquidityRewardEarned(
+                    helper.formatting.web3Format(
+                        await helper.web3.liquidityMaker.liquidityRewardEarned(wallet, liquidityMaker.address, wallet.account)
+                    )
+                );
+                setRewardPerToken(
+                    await helper.web3.liquidityMaker.rewardPerToken(wallet, liquidityMaker.address)
+                );
+                setLiquidityRewardPerToken(
+                    await helper.web3.liquidityMaker.liquidityRewardPerToken(wallet, liquidityMaker.address)
+                );
+                setLockingPeriod(
+                    Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address))
+                );
+
+
+                let TVL = await helper.web3.liquidityMaker.getTVL(wallet, liquidityMaker.address, project.token, liquidityMaker.paired_token)
+                setBaseTotalSupply(helper.formatting.web3Format(TVL.baseValue));
+                setPairedTotalSupply(helper.formatting.web3Format(TVL.pairedValue));
+                setHoldersMapping(
+                    await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address, wallet.account)
+                );
+                setLoad(true);
+
                 //@TODO Wire Chain ID for production
                 const marketMakingSettings = await helper.marketMaking.getMarketMakingSettings({
                     slug: project.slug, user_address: wallet.account,
@@ -103,21 +101,20 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                     const {
                         market_making_type, buy_sell_pressure, price_limit, id,
                     } = marketMakingSettings;
-                    if (mode === 'sell') setMode(market_making_type === null || market_making_type === 'hold' ? "sell" : market_making_type);
                 }
             };
             initWalletConnected();
         }
-    }, [wallet.status, project]);
+    }, [wallet, project]);
 
     useEffect(() => {
         if (wallet.status === "connected" && marketMakingPool.address) {
-            if (baseLiquiditySetting === false && mode === 'sell') {
+            if (baseLiquiditySetting === false) {
                 setNewMaxBaseLiquidityRatio(0)
             } else {
                 setNewMaxBaseLiquidityRatio(maxBaseLiquidityRatio)
             }
-            if (pairedLiquiditySetting === false && mode === 'buy') {
+            if (pairedLiquiditySetting === false) {
                 setNewMaxPairedLiquidityRatio(0)
             } else {
                 setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio)
@@ -126,15 +123,10 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     }, [baseLiquiditySetting, pairedLiquiditySetting])
 
     useEffect(() => {
-        if (mode === 'sell' && maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
-        if (mode === 'buy' && maxPairedLiquidityRatio > 0) setPairedLiquiditySetting(true);
-    }, [mode, maxBaseLiquidityRatio, maxPairedLiquidityRatio]);
+        if (maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
+        if (maxPairedLiquidityRatio > 0) setPairedLiquiditySetting(true);
+    }, [maxBaseLiquidityRatio, maxPairedLiquidityRatio]);
 
-    useEffect(() => {
-        if (wallet.status === "connected" && liquidityMaker.address) {
-            initWalletConnected();
-        }
-    }, [wallet.status, liquidityMaker]);
 
     useEffect(() => {
         if (liquidityRewardEarned && holdersMapping?.liquidityBalance) {
@@ -156,41 +148,24 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     }, [liquidityRewardEarned, holdersMapping?.liquidityBalance]);
 
 
-    const setMax = async (amount, setter) => {
-        setter(amount);
-    };
+    const updateBaseRatio = async () => {
+        await helper.web3.marketMaker.setMaxBaseLiquidityRatio(wallet, marketMakingPool.address, newMaxBaseLiquidityRatio);
+    }
 
-
-    const withdrawLiquidity = async () => {
-        //@Todo inspect full_withdrawal here if it makes sense? Because no wei value or something is passed
-        let full_withdrawal = false;
-        // let full_withdrawal = parseFloat(vaultBalance) === parseFloat(stakedVaultBalance);
-        await helper.web3.liquidityMaker.withdraw(
-            wallet,
-            liquidityMaker.address,
-            full_withdrawal
-        );
-        initWalletConnected();
-    };
-
-    const updateRatio = async () => {
-        if (mode === 'sell') await helper.web3.marketMaker.setMaxBaseLiquidityRatio(wallet, marketMakingPool.address, newMaxBaseLiquidityRatio);
-        else await helper.web3.marketMaker.setMaxPairedLiquidityRatio(wallet, marketMakingPool.address, newMaxPairedLiquidityRatio);
+    const updatePairedRatio = async () => {
+        await helper.web3.marketMaker.setMaxPairedLiquidityRatio(wallet, marketMakingPool.address, newMaxPairedLiquidityRatio);
     }
 
     const claimReward = async () => {
         await helper.web3.liquidityMaker.getReward(wallet, liquidityMaker.address);
-        initWalletConnected();
     };
 
     const compoundReward = async () => {
         await helper.web3.liquidityMaker.compoundLPReward(wallet, liquidityMaker.address);
-        initWalletConnected();
     };
 
     const exitLiquidity = async () => {
         await helper.web3.liquidityMaker.exit(wallet, liquidityMaker.address);
-        initWalletConnected();
     };
 
 
@@ -328,7 +303,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
 
                 <div className="card-content p-5 space-y-3.75 border-1 border-2 rounded-2xl mt-2.5">
                     <Toggle
-                        label={baseLiquiditySetting ? "Set " + project.ticker +" Liquidity Ratio" : "Do you want to provide liquidity in " + project.ticker +"?"}
+                        label={baseLiquiditySetting ? "Set " + project.ticker + " Liquidity Ratio" : "Do you want to provide liquidity in " + project.ticker + "?"}
                         handleClick={() => {
                             setBaseLiquiditySetting(!baseLiquiditySetting)
                         }}
@@ -348,7 +323,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                                     : ""
                             }
                             {maxBaseLiquidityRatio.toString() !== newMaxBaseLiquidityRatio.toString() &&
-                                <Button name={'Update Ratio'} handleClick={updateRatio}>
+                                <Button name={'Update Ratio'} handleClick={updateBaseRatio}>
                                     <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                                 </Button>
                             }
@@ -357,7 +332,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                     }
 
                     <Toggle
-                        label={pairedLiquiditySetting ? "Set " + liquidityMaker.paired_token_ticker +" Liquidity Ratio" : "Do you want to provide liquidity in " + liquidityMaker.paired_token_ticker +"?"}
+                        label={pairedLiquiditySetting ? "Set " + liquidityMaker.paired_token_ticker + " Liquidity Ratio" : "Do you want to provide liquidity in " + liquidityMaker.paired_token_ticker + "?"}
                         handleClick={() => {
                             setPairedLiquiditySetting(!pairedLiquiditySetting)
                         }}
@@ -378,7 +353,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                             }
 
                             {maxPairedLiquidityRatio.toString() !== newMaxPairedLiquidityRatio.toString() &&
-                                <Button name={'Update Ratio'} handleClick={updateRatio}>
+                                <Button name={'Update Ratio'} handleClick={updatePairedRatio}>
                                     <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                                 </Button>
                             }
