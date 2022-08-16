@@ -16,14 +16,11 @@ import Vesting from "../../src/components/pages/projects/Vesting";
 import Liquidity from "../../src/components/pages/projects/LiquidityMaker";
 import Info from "../../src/components/pages/projects/Info";
 import { usePageTitleContext } from '../../src/context/PageTitleContext';
-import parse from "html-react-parser";
-import DOMPurify from "dompurify";
-import moment from "moment/moment";
-import Button from "../../src/components/core/Button/Button";
 import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
 import * as React from "react";
+import DepositWithdraw from "../../src/components/pages/projects/DepositWithdraw";
 
-const tabItems = ["Info","Sustainable Trading", "Liquidity", "Vault", "Vesting"];
+const tabItems = ["Info","Deposit & Withdraw","Sustainable Trading", "Liquidity", "Vault", "Vesting"];
 
 export default function ProjectDetail(props) {
     //@Todo add min buy limit and max buy limit fields (stop-loss)
@@ -94,7 +91,7 @@ export default function ProjectDetail(props) {
                         <>
                             {
                                 wallet.status === "connected" ? (
-                                    <MarketMaking
+                                    <DepositWithdraw
                                         wallet={wallet}
                                         marketMakingPool={marketMakingPool}
                                         project={project}
@@ -107,6 +104,25 @@ export default function ProjectDetail(props) {
                 </div>
             }
             {tab === 2 &&
+                <div className="min-h-[800px] md-lg:min-h-[600px]">
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                        <>
+                            {
+                                wallet.status === "connected" ? (
+                                    <MarketMaking
+                                        wallet={wallet}
+                                        marketMakingPool={marketMakingPool}
+                                        project={project}
+                                    />
+                                ) : <ConnectYourWallet/>
+                            }
+                        </>
+
+                    </motion.div>
+                </div>
+            }
+
+            {tab === 3 &&
                 <div className="min-h-[500px] md-lg:min-h-[300px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>
@@ -125,7 +141,7 @@ export default function ProjectDetail(props) {
                     </motion.div>
                 </div>
             }
-            {tab === 3 &&
+            {tab === 4 &&
                 <div className="min-h-[550px] md-lg:min-h-[350px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>
@@ -144,7 +160,7 @@ export default function ProjectDetail(props) {
                     </motion.div>
                 </div>
             }
-            {tab === 4 &&
+            {tab === 5 &&
                 <div className="md-lg:min-h-[500px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>

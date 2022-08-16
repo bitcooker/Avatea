@@ -92,7 +92,6 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                 setAllowSelling(allowSelling);
                 setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
                 setMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
-                //@TODO Configure right amount
                 setNewMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
                 setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
                 if (mode === 'sell' && maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
@@ -376,58 +375,58 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     </div>
                 </div>
 
-                <div className="card-content space-y-5">
-                    <div className="space-y-3.75">
-                        <div className="space-y-2.5">
-                            <div className="flex flex-row items-center justify-between text-base">
-                                <div>
-                                    <i className="fa-solid fa-circle-dollar mr-1"/>
-                                    Cash
-                                </div>
-                                <MaxButton
-                                    balance={amountPairTokenBalance}
-                                    handleClick={() => setMax(amountPairTokenBalance, setAmountPairTokenToWithdraw)}
-                                />
-                            </div>
-                            <InputWithIconSubmit
-                                id="withdrawCash"
-                                name="withdrawCash"
-                                type="number"
-                                placeholder="Input amount to withdraw"
-                                submitName="Withdraw"
-                                image={marketMakingPool.paired_token_image}
-                                icon="fa-light fa-circle-minus"
-                                value={amountPairTokenToWithdraw}
-                                setValue={setAmountPairTokenToWithdraw}
-                                submitFunction={withdrawPairToken}
-                            />
-                        </div>
-                        <div className="space-y-2.5">
-                            <div className="flex flex-row items-center justify-between text-base">
-                                <div>
-                                    <i className="fa-solid fa-coin mr-1"/>
-                                    Tokens
-                                </div>
-                                <MaxButton
-                                    balance={amountBaseTokenBalance}
-                                    handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}
-                                />
-                            </div>
-                            <InputWithIconSubmit
-                                id="withdrawToken"
-                                name="withdrawToken"
-                                type="number"
-                                placeholder="Input amount to withdraw"
-                                submitName="Withdraw"
-                                image={project.image}
-                                icon="fa-light fa-circle-minus"
-                                value={amountBaseTokenToWithdraw}
-                                setValue={setAmountBaseTokenToWithdraw}
-                                submitFunction={withdrawBaseToken}
-                            />
-                        </div>
-                    </div>
-                </div>
+                {/*<div className="card-content space-y-5">*/}
+                {/*    <div className="space-y-3.75">*/}
+                {/*        <div className="space-y-2.5">*/}
+                {/*            <div className="flex flex-row items-center justify-between text-base">*/}
+                {/*                <div>*/}
+                {/*                    <i className="fa-solid fa-circle-dollar mr-1"/>*/}
+                {/*                    Cash*/}
+                {/*                </div>*/}
+                {/*                <MaxButton*/}
+                {/*                    balance={amountPairTokenBalance}*/}
+                {/*                    handleClick={() => setMax(amountPairTokenBalance, setAmountPairTokenToWithdraw)}*/}
+                {/*                />*/}
+                {/*            </div>*/}
+                {/*            <InputWithIconSubmit*/}
+                {/*                id="withdrawCash"*/}
+                {/*                name="withdrawCash"*/}
+                {/*                type="number"*/}
+                {/*                placeholder="Input amount to withdraw"*/}
+                {/*                submitName="Withdraw"*/}
+                {/*                image={marketMakingPool.paired_token_image}*/}
+                {/*                icon="fa-light fa-circle-minus"*/}
+                {/*                value={amountPairTokenToWithdraw}*/}
+                {/*                setValue={setAmountPairTokenToWithdraw}*/}
+                {/*                submitFunction={withdrawPairToken}*/}
+                {/*            />*/}
+                {/*        </div>*/}
+                {/*        <div className="space-y-2.5">*/}
+                {/*            <div className="flex flex-row items-center justify-between text-base">*/}
+                {/*                <div>*/}
+                {/*                    <i className="fa-solid fa-coin mr-1"/>*/}
+                {/*                    Tokens*/}
+                {/*                </div>*/}
+                {/*                <MaxButton*/}
+                {/*                    balance={amountBaseTokenBalance}*/}
+                {/*                    handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}*/}
+                {/*                />*/}
+                {/*            </div>*/}
+                {/*            <InputWithIconSubmit*/}
+                {/*                id="withdrawToken"*/}
+                {/*                name="withdrawToken"*/}
+                {/*                type="number"*/}
+                {/*                placeholder="Input amount to withdraw"*/}
+                {/*                submitName="Withdraw"*/}
+                {/*                image={project.image}*/}
+                {/*                icon="fa-light fa-circle-minus"*/}
+                {/*                value={amountBaseTokenToWithdraw}*/}
+                {/*                setValue={setAmountBaseTokenToWithdraw}*/}
+                {/*                submitFunction={withdrawBaseToken}*/}
+                {/*            />*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </Card>
             <Card title="Settings">
                 {/* Card Header */}
@@ -495,91 +494,91 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                         }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
                     }
 
-                    <div className="card-content pt-1 space-y-3.75">
-                        <Toggle
-                            label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}
-                            handleClick={() => {
-                                mode === 'sell' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)
-                            }}
-                            checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}
-                        />
-                        <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
-                            {
-                                ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?
-                                    <div className="flex items-center">
-                                        <RangeSlider
-                                            className="mt-5 md-lg:mt-0"
-                                            setPercent={mode === 'sell' ? setNewMaxBaseLiquidityRatio : setNewMaxPairedLiquidityRatio}
-                                            percent={mode === 'sell' ? newMaxBaseLiquidityRatio : newMaxPairedLiquidityRatio}
-                                        />
-                                    </div>
-                                    : ""
-                            }
-                            {(mode === 'sell' && (maxBaseLiquidityRatio.toString() !== newMaxBaseLiquidityRatio.toString())) &&
-                                <Button name={'Update Ratio'} handleClick={updateRatio}>
-                                    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                </Button>
-                            }
-                            {(mode === 'buy' && (maxPairedLiquidityRatio.toString() !== newMaxPairedLiquidityRatio.toString())) &&
-                                <Button name={'Update Ratio'} handleClick={updateRatio}>
-                                    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                </Button>
-                            }
-                        </div>
+                    {/*<div className="card-content pt-1 space-y-3.75">*/}
+                    {/*    <Toggle*/}
+                    {/*        label={(mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting) ? "Set Liquidity Ratio" : "Do you want to provide liquidity?"}*/}
+                    {/*        handleClick={() => {*/}
+                    {/*            mode === 'sell' ? setBaseLiquiditySetting(!baseLiquiditySetting) : setPairedLiquiditySetting(!pairedLiquiditySetting)*/}
+                    {/*        }}*/}
+                    {/*        checked={mode === 'sell' ? baseLiquiditySetting : pairedLiquiditySetting}*/}
+                    {/*    />*/}
+                    {/*    <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">*/}
+                    {/*        {*/}
+                    {/*            ((mode === 'sell' && baseLiquiditySetting || mode === 'buy' && pairedLiquiditySetting)) ?*/}
+                    {/*                <div className="flex items-center">*/}
+                    {/*                    <RangeSlider*/}
+                    {/*                        className="mt-5 md-lg:mt-0"*/}
+                    {/*                        setPercent={mode === 'sell' ? setNewMaxBaseLiquidityRatio : setNewMaxPairedLiquidityRatio}*/}
+                    {/*                        percent={mode === 'sell' ? newMaxBaseLiquidityRatio : newMaxPairedLiquidityRatio}*/}
+                    {/*                    />*/}
+                    {/*                </div>*/}
+                    {/*                : ""*/}
+                    {/*        }*/}
+                    {/*        {(mode === 'sell' && (maxBaseLiquidityRatio.toString() !== newMaxBaseLiquidityRatio.toString())) &&*/}
+                    {/*            <Button name={'Update Ratio'} handleClick={updateRatio}>*/}
+                    {/*                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>*/}
+                    {/*            </Button>*/}
+                    {/*        }*/}
+                    {/*        {(mode === 'buy' && (maxPairedLiquidityRatio.toString() !== newMaxPairedLiquidityRatio.toString())) &&*/}
+                    {/*            <Button name={'Update Ratio'} handleClick={updateRatio}>*/}
+                    {/*                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>*/}
+                    {/*            </Button>*/}
+                    {/*        }*/}
+                    {/*    </div>*/}
 
-                    </div>
+                    {/*</div>*/}
 
-                    <div className="card-content pt-1 space-y-3.75">
-                        {mode === "buy" && (<div className="space-y-2.5">
-                            <div className="flex flex-row items-center justify-between text-base">
-                                <div>
-                                    <i className="fa-solid fa-coin"/> Cash
-                                </div>
-                                <MaxButton
-                                    balance={pairedTokenWalletBalance}
-                                    handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
-                                />
-                            </div>
-                            <InputApproveWithIconSubmit
-                                id="cash"
-                                name="cash"
-                                type="number"
-                                icon="fa-light fa-circle-plus"
-                                submitName="Deposit"
-                                submitFunction={stakePairedToken}
-                                value={amountPairTokenToStake}
-                                image={marketMakingPool.paired_token_image}
-                                setValue={setAmountPairTokenToStake}
-                                address={marketMakingPool.address}
-                                token={marketMakingPool.paired_token}
-                            />
-                        </div>)}
+                    {/*<div className="card-content pt-1 space-y-3.75">*/}
+                    {/*    {mode === "buy" && (<div className="space-y-2.5">*/}
+                    {/*        <div className="flex flex-row items-center justify-between text-base">*/}
+                    {/*            <div>*/}
+                    {/*                <i className="fa-solid fa-coin"/> Cash*/}
+                    {/*            </div>*/}
+                    {/*            <MaxButton*/}
+                    {/*                balance={pairedTokenWalletBalance}*/}
+                    {/*                handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}*/}
+                    {/*            />*/}
+                    {/*        </div>*/}
+                    {/*        <InputApproveWithIconSubmit*/}
+                    {/*            id="cash"*/}
+                    {/*            name="cash"*/}
+                    {/*            type="number"*/}
+                    {/*            icon="fa-light fa-circle-plus"*/}
+                    {/*            submitName="Deposit"*/}
+                    {/*            submitFunction={stakePairedToken}*/}
+                    {/*            value={amountPairTokenToStake}*/}
+                    {/*            image={marketMakingPool.paired_token_image}*/}
+                    {/*            setValue={setAmountPairTokenToStake}*/}
+                    {/*            address={marketMakingPool.address}*/}
+                    {/*            token={marketMakingPool.paired_token}*/}
+                    {/*        />*/}
+                    {/*    </div>)}*/}
 
-                        {mode === "sell" && (<div className="space-y-2.5">
-                            <div className="flex flex-row items-center justify-between text-base">
-                                <div>
-                                    <i className="fa-solid fa-coin"/> Token
-                                </div>
-                                <MaxButton
-                                    balance={baseTokenWalletBalance}
-                                    handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}
-                                />
-                            </div>
-                            <InputApproveWithIconSubmit
-                                id="token"
-                                name="token"
-                                type="number"
-                                icon="fa-light fa-circle-plus"
-                                submitName="Deposit"
-                                image={project.image}
-                                submitFunction={stakeBaseToken}
-                                value={amountBaseTokenToStake}
-                                setValue={setAmountBaseTokenToStake}
-                                address={marketMakingPool.address}
-                                token={project.token}
-                            />
-                        </div>)}
-                    </div>
+                    {/*    {mode === "sell" && (<div className="space-y-2.5">*/}
+                    {/*        <div className="flex flex-row items-center justify-between text-base">*/}
+                    {/*            <div>*/}
+                    {/*                <i className="fa-solid fa-coin"/> Token*/}
+                    {/*            </div>*/}
+                    {/*            <MaxButton*/}
+                    {/*                balance={baseTokenWalletBalance}*/}
+                    {/*                handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}*/}
+                    {/*            />*/}
+                    {/*        </div>*/}
+                    {/*        <InputApproveWithIconSubmit*/}
+                    {/*            id="token"*/}
+                    {/*            name="token"*/}
+                    {/*            type="number"*/}
+                    {/*            icon="fa-light fa-circle-plus"*/}
+                    {/*            submitName="Deposit"*/}
+                    {/*            image={project.image}*/}
+                    {/*            submitFunction={stakeBaseToken}*/}
+                    {/*            value={amountBaseTokenToStake}*/}
+                    {/*            setValue={setAmountBaseTokenToStake}*/}
+                    {/*            address={marketMakingPool.address}*/}
+                    {/*            token={project.token}*/}
+                    {/*        />*/}
+                    {/*    </div>)}*/}
+                    {/*</div>*/}
                 </div>
             </Card>
         </div>)
