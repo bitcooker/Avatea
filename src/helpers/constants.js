@@ -14,6 +14,10 @@ export const ENVIRONMENT_MODE = process.env.NEXT_PUBLIC_VERCEL_ENV;
 export const RPC_URL = {
     4: "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
 }
+export const DEX_ROUTER = {
+    '4': '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
+    '56': '0x10ED43C718714eb63d5aA57B78B54704E256024E'
+}
 export const SOCIALDATA = [
     {
         name: "LinkedIn",

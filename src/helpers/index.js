@@ -4,6 +4,7 @@ import vault from './web3/vault';
 import marketMaking from "./marketMaking";
 import project from "./project";
 import token from "./web3/token";
+import uniswap from "./web3/uniswap";
 import formatting from "./formatting";
 import user from './user';
 import vaultRest from './vault';
@@ -30,7 +31,8 @@ export default {
         vault,
         authentication,
         token,
-        liquidityMaker
+        liquidityMaker,
+        uniswap
     },
     liquidityMaker: liquidityMakerRest,
     project,
