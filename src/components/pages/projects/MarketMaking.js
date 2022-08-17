@@ -157,10 +157,14 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                 marketMakingPoolId: marketMakingPool.id,
                 id: marketMakingSettingsId ? marketMakingSettingsId : "",
             };
-            await helper.marketMaking.updateMarketMakingSettings({
+            let id = await helper.marketMaking.updateMarketMakingSettings({
                 marketMakingSettings, wallet, fresh
             });
             setIsLoading(false)
+            if (fresh) {
+                setFresh(false);
+                setMarketMakingSettingsId(id)
+            }
         } catch (e) {
             setIsLoading(false)
         }
@@ -168,10 +172,9 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     };
 
 
-    const AllowSellingAndUpdateSettings = async () => {
+    const AllowSelling = async () => {
         let success = helper.marketMaker.setAllowSelling(wallet, marketMakingPool.address, true);
         setFresh(false);
-        updateSettings()
     };
 
 
@@ -288,7 +291,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                             id="priceLimit"
                             name="priceLimit"
                             type="number"
-                            image={mode === "sell" ? project.image : marketMakingPool.paired_token_image}
+                            image={marketMakingPool.paired_token_image}
                             placeholder="Enter price"
                             icon="fa-light fa-circle-minus"
                             hideButton={true}
@@ -304,8 +307,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                     updateSettings()
                                 }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
                         :
-                        <Button name="Allow Market Making And Save Settings" handleClick={(e) => {
-                            AllowSellingAndUpdateSettings()
+                        <Button name="Allow sustainable selling" handleClick={(e) => {
+                            AllowSelling()
                         }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
                     }
                 </div>

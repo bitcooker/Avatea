@@ -84,7 +84,7 @@ const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh})
         const signature = await helpers.web3.authentication.getSignature(wallet);
         if (fresh) {
             //Consider it as a new post
-            await axios(
+            let {data} = await axios(
                 {
                     method: 'post',
                     url: `${API_URL}UserSettings/`,
@@ -99,8 +99,10 @@ const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh})
                 }
             )
             toast.success('Settings saved succesfully.')
+            return data.id
+
         } else {
-            await axios(
+            let {data} = await axios(
                 {
                     method: 'patch',
                     url: `${API_URL}UserSettings/${id}/`,
@@ -113,8 +115,8 @@ const updateMarketMakingSettings = async ({marketMakingSettings, wallet, fresh})
                 }
             )
             toast.success('Settings saved succesfully.')
+            return data.id
         }
-
 
     } catch (e) {
         console.log('updateMarketMakingSettings error:', e);
