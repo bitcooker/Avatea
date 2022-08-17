@@ -163,7 +163,7 @@ const hook = async ({
                 await axios.post(`${API_URL}Transaction/`, {
                     hash: data.receipt.transactionHash,
                     type: type,
-                    contract: data.receipt.to,
+                    contract: data.address,
                     user_address: data.receipt.from,
                     network: data.wallet.chainId,
                     full_withdrawal: data.full_withdrawal
