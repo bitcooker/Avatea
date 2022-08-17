@@ -13,6 +13,7 @@ import ConnectYourWallet from "../src/components/core/ConnectYourWallet";
 import {useEffect, useState} from "react";
 import helpers from "../src/helpers";
 import { usePageTitleContext } from "../src/context/PageTitleContext";
+import TransactionWrapper from "../src/components/pages/myActivity/Transaction/TransactionWrapper";
 
 export default function Activity() {
     const { setTitle } = usePageTitleContext();
@@ -42,7 +43,7 @@ export default function Activity() {
 
                         <div className="space-y-3.75 lg:space-y-0 lg:grid lg:grid-cols-1 lg:gap-5">
                             {/*<Chart />*/}
-                            <Act />
+                            <TransactionWrapper  />
                         </div>
                     </>
                 ) : <ConnectYourWallet/>

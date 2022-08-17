@@ -4,8 +4,9 @@ import { ActModul } from "./ActModul";
 import {useWallet} from "@albs1/use-wallet";
 import helpers from "../../../../helpers";
 import Spinner from "../../../core/Spinner";
+import user from "../../../../helpers/user";
 
-export default function TransactionWrapper() {
+export default function TransactionWrapper( { userAddress,projectSlug }) {
 
     const wallet = useWallet();
     const [transactions,setTransactions] = useState(null);
@@ -13,10 +14,19 @@ export default function TransactionWrapper() {
     useEffect(() => {
         if(wallet.status === "connected") {
              const initiateWallet = async() => {
-                const result = await helpers.transactions.getTransactions({
-                    userAddress: wallet.account
-                })
-                setTransactions(result)
+                 if (userAddress && projectSlug) {
+                     const result = await helpers.transactions.getTransactions({
+                         userAddress,
+                         project: projectSlug
+                     })
+                     setTransactions(result)
+                 }
+                 else {
+                     const result = await helpers.transactions.getTransactions({
+                         userAddress: wallet.account
+                     })
+                     setTransactions(result)
+                 }
             }
             const timeout = setTimeout(() => {
                 initiateWallet()
@@ -27,7 +37,6 @@ export default function TransactionWrapper() {
         }
     },[wallet])
 
-    console.log(transactions);
 
     return (
     <div className="grow p-5 rounded-2.5xl bg-white">

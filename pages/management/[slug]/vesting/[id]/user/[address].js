@@ -6,6 +6,8 @@ import helper from "../../../../../../src/helpers";
 import Vesting from "../../../../../../src/components/pages/projects/Vesting";
 import ManagementAuthentication from "../../../../../../src/components/pages/management/ManagementAuthentication";
 import ButtonOutlineFit from "../../../../../../src/components/core/Button/ButtonOutlineFit";
+import TransactionWrapper from "../../../../../../src/components/pages/myActivity/Transaction/TransactionWrapper";
+import * as React from "react";
 
 
 export default function ProjectDetail(props) {
@@ -72,6 +74,10 @@ export default function ProjectDetail(props) {
                     setAction={'revoke'}
                     userAddress={address}
                 />
+                <div className="space-y-3.75 lg:space-y-0 lg:grid lg:grid-cols-1 lg:gap-5">
+                    {/*<Chart />*/}
+                    <TransactionWrapper userAddress={address} projectSlug={slug} />
+                </div>
             </div>
         </ManagementAuthentication>
     );
