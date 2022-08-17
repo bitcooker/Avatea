@@ -75,7 +75,7 @@ export default function TransactionItem(props) {
         <div className="grid grid-cols-12 items-center w-full p-2">
             <TableCol className="truncate col-span-7 font-medium text-base tracking-[.0125rem]">
                 <div className={'mb-3'}>
-                    <div className={`inline-block px-3 py-2 rounded text-white border-2 border-opacity-50 border-gray-300 text-black hover:bg-gray-300 delay-150 transition-all hover:border-opacity-100 text-center`}>
+                    <div className={`inline-block px-3 py-2 rounded-full text-white border-2 border-opacity-50 border-gray-300 text-black hover:bg-gray-300 delay-150 transition-all hover:border-opacity-100 text-center`}>
 {/*
                     <div className={`inline-block px-2 py-2 rounded-full text-white`} style={{backgroundColor: stc(props.type)}}>
 */}
