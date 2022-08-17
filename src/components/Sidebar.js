@@ -13,7 +13,7 @@ const userMenus = [
         icon: "fa-solid fa-home-user",
     },
     {
-        label: "My Activity",
+        label: "Dashboard",
         href: "/activity",
         icon: "fa-solid fa-chart-area",
     },
@@ -51,7 +51,7 @@ const adminMenus = [
         icon: "fa-solid fa-home-user",
     },
     {
-        label: "My Activity",
+        label: "Dashboard",
         href: "/activity",
         icon: "fa-solid fa-chart-area",
     },

@@ -370,9 +370,10 @@ export default function DepositWithdraw({wallet, project, marketMakingPool,setTa
                             token={project.token}
                         />
                     </div>
+
                     <div>
                         <Button
-                            className={'col-span-full'} name="Deposit LP Tokens" handleClick={() => router.push('/farms')}>
+                            className={'col-span-full'} name="Stake In Vault" handleClick={() => setTab(4)}>
                             <i className="pl-2 fa-solid fa-plus-circle"/>
                         </Button>
                     </div>
@@ -380,6 +381,12 @@ export default function DepositWithdraw({wallet, project, marketMakingPool,setTa
                         <Button
                             className={''} name="Release Vesting" handleClick={() => setTab(5)}>
                             <i className="pl-2 fa-solid fa-circle-plus"/>
+                        </Button>
+                    </div>
+                    <div>
+                        <Button
+                            className={'col-span-full'} name="Deposit LP Tokens" handleClick={() => router.push('/farms')}>
+                            <i className="pl-2 fa-solid fa-plus-circle"/>
                         </Button>
                     </div>
                 </div>
@@ -453,6 +460,12 @@ export default function DepositWithdraw({wallet, project, marketMakingPool,setTa
                                 <i className="pl-2 fa-solid fa-circle-minus"/>
                             </Button>
                         </div>
+                    </div>
+                    <div>
+                        <Button
+                            className={'col-span-full'} name="Withdraw LP Tokens" handleClick={() => router.push('/farms')}>
+                            <i className="pl-2 fa-solid fa-plus-circle"/>
+                        </Button>
                     </div>
 
                 </div>
