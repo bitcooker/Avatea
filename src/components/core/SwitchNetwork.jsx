@@ -67,7 +67,7 @@ export default function SwitchNetwork(props) {
       onMouseLeave={() => setOpen(false)}
     >
         <div className="flex flex-row items-center space-x-2">
-            <Image src={`${currentNetwork?.icon}`} alt="network" width={20} height={20} />
+            <img src={`${currentNetwork?.icon}`} alt="network" width={20} height={20} />
             <span className="hidden md-lg:block">{currentNetwork?.displayName}</span>
         </div>
         
@@ -117,7 +117,7 @@ export const NetworkItem = (props) => {
     >
       <div className="flex items-center gap-2">
           {
-              props?.network?.icon ?  <Image
+              props?.network?.icon ?  <img
                       src={props?.network?.icon}
                       alt="network_item"
                       width={20}
