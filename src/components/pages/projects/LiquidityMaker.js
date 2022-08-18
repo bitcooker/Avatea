@@ -12,6 +12,7 @@ import SkeletonLiquidity from "./Skeleton/SkeletonLiquidity";
 import moment from "moment";
 import Toggle from "../../core/Toggle/Toggle";
 import RangeSlider from "../../core/RangeSlider/RangeSlider";
+import Swal from "sweetalert2";
 
 export default function LiquidityMaker({liquidityMaker, wallet, project, marketMakingPool}) {
 
@@ -149,11 +150,45 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
 
 
     const updateBaseRatio = async () => {
-        await helper.web3.marketMaker.setMaxBaseLiquidityRatio(wallet, marketMakingPool.address, newMaxBaseLiquidityRatio);
+        if (newMaxBaseLiquidityRatio > 0) {
+            await Swal.fire({
+                title: 'Read before proceeding',
+                text: "Providing Liquidity exposes you to a certain risk reward situation, please use with caution.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.close();
+                    helper.web3.marketMaker.setMaxBaseLiquidityRatio(wallet, marketMakingPool.address, newMaxBaseLiquidityRatio);
+                }
+            })
+        } else {
+            await helper.web3.marketMaker.setMaxBaseLiquidityRatio(wallet, marketMakingPool.address, newMaxBaseLiquidityRatio);
+        }
     }
 
     const updatePairedRatio = async () => {
-        await helper.web3.marketMaker.setMaxPairedLiquidityRatio(wallet, marketMakingPool.address, newMaxPairedLiquidityRatio);
+        if (newMaxPairedLiquidityRatio > 0) {
+            await Swal.fire({
+                title: 'Read before proceeding',
+                text: "Providing Liquidity exposes you to a certain risk reward situation, please use with caution.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.close();
+                    helper.web3.marketMaker.setMaxPairedLiquidityRatio(wallet, marketMakingPool.address, newMaxPairedLiquidityRatio);
+                }
+            })
+        } else {
+            await helper.web3.marketMaker.setMaxPairedLiquidityRatio(wallet, marketMakingPool.address, newMaxPairedLiquidityRatio);
+        }
     }
 
     const claimReward = async () => {
