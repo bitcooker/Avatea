@@ -154,13 +154,6 @@ export default function DepositWithdraw({wallet, project, marketMakingPool, setT
                             token={project.token}
                         />
                     </div>
-
-                    <div>
-                        <Button
-                            className={'col-span-full'} name="Stake In Vault" handleClick={() => setTab(4)}>
-                            <i className="pl-2 fa-solid fa-plus-circle"/>
-                        </Button>
-                    </div>
                     <div>
                         <Button
                             className={''} name="Release Vesting" handleClick={() => setTab(5)}>
@@ -171,6 +164,12 @@ export default function DepositWithdraw({wallet, project, marketMakingPool, setT
                         <Button
                             className={'col-span-full'} name="Deposit LP Tokens"
                             handleClick={() => router.push('/farms')}>
+                            <i className="pl-2 fa-solid fa-plus-circle"/>
+                        </Button>
+                    </div>
+                    <div>
+                        <Button
+                            className={'col-span-full'} name="Stake In Vault" handleClick={() => setTab(4)}>
                             <i className="pl-2 fa-solid fa-plus-circle"/>
                         </Button>
                     </div>
@@ -237,15 +236,6 @@ export default function DepositWithdraw({wallet, project, marketMakingPool, setT
                             <i className="pl-2 fa-solid fa-circle-minus"/>
                         </Button>
                     </div>
-                    <div className={'grid grid-cols-1 gap-2.5'}>
-
-                        <div>
-                            <Button
-                                className={''} name="Withdraw Vault Rewards" handleClick={() => setTab(4)}>
-                                <i className="pl-2 fa-solid fa-circle-minus"/>
-                            </Button>
-                        </div>
-                    </div>
                     <div>
                         <Button
                             className={'col-span-full'} name="Withdraw LP Tokens"
@@ -253,7 +243,14 @@ export default function DepositWithdraw({wallet, project, marketMakingPool, setT
                             <i className="pl-2 fa-solid fa-plus-circle"/>
                         </Button>
                     </div>
-
+                    <div className={'grid grid-cols-1 gap-2.5'}>
+                        <div>
+                            <Button
+                                className={''} name="Withdraw Vault Rewards" handleClick={() => setTab(4)}>
+                                <i className="pl-2 fa-solid fa-circle-minus"/>
+                            </Button>
+                        </div>
+                    </div>
                 </div>
             </Card>
         </div>)
