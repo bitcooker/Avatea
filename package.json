@@ -13,6 +13,7 @@
     "@lottiefiles/lottie-player": "^1.5.7",
     "axios": "^0.27.2",
     "chart.js": "^3.8.0",
+    "chartjs-chart-geo": "^3.9.0",
     "dompurify": "^2.3.9",
     "ethers": "^5.6.5",
     "framer-motion": "^6.4.3",
