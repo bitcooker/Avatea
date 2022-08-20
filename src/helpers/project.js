@@ -111,6 +111,25 @@ const updateProjectInformation = async (formData, projectId, wallet) => {
     }
 };
 
+
+const getVestingData = async (slug) => {
+    try {
+        return await axios.get(`${API_URL}Project/${slug}/get_vesting_data`);
+    } catch (e) {
+        console.log('getVestingData error:', e);
+    }
+}
+
+
+const getProjectData = async (slug) => {
+    try {
+        return await axios.get(`${API_URL}Project/${slug}/get_project_data`);
+    } catch (e) {
+        console.log('getProjectData error:', e);
+    }
+}
+
+
 export default {
     updateProjectInformation,
     getProjects,
@@ -118,5 +137,7 @@ export default {
     getArticles,
     getProjectServerSide,
     getVestingBatches,
-    getVesting
+    getVesting,
+    getVestingData,
+    getProjectData
 }
