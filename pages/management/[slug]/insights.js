@@ -14,6 +14,7 @@ import ManagementAuthentication from "../../../src/components/pages/management/M
 import {usePageTitleContext} from "../../../src/context/PageTitleContext";
 import {VestingChart} from "../../../src/components/pages/management/charts/VestingChart";
 import {ProjectChart} from "../../../src/components/pages/management/charts/ProjectChart";
+import {GeoChart} from "../../../src/components/pages/management/charts/GeoChart";
 
 export default function Insights(props) {
     const wallet = useWallet();
@@ -68,6 +69,10 @@ export default function Insights(props) {
 
                 <div className="space-y-7.5">
                     <ProjectChart projectData={projectData}/>
+                </div>
+
+                <div>
+                    <GeoChart chosenKey='world'/>
                 </div>
 
             </div>
