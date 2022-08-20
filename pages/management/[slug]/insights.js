@@ -15,7 +15,7 @@ import {usePageTitleContext} from "../../../src/context/PageTitleContext";
 import {VestingChart} from "../../../src/components/pages/management/charts/VestingChart";
 import {ProjectChart} from "../../../src/components/pages/management/charts/ProjectChart";
 
-export default function DataAnalysis(props) {
+export default function Insights(props) {
     const wallet = useWallet();
     const router = useRouter();
     const {setTitle} = usePageTitleContext();
