@@ -304,9 +304,12 @@ export function GeoChart(props) {
                         value.objects[MAP_JSON[props.chosenKey].objectsKey]
                     ).features
                 );
-                setUserLocations(props.userLocations)
-            });
+            })
     }, [props.chosenKey]);
+
+    useEffect(() => {
+        setUserLocations(props.userLocations)
+    }, [props.userLocations]);
 
     return (
         <Chart
