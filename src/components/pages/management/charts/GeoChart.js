@@ -1,13 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { Chart } from "react-chartjs-2";
+import {useEffect, useRef, useState} from "react";
+import {Chart} from "react-chartjs-2";
 import * as ChartGeo from "chartjs-chart-geo";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    Tooltip,
-    Title,
-    Legend
-} from "chart.js";
+import {CategoryScale, Chart as ChartJS, Legend, Title, Tooltip} from "chart.js";
 
 const WORLD_JSON = {
     world: {
@@ -281,7 +275,7 @@ const COUNTRIES_JSON = {
     }
 };
 
-const MAP_JSON = { ...WORLD_JSON, ...CONTINENTS_JSON, ...COUNTRIES_JSON };
+const MAP_JSON = {...WORLD_JSON, ...CONTINENTS_JSON, ...COUNTRIES_JSON};
 
 
 ChartJS.register(
@@ -298,6 +292,7 @@ ChartJS.register(
 export function GeoChart(props) {
     const chartRef = useRef();
     const [data, setData] = useState([]);
+    const [userLocations, setUserLocations] = useState([]);
 
     useEffect(() => {
         fetch(MAP_JSON[props.chosenKey].url)
@@ -309,6 +304,7 @@ export function GeoChart(props) {
                         value.objects[MAP_JSON[props.chosenKey].objectsKey]
                     ).features
                 );
+                setUserLocations(props.userLocations)
             });
     }, [props.chosenKey]);
 
@@ -326,9 +322,8 @@ export function GeoChart(props) {
                         label: "Countries",
                         data: data.map((d) => ({
                             feature: d,
-                            value: Math.random() * 10
+                            value: userLocations[d.properties['Alpha-2']] || 0
                         }))
-                        // backgroundColor: ["#94BA62", "#59A22F", "#1A830C"]
                     }
                 ]
             }}

@@ -130,6 +130,15 @@ const getProjectData = async (slug) => {
 }
 
 
+const getUserLocations = async (slug) => {
+    try {
+        return await axios.get(`${API_URL}Project/${slug}/get_user_locations`);
+    } catch (e) {
+        console.log('getUserLocations error:', e);
+    }
+}
+
+
 export default {
     updateProjectInformation,
     getProjects,
@@ -139,5 +148,6 @@ export default {
     getVestingBatches,
     getVesting,
     getVestingData,
-    getProjectData
+    getProjectData,
+    getUserLocations
 }

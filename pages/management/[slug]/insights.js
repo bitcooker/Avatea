@@ -25,6 +25,7 @@ export default function Insights(props) {
     const [project, setProject] = React.useState({});
     const [vestingData, setVestingData] = useState({})
     const [projectData, setProjectData] = useState({})
+    const [userLocations, setUserLocations] = useState({})
 
     useEffect(() => {
         setTitle("Project Management")
@@ -51,8 +52,14 @@ export default function Insights(props) {
             setProjectData(data);
         };
 
+        const fetchUserLocations = async () => {
+            const {data} = await helper.project.getUserLocations(slug)
+            setUserLocations(data);
+        };
+
         fetchVestingData();
         fetchProjectData();
+        fetchUserLocations();
 
     }, [project]);
 
@@ -72,7 +79,7 @@ export default function Insights(props) {
                 </div>
 
                 <div>
-                    <GeoChart chosenKey='world'/>
+                    <GeoChart chosenKey='world' userLocations={userLocations}/>
                 </div>
 
             </div>
