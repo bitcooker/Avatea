@@ -1,8 +1,12 @@
 import * as React from "react";
-import { useEffect, useState} from "react";
+import { useEffect, useState, useRef } from "react";
+import {useWallet} from "@albs1/use-wallet";
+import {useRouter} from "next/router";
+import { motion } from "framer-motion";
 
 // core components
 import Button from "../../../src/components/core/Button/Button";
+import Tab from "../../../src/components/core/Tab/Tab";
 
 // project detail components
 import Banner from "../../../src/components/pages/projectDetail/Banner/Banner";
@@ -14,11 +18,11 @@ import VaultCard from "../../../src/components/pages/management/VaultCard";
 import MarketMakingCard from "../../../src/components/pages/management/MarketMakingCard";
 import ManageProjectCard from "../../../src/components/pages/management/ManageProjectCard";
 import LiquidityMakerCard from "../../../src/components/pages/management/LiquidityMakerCard";
-import {useWallet} from "@albs1/use-wallet";
-import {useRouter} from "next/router";
 import ManagementAuthentication from "../../../src/components/pages/management/ManagementAuthentication";
 
 import { usePageTitleContext } from "../../../src/context/PageTitleContext";
+
+const tabItems = ["Manage Project", "Market Making Pool","Liquidity Marker","Vault"];
 
 export default function ManagementIndex(props) {
     const wallet = useWallet();
@@ -29,7 +33,9 @@ export default function ManagementIndex(props) {
     const [project, setProject] = React.useState({});
     const [vault, setVault] = useState({});
     const [marketMakingPool, setMarketMakingPool] = useState({});
-    const [liquidityMaker, setLiquidityMaker] = useState({})
+    const [liquidityMaker, setLiquidityMaker] = useState({});
+    const [tab, setTab] = useState(0);
+    const tabRef = useRef();
 
     useEffect(() => {
         setTitle("Project Management")
@@ -53,6 +59,10 @@ export default function ManagementIndex(props) {
             <ManagementAuthentication wallet={wallet} project={project}>
                 <div className="space-y-7.5">
                     <Banner {...project} />
+                    {/* Tab menu */}
+                    <div ref={tabRef} className="flex justify-center">
+                        <Tab items={tabItems} tab={tab} setTab={setTab}/>
+                    </div>
 
                     {!project.signed_contract ? (
                         <Card>
@@ -69,16 +79,36 @@ export default function ManagementIndex(props) {
                             </div>
                         </Card>
                     ) : (
-                        <div className="space-y-7.5">
-                            <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-3.75">
-                                <MarketMakingCard project={project} marketMakingPool={marketMakingPool}/>
-                                <LiquidityMakerCard liquidityMaker={liquidityMaker} project={project}/>
-                            </div>
-                            <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-3.75">
-                                <VaultCard vault={vault} project={project}/>
-                                <ManageProjectCard project={project} vault={vault}/>
-                            </div>
-                        </div>
+                        <>
+                            {tab === 0 && 
+                                <div className="min-h-[370px]">
+                                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                                        <ManageProjectCard project={project} vault={vault}/>
+                                    </motion.div>
+                                </div>
+                            }
+                            {tab === 1 &&
+                                <div className="min-h-[770px]">
+                                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                                        <MarketMakingCard project={project} marketMakingPool={marketMakingPool}/>
+                                    </motion.div>
+                                </div>
+                            }
+                            {tab === 2 &&
+                                <div className="min-h-[770px]">
+                                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                                        <LiquidityMakerCard liquidityMaker={liquidityMaker} project={project}/>
+                                    </motion.div>
+                                </div>
+                            }
+                            {tab === 3 &&
+                                <div className="min-h-[360px]">
+                                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                                        <VaultCard vault={vault} project={project}/>
+                                    </motion.div>
+                                </div>
+                            }
+                        </>
                     )}
                 </div>
             </ManagementAuthentication>
