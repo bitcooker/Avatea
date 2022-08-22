@@ -179,13 +179,129 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
 
     return !load ? <SkeletonMarketMaking/> : (
-        <div className="grid md-lg:grid-cols-2 gap-7.5">
-            <Card title="Activity">
+        <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] mx-auto">
+            <Card title="Activity" className={''}>
+
                 {/* Card Header */}
                 <div className="card-header">
-                    <h1 className="text-2xl"><i className="fa-solid fa-wave-pulse"></i> Activity</h1>
+                    <h1 className="text-2xl mb-5"><i className="fa-solid fa-wave-pulse"></i> Activity</h1>
+                    {mode === "sell" ? (
+                        <div className={'grid md-lg:grid-cols-3 gap-7.5'}>
+                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                                <div className="text-center">
+                                    <Image src={project.image} alt="projectImage" width={30} height={30}/>
 
-                    <div className="py-5.5 space-y-4.5">
+                                    <p className="font-bold text-3xl">
+                                        <span>{activity.baseAmountBought}</span>
+                                    </p>
+
+                                    <div className={'flex justify-center mt-1'}>
+                                        <p className="text-sm uppercase tracking-widest"> Bought</p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                                <div className="text-center">
+                                    <Image src={project.image} alt="projectImage" width={30} height={30}/>
+
+                                    <p className="font-bold text-3xl">
+                                        <span >{activity.baseAmountSold}</span>
+                                    </p>
+
+                                    <div className={'flex justify-center mt-1'}>
+                                        <p className="text-sm uppercase tracking-widest"> Sold</p>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                                <div className="text-center">
+                                    <Image src={project.image} alt="projectImage" width={30} height={30}/>
+
+                                    <p className="font-bold text-3xl">
+                                        <span >{activity.baseAllocationTrading}</span>
+                                    </p>
+
+                                    <div className={'flex justify-center mt-1'}>
+                                        <p className="text-sm uppercase tracking-widest"> Allocation</p>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    ) : (
+                        <div className={'grid md-lg:grid-cols-3 gap-7.5 '}>
+                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                                <div className="text-center">
+                                    <Image
+                                        src={marketMakingPool.paired_token_image}
+                                        alt="pairedTokenImage"
+                                        width={30}
+                                        height={30}
+                                    />
+                                    <p className="font-bold text-3xl">
+                                        <span >{activity.pairedAmountBought}</span>
+                                    </p>
+
+                                    <div className={'flex justify-center mt-1'}>
+                                        <p className="text-sm uppercase tracking-widest"> Bought</p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                                <div className="text-center">
+                                    <Image
+                                        src={marketMakingPool.paired_token_image}
+                                        alt="pairedTokenImage"
+                                        width={30}
+                                        height={30}
+                                    />
+                                    <p className="font-bold text-3xl">
+                                        <span >{activity.pairedAmountSold}</span>
+                                    </p>
+
+                                    <div className={'flex justify-center mt-1'}>
+                                        <p className="text-sm uppercase tracking-widest"> Sold</p>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                                <div className="text-center">
+                                    <Image
+                                        src={marketMakingPool.paired_token_image}
+                                        alt="pairedTokenImage"
+                                        width={30}
+                                        height={30}
+                                    />
+                                    <p className="font-bold text-3xl">
+                                        <span >{activity.pairedAllocationTrading}</span>
+                                    </p>
+
+                                    <div className={'flex justify-center mt-1'}>
+                                        <p className="text-sm uppercase tracking-widest"> Allocation</p>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    ) }
+
+
+                    <div className="py-5.5 space-y-4.5 hidden">
                         <div className="flex justify-between">
                             <span className="text-sm">
                                 <i className="fa-solid fa-money-bill-transfer"/> TVL
