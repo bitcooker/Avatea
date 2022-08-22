@@ -12,7 +12,7 @@ import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSub
 // page components
 import MaxButton from "./Button/MaxButton";
 import Card from "../projectDetail/Card/Card";
-import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
+import SkeletonDepositAndWithdraw from "./Skeleton/SkeletonDepositAndWithdraw";
 import {useRouter} from "next/router";
 
 export default function DepositWithdraw({wallet, project, marketMakingPool, setTab}) {
@@ -95,7 +95,7 @@ export default function DepositWithdraw({wallet, project, marketMakingPool, setT
     };
 
 
-    return !load ? <SkeletonMarketMaking/> : (
+    return !load ? <SkeletonDepositAndWithdraw/> : (
         <div className="grid md-lg:grid-cols-2 gap-7.5">
             <Card title="Settings">
                 {/* Card Header */}
