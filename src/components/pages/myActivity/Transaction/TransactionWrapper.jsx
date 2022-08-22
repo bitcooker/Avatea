@@ -35,7 +35,7 @@ export default function TransactionWrapper( { userAddress,projectSlug }) {
                  clearTimeout(timeout)
              }
         }
-    },[wallet])
+    },[projectSlug, userAddress, wallet])
 
 
     return (

@@ -73,25 +73,26 @@ function parseValue(value, type) {
 export default function TransactionItem(props) {
     return (
         <div className="grid grid-cols-12 items-center w-full p-2">
-            <TableCol className="truncate col-span-7 font-medium text-base tracking-[.0125rem]">
-                <div className={'mb-3'}>
-                    <div className={`inline-block px-3 py-2 rounded-full text-white border-2 border-opacity-50 border-gray-300 text-black hover:bg-gray-300 delay-150 transition-all hover:border-opacity-100 text-center`}>
-{/*
-                    <div className={`inline-block px-2 py-2 rounded-full text-white`} style={{backgroundColor: stc(props.type)}}>
-*/}
-                        <div className="hidden sm:flex items-center gap-2 text-sm leading-none">
-                            {props.image ?
-                                <Image src={props.image} alt="" width={16} height={16}/>
-                                : ''
-                            }
-                            {TRANSACTION_TYPES[props.type]}
-                        </div>
-                        <p className="sm:hidden text-sm leading-none">{props.type}</p>
+            <TableCol className="truncate col-span-3 font-medium text-base tracking-[.0125rem]">
+                <div className={`inline-block px-3 py-2 rounded-full border-2 border-opacity-50 border-gray-300 text-black hover:bg-gray-300 delay-150 transition-all hover:border-opacity-100 hover:cursor-pointer text-center`}>
+                    <div className="hidden md-lg:flex items-center gap-2 text-sm leading-none">
+                        {props.image ?
+                            <Image src={props.image} alt="" width={16} height={16}/>
+                            : ''
+                        }
+                        {TRANSACTION_TYPES[props.type]}
                     </div>
+                    <p className="md-lg:hidden text-sm leading-none">{props.type}</p>
                 </div>
-                <small><i className="fa-solid fa-timer mr-1"></i> {moment(props.timestamp).format('llll')}</small>
             </TableCol>
-            <TableCol className="col-span-4 font-medium text-base tracking-[.0125rem] text-white">
+            <TableCol className="truncate col-span-4 font-medium text-base tracking-[.0125rem]">
+                <small>
+                    <i className="fa-solid fa-timer mr-1"></i>
+                    <span className="hidden md-lg:inline-block">{moment(props.timestamp).format('llll')}</span>
+                    <span className="md-lg:hidden">{moment(props.timestamp).fromNow()}</span>
+                </small>
+            </TableCol>
+            <TableCol className="col-span-4 flex justify-center md-lg:justify-start font-medium text-base tracking-[.0125rem] text-white">
                 <div className={`text-slate-600 text-sm`}>
                     {props.amount > 0 ? props.amount :
                         parseValue(props.value, props.type)
