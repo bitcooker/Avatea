@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { UseWalletProvider } from "@albs1/use-wallet";
 import { Slide, ToastContainer } from "react-toastify";
 import Script from "next/script";
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import ReactGA from "react-ga4";
 
 import { AppWrapper } from "../context/AppContext";
 import { PageTitleWrapper } from "../context/PageTitleContext";
@@ -18,7 +19,12 @@ const SidebarWithNoSSR = dynamic(() => import("./Sidebar"), { ssr: false });
 
 export default function Layout({ children }) {
   const [menu, setMenu] = React.useState(false);
-  
+
+  useEffect(() => {
+      ReactGA.initialize("G-EJSWG081YY");
+      ReactGA.send("pageview");
+  },[])
+
   return (
     <>
       <Script src="https://kit.fontawesome.com/92468525cf.js"></Script>
