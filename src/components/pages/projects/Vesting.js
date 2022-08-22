@@ -140,7 +140,7 @@ export default function Vesting({
         </CenteredContent>
     );
 
-    return !load ? <SkeletonVesting/> : (
+    return !load && amountVested !== '0.00' ? <SkeletonVesting/> : (
         <Card>
             <div className="vesting-header">
                 <h1 className="text-2xl">
