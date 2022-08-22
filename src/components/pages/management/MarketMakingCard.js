@@ -19,6 +19,8 @@ export default function MarketMakingCard({project, marketMakingPool}) {
 
     const wallet = useWallet();
     const router = useRouter();
+    const [visibleMarketMakingDeploymentModal, setVisibleMarketMakingDeploymentModal] = useState(false);
+    const [visibleMarketMakingFundsModal, setVisibleMarketMakingFundsModal] = useState(false);
     const [depositFunds,setDepositFunds] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [baseTokenBalance, setBaseTokenBalance] = useState("0");
@@ -91,18 +93,26 @@ export default function MarketMakingCard({project, marketMakingPool}) {
         setUpperPreferredPriceRange(marketMakingPool?.upper_preferred_price_range);
     }, [marketMakingPool]);
 
+    useEffect(() => {
+        setTimeout(() => {
+            setVisibleMarketMakingDeploymentModal(true);
+            setVisibleMarketMakingFundsModal(true);
+        }, 600)
+    })
 
     return (
 
         <Card className={'col-span-full md:col-span-1'}>
-            <Modal
-                title="Create a Market Making pool"
-                size="sm"
-                open={createMMPool}
-                handleClose={() => setCreateMMPool(false)}
-            >
-                <MarketMakingDeployment project={project}/>
-            </Modal>
+            {visibleMarketMakingDeploymentModal && 
+                <Modal
+                    title="Create a Market Making pool"
+                    size="sm"
+                    open={createMMPool}
+                    handleClose={() => setCreateMMPool(false)}
+                >
+                    <MarketMakingDeployment project={project}/>
+                </Modal>
+            }
             <Modal
                 title="Deposit tokens & funds"
                 size="sm"

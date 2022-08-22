@@ -18,6 +18,7 @@ export default function ManageProjectCard({project}) {
 
     const wallet = useWallet();
     const router = useRouter();
+    const [visibleEditProjectModal, setVisibleEditProjectModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [openEditProject, setOpenEditProject] = useState(false);
     const [projectDescription, setProjectDescription] = useState(project.description);
@@ -45,6 +46,12 @@ export default function ManageProjectCard({project}) {
         if (isFile(image)) setImageUrl(URL.createObjectURL(image))
     }, [image])
 
+    useEffect(() => {
+        setTimeout(() => {
+            setVisibleEditProjectModal(true)
+        }, 600)
+    })
+
     const updateProjectInfo = async () => {
         try {
             setIsLoading(true);
@@ -68,163 +75,164 @@ export default function ManageProjectCard({project}) {
         } catch(e) {
             setIsLoading(false);
         }
-
     }
 
     return (
         <Card className={'col-span-full md:col-span-1'}>
-            <Modal title="Edit Project Information" open={openEditProject}
-                   handleClose={() => setOpenEditProject(false)}>
-                <div className="card-content grid lg:grid-cols-2 gap-3.75">
-                    {/* left */}
-                    <div className="w-full flex flex-col space-y-3.75">
-                        {/* Project name */}
-                        <div className="w-full space-y-3.5">
-                            <span className="text-base">Website</span>
-                            <InputEmpty
-                                id="website"
-                                name="website"
-                                type="text"
-                                placeholder={'Project URL'}
-                                value={website}
-                                icon="fa-solid fa-globe"
-                                setValue={setWebsite}
-                            />
-                        </div>
+            {visibleEditProjectModal && 
+                <Modal title="Edit Project Information" open={openEditProject}
+                    handleClose={() => setOpenEditProject(false)}>
+                    <div className="card-content grid lg:grid-cols-2 gap-3.75">
+                        {/* left */}
+                        <div className="w-full flex flex-col space-y-3.75">
+                            {/* Project name */}
+                            <div className="w-full space-y-3.5">
+                                <span className="text-base">Website</span>
+                                <InputEmpty
+                                    id="website"
+                                    name="website"
+                                    type="text"
+                                    placeholder={'Project URL'}
+                                    value={website}
+                                    icon="fa-solid fa-globe"
+                                    setValue={setWebsite}
+                                />
+                            </div>
 
-                        {/* Description */}
-                        <div className="flex flex-col grow space-y-3.75">
-                            <h1 className="text-base">Description</h1>
-                            <RichEditor value={projectDescription} setValue={setProjectDescription}/>
+                            {/* Description */}
+                            <div className="flex flex-col grow space-y-3.75">
+                                <h1 className="text-base">Description</h1>
+                                <RichEditor value={projectDescription} setValue={setProjectDescription}/>
+
+                            </div>
+                        </div>
+                        <div className="w-full space-y-3.75">
+                            <div className="flex gap-2.5">
+                                <div className="flex flex-col gap-3.75">
+                                    <span className="text-base">Whitepaper</span>
+                                    <InputEmpty
+                                        id="whitepaper"
+                                        name="whitepaper"
+                                        type="text"
+                                        placeholder={'Whitepaper URL'}
+                                        value={whitepaper}
+                                        icon="fa-solid fa-file-code"
+                                        setValue={setWhitepaper}
+                                    />
+                                </div>
+                                
+                                <div className="flex flex-col gap-3.75">
+                                    <span className="text-base">Audit</span>
+                                    <InputEmpty
+                                        id="audit"
+                                        name="audit"
+                                        type="text"
+                                        placeholder={'Audit URL'}
+                                        value={audit}
+                                        icon="fa-solid fa-check-double"
+                                        setValue={setAudit}
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex flex-col space-y-3.75">
+                                <span className="text-base">Socials</span>
+                                <div>
+                                    <InputEmpty
+                                        id="facebook"
+                                        name="facebook"
+                                        type="text"
+                                        placeholder={'Facebook'}
+                                        value={facebook}
+                                        icon="fa-brands fa-facebook-f"
+                                        setValue={setFacebook}
+                                    />
+                                </div>
+                                <div>
+                                    <InputEmpty
+                                        id="linkedin"
+                                        name="linkedin"
+                                        type="text"
+                                        placeholder={'LinkedIn'}
+                                        value={linkedIn}
+                                        icon="fa-brands fa-linkedin"
+                                        setValue={setLinkedIn}
+                                    />
+                                </div>
+                                <div>
+                                    <InputEmpty
+                                        id="github"
+                                        name="github"
+                                        type="text"
+                                        placeholder={'GitHub'}
+                                        value={github}
+                                        icon="fa-brands fa-github"
+                                        setValue={setGithub}
+                                    />
+                                </div>
+                                <div>
+                                    <InputEmpty
+                                        id="telegram"
+                                        name="telegram"
+                                        type="text"
+                                        placeholder={'Telegram'}
+                                        value={telegram}
+                                        icon="fa-brands fa-telegram"
+                                        setValue={setTelegram}
+                                    />
+                                </div>
+                                <div>
+                                    <InputEmpty
+                                        id="discord"
+                                        name="discord"
+                                        type="text"
+                                        placeholder={'Discord'}
+                                        value={discord}
+                                        icon="fa-brands fa-discord"
+                                        setValue={setDiscord}
+                                    />
+                                </div>
+                                <div>
+                                    <InputEmpty
+                                        id="medium"
+                                        name="medium"
+                                        type="text"
+                                        placeholder={'Medium'}
+                                        value={medium}
+                                        icon="fa-brands fa-medium"
+                                        setValue={setMedium}
+                                    />
+                                </div>
+                                <div>
+                                    <InputEmpty
+                                        id="twitter"
+                                        name="twitter"
+                                        type="text"
+                                        placeholder={'Twitter'}
+                                        value={twitter}
+                                        icon="fa-brands fa-twitter"
+                                        setValue={setTwitter}
+                                    />
+                                </div>
+                            </div>
 
                         </div>
                     </div>
-                    <div className="w-full space-y-3.75">
-                        <div className="flex gap-2.5">
-                            <div className="flex flex-col gap-3.75">
-                                <span className="text-base">Whitepaper</span>
-                                <InputEmpty
-                                    id="whitepaper"
-                                    name="whitepaper"
-                                    type="text"
-                                    placeholder={'Whitepaper URL'}
-                                    value={whitepaper}
-                                    icon="fa-solid fa-file-code"
-                                    setValue={setWhitepaper}
-                                />
-                            </div>
-                            
-                            <div className="flex flex-col gap-3.75">
-                                <span className="text-base">Audit</span>
-                                <InputEmpty
-                                    id="audit"
-                                    name="audit"
-                                    type="text"
-                                    placeholder={'Audit URL'}
-                                    value={audit}
-                                    icon="fa-solid fa-check-double"
-                                    setValue={setAudit}
-                                />
-                            </div>
-                        </div>
-                        <div className="flex flex-col space-y-3.75">
-                            <span className="text-base">Socials</span>
-                            <div>
-                                <InputEmpty
-                                    id="facebook"
-                                    name="facebook"
-                                    type="text"
-                                    placeholder={'Facebook'}
-                                    value={facebook}
-                                    icon="fa-brands fa-facebook-f"
-                                    setValue={setFacebook}
-                                />
-                            </div>
-                            <div>
-                                <InputEmpty
-                                    id="linkedin"
-                                    name="linkedin"
-                                    type="text"
-                                    placeholder={'LinkedIn'}
-                                    value={linkedIn}
-                                    icon="fa-brands fa-linkedin"
-                                    setValue={setLinkedIn}
-                                />
-                            </div>
-                            <div>
-                                <InputEmpty
-                                    id="github"
-                                    name="github"
-                                    type="text"
-                                    placeholder={'GitHub'}
-                                    value={github}
-                                    icon="fa-brands fa-github"
-                                    setValue={setGithub}
-                                />
-                            </div>
-                            <div>
-                                <InputEmpty
-                                    id="telegram"
-                                    name="telegram"
-                                    type="text"
-                                    placeholder={'Telegram'}
-                                    value={telegram}
-                                    icon="fa-brands fa-telegram"
-                                    setValue={setTelegram}
-                                />
-                            </div>
-                            <div>
-                                <InputEmpty
-                                    id="discord"
-                                    name="discord"
-                                    type="text"
-                                    placeholder={'Discord'}
-                                    value={discord}
-                                    icon="fa-brands fa-discord"
-                                    setValue={setDiscord}
-                                />
-                            </div>
-                            <div>
-                                <InputEmpty
-                                    id="medium"
-                                    name="medium"
-                                    type="text"
-                                    placeholder={'Medium'}
-                                    value={medium}
-                                    icon="fa-brands fa-medium"
-                                    setValue={setMedium}
-                                />
-                            </div>
-                            <div>
-                                <InputEmpty
-                                    id="twitter"
-                                    name="twitter"
-                                    type="text"
-                                    placeholder={'Twitter'}
-                                    value={twitter}
-                                    icon="fa-brands fa-twitter"
-                                    setValue={setTwitter}
-                                />
-                            </div>
+
+                    <div className="w-full mt-3.75 space-y-3.75">
+                        <div className="w-full gap-2.5 grid grid-cols-2">
+                            <FileInput id="bannerImage" image={bannerUrl} label="Replace Banner Image" setValue={setBanner} type={"image/*"}/>
+                            <FileInput id="tokenImage" image={imageUrl} label="Replace Token Image" setValue={setImage} type={"image/*"}/>
                         </div>
 
+                        <Button
+                            isLoading={isLoading}
+                            disabled={isLoading}
+                            name="Update Information"
+                            handleClick={updateProjectInfo}
+                        />
                     </div>
-                </div>
-
-                <div className="w-full mt-3.75 space-y-3.75">
-                    <div className="w-full gap-2.5 grid grid-cols-2">
-                        <FileInput id="bannerImage" image={bannerUrl} label="Replace Banner Image" setValue={setBanner} type={"image/*"}/>
-                        <FileInput id="tokenImage" image={imageUrl} label="Replace Token Image" setValue={setImage} type={"image/*"}/>
-                    </div>
-
-                    <Button
-                        isLoading={isLoading}
-                        disabled={isLoading}
-                        name="Update Information"
-                        handleClick={updateProjectInfo}
-                    />
-                </div>
-            </Modal>
+                </Modal>
+            }
             <div className="card-header mb-5">
                 <h1 className="text-2xl text-center">Manage Project</h1>
             </div>
