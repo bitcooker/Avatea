@@ -86,7 +86,7 @@ export default function ProjectDetail(props) {
                 </div>
             }
             {tab === 1 &&
-                <div className="min-h-[800px] md-lg:min-h-[600px]">
+                <div className="min-h-[800px] md-lg:min-h-[530px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>
                             {
@@ -100,12 +100,11 @@ export default function ProjectDetail(props) {
                                 ) : <ConnectYourWallet/>
                             }
                         </>
-
                     </motion.div>
                 </div>
             }
             {tab === 2 &&
-                <div className="min-h-[800px] md-lg:min-h-[600px]">
+                <div className="min-h-[800px] md-lg:min-h-[480px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>
                             {
@@ -118,13 +117,12 @@ export default function ProjectDetail(props) {
                                 ) : <ConnectYourWallet/>
                             }
                         </>
-
                     </motion.div>
                 </div>
             }
 
             {tab === 3 &&
-                <div className="min-h-[500px] md-lg:min-h-[300px]">
+                <div className="min-h-[500px] md-lg:min-h-[625px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>
                             {
@@ -138,7 +136,6 @@ export default function ProjectDetail(props) {
                                 ) : <ConnectYourWallet/>
                             }
                         </>
-
                     </motion.div>
                 </div>
             }
@@ -157,7 +154,6 @@ export default function ProjectDetail(props) {
                                 ) : <ConnectYourWallet/>
                             }
                         </>
-
                     </motion.div>
                 </div>
             }
@@ -176,7 +172,6 @@ export default function ProjectDetail(props) {
                                 ) : <ConnectYourWallet/>
                             }
                         </>
-
                     </motion.div>
                 </div>
             }
