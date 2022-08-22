@@ -1,20 +1,24 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
-
-// core components
-// project detail components
-import Banner from "../../../src/components/pages/projectDetail/Banner/Banner";
-
-// social icons without background
-import helper from "../../../src/helpers";
+import {useEffect, useState, useRef } from "react";
 import {useWallet} from "@albs1/use-wallet";
 import {useRouter} from "next/router";
-import ManagementAuthentication from "../../../src/components/pages/management/ManagementAuthentication";
+import { motion } from "framer-motion";
 
+// core components
+import Tab from "../../../src/components/core/Tab/Tab"
+
+// project detail components
+import Banner from "../../../src/components/pages/projectDetail/Banner/Banner";
+import ManagementAuthentication from "../../../src/components/pages/management/ManagementAuthentication";
 import {usePageTitleContext} from "../../../src/context/PageTitleContext";
 import {VestingChart} from "../../../src/components/pages/management/charts/VestingChart";
 import {ProjectChart} from "../../../src/components/pages/management/charts/ProjectChart";
 import {GeoChart} from "../../../src/components/pages/management/charts/GeoChart";
+
+// social icons without background
+import helper from "../../../src/helpers";
+
+const tabItems = ["Bar Chart", "Polygon Chart", "Map Chart"];
 
 export default function Insights(props) {
     const wallet = useWallet();
@@ -26,6 +30,8 @@ export default function Insights(props) {
     const [vestingData, setVestingData] = useState({})
     const [projectData, setProjectData] = useState({})
     const [userLocations, setUserLocations] = useState({})
+    const [tab, setTab] = useState(0);
+    const tabRef = useRef(null);
 
     useEffect(() => {
         setTitle("Project Management")
@@ -61,7 +67,7 @@ export default function Insights(props) {
         fetchProjectData();
         fetchUserLocations();
 
-    }, [project]);
+    }, [project, slug]);
 
 
     return (
@@ -69,19 +75,34 @@ export default function Insights(props) {
             <div className="space-y-7.5">
                 <Banner {...project} />
 
-
-                <div className="space-y-7.5">
-                    <VestingChart vestingData={vestingData}/>
+                {/* Tab menu */}
+                <div ref={tabRef} className="flex justify-center">
+                    <Tab items={tabItems} tab={tab} setTab={setTab}/>
                 </div>
 
-                <div className="space-y-7.5">
-                    <ProjectChart projectData={projectData}/>
-                </div>
+                {tab === 0 && 
+                    <div className="min-h-[560px]">
+                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                            <VestingChart vestingData={vestingData}/>
+                        </motion.div>
+                    </div>
+                }
 
-                <div>
-                    <GeoChart chosenKey='world' userLocations={userLocations}/>
-                </div>
+                {tab === 1 &&
+                    <div className="min-h-[1000px]">
+                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                            <ProjectChart projectData={projectData}/>
+                        </motion.div>
+                    </div>
+                }
 
+                {tab === 2 &&
+                    <div className="min-h-[680px]">
+                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                            <GeoChart chosenKey='world' userLocations={userLocations}/>
+                        </motion.div>
+                    </div>
+                }
             </div>
         </ManagementAuthentication>
     );

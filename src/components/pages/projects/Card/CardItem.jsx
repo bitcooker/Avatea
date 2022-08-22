@@ -64,7 +64,7 @@ export default function CardItem(props) {
             </div>
             <div className="relative py-7.5 px-5">
                 <div className="absolute -top-9 p-2 flex items-center justify-center w-14 h-14 bg-white shadow-[0_4px_8px_rgba(0,0,0,0.08)] rounded-0.5xl">
-                    <img src={props.image} alt={props.slug}/>
+                    <Image src={props.image} alt={props.slug} width={40} height={40}/>
                 </div>
                 <div className="overflow-hidden text-ellipsis font-medium text-base">
                     {props.name}

@@ -24,13 +24,13 @@ export default function Management() {
                 setProjects(res);
             })()
         }
-    },[wallet.status])
+    },[wallet])
 
     const { setTitle } = usePageTitleContext();
 
     React.useEffect(() => {
         setTitle("Management")
-    }, [])
+    }, [setTitle])
 
     return (
         <div>
