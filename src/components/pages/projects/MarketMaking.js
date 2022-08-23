@@ -247,7 +247,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                         height={30}
                                     />
                                     <p className="font-bold text-3xl">
-                                        <span >{activity.pairedAmountBought}</span>
+                                        <CountUp start={0} end={activity.pairedAmountBought} />
                                     </p>
 
                                     <div className={'flex justify-center mt-1'}>
@@ -266,7 +266,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                         height={30}
                                     />
                                     <p className="font-bold text-3xl">
-                                        <span >{activity.pairedAmountSold}</span>
+                                        <CountUp start={0} end={activity.pairedAmountSold} />
                                     </p>
 
                                     <div className={'flex justify-center mt-1'}>
@@ -286,7 +286,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                         height={30}
                                     />
                                     <p className="font-bold text-3xl">
-                                        <span >{activity.pairedAllocationTrading}</span>
+                                        <CountUp start={0} end={activity.pairedAllocationTrading} />
                                     </p>
 
                                     <div className={'flex justify-center mt-1'}>
