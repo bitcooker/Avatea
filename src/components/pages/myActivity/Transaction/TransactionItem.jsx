@@ -73,7 +73,7 @@ function parseValue(value, type) {
 export default function TransactionItem(props) {
     return (
         <div className="grid grid-cols-12 items-center w-full p-2">
-            <TableCol className="truncate col-span-3 font-medium text-base tracking-[.0125rem]">
+            <TableCol className="truncate col-span-4 font-medium text-base tracking-[.0125rem]">
                 <div className={`inline-block px-3 py-2 rounded-full border-2 border-opacity-50 border-gray-300 text-black hover:bg-gray-300 delay-150 transition-all hover:border-opacity-100 hover:cursor-pointer text-center`}>
                     <div className="hidden md-lg:flex items-center gap-2 text-sm leading-none">
                         {props.image ?
@@ -85,7 +85,7 @@ export default function TransactionItem(props) {
                     <p className="md-lg:hidden text-sm leading-none">{props.type}</p>
                 </div>
             </TableCol>
-            <TableCol className="truncate col-span-4 font-medium text-base tracking-[.0125rem]">
+            <TableCol className="truncate col-span-3 font-medium text-base tracking-[.0125rem]">
                 <small>
                     <i className="fa-solid fa-timer mr-1"></i>
                     <span className="hidden md-lg:inline-block">{moment(props.timestamp).format('llll')}</span>
