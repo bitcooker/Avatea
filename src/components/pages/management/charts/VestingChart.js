@@ -12,6 +12,9 @@ import {
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
 
+// page components
+import Card from "../../../pages/management/projectDetail/Card/Card";
+
 
 ChartJS.register(
     CategoryScale,
@@ -74,5 +77,9 @@ export function VestingChart(props) {
 
     }, [props]);
 
-    return <Bar options={chartOptions} data={chartData}/>;
+    return (
+        <Card>
+            <Bar options={chartOptions} data={chartData}/>
+        </Card>
+    );
 }

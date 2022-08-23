@@ -12,6 +12,8 @@ ChartJS.register(
     Legend
 );
 
+// page components
+import Card from "../../../pages/management/projectDetail/Card/Card";
 
 export function ProjectChart(props) {
     const [chartData, setChartData] = useState({labels: [], datasets: []});
@@ -43,5 +45,9 @@ export function ProjectChart(props) {
 
     }, [props]);
 
-    return <Radar data={chartData}/>;
+    return (
+        <Card>
+            <Radar data={chartData}/>
+        </Card>
+    )
 }
