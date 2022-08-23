@@ -253,22 +253,27 @@ export default function ManageProjectCard({project}) {
                     title="Contact Support" 
                     content="Step-by-step guides to setting up your system and installing the library."
                 />
+                
+                <HomeCard 
+                    icon={<i className="fa-solid fa-message-pen text-2xl text-indigo-500"></i>} 
+                    title="Send Message" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={(e) => { router.push(`${project.slug}/message`) }}
+                />
 
-                <div className="col-span-1 md-lg:col-span-3 grid grid-cols-1 md-lg:grid-cols-2 gap-5">
-                    <HomeCard 
-                        icon={<i className="fa-solid fa-message-pen text-2xl text-indigo-500"></i>} 
-                        title="Send Message" 
-                        content="Step-by-step guides to setting up your system and installing the library."
-                        handleClick={(e) => { router.push(`${project.slug}/message`) }}
-                    />
+                <HomeCard
+                    icon={<i className="fa-solid fa-messages text-2xl text-indigo-500"></i>} 
+                    title="Message History" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={(e) => { router.push(`${project.slug}/message/history`) }}
+                />
 
-                    <HomeCard 
-                        icon={<i className="fa-solid fa-messages text-2xl text-indigo-500"></i>} 
-                        title="Message History" 
-                        content="Step-by-step guides to setting up your system and installing the library."
-                        handleClick={(e) => { router.push(`${project.slug}/message/history`) }}
-                    />
-                </div>
+                <HomeCard
+                    icon={<i className="fa-solid fa-trophy text-2xl text-indigo-500"></i>} 
+                    title="Insights" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={(e) => { router.push(`${project.slug}/insights`) }}
+                />
             </div>
         </>
     )
