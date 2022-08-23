@@ -14,6 +14,7 @@ import Modal from "../../core/modal/Modal";
 import Card from "../projectDetail/Card/Card";
 import MarketMakingDeployment from "./MarketMakingDeployment";
 import MarketMakingFunds from "./MarketMakingFunds";
+import HomeCard from "../../pages/Home/HomeCard";
 
 export default function MarketMakingCard({project, marketMakingPool}) {
 
@@ -101,178 +102,199 @@ export default function MarketMakingCard({project, marketMakingPool}) {
     })
 
     return (
-
-        <Card className={'col-span-full md:col-span-1'}>
-            {visibleMarketMakingDeploymentModal && 
+        <div className="flex flex-col gap-5">
+            <Card className={'col-span-full md:col-span-1'}>
+                {visibleMarketMakingDeploymentModal && 
+                    <Modal
+                        title="Create a Market Making pool"
+                        size="sm"
+                        open={createMMPool}
+                        handleClose={() => setCreateMMPool(false)}
+                    >
+                        <MarketMakingDeployment project={project}/>
+                    </Modal>
+                }
                 <Modal
-                    title="Create a Market Making pool"
+                    title="Deposit tokens & funds"
                     size="sm"
-                    open={createMMPool}
-                    handleClose={() => setCreateMMPool(false)}
+                    open={depositFunds}
+                    handleClose={() => setDepositFunds(false)}
                 >
-                    <MarketMakingDeployment project={project}/>
+                    <MarketMakingFunds project={project} marketMakingPool={marketMakingPool}/>
                 </Modal>
-            }
-            <Modal
-                title="Deposit tokens & funds"
-                size="sm"
-                open={depositFunds}
-                handleClose={() => setDepositFunds(false)}
-            >
-                <MarketMakingFunds project={project} marketMakingPool={marketMakingPool}/>
-            </Modal>
-            {marketMakingPool?.address ? (
-                <div className="flex flex-col p-3.75 space-y-4">
-                    <h2 className="text-2xl"><i className="fa-solid fa-sliders"/> Market Making Pool</h2>
-                    <div className="flex justify-between">
-                        <span className="text-sm"><i className="fa-solid fa-users"/> Users Staked</span>
-                        <span className="text-base font-medium">
-                      {marketMakingPool.num_invested}
-                    </span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span className="text-sm"><i className="fa-solid fa-users"/> Users Vested</span>
-                        <span className="text-base font-medium">
-                      {marketMakingPool.num_vested}
-                    </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm">
-                        <i className="fa-solid fa-money-bill-transfer"/> TVL
-                      </span>
-                        <span className="flex text-base font-medium">
-                        <Image src={project.image} alt="" width={24} height={24}/>
-                        <span className="mx-2.5">{baseTokenBalance}</span>
-                        <Image src={marketMakingPool.paired_token_image} alt="" width={24} height={24}/>
-                        <span className="mx-2.5">{pairedTokenBalance}</span>
-                      </span>
-                    </div>
-                    <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
-                        <div className="w-full space-y-2.5">
-                        <span className="text-base">
-                          Max Buying Amount per day
+                {marketMakingPool?.address ? (
+                    <div className="flex flex-col p-3.75 space-y-4">
+                        <h2 className="text-2xl"><i className="fa-solid fa-sliders"/> Market Making Pool</h2>
+                        <div className="flex justify-between">
+                            <span className="text-sm"><i className="fa-solid fa-users"/> Users Staked</span>
+                            <span className="text-base font-medium">
+                        {marketMakingPool.num_invested}
                         </span>
-                            <InputWithIcon
-                                id="editMaxBuyingAmount"
-                                name="editMaxBuyingAmount"
-                                type="number"
-                                value={maxBuyingAmount}
-                                setValue={setMaxBuyingAmount}
-                                image={marketMakingPool.paired_token_image}
-                            />
                         </div>
-                        <div className="w-full space-y-2.5">
-                        <span className="text-base">
-                          Max Selling Amount per day
+                        <div className="flex justify-between">
+                            <span className="text-sm"><i className="fa-solid fa-users"/> Users Vested</span>
+                            <span className="text-base font-medium">
+                        {marketMakingPool.num_vested}
                         </span>
-                            <InputWithIcon
-                                id="editMaxSellingAmount"
-                                name="editMaxSellingAmount"
-                                type="number"
-                                value={maxSellingAmount}
-                                setValue={setMaxSellingAmount}
-                                image={project.image}
-                            />
                         </div>
-                    </div>
-                    <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
-                        <div className="w-full space-y-2.5">
-                            <span className="text-base">Max Preferred Drawdown</span>
-                            <InputWithIcon
-                                id="editPairToken"
-                                name="editPairToken"
-                                type="number"
-                                value={maxPreferredDrawdown}
-                                setValue={setMaxPreferredDrawdown}
-                                image={marketMakingPool.paired_token_image}
-                            />
-                        </div>
-                        <div className="w-full space-y-2.5">
-                            <span className="text-base">Volume</span>
-                            <InputWithIcon
-                                id="editPairToken"
-                                name="editPairToken"
-                                type="number"
-                                value={volume}
-                                setValue={setVolume}
-                                image={project.image}
-                            />
-                        </div>
-                    </div>
-                    <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
-                        <div className="w-full space-y-2.5">
-                        <span className="text-base">
-                          Lower Preferred Price Range
+                        <div className="flex justify-between">
+                        <span className="text-sm">
+                            <i className="fa-solid fa-money-bill-transfer"/> TVL
                         </span>
-                            <InputWithIcon
-                                id="editMaxBuyingAmount"
-                                name="editMaxBuyingAmount"
-                                type="number"
-                                value={lowerPreferredPriceRange}
-                                setValue={setLowerPreferredPriceRange}
-                                image={marketMakingPool.paired_token_image}
-                            />
-                        </div>
-                        <div className="w-full space-y-2.5">
-                        <span className="text-base">
-                                Upper Preferred Price Range
+                            <span className="flex text-base font-medium">
+                            <Image src={project.image} alt="" width={24} height={24}/>
+                            <span className="mx-2.5">{baseTokenBalance}</span>
+                            <Image src={marketMakingPool.paired_token_image} alt="" width={24} height={24}/>
+                            <span className="mx-2.5">{pairedTokenBalance}</span>
                         </span>
-                            <InputWithIcon
-                                id="editMaxBuyingAmount"
-                                name="editMaxBuyingAmount"
-                                type="number"
-                                value={upperPreferredPriceRange}
-                                setValue={setUpperPreferredPriceRange}
-                                image={marketMakingPool.paired_token_image}
-                            />
+                        </div>
+                        <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
+                            <div className="w-full space-y-2.5">
+                            <span className="text-base">
+                            Max Buying Amount per day
+                            </span>
+                                <InputWithIcon
+                                    id="editMaxBuyingAmount"
+                                    name="editMaxBuyingAmount"
+                                    type="number"
+                                    value={maxBuyingAmount}
+                                    setValue={setMaxBuyingAmount}
+                                    image={marketMakingPool.paired_token_image}
+                                />
+                            </div>
+                            <div className="w-full space-y-2.5">
+                            <span className="text-base">
+                            Max Selling Amount per day
+                            </span>
+                                <InputWithIcon
+                                    id="editMaxSellingAmount"
+                                    name="editMaxSellingAmount"
+                                    type="number"
+                                    value={maxSellingAmount}
+                                    setValue={setMaxSellingAmount}
+                                    image={project.image}
+                                />
+                            </div>
+                        </div>
+                        <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
+                            <div className="w-full space-y-2.5">
+                                <span className="text-base">Max Preferred Drawdown</span>
+                                <InputWithIcon
+                                    id="editPairToken"
+                                    name="editPairToken"
+                                    type="number"
+                                    value={maxPreferredDrawdown}
+                                    setValue={setMaxPreferredDrawdown}
+                                    image={marketMakingPool.paired_token_image}
+                                />
+                            </div>
+                            <div className="w-full space-y-2.5">
+                                <span className="text-base">Volume</span>
+                                <InputWithIcon
+                                    id="editPairToken"
+                                    name="editPairToken"
+                                    type="number"
+                                    value={volume}
+                                    setValue={setVolume}
+                                    image={project.image}
+                                />
+                            </div>
+                        </div>
+                        <div className="w-full py-2 grid md-lg:grid-cols-2 gap-3.75">
+                            <div className="w-full space-y-2.5">
+                            <span className="text-base">
+                            Lower Preferred Price Range
+                            </span>
+                                <InputWithIcon
+                                    id="editMaxBuyingAmount"
+                                    name="editMaxBuyingAmount"
+                                    type="number"
+                                    value={lowerPreferredPriceRange}
+                                    setValue={setLowerPreferredPriceRange}
+                                    image={marketMakingPool.paired_token_image}
+                                />
+                            </div>
+                            <div className="w-full space-y-2.5">
+                            <span className="text-base">
+                                    Upper Preferred Price Range
+                            </span>
+                                <InputWithIcon
+                                    id="editMaxBuyingAmount"
+                                    name="editMaxBuyingAmount"
+                                    type="number"
+                                    value={upperPreferredPriceRange}
+                                    setValue={setUpperPreferredPriceRange}
+                                    image={marketMakingPool.paired_token_image}
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div className="w-full grid grid-cols-2 gap-3.75">
-                    <Button
-                        name="Update Settings"
-                        handleClick={updateMarketMakingPool}
-                        isLoading={isLoading}
-                        disabled={isLoading}
-                    />
-                    <Button
-                        name="Deposit Funds"
-                        handleClick={() => setDepositFunds(true)}
-                    />
-                    </div>
-                    {/* Edit Button */}
-                    <div className="w-full grid grid-cols-2 gap-3.75">
-                        <Button name="Multi Send" handleClick={(e) => {
-                            router.push(`${project.slug}/multisend/add`)
-                        }}/>
-                        <Button name="View Multi Send History" handleClick={(e) => {
-                            router.push(`${project.slug}/multisend`)
-                        }}/>
-                    </div>
-                    <div className="w-full grid grid-cols-2 gap-3.75">
-                        {/* Edit Button */}
-                        <Button name="Create Vesting schedules" handleClick={(e) => {
-                            router.push(`${project.slug}/vesting/add`)
-                        }}/>
-                        <Button name="View Vesting schedules" handleClick={(e) => {
-                            router.push(`${project.slug}/vesting`)
-                        }}/>
-                    </div>
-                </div>
-            ) : (
-                <div className="flex flex-col p-3.75 space-y-4">
-                    <h1 className="text-2xl"><i className="fa-solid fa-sliders"/> Settings</h1>
-                    <div className="bg-gray-200 border border-gray-400 px-4 py-3 rounded relative text-center"
-                         role="alert">
-                        <span>No market making pool created yet</span>
+                ) : (
+                    <div className="flex flex-col p-3.75 space-y-4">
+                        <h1 className="text-2xl"><i className="fa-solid fa-sliders"/> Settings</h1>
+                        <div className="bg-gray-200 border border-gray-400 px-4 py-3 rounded relative text-center"
+                            role="alert">
+                            <span>No market making pool created yet</span>
 
+                        </div>
+                        <Button
+                            name="Create Market Making Pool"
+                            handleClick={() => setCreateMMPool(true)}
+                        />
                     </div>
-                    <Button
-                        name="Create Market Making Pool"
-                        handleClick={() => setCreateMMPool(true)}
-                    />
-                </div>
-            )}
-        </Card>
+                )}
+            </Card>
+            <div className="grid grid-cols-1 md-lg:grid-cols-3 gap-5">
+                <HomeCard 
+                    icon={<i className="fa-solid fa-screwdriver-wrench text-2xl text-indigo-500"></i>} 
+                    title="Update Settings" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={updateMarketMakingPool}
+                />
 
+                <HomeCard 
+                    icon={<i className="fa-solid fa-filter-circle-dollar text-2xl text-indigo-500"></i>} 
+                    title="Deposit Funds" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={() => setDepositFunds(true)}
+                />
+                
+                <HomeCard 
+                    icon={<i className="fa-solid fa-calendar-circle-plus text-2xl text-indigo-500"></i>} 
+                    title="Create Vesting schedules" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={(e) => {
+                        router.push(`${project.slug}/vesting/add`)
+                    }}
+                />
+
+                <HomeCard 
+                    icon={<i className="fa-solid fa-eye text-2xl text-indigo-500"></i>} 
+                    title="View Vesting schedules" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={(e) => {
+                        router.push(`${project.slug}/vesting`)
+                    }}
+                />
+
+                <HomeCard 
+                    icon={<i className="fa-solid fa-paper-plane text-2xl text-indigo-500"></i>} 
+                    title="Multi Send" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={(e) => {
+                        router.push(`${project.slug}/multisend/add`)
+                    }}
+                />
+
+                <HomeCard 
+                    icon={<i className="fa-solid fa-rectangle-vertical-history text-2xl text-indigo-500"></i>} 
+                    title="View Multi Send History" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={(e) => {
+                        router.push(`${project.slug}/multisend`)
+                    }}
+                />
+            </div>
+        </div>
     )
 }

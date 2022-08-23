@@ -11,7 +11,6 @@ import InputEmpty from "../../core/Input/InputEmpty";
 import FileInput from "../../core/Input/FileInput";
 
 // page components
-import Card from "../projectDetail/Card/Card";
 import RichEditor from "../../core/RichEditor/RichEditor";
 import HomeCard from "../../pages/Home/HomeCard";
 
