@@ -228,6 +228,18 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                                 />
                             </div>
                         </div>
+                        <div className="w-full grid grid-cols-2 gap-3.75">
+                            <Button
+                                name="Update Settings"
+                                handleClick={updateMarketMakingPool}
+                                isLoading={isLoading}
+                                disabled={isLoading}
+                            />
+                            <Button
+                                name="Deposit Funds"
+                                handleClick={() => setDepositFunds(true)}
+                            />
+                        </div>
                     </div>
                 ) : (
                     <div className="flex flex-col p-3.75 space-y-4">
@@ -244,21 +256,7 @@ export default function MarketMakingCard({project, marketMakingPool}) {
                     </div>
                 )}
             </Card>
-            <div className="grid grid-cols-1 md-lg:grid-cols-3 gap-5">
-                <HomeCard 
-                    icon={<i className="fa-solid fa-screwdriver-wrench text-2xl text-indigo-500"></i>} 
-                    title="Update Settings" 
-                    content="Step-by-step guides to setting up your system and installing the library."
-                    handleClick={updateMarketMakingPool}
-                />
-
-                <HomeCard 
-                    icon={<i className="fa-solid fa-filter-circle-dollar text-2xl text-indigo-500"></i>} 
-                    title="Deposit Funds" 
-                    content="Step-by-step guides to setting up your system and installing the library."
-                    handleClick={() => setDepositFunds(true)}
-                />
-                
+            <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
                 <HomeCard 
                     icon={<i className="fa-solid fa-calendar-circle-plus text-2xl text-indigo-500"></i>} 
                     title="Create Vesting schedules" 
