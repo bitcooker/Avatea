@@ -6,16 +6,15 @@ import helper from "../../../helpers";
 import {WETH_ADDRESS} from "../../../helpers/constants";
 
 // core components
+import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
 import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
 
 // page components
 import MaxButton from "./Button/MaxButton";
 import Card from "../projectDetail/Card/Card";
-import SkeletonDepositAndWithdraw from "./Skeleton/SkeletonDepositAndWithdraw";
 import HomeCard from "../../pages/Home/HomeCard";
 
-export default function DepositWithdraw({wallet, project, marketMakingPool, setTab}) {
-
+export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
     const router = useRouter();
     const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState('0');
     const [amountPairTokenBalance, setAmountPairTokenBalance] = useState('0');
@@ -27,7 +26,6 @@ export default function DepositWithdraw({wallet, project, marketMakingPool, setT
     const [pairedTokenWalletBalance, setPairedTokenWalletBalance] = useState('0');
     const [pairedTokenIsWeth, setPairedTokenIsWeth] = useState(false);
     const [load, setLoad] = useState(false);
-
 
     useEffect(() => {
 
@@ -93,64 +91,61 @@ export default function DepositWithdraw({wallet, project, marketMakingPool, setT
         let success = await helper.marketMaker.withdrawBaseToken(wallet, marketMakingPool.address, wei, full_withdrawal);
     };
 
-
-    return !load ? <SkeletonDepositAndWithdraw/> : (
+    return (
         <div className="flex flex-col gap-5">
-            <Card title="Settings">
+            <Card title="Activity">
                 {/* Card Header */}
                 <div className="card-header">
-                    <h1 className="text-2xl"><i className="fa-solid fa-plus-circle"/> Deposit</h1>
+                    <h1 className="text-2xl"><i className="fa-solid fa-circle-minus"></i> Withdraw</h1>
                 </div>
-
 
                 <div className="pt-10 card-content space-y-5">
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
-                                <i className="fa-solid fa-coin"/> Cash
+                                <i className="fa-solid fa-circle-dollar mr-1"/>
+                                Cash
                             </div>
                             <MaxButton
-                                balance={pairedTokenWalletBalance}
-                                handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
+                                balance={amountPairTokenBalance}
+                                handleClick={() => setMax(amountPairTokenBalance, setAmountPairTokenToWithdraw)}
                             />
                         </div>
-                        <InputApproveWithIconSubmit
-                            id="cash"
-                            name="cash"
+                        <InputWithIconSubmit
+                            id="withdrawCash"
+                            name="withdrawCash"
                             type="number"
-                            icon="fa-light fa-circle-plus"
-                            submitName="Deposit"
-                            submitFunction={stakePairedToken}
-                            value={amountPairTokenToStake}
+                            placeholder="Input amount to withdraw"
+                            submitName="Withdraw"
                             image={marketMakingPool.paired_token_image}
-                            setValue={setAmountPairTokenToStake}
-                            address={marketMakingPool.address}
-                            token={marketMakingPool.paired_token}
+                            icon="fa-light fa-circle-minus"
+                            value={amountPairTokenToWithdraw}
+                            setValue={setAmountPairTokenToWithdraw}
+                            submitFunction={withdrawPairToken}
                         />
                     </div>
-
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
-                                <i className="fa-solid fa-coin"/> Token
+                                <i className="fa-solid fa-coin mr-1"/>
+                                Tokens
                             </div>
                             <MaxButton
-                                balance={baseTokenWalletBalance}
-                                handleClick={() => setMax(baseTokenWalletBalance, setAmountBaseTokenToStake)}
+                                balance={amountBaseTokenBalance}
+                                handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}
                             />
                         </div>
-                        <InputApproveWithIconSubmit
-                            id="token"
-                            name="token"
+                        <InputWithIconSubmit
+                            id="withdrawToken"
+                            name="withdrawToken"
                             type="number"
-                            icon="fa-light fa-circle-plus"
-                            submitName="Deposit"
+                            placeholder="Input amount to withdraw"
+                            submitName="Withdraw"
                             image={project.image}
-                            submitFunction={stakeBaseToken}
-                            value={amountBaseTokenToStake}
-                            setValue={setAmountBaseTokenToStake}
-                            address={marketMakingPool.address}
-                            token={project.token}
+                            icon="fa-light fa-circle-minus"
+                            value={amountBaseTokenToWithdraw}
+                            setValue={setAmountBaseTokenToWithdraw}
+                            submitFunction={withdrawBaseToken}
                         />
                     </div>
                 </div>
@@ -158,26 +153,26 @@ export default function DepositWithdraw({wallet, project, marketMakingPool, setT
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                 <HomeCard
-                    icon={<i className="fa-solid fa-circle-plus text-2xl text-indigo-500"></i>} 
-                    title="Release Vesting" 
+                    icon={<i className="fa-solid fa-circle-minus text-2xl text-indigo-500"></i>} 
+                    title="Withdraw Liquidity"
                     content="Step-by-step guides to setting up your system and installing the library."
-                    handleClick={() => setTab(6)}
+                    handleClick={() => setTab(4)}
                 />
 
                 <HomeCard
-                    icon={<i className="fa-solid fa-hands-holding-dollar text-2xl text-indigo-500"></i>} 
-                    title="Deposit LP Tokens" 
+                    icon={<i className="fa-solid fa-hand-holding-dollar text-2xl text-indigo-500"></i>} 
+                    title="Withdraw LP Tokens"
                     content="Step-by-step guides to setting up your system and installing the library."
                     handleClick={() => router.push('/farms')}
                 />
 
                 <HomeCard
-                    icon={<i className="fa-solid fa-sack-dollar text-2xl text-indigo-500"></i>} 
-                    title="Stake In Vault" 
+                    icon={<i className="fa-solid fa-face-tongue-money text-2xl text-indigo-500"></i>} 
+                    title="Withdraw Vault Rewards"
                     content="Step-by-step guides to setting up your system and installing the library."
                     handleClick={() => setTab(5)}
                 />
             </div>
-        </div>    
+        </div>
     )
 }

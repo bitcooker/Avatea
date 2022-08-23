@@ -1,3 +1,4 @@
+import * as React from "react";
 import {useWallet} from "@albs1/use-wallet";
 import {useEffect, useState, useRef} from "react";
 import {useRouter} from "next/router";
@@ -17,10 +18,10 @@ import Liquidity from "../../src/components/pages/projects/LiquidityMaker";
 import Info from "../../src/components/pages/projects/Info";
 import { usePageTitleContext } from '../../src/context/PageTitleContext';
 import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
-import * as React from "react";
 import DepositWithdraw from "../../src/components/pages/projects/DepositWithdraw";
+import Withdraw from "../../src/components/pages/projects/Withdraw";
 
-const tabItems = ["Info","Deposit & Withdraw","Sustainable Trading", "Liquidity", "Vault", "Vesting"];
+const tabItems = ["Info","Deposit", "Withdraw","Sustainable Trading", "Liquidity", "Vault", "Vesting"];
 
 export default function ProjectDetail(props) {
     //@Todo add min buy limit and max buy limit fields (stop-loss)
@@ -103,7 +104,25 @@ export default function ProjectDetail(props) {
                     </motion.div>
                 </div>
             }
-            {tab === 2 &&
+            {tab === 2 && 
+                <div className="min-h-[800px] md-lg:min-h-[530px]">
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                        <>
+                            {
+                                wallet.status === "connected" ? (
+                                    <Withdraw
+                                        wallet={wallet}
+                                        marketMakingPool={marketMakingPool}
+                                        project={project}
+                                        setTab={setTab}
+                                    />
+                                ) : <ConnectYourWallet/>
+                            }
+                        </>
+                    </motion.div>
+                </div>
+            }
+            {tab === 3 &&
                 <div className="min-h-[800px] md-lg:min-h-[480px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>
@@ -121,7 +140,7 @@ export default function ProjectDetail(props) {
                 </div>
             }
 
-            {tab === 3 &&
+            {tab === 4 &&
                 <div className="min-h-[500px] md-lg:min-h-[625px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>
@@ -139,7 +158,7 @@ export default function ProjectDetail(props) {
                     </motion.div>
                 </div>
             }
-            {tab === 4 &&
+            {tab === 5 &&
                 <div className="min-h-[550px] md-lg:min-h-[350px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>
@@ -157,7 +176,7 @@ export default function ProjectDetail(props) {
                     </motion.div>
                 </div>
             }
-            {tab === 5 &&
+            {tab === 6 &&
                 <div className="md-lg:min-h-[500px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>
