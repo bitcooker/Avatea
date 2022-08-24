@@ -206,7 +206,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     };
 
 
-    return !load ? <SkeletonLiquidity/> : (
+    return !load || true ? <SkeletonLiquidity/> : (
         <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[800px] mx-auto">
             <Card>
                 <KPIWrapper cols={2}>

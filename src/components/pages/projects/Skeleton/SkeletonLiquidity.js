@@ -4,7 +4,31 @@ import * as React from "react";
 import Card from "../../projectDetail/Card/Card";
 
 export default function SkeletonLiquidity(props) {
-    return <div className="grid lg:grid-cols-2 gap-7.5">
+    return <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[800px] mx-auto">
+        <Card>
+            <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
+                <div className="flex flex-col items-center justify-center h-40 gap-3">
+                    <div className="rounded w-8 h-8 bg-slate-200" />
+                    <div className="rounded w-20 h-8 bg-slate-200" />
+                    <div className="rounded w-3/5 h-4 bg-slate-200" />
+                </div>
+                <div className="flex flex-col items-center justify-center h-40 gap-3">
+                    <div className="rounded w-8 h-8 bg-slate-200" />
+                    <div className="rounded w-20 h-8 bg-slate-200" />
+                    <div className="rounded w-3/5 h-4 bg-slate-200" />
+                </div>
+                <div className="flex flex-col items-center justify-center h-40 gap-3">
+                    <div className="rounded w-8 h-8 bg-slate-200" />
+                    <div className="rounded w-20 h-8 bg-slate-200" />
+                    <div className="rounded w-3/5 h-4 bg-slate-200" />
+                </div>
+                <div className="flex flex-col items-center justify-center h-40 gap-3">
+                    <div className="rounded w-8 h-8 bg-slate-200" />
+                    <div className="rounded w-20 h-8 bg-slate-200" />
+                    <div className="rounded w-3/5 h-4 bg-slate-200" />
+                </div>
+            </div>
+        </Card>
         <Card>
             <div className="animate-pulse w-full">
                 <div className="card-header">
