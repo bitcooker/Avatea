@@ -13,6 +13,8 @@ import moment from "moment";
 import Toggle from "../../core/Toggle/Toggle";
 import RangeSlider from "../../core/RangeSlider/RangeSlider";
 import Swal from "sweetalert2";
+import KPIWrapper from "../../core/KPIWrapper";
+import KPICard from "../../core/KPICard";
 
 export default function LiquidityMaker({liquidityMaker, wallet, project, marketMakingPool}) {
 
@@ -205,8 +207,16 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
 
 
     return !load ? <SkeletonLiquidity/> : (
-        <div className="grid lg:grid-cols-2 gap-7.5">
+        <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[900px] mx-auto">
             <Card>
+                <KPIWrapper>
+                    <KPICard image={project.image} end={baseAllocation} label={'Allocation'} />
+                    <KPICard image={project.image} end={baseTokenStakedInLiquidity} label={'Added to Liquidity'} />
+                    <KPICard image={project.image} end={baseTotalSupply} label={'Total Value Locked'} />
+                    <KPICard image={liquidityMaker.paired_token_image} end={pairAllocation} label={'Allocation'} />
+                    <KPICard image={liquidityMaker.paired_token_image} end={pairedTokenStakedInLiquidity} label={'Added to Liquidity'} />
+                    <KPICard image={liquidityMaker.paired_token_image} end={pairedTotalSupply} label={'Total Value Locked'} />
+                </KPIWrapper>
                 <div className="divide-y">
                     {/* Card Header */}
                     <div className="card-header">

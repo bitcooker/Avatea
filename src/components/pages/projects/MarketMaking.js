@@ -15,6 +15,7 @@ import Button from "../../core/Button/Button";
 import Card from "../projectDetail/Card/Card";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 import KPICard from "../../core/KPICard";
+import KPIWrapper from "../../core/KPIWrapper";
 
 export default function MarketMaking({wallet, project, marketMakingPool}) {
 
@@ -181,23 +182,23 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
 
     return !load ? <SkeletonMarketMaking/> : (
-        <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] mx-auto">
+        <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[900px] mx-auto">
             <Card title="Activity" className={''}>
 
                 {/* Card Header */}
                 <div className="card-header">
                     {mode === "sell" ? (
-                        <div className={'grid md-lg:grid-cols-3 gap-7.5'}>
+                        <KPIWrapper>
                             <KPICard image={project.image} end={activity.baseAmountBought} label={'Bought'} />
                             <KPICard image={project.image} end={activity.baseAmountSold} label={'Sold'} />
                             <KPICard image={project.image} end={activity.baseAllocationTrading} label={'Allocation'} />
-                        </div>
+                        </KPIWrapper>
                     ) : (
-                        <div className={'grid md-lg:grid-cols-3 gap-7.5 '}>
+                        <KPIWrapper>
                             <KPICard image={marketMakingPool.paired_token_image} end={activity.pairedAmountBought} label={'Bought'} />
                             <KPICard image={marketMakingPool.paired_token_image} end={activity.pairedAmountSold} label={'Bought'} />
                             <KPICard image={marketMakingPool.paired_token_image} end={activity.pairedAllocationTrading} label={'Allocation'} />
-                        </div>
+                        </KPIWrapper>
 
                     ) }
 
