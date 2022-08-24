@@ -12,6 +12,7 @@ import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSub
 // page components
 import MaxButton from "./Button/MaxButton";
 import Card from "../projectDetail/Card/Card";
+import SkeletonWithdraw from "./Skeleton/SkeletonWithdraw";
 import HomeCard from "../../pages/Home/HomeCard";
 
 export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
@@ -91,7 +92,7 @@ export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
         let success = await helper.marketMaker.withdrawBaseToken(wallet, marketMakingPool.address, wei, full_withdrawal);
     };
 
-    return (
+    return !load ? <SkeletonWithdraw /> :  (
         <div className="flex flex-col gap-5 max-w-[700px] lg:max-w-[800px] mx-auto">
             <Card title="Activity">
                 {/* Card Header */}

@@ -11,7 +11,7 @@ import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSub
 // page components
 import MaxButton from "./Button/MaxButton";
 import Card from "../projectDetail/Card/Card";
-import SkeletonDepositAndWithdraw from "./Skeleton/SkeletonDepositAndWithdraw";
+import SkeletonDeposit from "./Skeleton/SkeletonDeposit";
 import HomeCard from "../../pages/Home/HomeCard";
 
 export default function Deposit({wallet, project, marketMakingPool, setTab}) {
@@ -94,7 +94,7 @@ export default function Deposit({wallet, project, marketMakingPool, setTab}) {
     };
 
 
-    return !load ? <SkeletonDepositAndWithdraw/> : (
+    return !load ? <SkeletonDeposit /> : (
 
         <div className="flex flex-col gap-5 max-w-[700px] lg:max-w-[800px] mx-auto">
             <Card title="Settings">

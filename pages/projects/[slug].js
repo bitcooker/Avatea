@@ -87,7 +87,7 @@ export default function ProjectDetail(props) {
                 </div>
             }
             {tab === 1 &&
-                <div className="min-h-[800px] md-lg:min-h-[530px]">
+                <div className="min-h-[800px] md-lg:min-h-[550px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>
                             {
@@ -105,7 +105,7 @@ export default function ProjectDetail(props) {
                 </div>
             }
             {tab === 2 && 
-                <div className="min-h-[800px] md-lg:min-h-[530px]">
+                <div className="min-h-[800px] md-lg:min-h-[550px]">
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                         <>
                             {
