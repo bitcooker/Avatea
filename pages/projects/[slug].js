@@ -18,7 +18,7 @@ import Liquidity from "../../src/components/pages/projects/LiquidityMaker";
 import Info from "../../src/components/pages/projects/Info";
 import { usePageTitleContext } from '../../src/context/PageTitleContext';
 import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
-import DepositWithdraw from "../../src/components/pages/projects/DepositWithdraw";
+import Deposit from "../../src/components/pages/projects/Deposit";
 import Withdraw from "../../src/components/pages/projects/Withdraw";
 
 const tabItems = ["Info","Deposit", "Withdraw","Sustainable Trading", "Liquidity", "Vault", "Vesting"];
@@ -92,7 +92,7 @@ export default function ProjectDetail(props) {
                         <>
                             {
                                 wallet.status === "connected" ? (
-                                    <DepositWithdraw
+                                    <Deposit
                                         wallet={wallet}
                                         marketMakingPool={marketMakingPool}
                                         project={project}

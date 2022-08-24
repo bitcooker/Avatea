@@ -14,7 +14,7 @@ import Card from "../projectDetail/Card/Card";
 import SkeletonDepositAndWithdraw from "./Skeleton/SkeletonDepositAndWithdraw";
 import HomeCard from "../../pages/Home/HomeCard";
 
-export default function DepositWithdraw({wallet, project, marketMakingPool, setTab}) {
+export default function Deposit({wallet, project, marketMakingPool, setTab}) {
 
     const router = useRouter();
     const [amountBaseTokenBalance, setAmountBaseTokenBalance] = useState('0');
@@ -95,7 +95,8 @@ export default function DepositWithdraw({wallet, project, marketMakingPool, setT
 
 
     return !load ? <SkeletonDepositAndWithdraw/> : (
-        <div className="flex flex-col gap-5">
+
+        <div className="flex flex-col gap-5 max-w-[700px] lg:max-w-[800px] mx-auto">
             <Card title="Settings">
                 {/* Card Header */}
                 <div className="card-header">
