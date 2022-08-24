@@ -94,7 +94,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                 setHoldersMapping(
                     await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address, wallet.account)
                 );
-                setLoad(true);
 
                 //@TODO Wire Chain ID for production
                 const marketMakingSettings = await helper.marketMaking.getMarketMakingSettings({
@@ -105,6 +104,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                         market_making_type, buy_sell_pressure, price_limit, id,
                     } = marketMakingSettings;
                 }
+                setLoad(true)
             };
             initWalletConnected();
         }
@@ -206,7 +206,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     };
 
 
-    return !load || true ? <SkeletonLiquidity/> : (
+    return !load ? <SkeletonLiquidity/> : (
         <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[800px] mx-auto">
             <Card>
                 <KPIWrapper cols={2}>
