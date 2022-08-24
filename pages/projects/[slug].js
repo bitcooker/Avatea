@@ -1,8 +1,8 @@
 import * as React from "react";
+import {useEffect, useRef, useState} from "react";
 import {useWallet} from "@albs1/use-wallet";
-import {useEffect, useState, useRef} from "react";
 import {useRouter} from "next/router";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 
 import helper from "../../src/helpers";
 
@@ -16,16 +16,16 @@ import MarketMaking from "../../src/components/pages/projects/MarketMaking";
 import Vesting from "../../src/components/pages/projects/Vesting";
 import Liquidity from "../../src/components/pages/projects/LiquidityMaker";
 import Info from "../../src/components/pages/projects/Info";
-import { usePageTitleContext } from '../../src/context/PageTitleContext';
+import {usePageTitleContext} from '../../src/context/PageTitleContext';
 import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
 import Deposit from "../../src/components/pages/projects/Deposit";
 import Withdraw from "../../src/components/pages/projects/Withdraw";
 
-const tabItems = ["Info","Deposit", "Withdraw","Sustainable Trading", "Liquidity", "Vault", "Vesting"];
+const tabItems = ["Info", "Deposit", "Withdraw", "Sustainable Trading", "Liquidity", "Vault", "Vesting"];
 
 export default function ProjectDetail(props) {
     //@Todo add min buy limit and max buy limit fields (stop-loss)
-    const { setTitle } = usePageTitleContext();
+    const {setTitle} = usePageTitleContext();
 
     const wallet = useWallet();
     const router = useRouter();
@@ -69,18 +69,20 @@ export default function ProjectDetail(props) {
     }, [project]);
 
     return (
-        <motion.div initial={{ opacity: 0 }} transition={{ duration: .7 }} animate={{ opacity: 1 }} className="space-y-7.5 pb-10">
+        <motion.div initial={{opacity: 0}} transition={{duration: .7}} animate={{opacity: 1}}
+                    className="space-y-7.5 pb-10">
             <Banner {...project} />
             {/* Tab menu */}
             <div ref={tabRef} className="flex justify-center">
                 <Tab items={tabItems} tab={tab} setTab={setTab}/>
             </div>
-            
-            {tab === 0 &&   
+
+            {tab === 0 &&
                 <div className="min-h-[800px] md-lg:min-h-[500px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <motion.div initial={{scale: 0}} animate={{scale: 1}} transition={{duration: 0.5}}>
                         <Info
                             project={project}
+                            marketMakingPool={marketMakingPool}
                             setTab={setTab}
                         />
                     </motion.div>
@@ -88,7 +90,7 @@ export default function ProjectDetail(props) {
             }
             {tab === 1 &&
                 <div className="min-h-[800px] md-lg:min-h-[550px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <motion.div initial={{scale: 0}} animate={{scale: 1}} transition={{duration: 0.5}}>
                         <>
                             {
                                 wallet.status === "connected" ? (
@@ -104,9 +106,9 @@ export default function ProjectDetail(props) {
                     </motion.div>
                 </div>
             }
-            {tab === 2 && 
+            {tab === 2 &&
                 <div className="min-h-[800px] md-lg:min-h-[550px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <motion.div initial={{scale: 0}} animate={{scale: 1}} transition={{duration: 0.5}}>
                         <>
                             {
                                 wallet.status === "connected" ? (
@@ -124,7 +126,7 @@ export default function ProjectDetail(props) {
             }
             {tab === 3 &&
                 <div className="min-h-[800px] md-lg:min-h-[480px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <motion.div initial={{scale: 0}} animate={{scale: 1}} transition={{duration: 0.5}}>
                         <>
                             {
                                 wallet.status === "connected" ? (
@@ -142,7 +144,7 @@ export default function ProjectDetail(props) {
 
             {tab === 4 &&
                 <div className="min-h-[500px] md-lg:min-h-[625px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <motion.div initial={{scale: 0}} animate={{scale: 1}} transition={{duration: 0.5}}>
                         <>
                             {
                                 wallet.status === "connected" ? (
@@ -160,7 +162,7 @@ export default function ProjectDetail(props) {
             }
             {tab === 5 &&
                 <div className="min-h-[550px] md-lg:min-h-[350px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <motion.div initial={{scale: 0}} animate={{scale: 1}} transition={{duration: 0.5}}>
                         <>
                             {
                                 wallet.status === "connected" ? (
@@ -178,7 +180,7 @@ export default function ProjectDetail(props) {
             }
             {tab === 6 &&
                 <div className="md-lg:min-h-[500px]">
-                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
+                    <motion.div initial={{scale: 0}} animate={{scale: 1}} transition={{duration: 0.5}}>
                         <>
                             {
                                 wallet.status === "connected" ? (

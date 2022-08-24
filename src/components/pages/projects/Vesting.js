@@ -9,7 +9,7 @@ import CenteredContent from "../../core/CenteredContent";
 
 // project detail components
 import Card from "../projectDetail/Card/Card";
-import {Chart} from "./Vesting/Chart";
+import {VestingChart} from "./Charts/VestingChart";
 import SkeletonVesting from "./Skeleton/SkeletonVesting";
 import {useRouter} from "next/router";
 import Swal from "sweetalert2";
@@ -173,7 +173,7 @@ export default function Vesting({
                     </div>
                 </div>
             </div>
-            <Chart
+            <VestingChart
                 amountVested={amountVested}
                 cliff={cliff}
                 start={start}
