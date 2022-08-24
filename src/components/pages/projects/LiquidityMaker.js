@@ -249,7 +249,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                             </div>
                             <div>
                                 <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
-                            <span className="text-center md-lg:text-left">
+                            <span className="text-sm text-center md-lg:text-left">
                                 Staked
                             </span>
                                     <span className="flex justify-center items-center text-base font-medium">
@@ -263,7 +263,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                             </div>
                             <div>
                                 <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
-                            <span className="text-center md-lg:text-left">
+                            <span className="text-sm text-center md-lg:text-left">
                                Current Value Of Liquidity
                             </span>
                                     <span className="flex justify-center text-base font-medium">
@@ -278,7 +278,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
 
                             <div>
                                 <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
-                            <span className="text-center md-lg:text-left">
+                            <span className="text-sm text-center md-lg:text-left">
                                 Current Value Of Rewards
                             </span>
                                     <span className="flex justify-center text-base font-medium">
