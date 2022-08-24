@@ -20,7 +20,7 @@ import Tooltip from '../../../../src/components/core/Tooltip/Tooltip';
 import DateTimePicker from '../../../../src/components/core/DateTimePicker/DateTimePicker';
 // page components
 import FileInput from "../../../../src/components/pages/Linked/fileInput";
-import {Chart} from "../../../../src/components/pages/projects/Vesting/Chart";
+import {VestingChart} from "../../../../src/components/pages/projects/Charts/VestingChart";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
 import ButtonWithApproval from "../../../../src/components/core/Button/ButtonWithApproval";
@@ -328,7 +328,7 @@ export default function VestingAdd(props) {
                                 </div>
 
 
-                                <Chart
+                                <VestingChart
                                     amountVested="100"
                                     cliff={parseInt(cliff) + parseInt(start)}
                                     start={start}

@@ -77,7 +77,7 @@ const data = {
 };
 
 
-export function Chart(props) {
+export function VestingChart(props) {
     const [chartData, setChartData] = useState(data);
     const [chartOptions, setChartOptions] = useState(options);
 

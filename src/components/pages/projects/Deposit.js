@@ -13,6 +13,8 @@ import MaxButton from "./Button/MaxButton";
 import Card from "../projectDetail/Card/Card";
 import SkeletonDeposit from "./Skeleton/SkeletonDeposit";
 import HomeCard from "../../pages/Home/HomeCard";
+import KPIWrapper from "../../core/KPIWrapper";
+import KPICard from "../../core/KPICard";
 
 export default function Deposit({wallet, project, marketMakingPool, setTab}) {
 
@@ -94,21 +96,23 @@ export default function Deposit({wallet, project, marketMakingPool, setTab}) {
     };
 
 
+    console.log(marketMakingPool,project)
     return !load ? <SkeletonDeposit /> : (
 
         <div className="flex flex-col gap-5 max-w-[700px] lg:max-w-[800px] mx-auto">
+            <Card>
+                <KPIWrapper cols={2}>
+                    <KPICard image={project.image} end={baseTokenWalletBalance} label={'Balance'} />
+                    <KPICard image={marketMakingPool.paired_token_image} end={pairedTokenWalletBalance} label={'Balance'} />
+                </KPIWrapper>
+            </Card>
             <Card title="Settings">
                 {/* Card Header */}
-                <div className="card-header">
-                    <h1 className="text-2xl"><i className="fa-solid fa-plus-circle"/> Deposit</h1>
-                </div>
-
-
-                <div className="pt-10 card-content space-y-5">
+                <div className="card-content space-y-5">
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
-                                <i className="fa-solid fa-coin"/> Cash
+                                Deposit {marketMakingPool.paired_token_ticker}
                             </div>
                             <MaxButton
                                 balance={pairedTokenWalletBalance}
@@ -133,7 +137,7 @@ export default function Deposit({wallet, project, marketMakingPool, setTab}) {
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
-                                <i className="fa-solid fa-coin"/> Token
+                                Deposit {project.ticker}
                             </div>
                             <MaxButton
                                 balance={baseTokenWalletBalance}
