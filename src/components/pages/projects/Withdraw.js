@@ -108,8 +108,8 @@ export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
-                                <i className="fa-solid fa-circle-dollar mr-1"/>
-                                Cash
+                                Withdraw {marketMakingPool.paired_token_ticker}
+
                             </div>
                             <MaxButton
                                 balance={amountPairTokenBalance}
