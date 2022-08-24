@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import Image from "next/image";
+import CountUp from 'react-countup';
 
 import helper from "../../../helpers";
 
@@ -191,7 +192,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                     <Image src={project.image} alt="projectImage" width={30} height={30}/>
 
                                     <p className="font-bold text-3xl">
-                                        <span>{activity.baseAmountBought}</span>
+                                        <CountUp start={0} end={activity.baseAmountBought} />
                                     </p>
 
                                     <div className={'flex justify-center mt-1'}>
@@ -206,7 +207,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                     <Image src={project.image} alt="projectImage" width={30} height={30}/>
 
                                     <p className="font-bold text-3xl">
-                                        <span >{activity.baseAmountSold}</span>
+                                        <CountUp start={0} end={activity.baseAmountSold} />
                                     </p>
 
                                     <div className={'flex justify-center mt-1'}>
@@ -222,7 +223,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                     <Image src={project.image} alt="projectImage" width={30} height={30}/>
 
                                     <p className="font-bold text-3xl">
-                                        <span >{activity.baseAllocationTrading}</span>
+                                        <CountUp start={0} end={activity.baseAllocationTrading} />
                                     </p>
 
                                     <div className={'flex justify-center mt-1'}>
@@ -245,7 +246,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                         height={30}
                                     />
                                     <p className="font-bold text-3xl">
-                                        <span >{activity.pairedAmountBought}</span>
+                                        <CountUp start={0} end={activity.pairedAmountBought} />
                                     </p>
 
                                     <div className={'flex justify-center mt-1'}>
@@ -264,7 +265,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                         height={30}
                                     />
                                     <p className="font-bold text-3xl">
-                                        <span >{activity.pairedAmountSold}</span>
+                                        <CountUp start={0} end={activity.pairedAmountSold} />
                                     </p>
 
                                     <div className={'flex justify-center mt-1'}>
@@ -284,7 +285,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                         height={30}
                                     />
                                     <p className="font-bold text-3xl">
-                                        <span >{activity.pairedAllocationTrading}</span>
+                                        <CountUp start={0} end={activity.pairedAllocationTrading} />
                                     </p>
 
                                     <div className={'flex justify-center mt-1'}>

@@ -3,6 +3,9 @@ import {Chart} from "react-chartjs-2";
 import * as ChartGeo from "chartjs-chart-geo";
 import {CategoryScale, Chart as ChartJS, Legend, Title, Tooltip} from "chart.js";
 
+// page components
+import Card from "../../../pages/management/projectDetail/Card/Card";
+
 const WORLD_JSON = {
     world: {
         url:
@@ -312,42 +315,44 @@ export function GeoChart(props) {
     }, [props.userLocations]);
 
     return (
-        <Chart
-            ref={chartRef}
-            type="choropleth"
-            data={{
-                labels: data.map(
-                    (d) => d.properties[MAP_JSON[props.chosenKey].propertiesKey]
-                ),
-                datasets: [
-                    {
-                        outline: data,
-                        label: "Countries",
-                        data: data.map((d) => ({
-                            feature: d,
-                            value: userLocations[d.properties['Alpha-2']] || 0
-                        }))
+        <Card>
+            <Chart
+                ref={chartRef}
+                type="choropleth"
+                data={{
+                    labels: data.map(
+                        (d) => d.properties[MAP_JSON[props.chosenKey].propertiesKey]
+                    ),
+                    datasets: [
+                        {
+                            outline: data,
+                            label: "Countries",
+                            data: data.map((d) => ({
+                                feature: d,
+                                value: userLocations[d.properties['Alpha-2']] || 0
+                            }))
+                        }
+                    ]
+                }}
+                options={{
+                    showOutline: true,
+                    showGraticule: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        xy: {
+                            projection: "equalEarth"
+                        }
+                        // Hide color scale
+                        // color: {
+                        //   display: false
+                        // }
                     }
-                ]
-            }}
-            options={{
-                showOutline: true,
-                showGraticule: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    xy: {
-                        projection: "equalEarth"
-                    }
-                    // Hide color scale
-                    // color: {
-                    //   display: false
-                    // }
-                }
-            }}
-        />
+                }}
+            />
+        </Card>
     );
 }

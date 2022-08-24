@@ -11,8 +11,8 @@ import InputEmpty from "../../core/Input/InputEmpty";
 import FileInput from "../../core/Input/FileInput";
 
 // page components
-import Card from "../projectDetail/Card/Card";
 import RichEditor from "../../core/RichEditor/RichEditor";
+import HomeCard from "../../pages/Home/HomeCard";
 
 export default function ManageProjectCard({project}) {
 
@@ -78,7 +78,7 @@ export default function ManageProjectCard({project}) {
     }
 
     return (
-        <Card className={'col-span-full md:col-span-1'}>
+        <>
             {visibleEditProjectModal && 
                 <Modal title="Edit Project Information" open={openEditProject}
                     handleClose={() => setOpenEditProject(false)}>
@@ -233,31 +233,48 @@ export default function ManageProjectCard({project}) {
                     </div>
                 </Modal>
             }
-            <div className="card-header mb-5">
-                <h1 className="text-2xl text-center">Manage Project</h1>
-            </div>
-            <div className="flex flex-col p-3.75 space-y-4">
-                {/* Edit Button */}
-                <Button
-                    name="Edit Information"
+            <div className="grid grid-cols-1 md-lg:grid-cols-3 gap-5">
+                <HomeCard 
+                    icon={<i className="fa-solid fa-money-check-pen text-2xl text-indigo-500"></i>} 
+                    title="Edit Information" 
+                    content="Step-by-step guides to setting up your system and installing the library."
                     handleClick={() => setOpenEditProject(true)}
                 />
-                <Button name="Edit Articles" handleClick={(e) => {
-                    router.push(`${project.slug}/news`)
-                }}/>
 
-                <div className="w-full grid grid-cols-2 gap-3.75">
-                    <Button name="Send Message" handleClick={(e) => {
-                        router.push(`${project.slug}/message`)
-                    }}/>
-                    <Button name="Message history" handleClick={(e) => {
-                        router.push(`${project.slug}/message/history`)
-                    }}/>
-                </div>
+                <HomeCard 
+                    icon={<i className="fa-solid fa-pen-paintbrush text-2xl text-indigo-500"></i>} 
+                    title="Edit Articles" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={(e) => { router.push(`${project.slug}/news`) }}
+                />
 
+                <HomeCard 
+                    icon={<i className="fa-solid fa-comments-question-check text-2xl text-indigo-500"></i>} 
+                    title="Contact Support" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                />
+                
+                <HomeCard 
+                    icon={<i className="fa-solid fa-message-pen text-2xl text-indigo-500"></i>} 
+                    title="Send Message" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={(e) => { router.push(`${project.slug}/message`) }}
+                />
 
-                <Button name="Contact Support"/>
+                <HomeCard
+                    icon={<i className="fa-solid fa-messages text-2xl text-indigo-500"></i>} 
+                    title="Message History" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={(e) => { router.push(`${project.slug}/message/history`) }}
+                />
+
+                <HomeCard
+                    icon={<i className="fa-solid fa-trophy text-2xl text-indigo-500"></i>} 
+                    title="Insights" 
+                    content="Step-by-step guides to setting up your system and installing the library."
+                    handleClick={(e) => { router.push(`${project.slug}/insights`) }}
+                />
             </div>
-        </Card>
+        </>
     )
 }
