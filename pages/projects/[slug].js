@@ -69,7 +69,7 @@ export default function ProjectDetail(props) {
     }, [project]);
 
     return (
-        <motion.div initial={{ opacity: 0 }} transition={{ duration: .7 }} animate={{ opacity: 1 }} className="space-y-7.5">
+        <motion.div initial={{ opacity: 0 }} transition={{ duration: .7 }} animate={{ opacity: 1 }} className="space-y-7.5 pb-10">
             <Banner {...project} />
             {/* Tab menu */}
             <div ref={tabRef} className="flex justify-center">

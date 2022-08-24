@@ -207,16 +207,17 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
 
 
     return !load ? <SkeletonLiquidity/> : (
-        <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[900px] mx-auto">
+        <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[800px] mx-auto">
             <Card>
-                <KPIWrapper>
+                <KPIWrapper cols={2}>
                     <KPICard image={project.image} end={baseAllocation} label={'Allocation'} />
                     <KPICard image={project.image} end={baseTokenStakedInLiquidity} label={'Added to Liquidity'} />
-                    <KPICard image={project.image} end={baseTotalSupply} label={'Total Value Locked'} />
                     <KPICard image={liquidityMaker.paired_token_image} end={pairAllocation} label={'Allocation'} />
                     <KPICard image={liquidityMaker.paired_token_image} end={pairedTokenStakedInLiquidity} label={'Added to Liquidity'} />
-                    <KPICard image={liquidityMaker.paired_token_image} end={pairedTotalSupply} label={'Total Value Locked'} />
                 </KPIWrapper>
+            </Card>
+            <Card>
+
                 <div className="divide-y">
                     {/* Card Header */}
                     <div className="card-header">
@@ -224,14 +225,12 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                         </h1>
                         <div className="py-5.5 space-y-4.5">
                             <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-clock"/> Locking Period</span>
-                                <span className="text-base font-medium">{helper.formatting.secondFormat(lockingPeriod)}
+                                <span className="text-sm">Locking Period</span>
+                                <span className="text-base font-medium"><i className="fa-solid fa-clock"/> {helper.formatting.secondFormat(lockingPeriod)}
                                 </span>
                             </div>
-
                             <div className="flex justify-between">
-                                <span className="text-sm"><i
-                                    className="fa-solid fa-treasure-chest"/> Total Value Locked</span>
+                                <span className="text-sm">Total Value Locked</span>
                                 <span className="flex items-center text-base font-medium">
                                     <Image src={project.image} alt="projectImage" width={24} height={24}/>
                                     <p className="mx-2.5">{baseTotalSupply}</p>
@@ -241,39 +240,65 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                                 </span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-hands-holding-dollar"/> Reward Per Token</span>
+                                <span className="text-sm">Reward Per Token</span>
                                 <span className="text-base font-medium">{rewardPerToken}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-hands-holding-dollar"/> Liquidity Reward Per Token</span>
+                                <span className="text-sm">Liquidity Reward Per Token</span>
                                 <span className="text-base font-medium">{liquidityRewardPerToken}</span>
                             </div>
-
-                            <div className="flex justify-between">
-                                <span className="text-sm"><i
-                                    className="fa-solid fa-treasure-chest"/> Allocated Liquidity</span>
-                                <span className="flex items-center text-base font-medium">
-                                    <Image src={project.image} alt="projectImage" width={24} height={24}/>
-                                    <p className="mx-2.5">{baseAllocation}</p>
-                                    <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
-                                           height={24}/>
-                                    <p className="mx-2.5">{pairAllocation}</p>
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm"><i
-                                    className="fa-solid fa-circle-plus"/> Added To Liquidity</span>
-                                <span className="flex text-base font-medium">
-                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
-                                <span className="mx-2.5">{baseTokenStakedInLiquidity}</span>
-                                <Image
-                                    src={marketMakingPool.paired_token_image}
-                                    alt="pairedTokenImage"
-                                    width={24}
-                                    height={24}
-                                />
-                                <span className="mx-2.5">{pairedTokenStakedInLiquidity}</span>
+                            <div>
+                                <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                            <span className="text-center md-lg:text-left">
+                                Staked
                             </span>
+                                    <span className="flex justify-center items-center text-base font-medium">
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <p className="mx-2.5">{holdersMapping?.stakedInBaseToken}</p>
+                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
+                                       height={24}/>
+                                <p className="mx-2.5">{holdersMapping?.stakedInPairedToken}</p>
+                            </span>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                            <span className="text-center md-lg:text-left">
+                               Current Value Of Liquidity
+                            </span>
+                                    <span className="flex justify-center text-base font-medium">
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <p className="mx-2.5">{currentBaseValue}</p>
+                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
+                                       height={24}/>
+                                <p className="mx-2.5">{currentPairedValue}</p>
+                            </span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                            <span className="text-center md-lg:text-left">
+                                Current Value Of Rewards
+                            </span>
+                                    <span className="flex justify-center text-base font-medium">
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <p className="mx-2.5">{currentRewardBaseValue}</p>
+                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
+                                       height={24}/>
+                                <p className="mx-2.5">{currentRewardPairedValue}</p>
+                                <Image src="/avatea-token.png" alt="pairTokeImage" width={24} height={24}/>
+                                <p className="mx-2.5">{rewardEarned}</p>
+                            </span>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="flex justify-between">
+                                    <span className="text-sm">Unlocked on</span>
+                                    <span
+                                        className="text-base font-medium"><i className="fa-solid fa-clock"/> {helper.formatting.dateFormat(parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod))}
+                                </span>
+                                </div>
                             </div>
 
                         </div>
@@ -283,67 +308,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
             <Card title="Liquidity & Reward Management">
                 {/* Card Header */}
                 <div className="card-header">
-                    <h1 className="text-lg md-lg:text-2xl"><i className="fa-solid fa-newspaper"/> Liquidity & Reward
-                        Management</h1>
-                </div>
-                <div className="card-content pt-5 space-y-3.75">
-                    <div>
-                        <div
-                            className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
-                            <span className="text-center md-lg:text-left">
-                                <i className="fa-solid fa-money-bill-transfer"/> Staked
-                            </span>
-                            <span className="flex justify-center items-center text-base font-medium">
-                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
-                                <p className="mx-2.5">{holdersMapping?.stakedInBaseToken}</p>
-                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
-                                       height={24}/>
-                                <p className="mx-2.5">{holdersMapping?.stakedInPairedToken}</p>
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <div
-                            className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
-                            <span className="text-center md-lg:text-left">
-                                <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Liquidity
-                            </span>
-                            <span className="flex justify-center text-base font-medium">
-                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
-                                <p className="mx-2.5">{currentBaseValue}</p>
-                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
-                                       height={24}/>
-                                <p className="mx-2.5">{currentPairedValue}</p>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div
-                            className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
-                            <span className="text-center md-lg:text-left">
-                                <i className="fa-solid fa-money-bill-transfer"/> Current Value Of Rewards
-                            </span>
-                            <span className="flex justify-center text-base font-medium">
-                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
-                                <p className="mx-2.5">{currentRewardBaseValue}</p>
-                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
-                                       height={24}/>
-                                <p className="mx-2.5">{currentRewardPairedValue}</p>
-                                <Image src="/avatea-token.png" alt="pairTokeImage" width={24} height={24}/>
-                                <p className="mx-2.5">{rewardEarned}</p>
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="flex justify-between">
-                            <span className="text-sm"><i className="fa-solid fa-timer"/> Unlocked on</span>
-                            <span
-                                className="text-base font-medium">
-                                    {helper.formatting.dateFormat(parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod))}
-                                </span>
-                        </div>
-                    </div>
+                    <h1 className="text-lg md-lg:text-2xl"><i className="fa-solid fa-gear"/> Liquidity Management</h1>
                 </div>
 
                 <div className="card-content p-5 space-y-3.75 border-1 border-2 rounded-2xl mt-2.5">
