@@ -184,10 +184,9 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
                 {/* Card Header */}
                 <div className="card-header">
-                    <h1 className="text-2xl mb-5"><i className="fa-solid fa-wave-pulse"></i> Activity</h1>
                     {mode === "sell" ? (
                         <div className={'grid md-lg:grid-cols-3 gap-7.5'}>
-                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                            <div className="px-10 py-5 md-lg:border-r-2 border-gray-300 ">
                                 <div className="text-center">
                                     <Image src={project.image} alt="projectImage" width={30} height={30}/>
 
@@ -202,7 +201,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 </div>
 
                             </div>
-                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                            <div className="px-10 py-5 md-lg:border-r-2 border-gray-300 ">
                                 <div className="text-center">
                                     <Image src={project.image} alt="projectImage" width={30} height={30}/>
 
@@ -218,7 +217,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
 
                             </div>
-                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                            <div className="px-10 py-5 border-0 border-gray-300 ">
                                 <div className="text-center">
                                     <Image src={project.image} alt="projectImage" width={30} height={30}/>
 
@@ -237,7 +236,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                         </div>
                     ) : (
                         <div className={'grid md-lg:grid-cols-3 gap-7.5 '}>
-                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                            <div className="px-10 py-5 md-lg:border-r-2 border-gray-300 ">
                                 <div className="text-center">
                                     <Image
                                         src={marketMakingPool.paired_token_image}
@@ -256,7 +255,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 </div>
 
                             </div>
-                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                            <div className="px-10 py-5 md-lg:border-r-2 border-gray-300 ">
                                 <div className="text-center">
                                     <Image
                                         src={marketMakingPool.paired_token_image}
@@ -276,7 +275,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
 
                             </div>
-                            <div className="px-10 py-5 border-2 border-gray-300 rounded">
+                            <div className="px-10 py-5 border-0 border-gray-300 ">
                                 <div className="text-center">
                                     <Image
                                         src={marketMakingPool.paired_token_image}
