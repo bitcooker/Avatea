@@ -12,7 +12,7 @@ export default function KPICard(props) {
                 </p>
 
                 <div className={'flex justify-center mt-1'}>
-                    <p className="text-sm uppercase tracking-widest"> {props.label}</p>
+                    <p className="text-xs uppercase tracking-wide"> {props.label}</p>
                 </div>
 
             </div>

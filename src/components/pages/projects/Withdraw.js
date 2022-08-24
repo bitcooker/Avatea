@@ -14,6 +14,8 @@ import MaxButton from "./Button/MaxButton";
 import Card from "../projectDetail/Card/Card";
 import SkeletonWithdraw from "./Skeleton/SkeletonWithdraw";
 import HomeCard from "../../pages/Home/HomeCard";
+import KPIWrapper from "../../core/KPIWrapper";
+import KPICard from "../../core/KPICard";
 
 export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
     const router = useRouter();
@@ -94,13 +96,15 @@ export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
 
     return !load ? <SkeletonWithdraw /> :  (
         <div className="flex flex-col gap-5 max-w-[700px] lg:max-w-[800px] mx-auto">
+            <Card>
+                <KPIWrapper cols={2}>
+                    <KPICard image={project.image} end={amountBaseTokenBalance} label={'Balance'} />
+                    <KPICard image={marketMakingPool.paired_token_image} end={amountPairTokenBalance} label={'Balance'} />
+                </KPIWrapper>
+            </Card>
             <Card title="Activity">
                 {/* Card Header */}
-                <div className="card-header">
-                    <h1 className="text-2xl"><i className="fa-solid fa-circle-minus"></i> Withdraw</h1>
-                </div>
-
-                <div className="pt-10 card-content space-y-5 ">
+                <div className=" card-content space-y-5 ">
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
@@ -128,8 +132,7 @@ export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
-                                <i className="fa-solid fa-coin mr-1"/>
-                                Tokens
+                                Withdraw {project.ticker}
                             </div>
                             <MaxButton
                                 balance={amountBaseTokenBalance}

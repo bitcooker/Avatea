@@ -209,11 +209,11 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     return !load ? <SkeletonLiquidity/> : (
         <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[800px] mx-auto">
             <Card>
-                <KPIWrapper cols={2}>
+                <KPIWrapper cols={'4'}>
                     <KPICard image={project.image} end={baseAllocation} label={'Allocation'} />
-                    <KPICard image={project.image} end={baseTokenStakedInLiquidity} label={'Added to Liquidity'} />
+                    <KPICard image={project.image} end={baseTokenStakedInLiquidity} label={'In Liquidity'} />
                     <KPICard image={liquidityMaker.paired_token_image} end={pairAllocation} label={'Allocation'} />
-                    <KPICard image={liquidityMaker.paired_token_image} end={pairedTokenStakedInLiquidity} label={'Added to Liquidity'} />
+                    <KPICard image={liquidityMaker.paired_token_image} end={pairedTokenStakedInLiquidity} label={'In Liquidity'} />
                 </KPIWrapper>
             </Card>
             <Card>
