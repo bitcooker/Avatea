@@ -135,10 +135,20 @@ const getMarketMakingPool = async (id) => {
     }
 }
 
+const getMarketMakingTickers = async (id) => {
+    try {
+        const {data} = await axios.get(`${API_URL}MarketMakingPool/${id}/retrieve_tickers/`);
+        return data;
+    } catch (e) {
+        console.log('getMarketMakingTickers error:', e);
+    }
+}
+
 export default {
     getMarketMakingPools,
     getMarketMakingPool,
     updateMarketMakingSettings,
     getMarketMakingSettings,
-    updateMarketMakingPool
+    updateMarketMakingPool,
+    getMarketMakingTickers
 }
