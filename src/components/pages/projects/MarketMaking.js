@@ -14,6 +14,7 @@ import Button from "../../core/Button/Button";
 // page components
 import Card from "../projectDetail/Card/Card";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
+import KPICard from "../../core/KPICard";
 
 export default function MarketMaking({wallet, project, marketMakingPool}) {
 
@@ -187,115 +188,15 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                 <div className="card-header">
                     {mode === "sell" ? (
                         <div className={'grid md-lg:grid-cols-3 gap-7.5'}>
-                            <div className="px-10 py-5 md-lg:border-r-2 border-gray-300 ">
-                                <div className="text-center">
-                                    <Image src={project.image} alt="projectImage" width={30} height={30}/>
-
-                                    <p className="font-bold text-3xl">
-                                        <CountUp start={0} end={activity.baseAmountBought} />
-                                    </p>
-
-                                    <div className={'flex justify-center mt-1'}>
-                                        <p className="text-sm uppercase tracking-widest"> Bought</p>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div className="px-10 py-5 md-lg:border-r-2 border-gray-300 ">
-                                <div className="text-center">
-                                    <Image src={project.image} alt="projectImage" width={30} height={30}/>
-
-                                    <p className="font-bold text-3xl">
-                                        <CountUp start={0} end={activity.baseAmountSold} />
-                                    </p>
-
-                                    <div className={'flex justify-center mt-1'}>
-                                        <p className="text-sm uppercase tracking-widest"> Sold</p>
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-                            <div className="px-10 py-5 border-0 border-gray-300 ">
-                                <div className="text-center">
-                                    <Image src={project.image} alt="projectImage" width={30} height={30}/>
-
-                                    <p className="font-bold text-3xl">
-                                        <CountUp start={0} end={activity.baseAllocationTrading} />
-                                    </p>
-
-                                    <div className={'flex justify-center mt-1'}>
-                                        <p className="text-sm uppercase tracking-widest"> Allocation</p>
-                                    </div>
-
-                                </div>
-
-
-                            </div>
+                            <KPICard image={project.image} end={activity.baseAmountBought} label={'Bought'} />
+                            <KPICard image={project.image} end={activity.baseAmountSold} label={'Sold'} />
+                            <KPICard image={project.image} end={activity.baseAllocationTrading} label={'Allocation'} />
                         </div>
                     ) : (
                         <div className={'grid md-lg:grid-cols-3 gap-7.5 '}>
-                            <div className="px-10 py-5 md-lg:border-r-2 border-gray-300 ">
-                                <div className="text-center">
-                                    <Image
-                                        src={marketMakingPool.paired_token_image}
-                                        alt="pairedTokenImage"
-                                        width={30}
-                                        height={30}
-                                    />
-                                    <p className="font-bold text-3xl">
-                                        <CountUp start={0} end={activity.pairedAmountBought} />
-                                    </p>
-
-                                    <div className={'flex justify-center mt-1'}>
-                                        <p className="text-sm uppercase tracking-widest"> Bought</p>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div className="px-10 py-5 md-lg:border-r-2 border-gray-300 ">
-                                <div className="text-center">
-                                    <Image
-                                        src={marketMakingPool.paired_token_image}
-                                        alt="pairedTokenImage"
-                                        width={30}
-                                        height={30}
-                                    />
-                                    <p className="font-bold text-3xl">
-                                        <CountUp start={0} end={activity.pairedAmountSold} />
-                                    </p>
-
-                                    <div className={'flex justify-center mt-1'}>
-                                        <p className="text-sm uppercase tracking-widest"> Sold</p>
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-                            <div className="px-10 py-5 border-0 border-gray-300 ">
-                                <div className="text-center">
-                                    <Image
-                                        src={marketMakingPool.paired_token_image}
-                                        alt="pairedTokenImage"
-                                        width={30}
-                                        height={30}
-                                    />
-                                    <p className="font-bold text-3xl">
-                                        <CountUp start={0} end={activity.pairedAllocationTrading} />
-                                    </p>
-
-                                    <div className={'flex justify-center mt-1'}>
-                                        <p className="text-sm uppercase tracking-widest"> Allocation</p>
-                                    </div>
-
-                                </div>
-
-
-                            </div>
+                            <KPICard image={marketMakingPool.paired_token_image} end={activity.pairedAmountBought} label={'Bought'} />
+                            <KPICard image={marketMakingPool.paired_token_image} end={activity.pairedAmountSold} label={'Bought'} />
+                            <KPICard image={marketMakingPool.paired_token_image} end={activity.pairedAllocationTrading} label={'Allocation'} />
                         </div>
 
                     ) }
