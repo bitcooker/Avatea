@@ -13,12 +13,14 @@ import CenteredContent from "../../core/CenteredContent";
 import Image from "next/image";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
+import KPIWrapper from "../../core/KPIWrapper";
+import KPICard from "../../core/KPICard";
 
 export default function Vault({project, setTab }) {
 
     const [articles, setArticles] = useState([]);
 
-
+    console.log(project)
     useEffect(() => {
         const fetchArticles = async () => {
             if (project.slug) {
@@ -33,11 +35,11 @@ export default function Vault({project, setTab }) {
 
 
     return  (
-        <div className="flex flex-col md-lg:flex-row gap-7.5">
+        <div className="grid md-lg:grid-cols-2 gap-7.5 max-w-[900px] lg:max-w-[1000px] mx-auto">
             <Card title="Project Info">
                 {/* Card Header */}
                 <div className="card-header">
-                    <h1 className="text-2xl"><i className="fa-solid fa-newspaper"/> Project Info</h1>
+                    <h1 className="text-2xl"><i className="fa-solid fa-memo"/> Information</h1>
                 </div>
 
                 <div className="card-content pt-5.5">
@@ -46,7 +48,20 @@ export default function Vault({project, setTab }) {
                     }</div>
                 </div>
             </Card>
-            <Card title="News Feed">
+            {
+                project?.image ?  <Card>
+                    <KPIWrapper cols={2}>
+                        <KPICard image={project.image} end={100} label={'TLV'}/>
+                        <KPICard image={project.image} end={100} label={'TLV'}/>
+                        <KPICard image={project.image} end={100} label={'Price'}/>
+                        <KPICard image={project.image} end={100} label={'Users'}/>
+
+                    </KPIWrapper>
+
+                </Card> : ''
+            }
+
+            <Card title="News Feed" className={'col-span-full'}>
                 {/* Card Header */}
                 <div className="card-header">
                     <h1 className="text-2xl"><i className="fa-solid fa-newspaper"/> News</h1>
