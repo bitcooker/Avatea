@@ -216,6 +216,90 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                     <KPICard image={liquidityMaker.paired_token_image} end={pairedTokenStakedInLiquidity} label={'In Liquidity'} />
                 </KPIWrapper>
             </Card>
+            <Card title="Liquidity & Reward Management">
+                {/* Card Header */}
+                <div className="card-header">
+                    <h1 className="text-lg md-lg:text-2xl"><i className="fa-solid fa-gear"/> Liquidity Management</h1>
+                </div>
+
+                <div className="card-content p-5 space-y-3.75 border-1 border-2 rounded-2xl mt-2.5">
+                    <Toggle
+                        label={baseLiquiditySetting ? "Set " + project.ticker + " Liquidity Ratio" : "Do you want to provide liquidity in " + project.ticker + "?"}
+                        handleClick={() => {
+                            setBaseLiquiditySetting(!baseLiquiditySetting)
+                        }}
+                        checked={baseLiquiditySetting}
+                    />
+                    {
+                        <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
+                            {
+                                baseLiquiditySetting ?
+                                    <div className="flex items-center">
+                                        <RangeSlider
+                                            className="mt-5 md-lg:mt-0"
+                                            setPercent={setNewMaxBaseLiquidityRatio}
+                                            percent={newMaxBaseLiquidityRatio}
+                                        />
+                                    </div>
+                                    : ""
+                            }
+                            {maxBaseLiquidityRatio.toString() !== newMaxBaseLiquidityRatio.toString() &&
+                                <Button name={'Update Ratio'} handleClick={updateBaseRatio}>
+                                    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                                </Button>
+                            }
+
+                        </div>
+                    }
+
+                    <Toggle
+                        label={pairedLiquiditySetting ? "Set " + liquidityMaker.paired_token_ticker + " Liquidity Ratio" : "Do you want to provide liquidity in " + liquidityMaker.paired_token_ticker + "?"}
+                        handleClick={() => {
+                            setPairedLiquiditySetting(!pairedLiquiditySetting)
+                        }}
+                        checked={pairedLiquiditySetting}
+                    />
+                    {
+                        <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
+                            {
+                                pairedLiquiditySetting ?
+                                    <div className="flex items-center">
+                                        <RangeSlider
+                                            className="mt-5 md-lg:mt-0"
+                                            setPercent={setNewMaxPairedLiquidityRatio}
+                                            percent={newMaxPairedLiquidityRatio}
+                                        />
+                                    </div>
+                                    : ""
+                            }
+
+                            {maxPairedLiquidityRatio.toString() !== newMaxPairedLiquidityRatio.toString() &&
+                                <Button name={'Update Ratio'} handleClick={updatePairedRatio}>
+                                    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                                </Button>
+                            }
+                        </div>
+                    }
+                </div>
+
+                <div className="card-content pt-5.5">
+                    <div className="grid md-lg:grid-cols-2 gap-3.75">
+                        <Button
+                            disabled={parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod) > moment().unix()}
+                            className={'col-span-full'} name="Withdraw All" handleClick={exitLiquidity}>
+                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                        </Button>
+                        <Button name="Claim Rewards" handleClick={claimReward}>
+                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                        </Button>
+                        <Button name="Compound Liquidity" handleClick={compoundReward}>
+                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                        </Button>
+                    </div>
+                </div>
+
+            </Card>
+
             <Card>
 
                 <div className="divide-y">
@@ -304,89 +388,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                         </div>
                     </div>
                 </div>
-            </Card>
-            <Card title="Liquidity & Reward Management">
-                {/* Card Header */}
-                <div className="card-header">
-                    <h1 className="text-lg md-lg:text-2xl"><i className="fa-solid fa-gear"/> Liquidity Management</h1>
-                </div>
-
-                <div className="card-content p-5 space-y-3.75 border-1 border-2 rounded-2xl mt-2.5">
-                    <Toggle
-                        label={baseLiquiditySetting ? "Set " + project.ticker + " Liquidity Ratio" : "Do you want to provide liquidity in " + project.ticker + "?"}
-                        handleClick={() => {
-                            setBaseLiquiditySetting(!baseLiquiditySetting)
-                        }}
-                        checked={baseLiquiditySetting}
-                    />
-                    {
-                        <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
-                            {
-                                baseLiquiditySetting ?
-                                    <div className="flex items-center">
-                                        <RangeSlider
-                                            className="mt-5 md-lg:mt-0"
-                                            setPercent={setNewMaxBaseLiquidityRatio}
-                                            percent={newMaxBaseLiquidityRatio}
-                                        />
-                                    </div>
-                                    : ""
-                            }
-                            {maxBaseLiquidityRatio.toString() !== newMaxBaseLiquidityRatio.toString() &&
-                                <Button name={'Update Ratio'} handleClick={updateBaseRatio}>
-                                    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                </Button>
-                            }
-
-                        </div>
-                    }
-
-                    <Toggle
-                        label={pairedLiquiditySetting ? "Set " + liquidityMaker.paired_token_ticker + " Liquidity Ratio" : "Do you want to provide liquidity in " + liquidityMaker.paired_token_ticker + "?"}
-                        handleClick={() => {
-                            setPairedLiquiditySetting(!pairedLiquiditySetting)
-                        }}
-                        checked={pairedLiquiditySetting}
-                    />
-                    {
-                        <div className="grid md-lg:grid-cols-2 md-lg:h-10 gap-5">
-                            {
-                                pairedLiquiditySetting ?
-                                    <div className="flex items-center">
-                                        <RangeSlider
-                                            className="mt-5 md-lg:mt-0"
-                                            setPercent={setNewMaxPairedLiquidityRatio}
-                                            percent={newMaxPairedLiquidityRatio}
-                                        />
-                                    </div>
-                                    : ""
-                            }
-
-                            {maxPairedLiquidityRatio.toString() !== newMaxPairedLiquidityRatio.toString() &&
-                                <Button name={'Update Ratio'} handleClick={updatePairedRatio}>
-                                    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                </Button>
-                            }
-                        </div>
-                    }
-                </div>
-
-                <div className="card-content pt-5.5">
-                    <div className="grid md-lg:grid-cols-2 gap-3.75">
-                        <Button
-                            disabled={parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod) > moment().unix()}
-                            className={'col-span-full'} name="Withdraw All" handleClick={exitLiquidity}>
-                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                        </Button>
-                        <Button name="Claim Rewards" handleClick={claimReward}>
-                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                        </Button>
-                        <Button name="Compound Liquidity" handleClick={compoundReward}>
-                            <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                        </Button>
-                    </div>
-                </div>
-
             </Card>
         </div>
 
