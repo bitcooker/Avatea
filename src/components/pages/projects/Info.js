@@ -1,12 +1,17 @@
-import Card from "../projectDetail/Card/Card";
-import Feed from "../projectDetail/Feed/Feed";
-import helper from "../../../helpers";
 import {useEffect, useState} from "react";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
+
+import helper from "../../../helpers";
+
+// core components
 import KPIWrapper from "../../core/KPIWrapper";
 import KPICard from "../../core/KPICard";
-import {PriceChart} from "./Charts/PriceChart";
+
+// page components
+import Card from "../projectDetail/Card/Card";
+import Feed from "../projectDetail/Feed/Feed";
+import PriceAreaChart from "./Charts/PriceAreaChart";
 
 export default function Vault({project, marketMakingPool}) {
 
@@ -74,9 +79,10 @@ export default function Vault({project, marketMakingPool}) {
                     <Feed articles={articles}/>
                 </div>
             </Card>
-            <PriceChart tickerData={tickerData} baseTicker={project.ticker} pairedTicker={marketMakingPool.paired_token_ticker} />
 
+            <Card className="col-span-2">
+                <PriceAreaChart tickerData={tickerData} baseTicker={project.ticker} pairedTicker={marketMakingPool.paired_token_ticker} />
+            </Card>
         </div>
-
     )
 }
