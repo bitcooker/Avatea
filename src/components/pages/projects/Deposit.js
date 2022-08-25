@@ -109,30 +109,6 @@ export default function Deposit({wallet, project, marketMakingPool, setTab}) {
             <Card title="Settings">
                 {/* Card Header */}
                 <div className="card-content space-y-5">
-                    <div className="space-y-2.5">
-                        <div className="flex flex-row items-center justify-between text-base">
-                            <div>
-                                Deposit {marketMakingPool.paired_token_ticker}
-                            </div>
-                            <MaxButton
-                                balance={pairedTokenWalletBalance}
-                                handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
-                            />
-                        </div>
-                        <InputApproveWithIconSubmit
-                            id="cash"
-                            name="cash"
-                            type="number"
-                            icon="fa-light fa-circle-plus"
-                            submitName="Deposit"
-                            submitFunction={stakePairedToken}
-                            value={amountPairTokenToStake}
-                            image={marketMakingPool.paired_token_image}
-                            setValue={setAmountPairTokenToStake}
-                            address={marketMakingPool.address}
-                            token={marketMakingPool.paired_token}
-                        />
-                    </div>
 
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
@@ -158,6 +134,31 @@ export default function Deposit({wallet, project, marketMakingPool, setTab}) {
                             token={project.token}
                         />
                     </div>
+                    <div className="space-y-2.5">
+                        <div className="flex flex-row items-center justify-between text-base">
+                            <div>
+                                Deposit {marketMakingPool.paired_token_ticker}
+                            </div>
+                            <MaxButton
+                                balance={pairedTokenWalletBalance}
+                                handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
+                            />
+                        </div>
+                        <InputApproveWithIconSubmit
+                            id="cash"
+                            name="cash"
+                            type="number"
+                            icon="fa-light fa-circle-plus"
+                            submitName="Deposit"
+                            submitFunction={stakePairedToken}
+                            value={amountPairTokenToStake}
+                            image={marketMakingPool.paired_token_image}
+                            setValue={setAmountPairTokenToStake}
+                            address={marketMakingPool.address}
+                            token={marketMakingPool.paired_token}
+                        />
+                    </div>
+
                 </div>
             </Card>
 

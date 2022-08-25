@@ -108,6 +108,30 @@ export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
                             <div>
+                                Withdraw {project.ticker}
+                            </div>
+                            <MaxButton
+                                balance={amountBaseTokenBalance}
+                                handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}
+                            />
+                        </div>
+                        <InputWithIconSubmit
+                            id="withdrawToken"
+                            name="withdrawToken"
+                            type="number"
+                            placeholder="Input amount to withdraw"
+                            submitName="Withdraw"
+                            image={project.image}
+                            icon="fa-light fa-circle-minus"
+                            value={amountBaseTokenToWithdraw}
+                            setValue={setAmountBaseTokenToWithdraw}
+                            submitFunction={withdrawBaseToken}
+                        />
+                    </div>
+
+                    <div className="space-y-2.5">
+                        <div className="flex flex-row items-center justify-between text-base">
+                            <div>
                                 Withdraw {marketMakingPool.paired_token_ticker}
 
                             </div>
@@ -127,29 +151,6 @@ export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
                             value={amountPairTokenToWithdraw}
                             setValue={setAmountPairTokenToWithdraw}
                             submitFunction={withdrawPairToken}
-                        />
-                    </div>
-                    <div className="space-y-2.5">
-                        <div className="flex flex-row items-center justify-between text-base">
-                            <div>
-                                Withdraw {project.ticker}
-                            </div>
-                            <MaxButton
-                                balance={amountBaseTokenBalance}
-                                handleClick={() => setMax(amountBaseTokenBalance, setAmountBaseTokenToWithdraw)}
-                            />
-                        </div>
-                        <InputWithIconSubmit
-                            id="withdrawToken"
-                            name="withdrawToken"
-                            type="number"
-                            placeholder="Input amount to withdraw"
-                            submitName="Withdraw"
-                            image={project.image}
-                            icon="fa-light fa-circle-minus"
-                            value={amountBaseTokenToWithdraw}
-                            setValue={setAmountBaseTokenToWithdraw}
-                            submitFunction={withdrawBaseToken}
                         />
                     </div>
                 </div>
