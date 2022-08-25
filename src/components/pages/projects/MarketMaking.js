@@ -21,8 +21,8 @@ import HomeCard from "../../pages/Home/HomeCard";
 
 const questions = [
     "Do you want to buy/sell token A or B?",
+    "Do you want to sell / buy with a 100% pressure setting?",
     "What price limit do you want to set?",
-    "Do you want to update settings?"
 ]
 
 export default function MarketMaking({wallet, project, marketMakingPool}) {
@@ -229,7 +229,21 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                             </div>
                     }
                     {
-                        magicQStep === 1 &&
+                        magicQStep === 1 && 
+                            <div className="flex flex-col space-y-5">
+                                <div className="flex flex-col space-y-8">
+                                    <span className="text-sm"><i className="fa-solid fa-circle-bolt"/> Pressure</span>
+                                    <RangeSlider setPercent={setPressure} percent={pressure}/>
+                                </div>
+
+                                <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
+                                    <Button name="Previous" handleClick={() => setMagicQStep(0)} />
+                                    <Button name="Next" handleClick={() => setMagicQStep(2)} />
+                                </div>
+                            </div>
+                    }
+                    {
+                        magicQStep === 2 &&
                             <div className="flex flex-col space-y-2.5">
                                 <InputWithIconSubmit
                                     id="priceLimit"

@@ -8,7 +8,6 @@ export default function SkeletonMarketMaking(props) {
         <Card>
             <div className="animate-pulse w-full">
                 <div className="card-header">
-                    <div className="rounded w-1/5 h-8 bg-slate-200" />
                     <div className="flex gap-10 py-5">
                         <div className="rounded w-1/3 h-25 bg-slate-200" />
                         <div className="rounded w-1/3 h-25 bg-slate-200" />
