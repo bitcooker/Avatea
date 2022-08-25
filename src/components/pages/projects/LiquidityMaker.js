@@ -211,8 +211,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
             <Card>
                 <KPIWrapper cols={4}>
                     <KPICard image={project.image} end={baseAllocation} label={'Allocation'} />
-                    <KPICard image={project.image} end={baseTokenStakedInLiquidity} label={'In Liquidity'} />
                     <KPICard image={liquidityMaker.paired_token_image} end={pairAllocation} label={'Allocation'} />
+                    <KPICard image={project.image} end={baseTokenStakedInLiquidity} label={'In Liquidity'} />
                     <KPICard image={liquidityMaker.paired_token_image} end={pairedTokenStakedInLiquidity} label={'In Liquidity'} />
                 </KPIWrapper>
             </Card>

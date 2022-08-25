@@ -154,7 +154,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         } else {
             setEstimation('- Days')
         }
-        const timeout = setTimeout(()=> setEstimationLoader(false), 5000);
+        const timeout = setTimeout(()=> setEstimationLoader(false), 1800);
 
         return () => {
             clearTimeout(timeout)
