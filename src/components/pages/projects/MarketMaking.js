@@ -17,6 +17,7 @@ import Card from "../projectDetail/Card/Card";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 import KPICard from "../../core/KPICard";
 import KPIWrapper from "../../core/KPIWrapper";
+import Spinner from "../../core/Spinner";
 import HomeCard from "../../pages/Home/HomeCard";
 
 const questions = [
@@ -38,6 +39,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const [marketMakingSettingsId, setMarketMakingSettingsId] = useState(null);
     const [mode, setMode] = useState("sell");
     const [estimation, setEstimation] = useState("- Days");
+    const [estimationLoader, setEstimationLoader] = useState(false);
     const [activity, setActivity] = useState({
         baseAmountBought: '0',
         pairedAmountBought: '0',
@@ -130,9 +132,12 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
 
     useEffect(() => {
+
+        setEstimationLoader(true);
+
+
         if (parseFloat(pressure) === 0) {
             setEstimation('- Days')
-            return
         }
         if (mode === 'buy') {
             let max_buying_amount = marketMakingPool.max_buying_amount
@@ -148,6 +153,11 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             setEstimation(days + ' Days')
         } else {
             setEstimation('- Days')
+        }
+        const timeout = setTimeout(()=> setEstimationLoader(false), 5000);
+
+        return () => {
+            clearTimeout(timeout)
         }
 
     }, [mode, pressure, amountBaseTokenBalance, amountPairTokenBalance, marketMakingPool]);
@@ -396,11 +406,24 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 <span className="text-sm"><i className="fa-solid fa-circle-bolt"/> Pressure</span>
                                 <RangeSlider setPercent={setPressure} percent={pressure}/>
                             </div>
-                            <div className={`space-y-2.5 ${estimation === '- Days' ? 'hidden' : ''}`}>
+                            <div className={`${estimationLoader ? 'space-y-5' : 'space-y-2.5'} ${estimation === '- Days' ? 'hidden' : ''}`}>
                                 <span className="text-sm"><i className="fa-solid fa-timer"/> Estimation</span>
-                                <InputEmpty placeholder={estimation} readOnly/>
+                                {
+                                    estimationLoader ?
+                                        <div className={'flex flex-row'}>
+                                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            </svg>
+                                            <small>Calculating Estimation</small>
+                                        </div>
+                                        :
+                                        <InputEmpty placeholder={estimation} readOnly/>
+
+                                }
                             </div>
                         </div>
+
                         <div className="space-y-2.5">
                     <span className="text-sm"><i className="fa-solid fa-circle-dollar"/>
                         {mode === "buy" ? " Maximum Buying Price" : " Minimum Selling Price"}
