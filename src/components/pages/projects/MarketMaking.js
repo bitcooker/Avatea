@@ -406,7 +406,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 <span className="text-sm"><i className="fa-solid fa-circle-bolt"/> Pressure</span>
                                 <RangeSlider setPercent={setPressure} percent={pressure}/>
                             </div>
-                            <div className={`${estimationLoader ? 'space-y-5' : 'space-y-2.5'} ${estimation === '- Days' ? 'hidden' : ''}`}>
+                            <div className={`${estimationLoader ? 'space-y-5' : 'space-y-5'} ${estimation === '- Days' ? 'hidden' : ''}`}>
                                 <span className="text-sm"><i className="fa-solid fa-timer"/> Estimation</span>
                                 {
                                     estimationLoader ?
@@ -418,7 +418,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                             <small>Calculating Estimation</small>
                                         </div>
                                         :
-                                        <InputEmpty placeholder={estimation} readOnly/>
+                                        <p>{estimation}</p>
 
                                 }
                             </div>
