@@ -9,9 +9,17 @@ export default function KPICard(props) {
                     <Image src={props.image} alt="projectImage" width={30} height={30}/>
                 }
                 {props.images &&
-                    <div>
-                        <Image src={props.images[0]} alt="projectImage" width={30} height={30}/>
-                        <Image src={props.images[1]} alt="projectImage" width={30} height={30}/>
+                    <div className={'space-x-2'}>
+                        {
+                            props.images.map((image,index) => {
+                                    return(
+                                        <span key={index} >
+                                            <Image src={image} alt="projectImage" width={30} height={30}/>
+                                    </span>)
+                                }
+                            )
+                        }
+
                     </div>
                 }
                 <p className="font-bold text-3xl">
