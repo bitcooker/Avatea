@@ -51,9 +51,7 @@ export default function PreviewContent(props) {
             <div className="text-white text-lg font-poppins leading-none">
               {props.name}
             </div>
-            <div className="text-white/80 text-xs font-poppins">
-                Circulating Supply : <span className="text-white">$1,000,000</span>
-            </div>
+
             {props.website ? (
               <div className="truncate text-white/80 text-xs font-poppins">
                 Website :{" "}
