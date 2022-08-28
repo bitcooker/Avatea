@@ -1,16 +1,15 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-    Chart as ChartJS,
     CategoryScale,
+    Chart as ChartJS,
+    Legend,
     LinearScale,
-    PointElement,
     LineElement,
+    PointElement,
     Title,
     Tooltip,
-    Legend,
 } from 'chart.js';
 import {Line} from 'react-chartjs-2';
-import {useState, useEffect} from "react";
 import tailwindConfig from '../../../../../tailwind.config';
 
 
@@ -39,6 +38,8 @@ const options = {
     scales: {
         x: {
             ticks: {
+                autoSkip: true,
+                maxTicksLimit: 15,
                 callback: function (label) {
                     return `${this.getLabelForValue(label)}`.substring(0, 11)
                 }
