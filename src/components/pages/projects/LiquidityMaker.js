@@ -21,8 +21,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
 
     const [rewardEarned, setRewardEarned] = useState('0');
     const [liquidityRewardEarned, setLiquidityRewardEarned] = useState('0');
-    const [baseTotalSupply, setBaseTotalSupply] = useState('0');
-    const [pairedTotalSupply, setPairedTotalSupply] = useState('0');
     const [lockingPeriod, setLockingPeriod] = useState('0');
     const [rewardPerToken, setRewardPerToken] = useState('0');
     const [liquidityRewardPerToken, setLiquidityRewardPerToken] = useState('0');
@@ -40,8 +38,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     const [pairedLiquiditySetting, setPairedLiquiditySetting] = useState(false);
     const [baseAllocation, setBaseAllocation] = useState('0');
     const [pairAllocation, setPairAllocation] = useState('0');
-    const [pairedTokenStakedInLiquidity, setPairedTokenStakedInLiquidity] = useState('0');
-    const [baseTokenStakedInLiquidity, setBaseTokenStakedInLiquidity] = useState('0');
 
 
     useEffect(() => {
@@ -52,9 +48,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                     maxPairedLiquidityRatio,
                     pairedAllocationLiquidity,
                     baseAllocationLiquidity,
-                    pairedTokenStakedInLiquidity,
-                    baseTokenStakedInLiquidity
-
                 } = await helper.web3.marketMaker.fetchHoldersMapping(wallet, marketMakingPool.address, wallet.account);
                 setMaxBaseLiquidityRatio(maxBaseLiquidityRatio);
                 setMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
@@ -62,8 +55,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                 setNewMaxPairedLiquidityRatio(maxPairedLiquidityRatio);
                 setBaseAllocation(helper.formatting.web3Format(baseAllocationLiquidity))
                 setPairAllocation(helper.formatting.web3Format(pairedAllocationLiquidity))
-                setBaseTokenStakedInLiquidity(helper.formatting.web3Format(baseTokenStakedInLiquidity))
-                setPairedTokenStakedInLiquidity(helper.formatting.web3Format(pairedTokenStakedInLiquidity))
+
                 if (maxBaseLiquidityRatio > 0) setBaseLiquiditySetting(true);
                 if (maxPairedLiquidityRatio > 0) setPairedLiquiditySetting(true);
 
@@ -88,22 +80,10 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                 );
 
 
-                let TVL = await helper.web3.liquidityMaker.getTVL(wallet, liquidityMaker.address, project.token, liquidityMaker.paired_token)
-                setBaseTotalSupply(helper.formatting.web3Format(TVL.baseValue));
-                setPairedTotalSupply(helper.formatting.web3Format(TVL.pairedValue));
                 setHoldersMapping(
                     await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address, wallet.account)
                 );
 
-                //@TODO Wire Chain ID for production
-                const marketMakingSettings = await helper.marketMaking.getMarketMakingSettings({
-                    slug: project.slug, user_address: wallet.account,
-                });
-                if (marketMakingSettings) {
-                    const {
-                        market_making_type, buy_sell_pressure, price_limit, id,
-                    } = marketMakingSettings;
-                }
                 setLoad(true)
             };
             initWalletConnected();
@@ -209,11 +189,11 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     return !load ? <SkeletonLiquidity/> : (
         <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[800px] mx-auto">
             <Card>
-                <KPIWrapper cols={4}>
-                    <KPICard image={project.image} end={baseAllocation} label={'Allocation'} />
-                    <KPICard image={liquidityMaker.paired_token_image} end={pairAllocation} label={'Allocation'} />
-                    <KPICard image={project.image} end={baseTokenStakedInLiquidity} label={'In Liquidity'} />
-                    <KPICard image={liquidityMaker.paired_token_image} end={pairedTokenStakedInLiquidity} label={'In Liquidity'} />
+                <KPIWrapper cols={3}>
+                    <KPICard image={project.image} end={baseAllocation} label={'Allocation'}/>
+                    <KPICard image={liquidityMaker.paired_token_image} end={pairAllocation} label={'Allocation'}/>
+                    <KPICard images={[project.image, liquidityMaker.paired_token_image]}
+                             end={rewardPerToken + liquidityRewardPerToken} label={'APY'} postFix={'%'}/>
                 </KPIWrapper>
             </Card>
             <Card title="Liquidity & Reward Management">
@@ -308,45 +288,9 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                         <h1 className="text-lg md-lg:text-2xl"><i className="fa-solid fa-nfc-lock"/> Liquidity Stats
                         </h1>
                         <div className="py-5.5 space-y-4.5">
-                            <div className="flex justify-between">
-                                <span className="text-sm">Locking Period</span>
-                                <span className="text-base font-medium"><i className="fa-solid fa-clock"/> {helper.formatting.secondFormat(lockingPeriod)}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm">Total Value Locked</span>
-                                <span className="flex items-center text-base font-medium">
-                                    <Image src={project.image} alt="projectImage" width={24} height={24}/>
-                                    <p className="mx-2.5">{baseTotalSupply}</p>
-                                    <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
-                                           height={24}/>
-                                    <p className="mx-2.5">{pairedTotalSupply}</p>
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm">Reward Per Token</span>
-                                <span className="text-base font-medium">{rewardPerToken}</span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm">Liquidity Reward Per Token</span>
-                                <span className="text-base font-medium">{liquidityRewardPerToken}</span>
-                            </div>
                             <div>
-                                <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
-                            <span className="text-sm text-center md-lg:text-left">
-                                Staked
-                            </span>
-                                    <span className="flex justify-center items-center text-base font-medium">
-                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
-                                <p className="mx-2.5">{holdersMapping?.stakedInBaseToken}</p>
-                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
-                                       height={24}/>
-                                <p className="mx-2.5">{holdersMapping?.stakedInPairedToken}</p>
-                            </span>
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                                <div
+                                    className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
                             <span className="text-sm text-center md-lg:text-left">
                                Current Value Of Liquidity
                             </span>
@@ -361,7 +305,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                             </div>
 
                             <div>
-                                <div className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                                <div
+                                    className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
                             <span className="text-sm text-center md-lg:text-left">
                                 Current Value Of Rewards
                             </span>
@@ -376,12 +321,34 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                             </span>
                                 </div>
                             </div>
+                            <div className="flex justify-between">
+                                <span className="text-sm">Locking Period</span>
+                                <span className="text-base font-medium"><i
+                                    className="fa-solid fa-clock"/> {helper.formatting.secondFormat(lockingPeriod)}
+                                </span>
+                            </div>
                             <div>
                                 <div className="flex justify-between">
                                     <span className="text-sm">Unlocked on</span>
                                     <span
-                                        className="text-base font-medium"><i className="fa-solid fa-clock"/> {helper.formatting.dateFormat(parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod))}
+                                        className="text-base font-medium"><i
+                                        className="fa-solid fa-clock"/> {helper.formatting.dateFormat(parseInt(holdersMapping?.lastLiquidityProvidingTime) + parseInt(lockingPeriod))}
                                 </span>
+                                </div>
+                            </div>
+                            <div>
+                                <div
+                                    className="flex flex-col space-y-2.5 md-lg:flex-row md-lg:space-y-0 md-lg:items-center md-lg:justify-between text-base">
+                            <span className="text-sm text-center md-lg:text-left">
+                                Staked
+                            </span>
+                                    <span className="flex justify-center items-center text-base font-medium">
+                                <Image src={project.image} alt="projectImage" width={24} height={24}/>
+                                <p className="mx-2.5">{holdersMapping?.stakedInBaseToken}</p>
+                                <Image src={liquidityMaker.paired_token_image} alt="pairTokeImage" width={24}
+                                       height={24}/>
+                                <p className="mx-2.5">{holdersMapping?.stakedInPairedToken}</p>
+                            </span>
                                 </div>
                             </div>
 

@@ -7,7 +7,6 @@ import {WETH_ADDRESS} from "../../../helpers/constants";
 
 // core components
 import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
-import InputApproveWithIconSubmit from "../../core/Input/InputApproveWithIconSubmit";
 
 // page components
 import MaxButton from "./Button/MaxButton";
@@ -94,12 +93,16 @@ export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
         let success = await helper.marketMaker.withdrawBaseToken(wallet, marketMakingPool.address, wei, full_withdrawal);
     };
 
-    return !load ? <SkeletonWithdraw /> :  (
+    return !load ? <SkeletonWithdraw/> : (
         <div className="flex flex-col gap-5 max-w-[700px] lg:max-w-[800px] mx-auto">
             <Card>
-                <KPIWrapper cols={2}>
-                    <KPICard image={project.image} end={amountBaseTokenBalance} label={'Balance'} />
-                    <KPICard image={marketMakingPool.paired_token_image} end={amountPairTokenBalance} label={'Balance'} />
+                <KPIWrapper cols={4}>
+                    <KPICard image={project.image} end={baseTokenWalletBalance} label={'Wallet'}/>
+                    <KPICard image={marketMakingPool.paired_token_image} end={pairedTokenWalletBalance}
+                             label={'Wallet'}/>
+                    <KPICard image={project.image} end={amountBaseTokenBalance} label={'contract'}/>
+                    <KPICard image={marketMakingPool.paired_token_image} end={amountPairTokenBalance}
+                             label={'contract'}/>
                 </KPIWrapper>
             </Card>
             <Card title="Activity">
@@ -158,21 +161,21 @@ export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                 <HomeCard
-                    icon={<i className="fa-solid fa-circle-minus text-2xl text-indigo-500"></i>} 
+                    icon={<i className="fa-solid fa-circle-minus text-2xl text-indigo-500"></i>}
                     title="Withdraw Liquidity"
                     content="Step-by-step guides to setting up your system and installing the library."
                     handleClick={() => setTab(4)}
                 />
 
                 <HomeCard
-                    icon={<i className="fa-solid fa-hand-holding-dollar text-2xl text-indigo-500"></i>} 
+                    icon={<i className="fa-solid fa-hand-holding-dollar text-2xl text-indigo-500"></i>}
                     title="Withdraw LP Tokens"
                     content="Step-by-step guides to setting up your system and installing the library."
                     handleClick={() => router.push('/farms')}
                 />
 
                 <HomeCard
-                    icon={<i className="fa-solid fa-face-tongue-money text-2xl text-indigo-500"></i>} 
+                    icon={<i className="fa-solid fa-face-tongue-money text-2xl text-indigo-500"></i>}
                     title="Withdraw Vault Rewards"
                     content="Step-by-step guides to setting up your system and installing the library."
                     handleClick={() => setTab(5)}

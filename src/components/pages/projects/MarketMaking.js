@@ -1,13 +1,11 @@
 import {useEffect, useState} from "react";
 import Image from "next/image";
-import CountUp from 'react-countup';
 
 import helper from "../../../helpers";
 
 // core components
 import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
 import RangeSlider from "../../core/RangeSlider/RangeSlider";
-import InputEmpty from "../../core/Input/InputEmpty";
 import Radio from "../../core/Radio/Radio";
 import Button from "../../core/Button/Button";
 import Modal from "../../core/modal/Modal";
@@ -17,7 +15,6 @@ import Card from "../projectDetail/Card/Card";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 import KPICard from "../../core/KPICard";
 import KPIWrapper from "../../core/KPIWrapper";
-import Spinner from "../../core/Spinner";
 import HomeCard from "../../pages/Home/HomeCard";
 
 const questions = [
@@ -48,7 +45,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     })
     const [allowSelling, setAllowSelling] = useState(true);
     const [load, setLoad] = useState(false);
-    const [visibleMagicModal,setVisibleMagicModal] = useState(false);
+    const [visibleMagicModal, setVisibleMagicModal] = useState(false);
     const [openMagicModal, setOpenMagicModal] = useState(false);
     const [magicQStep, setMagicQStep] = useState(0);
 
@@ -154,7 +151,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         } else {
             setEstimation('- Days')
         }
-        const timeout = setTimeout(()=> setEstimationLoader(false), 1800);
+        const timeout = setTimeout(() => setEstimationLoader(false), 1800);
 
         return () => {
             clearTimeout(timeout)
@@ -165,7 +162,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     useEffect(() => {
         setTimeout(() => {
             setVisibleMagicModal(true);
-        }, 600)   
+        }, 600)
     })
 
     const setMax = async (amount, setter) => {
@@ -208,81 +205,81 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     return !load ? <SkeletonMarketMaking/> : (
         <>
             {/* magic modal */}
-            {visibleMagicModal && 
-                <Modal 
-                    title={questions[magicQStep]} 
-                    open={openMagicModal} 
+            {visibleMagicModal &&
+                <Modal
+                    title={questions[magicQStep]}
+                    open={openMagicModal}
                     handleClose={() => setOpenMagicModal(false)}
                 >
                     {
                         magicQStep === 0 &&
-                            <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
-                                <HomeCard 
-                                    icon={<i className="fa-solid fa-money-check-pen text-2xl text-indigo-500"></i>} 
-                                    title="Buy" 
-                                    content="I want to buy token A or B"
-                                    handleClick={() => {
-                                        setMode("buy");
-                                        setMagicQStep(1);
-                                    }}
-                                />
+                        <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
+                            <HomeCard
+                                icon={<i className="fa-solid fa-money-check-pen text-2xl text-indigo-500"></i>}
+                                title="Buy"
+                                content="I want to buy token A or B"
+                                handleClick={() => {
+                                    setMode("buy");
+                                    setMagicQStep(1);
+                                }}
+                            />
 
-                                <HomeCard 
-                                    icon={<i className="fa-solid fa-money-check-pen text-2xl text-indigo-500"></i>} 
-                                    title="Sell" 
-                                    content="I want to sell token A or B"
-                                    handleClick={() => {
-                                        setMode("sell");
-                                        setMagicQStep(1);
-                                    }}
-                                />
-                            </div>
+                            <HomeCard
+                                icon={<i className="fa-solid fa-money-check-pen text-2xl text-indigo-500"></i>}
+                                title="Sell"
+                                content="I want to sell token A or B"
+                                handleClick={() => {
+                                    setMode("sell");
+                                    setMagicQStep(1);
+                                }}
+                            />
+                        </div>
                     }
                     {
-                        magicQStep === 1 && 
-                            <div className="flex flex-col space-y-5">
-                                <div className="flex flex-col space-y-8">
-                                    <span className="text-sm"><i className="fa-solid fa-circle-bolt"/> Pressure</span>
-                                    <RangeSlider setPercent={setPressure} percent={pressure}/>
-                                </div>
-
-                                <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
-                                    <Button name="Previous" handleClick={() => setMagicQStep(0)} />
-                                    <Button name="Next" handleClick={() => setMagicQStep(2)} />
-                                </div>
+                        magicQStep === 1 &&
+                        <div className="flex flex-col space-y-5">
+                            <div className="flex flex-col space-y-8">
+                                <span className="text-sm"><i className="fa-solid fa-circle-bolt"/> Pressure</span>
+                                <RangeSlider setPercent={setPressure} percent={pressure}/>
                             </div>
+
+                            <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
+                                <Button name="Previous" handleClick={() => setMagicQStep(0)}/>
+                                <Button name="Next" handleClick={() => setMagicQStep(2)}/>
+                            </div>
+                        </div>
                     }
                     {
                         magicQStep === 2 &&
-                            <div className="flex flex-col space-y-2.5">
-                                <InputWithIconSubmit
-                                    id="priceLimit"
-                                    name="priceLimit"
-                                    type="number"
-                                    image={marketMakingPool.paired_token_image}
-                                    placeholder="Enter price"
-                                    icon="fa-light fa-circle-minus"
-                                    hideButton={true}
-                                    value={priceLimit}
-                                    setValue={setPriceLimit}
-                                />
+                        <div className="flex flex-col space-y-2.5">
+                            <InputWithIconSubmit
+                                id="priceLimit"
+                                name="priceLimit"
+                                type="number"
+                                image={marketMakingPool.paired_token_image}
+                                placeholder="Enter price"
+                                icon="fa-light fa-circle-minus"
+                                hideButton={true}
+                                value={priceLimit}
+                                setValue={setPriceLimit}
+                            />
 
-                                <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
-                                    <Button name="Previous" handleClick={() => setMagicQStep(0)} />
-                                    {allowSelling || mode === "buy" ?
-                                        <Button name="Save Settings"
-                                                isLoading={isLoading}
-                                                disabled={isLoading}
-                                                handleClick={(e) => {
-                                                    updateSettings()
-                                                }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
-                                        :
-                                        <Button name="Allow sustainable selling" handleClick={(e) => {
-                                            AllowSelling()
-                                        }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
-                                    }
-                                </div>
+                            <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
+                                <Button name="Previous" handleClick={() => setMagicQStep(0)}/>
+                                {allowSelling || mode === "buy" ?
+                                    <Button name="Save Settings"
+                                            isLoading={isLoading}
+                                            disabled={isLoading}
+                                            handleClick={(e) => {
+                                                updateSettings()
+                                            }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
+                                    :
+                                    <Button name="Allow sustainable selling" handleClick={(e) => {
+                                        AllowSelling()
+                                    }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
+                                }
                             </div>
+                        </div>
                     }
                 </Modal>
             }
@@ -293,18 +290,24 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     <div className="card-header">
                         {mode === "sell" ? (
                             <KPIWrapper>
-                                <KPICard image={project.image} end={activity.baseAmountBought} label={'Bought'} />
-                                <KPICard image={project.image} end={activity.baseAmountSold} label={'Sold'} />
-                                <KPICard image={project.image} end={activity.baseAllocationTrading} label={'Allocation'} />
+                                <KPICard image={project.image} end={activity.baseAmountSold} label={'Sold'}/>
+                                <KPICard image={marketMakingPool.paired_token_image}
+                                         end={activity.baseAmountSold / activity.pairedAmountSold}
+                                         label={'Avg. Price'}/>
+                                <KPICard image={project.image} end={activity.baseAllocationTrading}
+                                         label={'Allocation'}/>
                             </KPIWrapper>
                         ) : (
                             <KPIWrapper>
-                                <KPICard image={marketMakingPool.paired_token_image} end={activity.pairedAmountBought} label={'Bought'} />
-                                <KPICard image={marketMakingPool.paired_token_image} end={activity.pairedAmountSold} label={'Bought'} />
-                                <KPICard image={marketMakingPool.paired_token_image} end={activity.pairedAllocationTrading} label={'Allocation'} />
+                                <KPICard image={project.image} end={activity.baseAmountBought} label={'Bought'}/>
+                                <KPICard image={marketMakingPool.paired_token_image}
+                                         end={activity.baseAmountBought / activity.pairedAmountBought}
+                                         label={'Avg. Price'}/>
+                                <KPICard image={marketMakingPool.paired_token_image}
+                                         end={activity.pairedAllocationTrading} label={'Allocation'}/>
                             </KPIWrapper>
 
-                        ) }
+                        )}
 
 
                         <div className="py-5.5 space-y-4.5 hidden">
@@ -373,11 +376,11 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     {/* Card Header */}
                     <div className="card-header flex justify-between">
                         <h1 className="text-2xl"><i className="fa-solid fa-sliders"/> Settings</h1>
-                        <div 
+                        <div
                             className="animate-bounce bg-white p-2 w-10 h-10 ring-1 ring-slate-900/5 shadow-lg rounded-full flex items-center justify-center hover:cursor-pointer"
                             onClick={() => setOpenMagicModal(true)}
                         >
-                            <i className="fa-solid fa-wand-magic-sparkles text-md" />
+                            <i className="fa-solid fa-wand-magic-sparkles text-md"/>
                         </div>
                     </div>
 
@@ -406,14 +409,18 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 <span className="text-sm"><i className="fa-solid fa-circle-bolt"/> Pressure</span>
                                 <RangeSlider setPercent={setPressure} percent={pressure}/>
                             </div>
-                            <div className={`${estimationLoader ? 'space-y-5' : 'space-y-5'} ${estimation === '- Days' ? 'hidden' : ''}`}>
+                            <div
+                                className={`${estimationLoader ? 'space-y-5' : 'space-y-5'} ${estimation === '- Days' ? 'hidden' : ''}`}>
                                 <span className="text-sm"><i className="fa-solid fa-timer"/> Estimation</span>
                                 {
                                     estimationLoader ?
                                         <div className={'flex flex-row'}>
-                                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-500"
+                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle className="opacity-25" cx="12" cy="12" r="10"
+                                                        stroke="currentColor" strokeWidth="4"></circle>
+                                                <path className="opacity-75" fill="currentColor"
+                                                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                             </svg>
                                             <small>Calculating Estimation</small>
                                         </div>
