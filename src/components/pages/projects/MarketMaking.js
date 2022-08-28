@@ -48,6 +48,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const [visibleMagicModal, setVisibleMagicModal] = useState(false);
     const [openMagicModal, setOpenMagicModal] = useState(false);
     const [magicQStep, setMagicQStep] = useState(0);
+    const [touchedSettings,setTouchedSettings] = useState(false);
+    const [marketMakingSettings,setMarketMakingSettings] = useState()
 
     useEffect(() => {
 
@@ -116,17 +118,38 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     const {
                         market_making_type, buy_sell_pressure, price_limit, id,
                     } = marketMakingSettings;
+                    setMarketMakingSettings({market_making_type, buy_sell_pressure: buy_sell_pressure?.toString(), price_limit});
                     if (!market_making_type) setFresh(true);
                     setMarketMakingSettingsId(id);
                     if (mode === 'sell') setMode(market_making_type === null || market_making_type === 'hold' ? "sell" : market_making_type);
-                    if (pressure === '0') setPressure(buy_sell_pressure === null ? 0 : buy_sell_pressure);
+                    if (pressure === '0') setPressure(buy_sell_pressure === null ? '0' : buy_sell_pressure.toString());
                     if (pressure === '0') setPriceLimit(price_limit === null ? 0 : price_limit);
+                    console.log(mode, pressure, priceLimit)
                 }
             };
             initWalletConnected();
         }
     }, [wallet.status, project]);
 
+    useEffect(() => {
+        if(fresh) {
+            setTouchedSettings(true)
+        } else {
+            const comparisonObject = {
+                market_making_type: mode,
+                buy_sell_pressure: pressure,
+                price_limit: priceLimit
+            }
+            console.log(comparisonObject)
+            if(JSON.stringify(comparisonObject) === JSON.stringify(marketMakingSettings)) {
+                setTouchedSettings(false)
+            } else {
+                setTouchedSettings(true)
+            }
+
+        }
+
+    },[mode,pressure,priceLimit])
 
     useEffect(() => {
 
@@ -452,7 +475,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                         {allowSelling || mode === "buy" ?
                             <Button name="Save Settings"
                                     isLoading={isLoading}
-                                    disabled={isLoading}
+                                    disabled={isLoading || !touchedSettings}
                                     handleClick={(e) => {
                                         updateSettings()
                                     }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>

@@ -8,7 +8,7 @@ export default function RangeSlider(props) {
   }, [props.percent]);
 
   const handleOnInput = React.useCallback((e) => {
-    props.setPercent(e.target.value);
+    props.setPercent(e.target.value.toString());
   }, [props]);
 
   return (
