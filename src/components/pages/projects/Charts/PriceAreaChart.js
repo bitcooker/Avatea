@@ -64,8 +64,7 @@ export default function PriceAreaChart(props) {
         return series && <ChartWithNoSSR options={options} series={series} type="area" width="100%" height={320} />
     }, [series])
 
-    console.log(series)
-    
+
     return (
         <>
             {PriceChartMemo}
