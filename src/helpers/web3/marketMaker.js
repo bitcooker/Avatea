@@ -62,7 +62,7 @@ const deploy = async (wallet,
             data: {
                 receipt,
                 wallet,
-                address:_marketMaker
+                address: _marketMaker
             }
         })
         return true;
@@ -431,6 +431,20 @@ const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, 
     }
 }
 
+const getTotalVested = async (wallet, marketMakerAddress) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        const signer = provider.getSigner();
+        const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
+        const data = await marketMakerContract.totalVested();
+        return await marketMakerContract.totalVested();
+    } catch (e) {
+        console.log('getTotalVested error', e);
+        toast.error(e.reason);
+        return 0;
+    }
+}
+
 const fetchHoldersMapping = async (wallet, marketMakerAddress, address) => {
     try {
         const provider = new ethers.providers.Web3Provider(wallet.ethereum);
@@ -677,5 +691,6 @@ export default {
     setAllowSelling,
     setAllowReleasing,
     setMaxBaseLiquidityRatio,
-    setMaxPairedLiquidityRatio
+    setMaxPairedLiquidityRatio,
+    getTotalVested
 }
