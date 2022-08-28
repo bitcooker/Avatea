@@ -74,12 +74,7 @@ export default function CardItem(props) {
                 </div>
                 {
                     props.disableDetails ? "" : <>
-                        <div className="flex items-center justify-between mb-2.5">
-                            <div className="text-sm text-black/60">Total value locked :</div>
-                            <div className="font-semibold text-sm text-right text-black">
-                                $ 100.000
-                            </div>
-                        </div>
+
                         <div className="flex items-center justify-between mb-2.5">
                             <div className="text-sm text-black/60">Whitepaper :</div>
                             <div className="font-semibold text-sm text-right text-indigo-500">

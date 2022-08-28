@@ -15,6 +15,8 @@ import Button from "../../core/Button/Button";
 import SkeletonVault from "./Skeleton/SkeletonVault";
 import MaxButton from "./Button/MaxButton";
 import Card from "../projectDetail/Card/Card";
+import KPIWrapper from "../../core/KPIWrapper";
+import KPICard from "../../core/KPICard";
 
 export default function Vault({vault, wallet, project, setTab}) {
 
@@ -42,7 +44,6 @@ export default function Vault({vault, wallet, project, setTab}) {
             initWalletConnected();
         }
     }, [wallet.status, vault]);
-
 
 
     const setMax = async (amount, setter) => {
@@ -81,49 +82,15 @@ export default function Vault({vault, wallet, project, setTab}) {
         <Button handleClick={() => setTab(0)}>Return to project</Button>
     </CenteredContent>)
 
-    return !load ? <SkeletonVault/> : (<div className="grid md-lg:grid-cols-2 gap-7.5">
+    return !load ? <SkeletonVault/> : (
+        <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[800px] mx-auto">
+
             <Card>
-                <div className="divide-y">
-                    {/* Card Header */}
-                    <div className="card-header">
-                        <h1 className="text-2xl"><i className="fa-solid fa-nfc-lock"/> Vault</h1>
-
-                        <div className="py-5.5 space-y-4.5">
-                            <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-users"/> Users</span>
-                                <span className="text-base font-medium">
-                                    {vault.num_invested}
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm"><i className="fa-solid fa-treasure-chest"/> Generated Rewards</span>
-                                <span className="flex text-base font-medium">
-                                    <Image src={project.image} alt="projectImage" width={24} height={24}/>
-                                    <span className="mx-2.5">{earnedTokens}</span>
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm">
-                                    <i className="fa-solid fa-money-bill-transfer"/> TVL
-                                </span>
-                                <span className="flex text-base font-medium">
-                                    <Image src={AVATEA_TOKEN_IMAGE} alt="avateaTokenImage" className="mr-2.5" width={24} height={24}/>
-                                    <span className="mx-2.5">{vaultTLV}</span>
-                                </span>
-                            </div>
-                            <div className="flex justify-between">
-                                <span className="text-sm">
-                                    <i className="fa-solid fa-treasure-chest"/> Reward Per Avatea Token
-                                </span>
-                                <span className="flex text-base font-medium">
-                                    <Image src={project.image} alt="" width={24} height={24}/>
-                                    <span className="mx-2.5">{rewardPerToken}</span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                <KPIWrapper cols={3}>
+                    <KPICard image={project.image} end={earnedTokens} label={'Earned'}/>
+                    <KPICard image={project.image} end={rewardPerToken} label={'APY'} postFix={'%'}/>
+                    <KPICard image={AVATEA_TOKEN_IMAGE} end={vaultBalance} label={'Staked'}/>
+                </KPIWrapper>
             </Card>
             <Card title="News Feed">
                 {/* Card Header */}

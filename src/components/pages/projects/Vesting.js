@@ -13,6 +13,8 @@ import {VestingChart} from "./Charts/VestingChart";
 import SkeletonVesting from "./Skeleton/SkeletonVesting";
 import {useRouter} from "next/router";
 import Swal from "sweetalert2";
+import KPIWrapper from "../../core/KPIWrapper";
+import KPICard from "../../core/KPICard";
 
 export default function Vesting({
                                     wallet,
@@ -111,7 +113,7 @@ export default function Vesting({
                     );
                     router.back();
                     setIsLoading(false)
-                } catch(e) {
+                } catch (e) {
                     console.log(e);
                     setIsLoading(false)
                 }
@@ -141,77 +143,65 @@ export default function Vesting({
     );
 
     return !load && amountVested !== '0.00' ? <SkeletonVesting/> : (
-        <Card>
-            <div className="vesting-header">
-                <h1 className="text-2xl">
-                    <i className="fa-solid fa-unlock"></i> Vesting
-                </h1>
+        <div className="flex flex-col gap-5 max-w-[700px] lg:max-w-[800px] mx-auto">
+            <Card>
+                <KPIWrapper cols={4}>
+                    <KPICard image={project.image} end={amountVested} label={'Vested'}/>
+                    <KPICard image={project.image} end={amountReleased} label={'Released'}/>
+                    <KPICard image={project.image} end={releaseAbleAmount} label={'Releasable'}/>
+                    <KPICard image={project.image} postFix={revocable ? 'YES' : 'NO'} label={'revocable'}/>
+                </KPIWrapper>
+            </Card>
+            <Card>
+                <div className="vesting-header">
+                    <h1 className="text-2xl">
+                        <i className="fa-solid fa-unlock"></i> Vesting
+                    </h1>
 
-                <div className="flex flex-row justify-center py-5.5 space-y-4.5 ">
-                    <div className="sm:grid sm:grid-cols-1 md:grid-cols-3">
-                        <div className="mb-5 md:mb-0">
-                            <span className="text-sm">Total Vested</span>
-                            <span className="flex text-base font-medium">
-                                <Image src={project.image} alt="tokenImage" width={24} height={24}/>
-                                <p className="mx-2.5">{amountVested}</p>
-                            </span>
-                        </div>
-                        <div className="mb-5 md:mb-0">
-                            <span className="text-sm">Released</span>
-                            <span className="flex text-base font-medium">
-                                <Image src={project.image} alt="tokenImage" width={24} height={24}/>
-                                <p className="mx-2.5">{amountReleased}</p>
-                            </span>
-                        </div>
-                        <div className="mb-5 md:mb-0">
-                            <span className="text-sm">Releasable Amount</span>
-                            <span className="flex text-base font-medium">
-                                <Image src={project.image} alt="tokenImage" width={24} height={24}/>
-                                <p className="mx-2.5">{releaseAbleAmount}</p>
-                            </span>
-                        </div>
+                    <div className="flex flex-row justify-center py-5.5 space-y-4.5 ">
                     </div>
                 </div>
-            </div>
-            <VestingChart
-                amountVested={amountVested}
-                cliff={cliff}
-                start={start}
-                duration={duration}
-                slicePeriodSeconds={slicePeriodSeconds}
-                ticker={project.ticker}
-            />
-            <div className="pt-9">
-                <div className="flex flex-row space-x-5">
+                <VestingChart
+                    amountVested={amountVested}
+                    cliff={cliff}
+                    start={start}
+                    duration={duration}
+                    slicePeriodSeconds={slicePeriodSeconds}
+                    ticker={project.ticker}
+                />
+                <div className="pt-9">
+                    <div className="flex flex-row space-x-5">
 
-                    {(setAction === 'revoke' && revocable) &&
-                        <Button name="Revoke Tokens" handleClick={revokeVesting} isLoading={isLoading} disabled={isLoading}>
-                            {" "}
-                            <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/>
-                        </Button>
-                    }
-                    {(setAction !== 'revoke') &&
-                        <Button name="Release Tokens" handleClick={releaseVesting}>
-                            {" "}
-                            <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/>
-                        </Button>
-                    }
+                        {(setAction === 'revoke' && revocable) &&
+                            <Button name="Revoke Tokens" handleClick={revokeVesting} isLoading={isLoading}
+                                    disabled={isLoading}>
+                                {" "}
+                                <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/>
+                            </Button>
+                        }
+                        {(setAction !== 'revoke') &&
+                            <Button name="Release Tokens" handleClick={releaseVesting}>
+                                {" "}
+                                <i className=" pl-2 fa-solid fa-arrow-down-to-arc"/>
+                            </Button>
+                        }
 
-                    {(releasable && setAction === 'revoke') &&
-                        <Button name="Auto release enabled " disabled={true}/>
-                    }
-                    {(releasable && setAction !== 'revoke') &&
-                        <Button name="Disable Auto release " handleClick={toggleAutoRelease}/>
-                    }
-                    {(!releasable && setAction === 'revoke') &&
-                        <Button name="Auto release disabled " disabled={true}/>
-                    }
-                    {(!releasable && setAction !== 'revoke') &&
-                        <Button name="Enable Auto release " handleClick={toggleAutoRelease}/>
-                    }
+                        {(releasable && setAction === 'revoke') &&
+                            <Button name="Auto release enabled " disabled={true}/>
+                        }
+                        {(releasable && setAction !== 'revoke') &&
+                            <Button name="Disable Auto release " handleClick={toggleAutoRelease}/>
+                        }
+                        {(!releasable && setAction === 'revoke') &&
+                            <Button name="Auto release disabled " disabled={true}/>
+                        }
+                        {(!releasable && setAction !== 'revoke') &&
+                            <Button name="Enable Auto release " handleClick={toggleAutoRelease}/>
+                        }
 
+                    </div>
                 </div>
-            </div>
-        </Card>
+            </Card>
+        </div>
     );
 }

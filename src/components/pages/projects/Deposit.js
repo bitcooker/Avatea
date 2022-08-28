@@ -96,43 +96,23 @@ export default function Deposit({wallet, project, marketMakingPool, setTab}) {
     };
 
 
-    console.log(marketMakingPool,project)
-    return !load ? <SkeletonDeposit /> : (
+    console.log(marketMakingPool, project)
+    return !load ? <SkeletonDeposit/> : (
 
         <div className="flex flex-col gap-5 max-w-[700px] lg:max-w-[800px] mx-auto">
             <Card>
-                <KPIWrapper cols={2}>
-                    <KPICard image={project.image} end={baseTokenWalletBalance} label={'Balance'} />
-                    <KPICard image={marketMakingPool.paired_token_image} end={pairedTokenWalletBalance} label={'Balance'} />
+                <KPIWrapper cols={4}>
+                    <KPICard image={project.image} end={baseTokenWalletBalance} label={'Wallet'}/>
+                    <KPICard image={marketMakingPool.paired_token_image} end={pairedTokenWalletBalance}
+                             label={'Wallet'}/>
+                    <KPICard image={project.image} end={amountBaseTokenBalance} label={'contract'}/>
+                    <KPICard image={marketMakingPool.paired_token_image} end={amountPairTokenBalance}
+                             label={'contract'}/>
                 </KPIWrapper>
             </Card>
             <Card title="Settings">
                 {/* Card Header */}
                 <div className="card-content space-y-5">
-                    <div className="space-y-2.5">
-                        <div className="flex flex-row items-center justify-between text-base">
-                            <div>
-                                Deposit {marketMakingPool.paired_token_ticker}
-                            </div>
-                            <MaxButton
-                                balance={pairedTokenWalletBalance}
-                                handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
-                            />
-                        </div>
-                        <InputApproveWithIconSubmit
-                            id="cash"
-                            name="cash"
-                            type="number"
-                            icon="fa-light fa-circle-plus"
-                            submitName="Deposit"
-                            submitFunction={stakePairedToken}
-                            value={amountPairTokenToStake}
-                            image={marketMakingPool.paired_token_image}
-                            setValue={setAmountPairTokenToStake}
-                            address={marketMakingPool.address}
-                            token={marketMakingPool.paired_token}
-                        />
-                    </div>
 
                     <div className="space-y-2.5">
                         <div className="flex flex-row items-center justify-between text-base">
@@ -158,31 +138,56 @@ export default function Deposit({wallet, project, marketMakingPool, setTab}) {
                             token={project.token}
                         />
                     </div>
+                    <div className="space-y-2.5">
+                        <div className="flex flex-row items-center justify-between text-base">
+                            <div>
+                                Deposit {marketMakingPool.paired_token_ticker}
+                            </div>
+                            <MaxButton
+                                balance={pairedTokenWalletBalance}
+                                handleClick={() => setMax(pairedTokenWalletBalance, setAmountPairTokenToStake)}
+                            />
+                        </div>
+                        <InputApproveWithIconSubmit
+                            id="cash"
+                            name="cash"
+                            type="number"
+                            icon="fa-light fa-circle-plus"
+                            submitName="Deposit"
+                            submitFunction={stakePairedToken}
+                            value={amountPairTokenToStake}
+                            image={marketMakingPool.paired_token_image}
+                            setValue={setAmountPairTokenToStake}
+                            address={marketMakingPool.address}
+                            token={marketMakingPool.paired_token}
+                        />
+                    </div>
+
                 </div>
             </Card>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
                 <HomeCard
-                    icon={<i className="fa-solid fa-circle-plus text-2xl text-indigo-500"></i>} 
-                    title="Release Vesting" 
+                    icon={<i className="fa-solid fa-circle-plus text-2xl text-indigo-500"></i>}
+                    title="Release Vesting"
                     content="Step-by-step guides to setting up your system and installing the library."
                     handleClick={() => setTab(6)}
                 />
 
                 <HomeCard
-                    icon={<i className="fa-solid fa-hands-holding-dollar text-2xl text-indigo-500"></i>} 
-                    title="Deposit LP Tokens" 
+                    icon={<i className="fa-solid fa-hands-holding-dollar text-2xl text-indigo-500"></i>}
+                    title="Deposit LP Tokens"
                     content="Step-by-step guides to setting up your system and installing the library."
                     handleClick={() => router.push('/farms')}
                 />
 
                 <HomeCard
-                    icon={<i className="fa-solid fa-sack-dollar text-2xl text-indigo-500"></i>} 
-                    title="Stake In Vault" 
+                    icon={<i className="fa-solid fa-sack-dollar text-2xl text-indigo-500"></i>}
+                    title="Stake In Vault"
                     content="Step-by-step guides to setting up your system and installing the library."
                     handleClick={() => setTab(5)}
                 />
             </div>
-        </div>    
+        </div>
     )
 }

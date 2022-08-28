@@ -2,14 +2,38 @@ import Image from "next/image";
 import CountUp from "react-countup";
 
 export default function KPICard(props) {
-    return(
+    return (
         <div className="px-10 py-5 border-gray-300 ">
             <div className="text-center">
-                <Image src={props.image} alt="projectImage" width={30} height={30}/>
+                {props.image &&
+                    <Image src={props.image} alt="projectImage" width={30} height={30}/>
+                }
+                {props.images &&
+                    <div className={'space-x-2'}>
+                        {
+                            props.images.map((image, index) => {
+                                    return <span key={index}>
+                                            <Image src={image} alt="projectImage" width={30} height={30}/>
+                                    </span>
+                                }
+                            )
+                        }
 
-                <p className="font-bold text-3xl">
-                    <CountUp start={0} end={props.end} />
-                </p>
+                    </div>
+                }
+                
+                {props.end ?
+                    <p className="font-bold text-3xl">
+                        {
+                            props?.disableCount ? props.end.toFixed(2) : <CountUp start={0} end={props.end}/>
+                        }
+                        {props.postFix}
+                    </p>
+                    :
+                    <p className="font-bold text-3xl">
+                        {props.postFix}
+                    </p>
+                }
 
                 <div className={'flex justify-center mt-1'}>
                     <p className="text-xs uppercase tracking-wide"> {props.label}</p>

@@ -22,7 +22,6 @@ export default function Layout({ children }) {
 
   useEffect(() => {
       ReactGA.initialize("G-EJSWG081YY");
-      ReactGA.send("pageview");
   },[])
 
   return (
