@@ -223,11 +223,11 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                                     </div>
                                     : ""
                             }
-                            {maxBaseLiquidityRatio.toString() !== newMaxBaseLiquidityRatio.toString() &&
-                                <Button name={'Update Ratio'} handleClick={updateBaseRatio}>
+
+                                <Button name={'Update Ratio'} disabled={maxBaseLiquidityRatio.toString() === newMaxBaseLiquidityRatio.toString()} handleClick={updateBaseRatio}>
                                     <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                                 </Button>
-                            }
+
 
                         </div>
                     }
@@ -253,11 +253,11 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                                     : ""
                             }
 
-                            {maxPairedLiquidityRatio.toString() !== newMaxPairedLiquidityRatio.toString() &&
-                                <Button name={'Update Ratio'} handleClick={updatePairedRatio}>
+
+                                <Button name={'Update Ratio'} disabled={maxPairedLiquidityRatio.toString() === newMaxPairedLiquidityRatio.toString()} handleClick={updatePairedRatio}>
                                     <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
                                 </Button>
-                            }
+
                         </div>
                     }
                 </div>
