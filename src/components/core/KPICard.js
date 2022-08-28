@@ -11,8 +11,8 @@ export default function KPICard(props) {
                 {props.images &&
                     <div className={'space-x-2'}>
                         {
-                            props.images.map((image,index) => {
-                                    return <span key={index} >
+                            props.images.map((image, index) => {
+                                    return <span key={index}>
                                             <Image src={image} alt="projectImage" width={30} height={30}/>
                                     </span>
                                 }
@@ -21,11 +21,19 @@ export default function KPICard(props) {
 
                     </div>
                 }
-                <p className="font-bold text-3xl">
-                    {
-                        props?.disableCount ? props.end.toFixed(2) : <CountUp start={0} end={props.end}/>
-                    }
-                </p>
+                
+                {props.end ?
+                    <p className="font-bold text-3xl">
+                        {
+                            props?.disableCount ? props.end.toFixed(2) : <CountUp start={0} end={props.end}/>
+                        }
+                        {props.postFix}
+                    </p>
+                    :
+                    <p className="font-bold text-3xl">
+                        {props.postFix}
+                    </p>
+                }
 
                 <div className={'flex justify-center mt-1'}>
                     <p className="text-xs uppercase tracking-wide"> {props.label}</p>
