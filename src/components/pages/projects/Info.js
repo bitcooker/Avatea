@@ -45,15 +45,18 @@ export default function Vault({project, marketMakingPool}) {
     return (
         // <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-7.5 max-w-[900px] lg:max-w-[1000px] mx-auto">
         <div className="flex flex-col gap-5 max-w-[700px] lg:max-w-[800px] mx-auto">
+            {(project?.image && marketMakingPool?.paired_token_image) &&
 
-            <Card>
-                <KPIWrapper cols={4}>
-                    <KPICard images={[project.image, marketMakingPool?.paired_token_image]} end={100} label={'TVL'}/>
-                    <KPICard image={project.image} end={100} label={'Tot. Supply'}/>
-                    <KPICard image={marketMakingPool?.paired_token_image} end={100} label={'Price'}/>
-                    <KPICard image={project.image} end={100} label={'Vested'}/>
-                </KPIWrapper>
-            </Card>
+                <Card>
+                    <KPIWrapper cols={4}>
+                        <KPICard images={[project.image, marketMakingPool?.paired_token_image]} end={100}
+                                 label={'TVL'}/>
+                        <KPICard image={project.image} end={100} label={'Tot. Supply'}/>
+                        <KPICard image={marketMakingPool?.paired_token_image} end={100} label={'Price'}/>
+                        <KPICard image={project.image} end={100} label={'Vested'}/>
+                    </KPIWrapper>
+                </Card>
+            }
 
             <Card title="Project Info">
                 {/* Card Header */}
