@@ -71,16 +71,18 @@ export default function Vault({project, marketMakingPool}) {
                 </div>
             </Card>
 
-            <Card title="News Feed" className={'col-span-full'}>
-                {/* Card Header */}
-                <div className="card-header">
-                    <h1 className="text-2xl"><i className="fa-solid fa-newspaper"/> News</h1>
-                </div>
+            {articles.length > 0 &&
+                <Card title="News Feed" className={'col-span-full'}>
+                    {/* Card Header */}
+                    <div className="card-header">
+                        <h1 className="text-2xl"><i className="fa-solid fa-newspaper"/> News</h1>
+                    </div>
 
-                <div className="card-content pt-5.5">
-                    <Feed articles={articles}/>
-                </div>
-            </Card>
+                    <div className="card-content pt-5.5">
+                        <Feed articles={articles}/>
+                    </div>
+                </Card>
+            }
 
             <Card title="Price Chart" className="md-lg:col-span-2">
                 <div className="card-header flex justify-between">
