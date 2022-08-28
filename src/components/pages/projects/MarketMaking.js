@@ -16,6 +16,10 @@ import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 import KPICard from "../../core/KPICard";
 import KPIWrapper from "../../core/KPIWrapper";
 import HomeCard from "../../pages/Home/HomeCard";
+import MaxButton from "./Button/MaxButton";
+import * as React from "react";
+import Tooltip from "../../core/Tooltip/Tooltip";
+import moment from "moment/moment";
 
 const questions = [
     "Do you want to buy/sell token A or B?",
@@ -50,6 +54,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const [magicQStep, setMagicQStep] = useState(0);
     const [touchedSettings,setTouchedSettings] = useState(false);
     const [marketMakingSettings,setMarketMakingSettings] = useState()
+    const [tokenPrice, setTokenPrice] = useState('0');
 
     useEffect(() => {
 
@@ -99,6 +104,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                         ) || '0'
                     )
                 );
+                setTokenPrice(await helper.web3.uniswap.getPrice(wallet,project.token,marketMakingPool.paired_token))
                 setLoad(true);
             };
             initWalletConnected();
@@ -457,10 +463,47 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                         </div>
 
                         <div className="space-y-2.5">
-                    <span className="text-sm"><i className="fa-solid fa-circle-dollar"/>
-                        {mode === "buy" ? " Maximum Buying Price" : " Minimum Selling Price"}
-                    </span>
-                            <InputWithIconSubmit
+                            <div className="flex flex-row items-center justify-between text-base">
+                                   <span className="text-sm"><i className="fa-solid fa-circle-dollar"/>
+                                       {mode === "buy" ? " Maximum Buying Price" : " Minimum Selling Price"}
+                            </span>
+                                <div className="flex items-center gap-1">
+
+                                {
+                                    mode === "buy" ?
+                                            <span className={`text-sm relative space-x-1`}>Current Price:
+                                                <span className={`ml-1 text-balance transition-all delay-300 ${Number(priceLimit) >= Number(tokenPrice) ? 'text-green-600' : 'text-red-600'}`}>{tokenPrice}</span>
+                                                {
+                                                    Number(priceLimit) >= Number(tokenPrice) ? <span className="relative  flex-row group">
+                                                     <i className="fa-solid fa-check-circle fa-xs text-green-400 transition-all delay-300" ></i>
+                                                    <Tooltip className={' py-0.5'} title={'Above Current Price'}/>
+                                                </span> : <span className="relative  flex-row group">
+                                                     <i className="fa-solid fa-warning fa-xs text-amber-500 transition-all delay-300"></i>
+                                                    <Tooltip className={' py-0.5'} title={'Below Current Price'}/>
+                                                </span>
+                                                }
+
+                                            </span> :
+
+                                        <span className={`text-sm space-x-1 relative`}>Current Price:
+                                            <span className={`ml-1 text-balance transition-all delay-300 ${Number(priceLimit) <= Number(tokenPrice) ? 'text-green-600' : 'text-red-600'}`}>{tokenPrice}</span>
+                                            {
+                                                Number(priceLimit) <= Number(tokenPrice) ? <span className="relative  flex-row group">
+                                                     <i className="fa-solid fa-check-circle fa-xs text-green-400 transition-all delay-300" ></i>
+                                                    <Tooltip className={' py-0.5'} title={'Below Current Price'}/>
+                                                </span> : <span className="relative  flex-row group">
+                                                     <i className="fa-solid fa-warning fa-xs text-amber-500 transition-all delay-300"></i>
+                                                    <Tooltip className={' py-0.5'} title={'Above Current Price'}/>
+                                                </span>
+                                            }
+                                        </span>
+
+                                }
+                                </div>
+
+                            </div>
+
+                                <InputWithIconSubmit
                                 id="priceLimit"
                                 name="priceLimit"
                                 type="number"
