@@ -292,6 +292,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                             <KPIWrapper>
                                 <KPICard image={project.image} end={activity.baseAmountSold} label={'Sold'}/>
                                 <KPICard image={marketMakingPool.paired_token_image}
+                                         disableCount={false}
                                          end={activity.baseAmountSold / activity.pairedAmountSold}
                                          label={'Avg. Price'}/>
                                 <KPICard image={project.image} end={activity.baseAllocationTrading}
@@ -302,6 +303,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 <KPICard image={project.image} end={activity.baseAmountBought} label={'Bought'}/>
                                 <KPICard image={marketMakingPool.paired_token_image}
                                          end={activity.baseAmountBought / activity.pairedAmountBought}
+                                         disableCount={true}
                                          label={'Avg. Price'}/>
                                 <KPICard image={marketMakingPool.paired_token_image}
                                          end={activity.pairedAllocationTrading} label={'Allocation'}/>

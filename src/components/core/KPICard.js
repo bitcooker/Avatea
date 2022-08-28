@@ -22,7 +22,9 @@ export default function KPICard(props) {
                     </div>
                 }
                 <p className="font-bold text-3xl">
-                    <CountUp start={0} end={props.end}/> {props.postFix}
+                    {
+                        props?.disableCount ? props.end.toFixed(2) : <CountUp start={0} end={props.end}/>
+                    }
                 </p>
 
                 <div className={'flex justify-center mt-1'}>
