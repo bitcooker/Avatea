@@ -15,7 +15,7 @@ const withdraw = async (wallet, liquidityMakerAddress, full_withdrawal, slippage
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction',
+                pending: 'Pending transaction.js',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -45,7 +45,7 @@ const getReward = async (wallet, liquidityMakerAddress, callback) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction',
+                pending: 'Pending transaction.js',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -75,7 +75,7 @@ const compoundLPReward = async (wallet, liquidityMakerAddress, callback) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction',
+                pending: 'Pending transaction.js',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -104,7 +104,7 @@ const exit = async (wallet, liquidityMakerAddress, slippage = DEFAULT_SLIPPAGE) 
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction',
+                pending: 'Pending transaction.js',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -134,7 +134,7 @@ const exitInLP = async (wallet, liquidityMakerAddress) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction',
+                pending: 'Pending transaction.js',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -164,7 +164,7 @@ const addReward = async (wallet, liquidityMakerAddress, amount, callback) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction',
+                pending: 'Pending transaction.js',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -194,7 +194,7 @@ const addLiquidityReward = async (wallet, liquidityMakerAddress, amount, callbac
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction',
+                pending: 'Pending transaction.js',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -223,7 +223,7 @@ const stake = async (wallet, liquidityMakerAddress, amount, callback) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction',
+                pending: 'Pending transaction.js',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -253,7 +253,7 @@ const setMaxTotalSupply = async (wallet, liquidityMakerAddress, amount, callback
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction',
+                pending: 'Pending transaction.js',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -276,7 +276,7 @@ const setLockingPeriod = async (wallet, liquidityMakerAddress, amount, callback)
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction',
+                pending: 'Pending transaction.js',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
