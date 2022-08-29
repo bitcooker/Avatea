@@ -224,11 +224,9 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                                     : ""
                             }
 
-                                <Button name={'Update Ratio'} disabled={maxBaseLiquidityRatio.toString() === newMaxBaseLiquidityRatio.toString()} handleClick={updateBaseRatio}>
-                                    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                </Button>
-
-
+                            <Button name={'Update Ratio'} disabled={maxBaseLiquidityRatio.toString() === newMaxBaseLiquidityRatio.toString()} handleClick={updateBaseRatio}>
+                                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                            </Button>
                         </div>
                     }
 
@@ -253,11 +251,9 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                                     : ""
                             }
 
-
-                                <Button name={'Update Ratio'} disabled={maxPairedLiquidityRatio.toString() === newMaxPairedLiquidityRatio.toString()} handleClick={updatePairedRatio}>
-                                    <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
-                                </Button>
-
+                            <Button name={'Update Ratio'} disabled={maxPairedLiquidityRatio.toString() === newMaxPairedLiquidityRatio.toString()} handleClick={updatePairedRatio}>
+                                <i className="pl-2 fa-solid fa-arrow-down-to-arc"/>
+                            </Button>
                         </div>
                     }
                 </div>
@@ -277,11 +273,9 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                         </Button>
                     </div>
                 </div>
-
             </Card>
 
             <Card>
-
                 <div className="divide-y">
                     {/* Card Header */}
                     <div className="card-header">
@@ -351,7 +345,6 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                             </span>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
