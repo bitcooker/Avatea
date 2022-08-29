@@ -79,7 +79,7 @@ export default function Vesting({
             };
             initWalletConnected();
         }
-    }, [wallet.status, marketMakingPool]);
+    }, [wallet, marketMakingPool]);
 
     const releaseVesting = async () => {
         let full_withdrawal =
