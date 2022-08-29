@@ -320,8 +320,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     {/* Card Header */}
                     <div className="card-header">
                         {mode === "sell" ? (
-                            <KPIWrapper>
+                            <KPIWrapper  cols={4}>
                                 <KPICard image={project.image} end={activity.baseAmountSold} label={'Sold'}/>
+                                <KPICard image={marketMakingPool.paired_token_image} end={activity.pairedAmountSold}
+                                         label={'Bought'}/>
                                 <KPICard image={marketMakingPool.paired_token_image}
                                          disableCount={true}
                                          end={activity.pairedAmountSold / activity.baseAmountSold}
@@ -330,8 +332,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                          label={'Allocation'}/>
                             </KPIWrapper>
                         ) : (
-                            <KPIWrapper>
+                            <KPIWrapper  cols={4}>
                                 <KPICard image={project.image} end={activity.baseAmountBought} label={'Bought'}/>
+                                <KPICard image={marketMakingPool.paired_token_image} end={activity.pairedAmountBought}
+                                         label={'Sold'}/>
                                 <KPICard image={marketMakingPool.paired_token_image}
                                          end={activity.pairedAmountBought / activity.baseAmountBought}
                                          disableCount={true}

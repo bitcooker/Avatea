@@ -1,5 +1,4 @@
 import Image from "next/image";
-import CountUp from "react-countup";
 import React from "react";
 
 // core components
@@ -26,18 +25,18 @@ export default function KPICard(props) {
 
                     </div>
                 }
-                
+
                 {props.end ?
                     <div className="flex items-center justify-center font-bold text-3xl">
                         {
-                            props?.disableCount ? props.end.toFixed(2) : <CounterUp end={props.end} />
+                            props?.disableCount ? props.end.toFixed(2) : <CounterUp end={props.end}/>
                         }
                         {props.postFix}
                     </div>
                     :
-                    <p className="font-bold text-3xl">
-                        {props.postFix}
-                    </p>
+                    <div className="flex items-center justify-center font-bold text-3xl">
+                        {props.postFix ? props.postFix : 0}
+                    </div>
                 }
 
                 <div className={'flex justify-center mt-1'}>
