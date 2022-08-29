@@ -1,3 +1,4 @@
+import * as React from "react";
 import {useEffect, useState} from "react";
 import Image from "next/image";
 
@@ -16,10 +17,7 @@ import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
 import KPICard from "../../core/KPICard";
 import KPIWrapper from "../../core/KPIWrapper";
 import HomeCard from "../../pages/Home/HomeCard";
-import MaxButton from "./Button/MaxButton";
-import * as React from "react";
 import Tooltip from "../../core/Tooltip/Tooltip";
-import moment from "moment/moment";
 
 const questions = [
     "Do you want to buy/sell token A or B?",
@@ -52,8 +50,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const [visibleMagicModal, setVisibleMagicModal] = useState(false);
     const [openMagicModal, setOpenMagicModal] = useState(false);
     const [magicQStep, setMagicQStep] = useState(0);
-    const [touchedSettings,setTouchedSettings] = useState(false);
-    const [marketMakingSettings,setMarketMakingSettings] = useState()
+    const [touchedSettings, setTouchedSettings] = useState(false);
+    const [marketMakingSettings, setMarketMakingSettings] = useState()
     const [tokenPrice, setTokenPrice] = useState('0');
 
     useEffect(() => {
@@ -104,7 +102,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                         ) || '0'
                     )
                 );
-                setTokenPrice(await helper.web3.uniswap.getPrice(wallet,project.token,marketMakingPool.paired_token))
+                setTokenPrice(await helper.web3.uniswap.getPrice(wallet, project.token, marketMakingPool.paired_token))
                 setLoad(true);
             };
             initWalletConnected();
@@ -124,7 +122,11 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                     const {
                         market_making_type, buy_sell_pressure, price_limit, id,
                     } = marketMakingSettings;
-                    setMarketMakingSettings({market_making_type, buy_sell_pressure: buy_sell_pressure?.toString(), price_limit});
+                    setMarketMakingSettings({
+                        market_making_type,
+                        buy_sell_pressure: buy_sell_pressure?.toString(),
+                        price_limit
+                    });
                     if (!market_making_type) setFresh(true);
                     setMarketMakingSettingsId(id);
                     if (mode === 'sell') setMode(market_making_type === null || market_making_type === 'hold' ? "sell" : market_making_type);
@@ -138,7 +140,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     }, [wallet.status, project]);
 
     useEffect(() => {
-        if(fresh) {
+        if (fresh) {
             setTouchedSettings(true)
         } else {
             const comparisonObject = {
@@ -147,7 +149,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                 price_limit: priceLimit
             }
             console.log(comparisonObject)
-            if(JSON.stringify(comparisonObject) === JSON.stringify(marketMakingSettings)) {
+            if (JSON.stringify(comparisonObject) === JSON.stringify(marketMakingSettings)) {
                 setTouchedSettings(false)
             } else {
                 setTouchedSettings(true)
@@ -155,7 +157,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
         }
 
-    },[mode,pressure,priceLimit])
+    }, [mode, pressure, priceLimit])
 
     useEffect(() => {
 
@@ -322,7 +324,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 <KPICard image={project.image} end={activity.baseAmountSold} label={'Sold'}/>
                                 <KPICard image={marketMakingPool.paired_token_image}
                                          disableCount={true}
-                                         end={activity.baseAmountSold / activity.pairedAmountSold}
+                                         end={activity.pairedAmountSold / activity.baseAmountSold}
                                          label={'Avg. Price'}/>
                                 <KPICard image={project.image} end={activity.baseAllocationTrading}
                                          label={'Allocation'}/>
@@ -331,7 +333,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                             <KPIWrapper>
                                 <KPICard image={project.image} end={activity.baseAmountBought} label={'Bought'}/>
                                 <KPICard image={marketMakingPool.paired_token_image}
-                                         end={activity.baseAmountBought / activity.pairedAmountBought}
+                                         end={activity.pairedAmountBought / activity.baseAmountBought}
                                          disableCount={true}
                                          label={'Avg. Price'}/>
                                 <KPICard image={marketMakingPool.paired_token_image}
@@ -469,13 +471,15 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                             </span>
                                 <div className="flex items-center gap-1">
 
-                                {
-                                    mode === "buy" ?
+                                    {
+                                        mode === "buy" ?
                                             <span className={`text-sm relative space-x-1`}>Current Price:
-                                                <span className={`ml-1 text-balance transition-all delay-300 ${Number(priceLimit) >= Number(tokenPrice) ? 'text-green-600' : 'text-red-600'}`}>{tokenPrice}</span>
+                                                <span
+                                                    className={`ml-1 text-balance transition-all delay-300 ${Number(priceLimit) >= Number(tokenPrice) ? 'text-green-600' : 'text-red-600'}`}>{tokenPrice}</span>
                                                 {
-                                                    Number(priceLimit) >= Number(tokenPrice) ? <span className="relative  flex-row group">
-                                                     <i className="fa-solid fa-check-circle fa-xs text-green-400 transition-all delay-300" ></i>
+                                                    Number(priceLimit) >= Number(tokenPrice) ?
+                                                        <span className="relative  flex-row group">
+                                                     <i className="fa-solid fa-check-circle fa-xs text-green-400 transition-all delay-300"></i>
                                                     <Tooltip className={' py-0.5'} title={'Above Current Price'}/>
                                                 </span> : <span className="relative  flex-row group">
                                                      <i className="fa-solid fa-warning fa-xs text-amber-500 transition-all delay-300"></i>
@@ -485,25 +489,27 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
                                             </span> :
 
-                                        <span className={`text-sm space-x-1 relative`}>Current Price:
-                                            <span className={`ml-1 text-balance transition-all delay-300 ${Number(priceLimit) <= Number(tokenPrice) ? 'text-green-600' : 'text-red-600'}`}>{tokenPrice}</span>
-                                            {
-                                                Number(priceLimit) <= Number(tokenPrice) ? <span className="relative  flex-row group">
-                                                     <i className="fa-solid fa-check-circle fa-xs text-green-400 transition-all delay-300" ></i>
+                                            <span className={`text-sm space-x-1 relative`}>Current Price:
+                                            <span
+                                                className={`ml-1 text-balance transition-all delay-300 ${Number(priceLimit) <= Number(tokenPrice) ? 'text-green-600' : 'text-red-600'}`}>{tokenPrice}</span>
+                                                {
+                                                    Number(priceLimit) <= Number(tokenPrice) ?
+                                                        <span className="relative  flex-row group">
+                                                     <i className="fa-solid fa-check-circle fa-xs text-green-400 transition-all delay-300"></i>
                                                     <Tooltip className={' py-0.5'} title={'Below Current Price'}/>
                                                 </span> : <span className="relative  flex-row group">
                                                      <i className="fa-solid fa-warning fa-xs text-amber-500 transition-all delay-300"></i>
                                                     <Tooltip className={' py-0.5'} title={'Above Current Price'}/>
                                                 </span>
-                                            }
+                                                }
                                         </span>
 
-                                }
+                                    }
                                 </div>
 
                             </div>
 
-                                <InputWithIconSubmit
+                            <InputWithIconSubmit
                                 id="priceLimit"
                                 name="priceLimit"
                                 type="number"
