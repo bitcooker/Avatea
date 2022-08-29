@@ -91,7 +91,7 @@ export default function VestingAdd(props) {
                 await Swal.fire({
                                     position: "center",
                                     icon: "success",
-                                    title: "The Multisend transaction has been created",
+                                    title: "The Multisend transaction.js has been created",
                                     showConfirmButton: false,
                                     timer: 3000,
                                     didClose() {
