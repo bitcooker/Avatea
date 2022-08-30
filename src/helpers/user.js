@@ -38,7 +38,18 @@ const userActivity = async (wallet) => {
     }
 }
 
+const userProjectData = async (wallet, slug) => {
+    try {
+        const data = await axios.get(`${API_URL}UserAddress/${wallet.account}/get_user_project_data/?project=${slug}`);
+        return data
+    } catch (e) {
+        console.log('userProjectData error:', e);
+    }
+
+}
+
 export default {
     registerUser,
-    userActivity
+    userActivity,
+    userProjectData
 }
