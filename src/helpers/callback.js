@@ -11,7 +11,7 @@ const hook = async ({
         switch (type) {
             case 'AR':
                 event = data.receipt.events.find(x => x.event === "Claimed").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -23,7 +23,7 @@ const hook = async ({
                 break;
             case 'VD':
                 event = data.receipt.events.find(x => x.event === "Staked").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -35,7 +35,7 @@ const hook = async ({
                 break;
             case 'VW':
                 event = data.receipt.events.find(x => x.event === "Withdrawn").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -48,7 +48,7 @@ const hook = async ({
                 break;
             case 'VR':
                 event = data.receipt.events.find(x => x.event === "RewardPaid").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -60,7 +60,7 @@ const hook = async ({
                 break;
             case 'VA':
                 event = data.receipt.events.find(x => x.event === "RewardAdded").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -72,7 +72,7 @@ const hook = async ({
                 break;
             case 'VE':
                 event = data.receipt.events.find(x => x.event === "Withdrawn").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -84,7 +84,7 @@ const hook = async ({
                 break;
             case 'MMBD':
                 event = data.receipt.events.find(x => x.event === "Staked").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -97,7 +97,7 @@ const hook = async ({
                 break;
             case 'MMPD':
                 event = data.receipt.events.find(x => x.event === "StakedInPairedToken").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -109,7 +109,7 @@ const hook = async ({
                 break;
             case 'MMBW':
                 event = data.receipt.events.find(x => x.event === "WithdrawnBaseToken").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -122,7 +122,7 @@ const hook = async ({
                 break;
             case 'MMPW':
                 event = data.receipt.events.find(x => x.event === "WithdrawnPairedToken").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -135,7 +135,7 @@ const hook = async ({
                 break;
             case 'MMVR':
                 event = data.receipt.events.find(x => x.event === "AmountReleased").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -148,7 +148,7 @@ const hook = async ({
                 break;
             case 'MMRT':
                 event = data.receipt.events.find(x => x.event === "VestingRevoked").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -160,7 +160,7 @@ const hook = async ({
                 await hook({type: "MMVR", data});
                 break;
             case 'MMCD':
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.address,
@@ -172,7 +172,7 @@ const hook = async ({
                 break;
             case 'MMAS':
                 event = data.receipt.events.find(x => x.event === "SetAllowSelling").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     value: event._allowSelling.toString(),
@@ -185,7 +185,7 @@ const hook = async ({
                 break;
             case 'MMAR':
                 event = data.receipt.events.find(x => x.event === "SetAllowReleasing").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     value: event._allowReleasing.toString(),
@@ -198,7 +198,7 @@ const hook = async ({
                 break;
             case 'MMBR':
                 event = data.receipt.events.find(x => x.event === "SetMaxBaseLiquidityRatio").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     value: event._ratio,
@@ -211,7 +211,7 @@ const hook = async ({
                 break;
             case 'MMPR':
                 event = data.receipt.events.find(x => x.event === "SetMaxPairedLiquidityRatio").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     value: event._ratio,
@@ -224,7 +224,7 @@ const hook = async ({
                 break;
             case 'LMW':
                 event = data.receipt.events.find(x => x.event === "Withdrawn").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -237,7 +237,7 @@ const hook = async ({
                 break;
             case 'LMR':
                 event = data.receipt.events.find(x => x.event === "RewardPaid").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -249,7 +249,7 @@ const hook = async ({
                 break;
             case 'LMC':
                 event = data.receipt.events.find(x => x.event === "LiquidityRewardPaid").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -261,7 +261,7 @@ const hook = async ({
                 break;
             case 'LMD':
                 event = data.receipt.events.find(x => x.event === "Staked").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -273,7 +273,7 @@ const hook = async ({
                 break;
             case 'LMA':
                 event = data.receipt.events.find(x => x.event === "RewardAdded").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -285,7 +285,7 @@ const hook = async ({
                 break;
             case 'LML':
                 event = data.receipt.events.find(x => x.event === "LiquidityRewardAdded").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -297,7 +297,7 @@ const hook = async ({
                 break;
             case 'LME':
                 event = data.receipt.events.find(x => x.event === "Withdrawn").args;
-                await axios.post(`${API_URL}Transaction/`, {
+                await axios.post(`/api/transaction`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -322,7 +322,7 @@ const batchHook = async ({
     try {
         switch (type) {
             case 'MMBB':
-                await axios.post(`${API_URL}Transaction/bulk_create/`, {
+                await axios.post(`/api/transactionbulk_create/`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -333,7 +333,7 @@ const batchHook = async ({
                 callback()
                 break;
             case 'MMVD':
-                await axios.post(`${API_URL}Transaction/bulk_create_vesting/`, {
+                await axios.post(`/api/transactionbulk_create_vesting/`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
