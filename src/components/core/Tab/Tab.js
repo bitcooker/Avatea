@@ -9,7 +9,7 @@ export default function Tab(props) {
         >
       {props.items.map((item, index) => (
           <TabItem
-              active={props.userData.includes(item)}
+              active={props.userData ? props.userData.includes(item) : false}
               label={item}
               key={index}
               value={index}
