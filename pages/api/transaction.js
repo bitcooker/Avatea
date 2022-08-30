@@ -6,7 +6,7 @@ export default async function handler(req, res) {
         try {
             await axios.post(`${API_URL}Transaction/`, req.body, {
                 headers: {
-                    'Authorization': `Token ${process.env.DJANGO_TOKEN}`
+                    'Authorization': `Token e2db9a80510adeefc33485fbab404519de2c32a4`
                 }
             })
             res.status(200).json({ status: 200 })
