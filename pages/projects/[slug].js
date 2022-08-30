@@ -31,11 +31,20 @@ export default function ProjectDetail(props) {
     const router = useRouter();
     const {slug} = router.query;
     const [project, setProject] = useState({});
+    const [userData, setUserData] = useState([]);
     const [vault, setVault] = useState({});
     const [marketMakingPool, setMarketMakingPool] = useState({});
     const [liquidityMaker, setLiquidityMaker] = useState({})
     const [tab, setTab] = useState(0); // 0 - Vault(News), 1 - Market Making, 2 - Vesting
     const tabRef = useRef(null);
+
+    const fetchProject = async () => {
+        const result = await helper.project.getProject(project.slug);
+        setMarketMakingPool(result?.marketMakingPool);
+        setVault(result?.vault);
+        setLiquidityMaker(result?.liquidityMaker)
+    };
+
     useEffect(() => {
         setTitle("Project Detail");
         if (props.projectDetail) setProject(props.projectDetail);
@@ -43,14 +52,6 @@ export default function ProjectDetail(props) {
         if (props.vault) setVault(props.vault);
         if (props.liquidityMaker) setLiquidityMaker(props.liquidityMaker);
         else {
-            const fetchProject = async () => {
-                const result = await helper.project.getProject(slug);
-                setProject(result?.project);
-                setMarketMakingPool(result?.marketMakingPool);
-                setVault(result?.vault);
-                setLiquidityMaker(result?.liquidityMaker)
-
-            };
             fetchProject();
         }
     }, [props, slug, setTitle]);
@@ -58,15 +59,20 @@ export default function ProjectDetail(props) {
     useEffect(() => {
         //@TODO Error handling if empty market making pool or vault
         if (Object.keys(project).length !== 0) {
-            const fetchProject = async () => {
-                const result = await helper.project.getProject(project.slug);
-                setMarketMakingPool(result?.marketMakingPool);
-                setVault(result?.vault);
-                setLiquidityMaker(result?.liquidityMaker)
-            };
             fetchProject();
         }
     }, [project]);
+
+
+    useEffect(() => {
+        if (wallet.status === "connected") {
+            const initWalletConnected = async () => {
+                let {data} = await helper.user.userProjectData(wallet, slug)
+                setUserData(data);
+            };
+            initWalletConnected();
+        }
+    }, [wallet, project]);
 
     return (
         <motion.div initial={{opacity: 0}} transition={{duration: .7}} animate={{opacity: 1}}
@@ -74,7 +80,7 @@ export default function ProjectDetail(props) {
             <Banner {...project} />
             {/* Tab menu */}
             <div ref={tabRef} className="flex justify-center">
-                <Tab items={tabItems} tab={tab} setTab={setTab}/>
+                <Tab items={tabItems} tab={tab} setTab={setTab} userData={userData}/>
             </div>
 
             {tab === 0 &&
