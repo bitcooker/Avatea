@@ -322,7 +322,7 @@ const batchHook = async ({
     try {
         switch (type) {
             case 'MMBB':
-                await axios.post(`/api/transactionbulk_create/`, {
+                await axios.post(`/api/transaction/bulk/base/`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
@@ -333,7 +333,7 @@ const batchHook = async ({
                 callback()
                 break;
             case 'MMVD':
-                await axios.post(`/api/transactionbulk_create_vesting/`, {
+                await axios.post(`/api/transaction/bulk/vesting/`, {
                     hash: data.receipt.transactionHash,
                     type: type,
                     contract: data.receipt.to,
