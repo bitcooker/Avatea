@@ -58,7 +58,7 @@ const approveToken = async (wallet, addressToApprove, supplyToApprove) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             },
@@ -87,7 +87,7 @@ const approveCustomToken = async (wallet, addressToApprove, supplyToApprove, tok
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             },

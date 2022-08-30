@@ -13,7 +13,7 @@ const claim = async (wallet) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }

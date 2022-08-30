@@ -14,7 +14,7 @@ const stake = async (wallet, vaultAddress, amount, callback) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -43,7 +43,7 @@ const withdraw = async (wallet, vaultAddress, amount, full_withdrawal) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -73,7 +73,7 @@ const getReward = async (wallet, vaultAddress, callback) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -102,7 +102,7 @@ const exit = async (wallet, vaultAddress, callback) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -132,7 +132,7 @@ const addReward = async (wallet, vaultAddress, amount, callback) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }

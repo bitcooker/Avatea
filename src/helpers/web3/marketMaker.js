@@ -29,7 +29,7 @@ const deploy = async (wallet,
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -83,7 +83,7 @@ const stake = async (wallet, marketMakerAddress, amount) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -115,7 +115,7 @@ const stakeBatch = async (wallet, marketMakerAddress, user_addresses, amountsInW
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -169,7 +169,7 @@ const createVesting = async (wallet,
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -210,7 +210,7 @@ const stakePairedToken = async (wallet, marketMakerAddres, amount) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -241,7 +241,7 @@ const stakePairedTokenInETH = async (wallet, marketMakerAddress, amount) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -271,7 +271,7 @@ const withdrawBaseToken = async (wallet, marketMakerAddress, amount, full_withdr
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -303,7 +303,7 @@ const withdrawPairToken = async (wallet, marketMakerAddress, amount, full_withdr
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -336,7 +336,7 @@ const release = async (wallet, marketMakerAddress, full_withdrawal, callback) =>
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -368,7 +368,7 @@ const revoke = async (wallet, marketMakerAddress, user_address, callback) => {
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -556,7 +556,7 @@ const setAllowSelling = async (wallet, marketMakerAddress, allowSelling, callbac
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -588,7 +588,7 @@ const setAllowReleasing = async (wallet, marketMakerAddress, allowReleasing, cal
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -619,7 +619,7 @@ const setMaxBaseLiquidityRatio = async (wallet, marketMakerAddress, maxBaseLiqui
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
@@ -650,7 +650,7 @@ const setMaxPairedLiquidityRatio = async (wallet, marketMakerAddress, maxPairedL
         toast.promise(
             tx.wait(),
             {
-                pending: 'Pending transaction.js',
+                pending: 'Pending transaction',
                 success: `Transaction succeeded!`,
                 error: 'Transaction failed!'
             }
