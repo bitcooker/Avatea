@@ -14,7 +14,7 @@ export default function Tab(props) {
               key={index}
               value={index}
               handleSetTab={props.setTab}
-              selected={props.tab == index}
+              selected={props.tab === index}
           />
       ))}
     </span>
