@@ -18,7 +18,8 @@ const deploy = async (wallet,
                       maxPreferredDrawdown,
                       lowerPreferredPriceRange,
                       upperPreferredPriceRange,
-                      pairedTokenImage) => {
+                      pairedTokenImage,
+                      pairedTokenTicker,) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const options = {value: ethers.utils.parseEther(DEPLOYMENT_GAS_COST)}
@@ -53,6 +54,7 @@ const deploy = async (wallet,
             lower_preferred_price_range: lowerPreferredPriceRange,
             upper_preferred_price_range: upperPreferredPriceRange,
             paired_token_image: pairedTokenImage,
+            paired_token_ticker: pairedTokenTicker,
             volume,
             live: !paused
         })
