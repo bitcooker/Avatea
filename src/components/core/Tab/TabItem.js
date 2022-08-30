@@ -3,8 +3,8 @@ export default function TabItem(props) {
         <div
             className={
                 props.selected
-                    ? "flex justify-center items-center content-center rounded-[20px] whitespace-nowrap px-5 py-1 bg-indigo-500 text-white hover:cursor-pointer transition"
-                    : "flex  justify-center items-center content-center rounded-[20px] whitespace-nowrap px-5 py-1 bg-gray-100 hover:cursor-pointer transition"
+                    ? "flex  items-center  rounded-[20px] whitespace-nowrap px-5 py-1 bg-indigo-500 text-white hover:cursor-pointer transition"
+                    : "flex items-center  rounded-[20px] whitespace-nowrap px-5 py-1 bg-gray-100 hover:cursor-pointer transition"
             }
             onClick={() => props.handleSetTab(props.value)}
         >
