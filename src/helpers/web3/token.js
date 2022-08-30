@@ -1,6 +1,6 @@
 import {ethers} from 'ethers';
 import TokenContract from '../../abi/Token.json';
-import { CLOUD_2_TOKEN_ADDRESS} from "../constants";
+import {CLOUD_2_TOKEN_ADDRESS} from "../constants";
 import {toast} from "react-toastify";
 
 const fetchTotalSupply = async (wallet, tokenAddress) => {
@@ -13,6 +13,13 @@ const fetchTotalSupply = async (wallet, tokenAddress) => {
         toast.error(e.reason);
         console.log('fetchTotalSupply error', e);
     }
+}
+
+const fetchTicker = async (wallet, tokenAddress) => {
+    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
+    const signer = provider.getSigner();
+    const tokenContract = await new ethers.Contract(tokenAddress, TokenContract.abi, signer);
+    return await tokenContract.symbol();
 }
 
 const balanceOf = async (wallet, tokenAddress, address) => {
@@ -30,14 +37,14 @@ const balanceOf = async (wallet, tokenAddress, address) => {
 const wethBalanceOf = async (wallet, address) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     try {
-    return await provider.getBalance(address)
+        return await provider.getBalance(address)
     } catch (e) {
         toast.error(e.reason);
         console.log('wethBalanceOf error', e);
     }
 }
 
-const fetchApprovedAmount = async (wallet,addressToApprove, tokenAddress) => {
+const fetchApprovedAmount = async (wallet, addressToApprove, tokenAddress) => {
     const provider = new ethers.providers.Web3Provider(wallet.ethereum);
     const signer = provider.getSigner();
     const tokenContract = await new ethers.Contract(tokenAddress, TokenContract.abi, signer);
@@ -112,5 +119,6 @@ export default {
     approveCustomToken,
     fetchApprovedAmount,
     balanceOf,
-    wethBalanceOf
+    wethBalanceOf,
+    fetchTicker
 }

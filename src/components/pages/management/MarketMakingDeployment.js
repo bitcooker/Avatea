@@ -12,6 +12,7 @@ export default function MarketMakingDeployment({project}) {
     const wallet = useWallet();
     const [pairedToken, setPairedToken] = useState('');
     const [pairedTokenCheckSum, setPairedTokenCheckSum] = useState('');
+    const [pairedTokenTicker, setPairedTokenTicker] = useState('');
     const [pairedTokenImage, setPairedTokenImage] = useState(PAIRED_TOKEN_DEFAULT_IMAGE);
     const [volume, setVolume] = useState('0');
     const [maxBuyingAmount, setMaxBuyingAmount] = useState('0');
@@ -35,26 +36,38 @@ export default function MarketMakingDeployment({project}) {
             maxPreferredDrawdown,
             lowerPreferredPriceRange,
             upperPreferredPriceRange,
-            pairedTokenImage);
+            pairedTokenImage,
+            pairedTokenTicker
+            );
         if (success) location.reload();
     };
 
     useEffect(() => {
-        if (pairedToken.length === 42) {
-            let checkSum = pairedToken;
-            try {
-                checkSum = ethers.utils.getAddress(pairedToken.toLowerCase())
-            } catch (e) {
-                console.log('checkSum error', e);
+        const updatePairedToken = async () => {
+            if (pairedToken.length === 42) {
+                let checkSum = pairedToken;
+                try {
+                    checkSum = ethers.utils.getAddress(pairedToken.toLowerCase())
+                } catch (e) {
+                    console.log('checkSum error', e);
+                }
+                setPairedTokenCheckSum(checkSum)
+                if (PAIRED_TOKEN_IMAGES[checkSum]) {
+                    setPairedTokenImage(PAIRED_TOKEN_IMAGES[checkSum])
+                } else {
+                    setPairedTokenImage(PAIRED_TOKEN_DEFAULT_IMAGE)
+                }
+
+                try {
+                    setPairedTokenTicker(await helper.web3.token.fetchTicker(wallet, checkSum));
+                } catch (e) {
+                    setPairedTokenTicker('');
+                }
+
             }
-            setPairedTokenCheckSum(checkSum)
-            if (PAIRED_TOKEN_IMAGES[checkSum]) {
-                setPairedTokenImage(PAIRED_TOKEN_IMAGES[checkSum])
-            } else {
-                setPairedTokenImage(PAIRED_TOKEN_DEFAULT_IMAGE)
-            }
-        }
-    }, [pairedToken]);
+        };
+        updatePairedToken();
+    }, [wallet, pairedToken]);
 
 
     return (
@@ -62,7 +75,8 @@ export default function MarketMakingDeployment({project}) {
         <div className="card-content space-y-3.75">
             {/* Pair Token */}
             <div className="w-full space-y-2.5">
-                <span className="text-base">Pair Token Address</span>
+                <span
+                    className="text-base">Pair Token Address {pairedTokenTicker ? ' - ' + pairedTokenTicker : ''}</span>
                 <InputWithIcon
                     id="editPairToken"
                     name="editPairToken"
