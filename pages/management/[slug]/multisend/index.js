@@ -10,7 +10,8 @@ import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 // page components
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
-import AddressAndAmountAndTimeTable from "../../../../src/components/pages/management/multisend/AddressAndAmountAndTimeTable";
+import AddressAndAmountAndTimeTable
+    from "../../../../src/components/pages/management/multisend/AddressAndAmountAndTimeTable";
 
 
 export default function VestingAdd(props) {
@@ -19,7 +20,7 @@ export default function VestingAdd(props) {
     const [transactions, setTransactions] = React.useState([]);
     const router = useRouter();
     const wallet = useWallet();
-    const { slug } = router.query;
+    const {slug} = router.query;
 
 
     useEffect(() => {
@@ -37,10 +38,7 @@ export default function VestingAdd(props) {
     useEffect(() => {
 
         const fetchTransactions = async () => {
-            const transactionsData = await helpers.transactions.getTransactions({
-                project: project.slug,
-                type: 'MMBB'
-            })
+            const transactionsData = await helpers.transactions.getTransactions({project: slug, type: 'MMBB'})
             setTransactions(transactionsData);
         };
         fetchTransactions();
@@ -54,10 +52,11 @@ export default function VestingAdd(props) {
                     <h1 className="text-2xl">Multi Sender</h1>
                     <div className="hidden w-full -bottom-16 md-lg:w-fit md-lg:block">
                         <div className={'grid grid-cols-2 gap-2.5'}>
-                            <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
+                            <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left"
+                                              handleClick={() => router.back()}/>
 
                             <ButtonFit handleClick={() => router.push(`/management/${slug}/multisend/add`)}>
-                                <div className="flex items-center gap-2" >
+                                <div className="flex items-center gap-2">
                                     <i className={'fa-solid fa-plus'}/>
                                     <span className="hidden md-lg:block"> New batch </span>
                                     <span className="inline-block md-lg:hidden"> Add </span>
@@ -74,13 +73,14 @@ export default function VestingAdd(props) {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className="w-full -bottom-16 md-lg:w-fit md-lg:hidden">
                     <div className={'grid grid-cols-2 gap-2.5'}>
-                        <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
+                        <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left"
+                                          handleClick={() => router.back()}/>
 
                         <ButtonFit handleClick={() => router.push(`/management/${slug}/multisend/add`)}>
-                            <div className="flex items-center gap-2" >
+                            <div className="flex items-center gap-2">
                                 <i className={'fa-solid fa-plus'}/>
                                 <span className="hidden md-lg:block"> New batch </span>
                                 <span className="inline-block md-lg:hidden"> Add </span>
