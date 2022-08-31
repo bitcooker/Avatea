@@ -61,19 +61,21 @@ export default function ProjectDetail(props) {
 
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
-            <div className="space-y-7.5 mb-5">
-                <div className={'max-w-[300px] float-right m-5'}>
+            <div className="space-y-7.5 mb-5 flex flex-col">
+                <div className={'max-w-[300px] float-right m-5 self-end'}>
                     <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()} />
-
                 </div>
-                <Vesting
-                    wallet={wallet}
-                    marketMakingPool={marketMakingPool}
-                    project={project}
-                    holdersMapping={holdersMapping}
-                    setAction={'revoke'}
-                    userAddress={address}
-                />
+                <div>
+                    <Vesting
+                        wallet={wallet}
+                        marketMakingPool={marketMakingPool}
+                        project={project}
+                        holdersMapping={holdersMapping}
+                        setAction={'revoke'}
+                        userAddress={address}
+                    />
+                </div>
+
                 <div className="space-y-3.75 lg:space-y-0 lg:grid lg:grid-cols-1 lg:gap-5">
                     {/*<Chart />*/}
                     <TransactionWrapper userAddress={address} projectSlug={slug} />
