@@ -11,7 +11,7 @@ export default async function handler(req, res) {
             })
             res.status(200).json({ status: 200 })
         } catch (e) {
-            res.status(500).json({ error: 'Error, check logs' })
+            res.status(500).json({ e })
         }
     } else {
         res.status(200).json({status: 'OK'})
