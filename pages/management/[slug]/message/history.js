@@ -84,7 +84,7 @@ export default function Inbox(props) {
 
         const fetchMessages = async () => {
             if (wallet.account && project) {
-                const result = await helper.messages.getMessages({project: project.slug});
+                const result = await helper.messages.getMessages({project: slug});
                 setMessages(result);
             }
         };
