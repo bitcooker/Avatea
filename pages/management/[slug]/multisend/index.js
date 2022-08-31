@@ -38,8 +38,9 @@ export default function VestingAdd(props) {
 
         const fetchTransactions = async () => {
             const transactionsData = await helpers.transactions.getTransactions({
-                                                                                    project: project.slug, type: 'MMBB'
-                                                                                })
+                project: project.slug,
+                type: 'MMBB'
+            })
             setTransactions(transactionsData);
         };
         fetchTransactions();

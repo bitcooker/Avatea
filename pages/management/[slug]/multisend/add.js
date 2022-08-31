@@ -172,7 +172,7 @@ export default function VestingAdd(props) {
                                     setStep(step + 1)
                                 }}
                             /> :
-                            <ButtonWithApproval isLoading={isLoading} name="Create multi send - " handleClick={createMultiSend} address={marketMakingPool.address}
+                            <ButtonWithApproval isLoading={isLoading} disabled={isLoading} name="Create multi send - " handleClick={createMultiSend} address={marketMakingPool.address}
                                                 token={project.token} amount={totalAmount} ticker={project.ticker}/>
                         }
                     </div>
