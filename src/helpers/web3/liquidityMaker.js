@@ -414,14 +414,13 @@ const rewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet, chai
 
 const liquidityRewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet = false, chainId = DEFAULT_CHAIN_ID) => {
     try {
-        let provider;
-        let signer;
-        if(withoutWallet) {
-            provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
-            signer = provider;
-        } else {
+        let provider, signer;
+        if(wallet.isConnected()) {
             provider = new ethers.providers.Web3Provider(wallet.ethereum);
             signer = provider.getSigner();
+        } else {
+            provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+            signer = provider;
         }
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         let rewardRate = await liquidityMaker.liquidityRewardRate();

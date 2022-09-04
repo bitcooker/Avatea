@@ -1,16 +1,25 @@
 import {ethers} from 'ethers';
 import IUniswapV2Router from '../../abi/IUniswapV2Router.json';
 import {toast} from "react-toastify";
-import {DEX_ROUTER} from "../constants";
+import {DEFAULT_CHAIN_ID, DEX_ROUTER, RPC_URL} from "../constants";
 
 
-const getPrice = async (wallet, baseToken, pairedToken) => {
+const getPrice = async (wallet, baseToken, pairedToken, chainId = DEFAULT_CHAIN_ID) => {
+
     try {
-        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-        const signer = provider.getSigner();
+        let provider, signer;
+        if(wallet.isConnected()) {
+            provider = new ethers.providers.Web3Provider(wallet.ethereum);
+            signer = provider.getSigner();
+            console.log(signer,baseToken, pairedToken)
+        } else {
+            provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+            signer = provider;
+            console.log(signer, baseToken, pairedToken)
+        }
 
         let path = [baseToken, pairedToken]
-        const router = await new ethers.Contract(DEX_ROUTER[wallet.chainId], IUniswapV2Router.abi, signer);
+        const router = await new ethers.Contract(DEX_ROUTER[wallet.isConnected() ? wallet.chainId : chainId], IUniswapV2Router.abi, signer);
         let amountsOut = await router.getAmountsOut(ethers.utils.parseUnits('1', 'gwei'), path);
         let amountOut = await amountsOut[1]
         let price = ethers.utils.formatUnits(amountOut, 'gwei')

@@ -2,7 +2,7 @@ import {BigNumber, ethers} from 'ethers';
 import marketMaker from '../../abi/MarketMaker.json';
 import {toast} from "react-toastify";
 import helpers from "../index";
-import {API_URL, DEPLOYMENT_GAS_COST, MARKET_MAKER_DEPLOYER_ADDRESS} from "../constants";
+import {API_URL, DEFAULT_CHAIN_ID, DEPLOYMENT_GAS_COST, MARKET_MAKER_DEPLOYER_ADDRESS, RPC_URL} from "../constants";
 import MarketMakerDeployer from "../../abi/MarketMakerDeployer.json";
 import axios from "axios";
 
@@ -433,12 +433,17 @@ const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, 
     }
 }
 
-const getTotalVested = async (wallet, marketMakerAddress) => {
+const getTotalVested = async (wallet, marketMakerAddress, chainId = DEFAULT_CHAIN_ID) => {
     try {
-        const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-        const signer = provider.getSigner();
+        let provider, signer;
+        if(wallet.isConnected()) {
+            provider = new ethers.providers.Web3Provider(wallet.ethereum);
+            signer = provider.getSigner();
+        } else {
+            provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+            signer = provider;
+        }
         const marketMakerContract = await new ethers.Contract(marketMakerAddress, marketMaker.abi, signer);
-        const data = await marketMakerContract.totalVested();
         return await marketMakerContract.totalVested();
     } catch (e) {
         console.log('getTotalVested error', e);

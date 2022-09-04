@@ -12,11 +12,30 @@ import KPICard from "../../core/KPICard";
 import Card from "../projectDetail/Card/Card";
 import Feed from "../projectDetail/Feed/Feed";
 import PriceAreaChart from "./Charts/PriceAreaChart";
+import helpers from "../../../helpers";
+import {useWallet} from "@albs1/use-wallet";
 
-export default function Vault({project, marketMakingPool}) {
+export default function Info({project, marketMakingPool}) {
+    const wallet = useWallet();
     const [tab, setTab] = useState(0);
     const [articles, setArticles] = useState([]);
     const [tickerData, setTickersData] = useState([]);
+    const [tvl,setTvl] = useState(0);
+    const [totalSupply,setTotalSupply] = useState(0);
+    const [price,setPrice] = useState(0);
+    const [vested,setVested] = useState(0);
+
+    useEffect(() => {
+        console.log(project, marketMakingPool)
+        if (project?.token) {
+            (async () => {
+
+                setTotalSupply(helpers.formatting.web3Format(await helpers.web3.token.fetchTotalSupply(wallet,project?.token)))
+                setVested(helpers.formatting.web3Format(await helpers.web3.marketMaker.getTotalVested(wallet, marketMakingPool.address)))
+                setPrice(await helpers.web3.uniswap.getPrice(wallet, project.token, marketMakingPool.paired_token));
+            })()
+        }
+    },[project,marketMakingPool])
 
     useEffect(() => {
         const fetchArticles = async () => {
@@ -49,11 +68,11 @@ export default function Vault({project, marketMakingPool}) {
 
                 <Card>
                     <KPIWrapper cols={4}>
-                        <KPICard images={[project.image, marketMakingPool?.paired_token_image]} end={100}
+                        <KPICard images={[project.image, marketMakingPool?.paired_token_image]} end={tvl}
                                  label={'TVL'}/>
-                        <KPICard image={project.image} end={100} label={'Tot. Supply'}/>
-                        <KPICard image={marketMakingPool?.paired_token_image} end={100} label={'Price'}/>
-                        <KPICard image={project.image} end={100} label={'Vested'}/>
+                        <KPICard image={project.image} end={totalSupply} label={'Tot. Supply'}/>
+                        <KPICard image={marketMakingPool?.paired_token_image} end={price}  label={'Price'}/>
+                        <KPICard image={project.image} end={vested} label={'Vested'}/>
                     </KPIWrapper>
                 </Card>
             }

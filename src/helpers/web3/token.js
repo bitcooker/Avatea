@@ -1,12 +1,18 @@
 import {ethers} from 'ethers';
 import TokenContract from '../../abi/Token.json';
-import {CLOUD_2_TOKEN_ADDRESS} from "../constants";
+import {CLOUD_2_TOKEN_ADDRESS, DEFAULT_CHAIN_ID, RPC_URL} from "../constants";
 import {toast} from "react-toastify";
 
-const fetchTotalSupply = async (wallet, tokenAddress) => {
-    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-    const signer = provider.getSigner();
-    const tokenContract = await new ethers.Contract(tokenAddress, TokenContract.abi, signer);
+const fetchTotalSupply = async (wallet, tokenAddress, chainId = DEFAULT_CHAIN_ID) => {
+    let provider, signer, tokenContract;
+    if(wallet.isConnected()) {
+        provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        signer = provider.getSigner();
+    } else {
+        provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+        signer = provider;
+    }
+    tokenContract = await new ethers.Contract(tokenAddress, TokenContract.abi, signer);
     try {
         return await tokenContract.totalSupply();
     } catch (e) {
