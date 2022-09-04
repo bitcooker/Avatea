@@ -7,7 +7,7 @@ import { usePageTitleContext } from '../../src/context/PageTitleContext';
 
 
 export default function Projects() {
-    const projects = useAppContext();
+    const { projects } = useAppContext();
     const { setTitle } = usePageTitleContext();
 
     React.useEffect(() => {

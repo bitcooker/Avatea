@@ -5,6 +5,7 @@ const AppContext = React.createContext();
 
 export function AppWrapper({ children }) {
     const [projects, setProjects] = React.useState([]);
+    const [messages, setMessages] = React.useState(0);
 
     React.useEffect(() => {
         const getProjects = async () => {
@@ -15,8 +16,10 @@ export function AppWrapper({ children }) {
         getProjects();
     }, [])
 
+    const value = { projects, messages, setMessages }
+
     return (
-        <AppContext.Provider value={projects}>
+        <AppContext.Provider value={value}>
             {children}
         </AppContext.Provider>
     )

@@ -17,6 +17,7 @@ import {useRouter} from "next/router";
 // context
 import { usePageTitleContext } from "../context/PageTitleContext";
 import {useAdminContext} from "../context/AdminContext";
+import {useAppContext} from "../context/AppContext";
 import Button from "./core/Button/Button";
 
 export default function Header({ menu, setMenu }) {
@@ -24,7 +25,7 @@ export default function Header({ menu, setMenu }) {
   const router = useRouter();
   const { title } = usePageTitleContext();
   const { setIsAdmin } = useAdminContext();
-  const [unreadMessages, setUnreadMessages] = useState(0);
+  const { setMessages, messages } = useAppContext();
   const [isRegistered,setIsRegistered] = useLocalStorage('isRegistered', false);
   const [modalOpen, setModalOpen] = useState(false);
     const [currentNetwork, setCurrentNetwork] = useState(networks[wallet.chainId] || networks[4]);
@@ -38,7 +39,7 @@ export default function Header({ menu, setMenu }) {
     // if (wallet.isConnected() && !isRegistered) {
     if (wallet.isConnected()) {
       const initWallet = async () => {
-          await helpers.user.registerUser(wallet,setIsRegistered,setUnreadMessages, setIsAdmin);
+          await helpers.user.registerUser(wallet,setIsRegistered,setMessages, setIsAdmin);
       }
       initWallet();
       const pollingMessage = setInterval(initWallet,30000);
@@ -76,13 +77,12 @@ export default function Header({ menu, setMenu }) {
         <h1 className="hidden lg-xl:block lg-xl:text-2xl">{title}</h1>
         <div className="flex items-center">
             {
-                wallet.status === "connected" ? <div className={`relative mr-5 ${unreadMessages > 0 ? "md-lg:flex " : "hidden"}`} onClick={() => router.push('/inbox')}>
-                <span className="flex h-5 w-5 absolute -top-2 -right-2.5 z-10">
-                  {/*<span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>*/}
+                wallet.status === "connected" ? <div className={`relative mr-5 ${messages > 0 ? "md-lg:flex " : "hidden"}`} onClick={() => router.push('/inbox')}>
+                <span className="flex h-5 w-5 absolute -top-2 -right-3 z-10">
                     <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
                 </span>
-                    <span className={`flex absolute ${unreadMessages >= 10 ? " -top-[0.7rem] -right-[0.1rem] text-[0.5rem]" : " -top-[0.72rem] -right-[0.08rem] text-[0.7rem]"} text-white z-20`}>
-                    {unreadMessages}
+                    <span className={`flex absolute -top-[0.72rem] -right-[0.1rem] text-[0.7rem] text-white z-20`}>
+                    !
                 </span>
                     <i className="relative fa-light fa-envelope text-2xl hover:cursor-pointer z-0" />
                 </div> : ""

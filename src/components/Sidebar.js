@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import {useAdminContext} from "../context/AdminContext";
 import {useWallet} from "@albs1/use-wallet";
+import {useAppContext} from "../context/AppContext";
 
 const userMenus = [
     {
@@ -96,6 +97,7 @@ export default function Sidebar({ menu, setMenu }) {
 
     const wallet = useWallet();
     const { isAdmin } = useAdminContext();
+    const { messages } = useAppContext();
 
     const menus = isAdmin ? adminMenus : userMenus;
 
@@ -119,6 +121,13 @@ export default function Sidebar({ menu, setMenu }) {
                     >
                         <div className="flex flex-col">
                             {menus.map((menu, index) => (
+                                menu.label === "Inbox" ?   <MenuItem
+                                    href={menu.href}
+                                    label={menu.label}
+                                    icon={menu.icon}
+                                    key={index}
+                                    messages={messages}
+                                /> :
                                 <MenuItem
                                     href={menu.href}
                                     label={menu.label}
@@ -169,7 +178,7 @@ export const MenuItem = (props) => {
                   }`}
               >
                   <i className={props.icon + " mr-2"} />
-                  {props.label}
+                  {props.label} {props?.messages ? <span className={'rounded-2xl ml-2 text-white px-2 bg-red-500'}>{props.messages}</span> : ""}
               </a>
           </Link>
       );
