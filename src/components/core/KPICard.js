@@ -27,7 +27,7 @@ export default function KPICard(props) {
                 }
 
                 {props.end ?
-                    <div className="flex items-center justify-center font-bold text-3xl">
+                    <div className="flex items-center justify-center font-bold text-2xl">
                         {
                             props?.disableCount ? props.end.toFixed(2) : <CounterUp end={props.end}/>
                         }

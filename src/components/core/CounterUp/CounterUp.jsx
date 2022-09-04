@@ -17,9 +17,8 @@ const CounterUp = (props) => {
                 visibleCounterUp && 
                     <AnimatedNumbers
                         animateToNumber={props.end}
-                        fontStyle={{ fontSize: 20 }}
                         configs={(number, index) => {
-                            return { mass: 1, tension: 230 * (index + 1), friction: 140 };
+                            return { mass:1, tension: 700 * (index + 1), friction: 200 };
                         }}
                     />
             }
