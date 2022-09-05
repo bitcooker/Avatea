@@ -81,9 +81,6 @@ export default function Header({ menu, setMenu }) {
                 <span className="flex h-5 w-5 absolute -top-2 -right-3 z-10">
                     <span className="relative inline-flex rounded-full h-4 w-4 bg-red-500"></span>
                 </span>
-                    <span className={`flex absolute -top-[0.72rem] -right-[0.1rem] text-[0.7rem] text-white z-20`}>
-                    !
-                </span>
                     <i className="relative fa-light fa-envelope text-2xl hover:cursor-pointer z-0" />
                 </div> : ""
             }
