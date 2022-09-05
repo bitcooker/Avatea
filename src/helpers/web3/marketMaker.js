@@ -436,7 +436,7 @@ const getWithdrawablePairedTokens = async (wallet, marketMakerAddress, address, 
 const getTotalVested = async (wallet, marketMakerAddress, chainId = DEFAULT_CHAIN_ID) => {
     try {
         let provider, signer;
-        if(wallet.isConnected()) {
+        if (wallet.isConnected()) {
             provider = new ethers.providers.Web3Provider(wallet.ethereum);
             signer = provider.getSigner();
         } else {
@@ -678,6 +678,13 @@ const setMaxPairedLiquidityRatio = async (wallet, marketMakerAddress, maxPairedL
     }
 }
 
+const getTVL = async (wallet, marketMakerAddress, baseTokenAddress, pairedTokenAddress) => {
+
+    let baseBalance = await helpers.web3.token.balanceOf(wallet, baseTokenAddress, marketMakerAddress)
+    let pairedBalance = await helpers.web3.token.balanceOf(wallet, pairedTokenAddress, marketMakerAddress)
+
+    return {baseBalance, pairedBalance}
+}
 
 export default {
     stake,
@@ -699,5 +706,6 @@ export default {
     setAllowReleasing,
     setMaxBaseLiquidityRatio,
     setMaxPairedLiquidityRatio,
-    getTotalVested
+    getTotalVested,
+    getTVL
 }

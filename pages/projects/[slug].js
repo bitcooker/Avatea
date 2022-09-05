@@ -19,7 +19,6 @@ import Info from "../../src/components/pages/projects/Info";
 import {usePageTitleContext} from '../../src/context/PageTitleContext';
 import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
 import Deposit from "../../src/components/pages/projects/Deposit";
-import Withdraw from "../../src/components/pages/projects/Withdraw";
 
 const tabItems = ["Info", "Deposit & Withdraw", "Sustainable Trading", "Liquidity", "Vault", "Vesting"];
 
@@ -89,6 +88,7 @@ export default function ProjectDetail(props) {
                         <Info
                             project={project}
                             marketMakingPool={marketMakingPool}
+                            liquidityMaker={liquidityMaker}
                             setTab={setTab}
                         />
                     </motion.div>

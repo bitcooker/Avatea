@@ -3,6 +3,7 @@ import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 
 import helper from "../../../helpers";
+import helpers from "../../../helpers";
 
 // core components
 import KPIWrapper from "../../core/KPIWrapper";
@@ -12,30 +13,36 @@ import KPICard from "../../core/KPICard";
 import Card from "../projectDetail/Card/Card";
 import Feed from "../projectDetail/Feed/Feed";
 import PriceAreaChart from "./Charts/PriceAreaChart";
-import helpers from "../../../helpers";
 import {useWallet} from "@albs1/use-wallet";
 
-export default function Info({project, marketMakingPool}) {
+export default function Info({project, marketMakingPool, liquidityMaker}) {
     const wallet = useWallet();
     const [tab, setTab] = useState(0);
     const [articles, setArticles] = useState([]);
     const [tickerData, setTickersData] = useState([]);
-    const [tvl,setTvl] = useState(0);
-    const [totalSupply,setTotalSupply] = useState(0);
-    const [price,setPrice] = useState(0);
-    const [vested,setVested] = useState(0);
+    const [tvl, setTvl] = useState(0);
+    const [totalSupply, setTotalSupply] = useState(0);
+    const [price, setPrice] = useState(0);
+    const [vested, setVested] = useState(0);
 
     useEffect(() => {
         console.log(project, marketMakingPool)
         if (project?.token) {
             (async () => {
 
-                setTotalSupply(helpers.formatting.web3Format(await helpers.web3.token.fetchTotalSupply(wallet,project?.token)))
+                setTotalSupply(helpers.formatting.web3Format(await helpers.web3.token.fetchTotalSupply(wallet, project?.token)))
                 setVested(helpers.formatting.web3Format(await helpers.web3.marketMaker.getTotalVested(wallet, marketMakingPool.address)))
-                setPrice(await helpers.web3.uniswap.getPrice(wallet, project.token, marketMakingPool.paired_token));
+                let price = await helpers.web3.uniswap.getPrice(wallet, project.token, marketMakingPool.paired_token)
+                setPrice(price);
+
+                let marketMakingPoolTVL = await helper.web3.marketMaker.getTVL(wallet, marketMakingPool.address, project.token, marketMakingPool.paired_token);
+                let liquidityMakerTVL = await helper.web3.liquidityMaker.getTVL(wallet, liquidityMaker.address, project.token, liquidityMaker.paired_token);
+                let baseTotal = helpers.formatting.web3Format(marketMakingPoolTVL.baseBalance.add(liquidityMakerTVL.baseValue)) * price;
+                let pairedTotal = helpers.formatting.web3Format(marketMakingPoolTVL.pairedBalance.add(liquidityMakerTVL.pairedValue)) * 1.0;
+                setTvl(Math.floor(baseTotal + pairedTotal))
             })()
         }
-    },[project,marketMakingPool])
+    }, [project, marketMakingPool, liquidityMaker])
 
     useEffect(() => {
         const fetchArticles = async () => {
@@ -68,10 +75,9 @@ export default function Info({project, marketMakingPool}) {
 
                 <Card>
                     <KPIWrapper cols={4}>
-                        <KPICard images={[project.image, marketMakingPool?.paired_token_image]} end={tvl}
-                                 label={'TVL'}/>
+                        <KPICard image={marketMakingPool?.paired_token_image} end={tvl} label={'TVL'}/>
                         <KPICard image={project.image} end={totalSupply} label={'Tot. Supply'}/>
-                        <KPICard image={marketMakingPool?.paired_token_image} end={price}  label={'Price'}/>
+                        <KPICard image={marketMakingPool?.paired_token_image} end={price} label={'Price'}/>
                         <KPICard image={project.image} end={vested} label={'Vested'}/>
                     </KPIWrapper>
                 </Card>

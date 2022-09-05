@@ -5,7 +5,7 @@ import {toast} from "react-toastify";
 
 const fetchTotalSupply = async (wallet, tokenAddress, chainId = DEFAULT_CHAIN_ID) => {
     let provider, signer, tokenContract;
-    if(wallet.isConnected()) {
+    if (wallet.isConnected()) {
         provider = new ethers.providers.Web3Provider(wallet.ethereum);
         signer = provider.getSigner();
     } else {
@@ -28,9 +28,17 @@ const fetchTicker = async (wallet, tokenAddress) => {
     return await tokenContract.symbol();
 }
 
-const balanceOf = async (wallet, tokenAddress, address) => {
-    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-    const signer = provider.getSigner();
+const balanceOf = async (wallet, tokenAddress, address, chainId = DEFAULT_CHAIN_ID) => {
+
+    let provider, signer;
+    if (wallet.isConnected()) {
+        provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        signer = provider.getSigner();
+    } else {
+        provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+        signer = provider;
+    }
+
     const tokenContract = await new ethers.Contract(tokenAddress, TokenContract.abi, signer);
     try {
         return await tokenContract.balanceOf(address);

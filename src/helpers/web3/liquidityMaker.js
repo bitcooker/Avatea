@@ -320,7 +320,7 @@ const totalSupply = async (wallet, liquidityMakerAddress, withoutWallet, chainId
     try {
         let provider;
         let signer;
-        if(withoutWallet) {
+        if (withoutWallet) {
             provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
             signer = provider;
         } else {
@@ -340,7 +340,7 @@ const maxTotalSupply = async (wallet, liquidityMakerAddress, withoutWallet, chai
     try {
         let provider;
         let signer;
-        if(withoutWallet) {
+        if (withoutWallet) {
             provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
             signer = provider;
         } else {
@@ -360,7 +360,7 @@ const getLockingPeriod = async (wallet, liquidityMakerAddress, withoutWallet, ch
     try {
         let provider;
         let signer;
-        if(withoutWallet) {
+        if (withoutWallet) {
             provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
             signer = provider;
         } else {
@@ -393,7 +393,7 @@ const rewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet, chai
     try {
         let provider;
         let signer;
-        if(withoutWallet) {
+        if (withoutWallet) {
             provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
             signer = provider;
         } else {
@@ -415,7 +415,7 @@ const rewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet, chai
 const liquidityRewardPerToken = async (wallet, liquidityMakerAddress, withoutWallet = false, chainId = DEFAULT_CHAIN_ID) => {
     try {
         let provider, signer;
-        if(wallet.isConnected()) {
+        if (wallet.isConnected()) {
             provider = new ethers.providers.Web3Provider(wallet.ethereum);
             signer = provider.getSigner();
         } else {
@@ -468,9 +468,16 @@ const fetchHoldersMapping = async (wallet, liquidityMakerAddress, address) => {
     }
 }
 
-const getTVL = async (wallet, liquidityMakerAddress, baseTokenAddress, pairedTokenAddress) => {
-    const provider = new ethers.providers.Web3Provider(wallet.ethereum);
-    const signer = provider.getSigner();
+const getTVL = async (wallet, liquidityMakerAddress, baseTokenAddress, pairedTokenAddress, chainId = DEFAULT_CHAIN_ID) => {
+    let provider, signer;
+    if (wallet.isConnected()) {
+        provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        signer = provider.getSigner();
+    } else {
+        provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+        signer = provider;
+    }
+
     const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
     let pairAddress = await liquidityMaker.pair();
 
