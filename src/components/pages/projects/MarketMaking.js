@@ -198,7 +198,13 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     })
 
     useEffect(() => {
-        if (openMagicModal) ReactGA.modalview('Modal - How To - Trading Settings');
+        if (openMagicModal) {
+            ReactGA.event({
+                category: "Modal",
+                action: "Open Modal",
+                label: "How to"
+            });
+        }
     },[openMagicModal])
     const setMax = async (amount, setter) => {
         setter(amount);

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {API_URL} from "../constants";
+import {API_URL, DEFAULT_CHAIN_ID, RPC_URL} from "../constants";
 import {ethers} from "ethers";
 
 async function getNonce(wallet) {
@@ -16,6 +16,23 @@ async function getSignature(wallet) {
     return signature
 }
 
+async function getSigner(wallet, chainId = DEFAULT_CHAIN_ID) {
+    let provider, signer;
+
+    if(wallet.isConnected()) {
+        provider = new ethers.providers.Web3Provider(wallet.ethereum);
+        signer = provider.getSigner();
+    } else {
+        provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
+        signer = provider;
+    }
+
+    return {
+        provider, signer
+    }
+}
+
 export default {
-   getSignature
+   getSignature,
+    getSigner
 }
