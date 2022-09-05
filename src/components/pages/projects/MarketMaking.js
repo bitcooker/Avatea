@@ -18,6 +18,7 @@ import KPICard from "../../core/KPICard";
 import KPIWrapper from "../../core/KPIWrapper";
 import HomeCard from "../../pages/Home/HomeCard";
 import Tooltip from "../../core/Tooltip/Tooltip";
+import ReactGA from "react-ga4";
 
 const questions = [
     "Do you want to buy/sell token A or B?",
@@ -196,6 +197,9 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
         }, 600)
     })
 
+    useEffect(() => {
+        if (openMagicModal) ReactGA.modalview('Modal - How To - Trading Settings');
+    },[openMagicModal])
     const setMax = async (amount, setter) => {
         setter(amount);
     };
@@ -222,6 +226,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                 setFresh(false);
                 setMarketMakingSettingsId(id)
             }
+            ReactGA.event({
+                category: 'Settings',
+                action: 'Updated Settings - Sustainable Trading'
+            });
         } catch (e) {
             setIsLoading(false)
         }
@@ -231,6 +239,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
     const AllowSelling = async () => {
         let success = helper.marketMaker.setAllowSelling(wallet, marketMakingPool.address, true);
         setFresh(false);
+        ReactGA.event({
+            category: 'Settings',
+            action: 'Allowed Selling - Sustainable Trading'
+        });
     };
 
     return !load ? <SkeletonMarketMaking/> : (
