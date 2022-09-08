@@ -524,6 +524,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                         </span>
 
                                     }
+
                                 </div>
 
                             </div>
@@ -540,6 +541,18 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                 setValue={setPriceLimit}
                             />
                         </div>
+                        {
+                            (priceLimit === '0' || priceLimit === 0) && <div className="text-center py-4 lg:px-4">
+                                <div
+                                    className="p-2 bg-gray-100 items-center text-black leading-none lg:rounded-full flex lg:inline-flex"
+                                    role="alert">
+                                                <span
+                                                    className="flex rounded-full bg-gray-300 uppercase px-2 py-1 text-xs mr-3">Note</span>
+                                    <span className=" mr-2 text-left flex-auto">If your price limit is saved on 0, buys & sells will be executed on the current market prices.</span>
+                                </div>
+                            </div>
+                        }
+
                         {allowSelling || mode === "buy" ?
                             <Button name="Save Settings"
                                     isLoading={isLoading}
