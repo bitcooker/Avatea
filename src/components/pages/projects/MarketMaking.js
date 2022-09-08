@@ -21,8 +21,8 @@ import Tooltip from "../../core/Tooltip/Tooltip";
 import ReactGA from "react-ga4";
 
 const questions = [
-    "Do you want to buy/sell token A or B?",
-    "Do you want to sell / buy with a 100% pressure setting?",
+    "How to guide - Please make a selection",
+    "How to guide - How fast would you like this to happen?",
     "What price limit do you want to set?",
 ]
 
@@ -265,8 +265,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                         <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
                             <HomeCard
                                 icon={<i className="fa-solid fa-money-check-pen text-2xl text-indigo-500"></i>}
-                                title="Buy"
-                                content="I want to buy token A or B"
+                                title="Buy mode"
+                                content={`I want to buy ${project.ticker}`}
                                 handleClick={() => {
                                     setMode("buy");
                                     setMagicQStep(1);
@@ -275,9 +275,8 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
                             <HomeCard
                                 icon={<i className="fa-solid fa-money-check-pen text-2xl text-indigo-500"></i>}
-                                title="Sell"
-                                content="I want to sell token A or B"
-                                handleClick={() => {
+                                title="Sell mode"
+                                content={`I want to sell ${project.ticker}`}                                handleClick={() => {
                                     setMode("sell");
                                     setMagicQStep(1);
                                 }}
@@ -316,12 +315,10 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                             <div className="grid grid-cols-1 md-lg:grid-cols-2 gap-5">
                                 <Button name="Previous" handleClick={() => setMagicQStep(0)}/>
                                 {allowSelling || mode === "buy" ?
-                                    <Button name="Save Settings"
+                                    <Button name="Show Settings"
                                             isLoading={isLoading}
                                             disabled={isLoading}
-                                            handleClick={(e) => {
-                                                updateSettings()
-                                            }}> <i className="pl-2 fa-solid fa-arrow-down-to-arc"/></Button>
+                                            handleClick={() => setOpenMagicModal(false)}> <i className="pl-2 fa-solid fa-check-circle"/></Button>
                                     :
                                     <Button name="Allow sustainable selling" handleClick={(e) => {
                                         AllowSelling()
