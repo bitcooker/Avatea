@@ -16,6 +16,7 @@ import HomeCard from "../../pages/Home/HomeCard";
 import KPIWrapper from "../../core/KPIWrapper";
 import KPICard from "../../core/KPICard";
 import InputWithIconSubmit from "../../core/Input/InputWithIconSubmit";
+import ReactGA from "react-ga4";
 
 export default function Deposit({wallet, project, marketMakingPool, setTab}) {
 
@@ -77,23 +78,43 @@ export default function Deposit({wallet, project, marketMakingPool, setTab}) {
             success = await helper.web3.marketMaker.stakePairedToken(wallet, marketMakingPool.address, wei);
         }
         setAmountPairTokenBalance(parseFloat(amountPairTokenBalance) + parseFloat(amountPairTokenToStake));
+        ReactGA.event({
+            category: "Funds",
+            action: "Stake Pair Token",
+            label: "Actions"
+        });
     };
 
     const stakeBaseToken = async () => {
         const wei = ethers.utils.parseEther(amountBaseTokenToStake);
         await helper.marketMaker.stake(wallet, marketMakingPool.address, wei);
+        ReactGA.event({
+            category: "Funds",
+            action: "Deposit Base Token",
+            label: "Actions"
+        });
     };
 
     const withdrawPairToken = async () => {
         let full_withdrawal = parseFloat(amountPairTokenToWithdraw) === parseFloat(amountPairTokenBalance) && parseFloat(amountBaseTokenBalance) === 0;
         const wei = ethers.utils.parseEther(amountPairTokenToWithdraw);
         let success = await helper.web3.marketMaker.withdrawPairToken(wallet, marketMakingPool.address, wei, full_withdrawal);
+        ReactGA.event({
+            category: "Funds",
+            action: "Withdraw Pair Token",
+            label: "Actions"
+        });
     };
 
     const withdrawBaseToken = async () => {
         let full_withdrawal = parseFloat(amountBaseTokenToWithdraw) === parseFloat(amountBaseTokenBalance) && parseFloat(amountPairTokenBalance) === 0;
         const wei = ethers.utils.parseEther(amountBaseTokenToWithdraw);
         let success = await helper.marketMaker.withdrawBaseToken(wallet, marketMakingPool.address, wei, full_withdrawal);
+        ReactGA.event({
+            category: "Funds",
+            action: "Withdraw Base Token",
+            label: "Actions"
+        });
     };
 
 

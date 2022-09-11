@@ -15,6 +15,7 @@ import RangeSlider from "../../core/RangeSlider/RangeSlider";
 import Swal from "sweetalert2";
 import KPIWrapper from "../../core/KPIWrapper";
 import KPICard from "../../core/KPICard";
+import ReactGA from "react-ga4";
 
 export default function LiquidityMaker({liquidityMaker, wallet, project, marketMakingPool}) {
 
@@ -150,6 +151,11 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                 if (result.isConfirmed) {
                     Swal.close();
                     helper.web3.marketMaker.setMaxBaseLiquidityRatio(wallet, marketMakingPool.address, newMaxBaseLiquidityRatio);
+                    ReactGA.event({
+                        category: "Liquidity",
+                        action: "Update Base Ratio",
+                        label: "Liquidity Settings"
+                    });
                 }
             })
         } else {
@@ -171,6 +177,11 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                 if (result.isConfirmed) {
                     Swal.close();
                     helper.web3.marketMaker.setMaxPairedLiquidityRatio(wallet, marketMakingPool.address, newMaxPairedLiquidityRatio);
+                    ReactGA.event({
+                        category: "Liquidity",
+                        action: "Update Paired Ratio",
+                        label: "Liquidity Settings"
+                    });
                 }
             })
         } else {
@@ -180,14 +191,29 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
 
     const claimReward = async () => {
         await helper.web3.liquidityMaker.getReward(wallet, liquidityMaker.address);
+        ReactGA.event({
+            category: "Liquidity",
+            action: "Claim Reward",
+            label: "Actions"
+        });
     };
 
     const compoundReward = async () => {
         await helper.web3.liquidityMaker.compoundLPReward(wallet, liquidityMaker.address);
+        ReactGA.event({
+            category: "Liquidity",
+            action: "Compound Reward",
+            label: "Actions"
+        });
     };
 
     const exitLiquidity = async () => {
         await helper.web3.liquidityMaker.exit(wallet, liquidityMaker.address);
+        ReactGA.event({
+            category: "Liquidity",
+            action: "Exit Liquidity",
+            label: "Actions"
+        });
     };
 
 
