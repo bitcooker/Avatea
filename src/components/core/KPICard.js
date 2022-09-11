@@ -34,7 +34,7 @@ export default function KPICard(props) {
                         {props.postFix}
                     </div>
                     :
-                    <div className="flex items-center justify-center font-bold text-3xl">
+                    <div className="flex items-center justify-center font-bold text-2xl">
                         {props.postFix ? props.postFix : 0}
                     </div>
                 }
