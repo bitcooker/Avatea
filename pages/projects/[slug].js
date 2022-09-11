@@ -21,6 +21,7 @@ import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
 import Deposit from "../../src/components/pages/projects/Deposit";
 import Head from "next/head";
 import {TITLE_PREFIX} from "../../src/helpers/constants";
+import ComingSoon from "../../src/components/core/ComingSoon";
 
 const tabItems = ["Info", "Deposit & Withdraw", "Sustainable Trading", "Liquidity", "Vault", "Vesting"];
 
@@ -140,7 +141,7 @@ export default function ProjectDetail(props) {
             {tab === 3 &&
                 <div className="min-h-[500px] md-lg:min-h-[625px]">
                     <motion.div initial={{scale: 0}} animate={{scale: 1}} transition={{duration: 0.5}}>
-                        <>
+                        <ComingSoon>
                             {
                                 wallet.status === "connected" ? (
                                     <Liquidity
@@ -151,7 +152,7 @@ export default function ProjectDetail(props) {
                                     />
                                 ) : <ConnectYourWallet/>
                             }
-                        </>
+                        </ComingSoon>
                     </motion.div>
                 </div>
             }
