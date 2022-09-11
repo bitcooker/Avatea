@@ -318,7 +318,7 @@ const liquidityRewardEarned = async (wallet, liquidityMakerAddress, address) => 
 
 const totalSupply = async (wallet, liquidityMakerAddress, chainId = DEFAULT_CHAIN_ID) => {
     try {
-        const { signer } = helpers.web3.authentication.getSigner(wallet,chainId)
+        const { signer } = await helpers.web3.authentication.getSigner(wallet,chainId)
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         return await liquidityMaker.totalSupply();
     } catch (e) {
@@ -330,7 +330,7 @@ const totalSupply = async (wallet, liquidityMakerAddress, chainId = DEFAULT_CHAI
 
 const maxTotalSupply = async (wallet, liquidityMakerAddress, chainId = DEFAULT_CHAIN_ID) => {
     try {
-        const { signer } = helpers.web3.authentication.getSigner(wallet,chainId)
+        const { signer } = await helpers.web3.authentication.getSigner(wallet,chainId)
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         return await liquidityMaker.maxTotalSupply();
     } catch (e) {
@@ -342,7 +342,7 @@ const maxTotalSupply = async (wallet, liquidityMakerAddress, chainId = DEFAULT_C
 
 const getLockingPeriod = async (wallet, liquidityMakerAddress, chainId = DEFAULT_CHAIN_ID) => {
     try {
-        const { signer } = helpers.web3.authentication.getSigner(wallet,chainId)
+        const { signer } = await helpers.web3.authentication.getSigner(wallet,chainId)
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         return await liquidityMaker.lockingPeriod();
     } catch (e) {
@@ -367,7 +367,7 @@ const getPairAddress = async (wallet, liquidityMakerAddress) => {
 
 const rewardPerToken = async (wallet, liquidityMakerAddress, chainId = DEFAULT_CHAIN_ID) => {
     try {
-        const { signer } = helpers.web3.authentication.getSigner(wallet,chainId)
+        const { signer } = await helpers.web3.authentication.getSigner(wallet,chainId)
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         let rewardRate = await liquidityMaker.rewardRate();
         let totalSupply = await liquidityMaker.totalSupply();
@@ -382,7 +382,7 @@ const rewardPerToken = async (wallet, liquidityMakerAddress, chainId = DEFAULT_C
 
 const liquidityRewardPerToken = async (wallet, liquidityMakerAddress,chainId = DEFAULT_CHAIN_ID) => {
     try {
-        const { signer } = helpers.web3.authentication.getSigner(wallet,chainId)
+        const { signer } = await helpers.web3.authentication.getSigner(wallet,chainId)
 
         const liquidityMaker = await new ethers.Contract(liquidityMakerAddress, LiquidityMaker.abi, signer);
         let rewardRate = await liquidityMaker.liquidityRewardRate();

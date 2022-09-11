@@ -20,8 +20,8 @@ async function getSigner(wallet, chainId = DEFAULT_CHAIN_ID) {
     let provider, signer;
 
     if(wallet.isConnected()) {
-        provider = new ethers.providers.Web3Provider(wallet.ethereum);
-        signer = provider.getSigner();
+        provider = await new ethers.providers.Web3Provider(wallet.ethereum);
+        signer = await provider.getSigner();
     } else {
         provider = await new ethers.providers.JsonRpcProvider(RPC_URL[chainId]);
         signer = provider;

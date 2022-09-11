@@ -38,6 +38,8 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
     const [pairedLiquiditySetting, setPairedLiquiditySetting] = useState(false);
     const [baseAllocation, setBaseAllocation] = useState('0');
     const [pairAllocation, setPairAllocation] = useState('0');
+    const [totalSupply, setTotalSupply] = useState('0');
+    const [maxTotalSupply, setMaxTotalSupply] = useState('0');
 
 
     useEffect(() => {
@@ -78,13 +80,16 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
                 setLockingPeriod(
                     Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address))
                 );
-
-
                 setHoldersMapping(
                     await helper.web3.liquidityMaker.fetchHoldersMapping(wallet, liquidityMaker.address, wallet.account)
                 );
-
-                setLoad(true)
+                setTotalSupply(
+                    await helper.web3.liquidityMaker.totalSupply(wallet, liquidityMaker.address)
+                );
+                setMaxTotalSupply(
+                    await helper.web3.liquidityMaker.maxTotalSupply(wallet, liquidityMaker.address)
+                );
+                setLoad(true);
             };
             initWalletConnected();
         }
@@ -188,6 +193,7 @@ export default function LiquidityMaker({liquidityMaker, wallet, project, marketM
 
     return !load ? <SkeletonLiquidity/> : (
         <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[800px] mx-auto">
+            {maxTotalSupply.toString()} {totalSupply.toString()}
             <Card>
                 <KPIWrapper cols={3}>
                     <KPICard image={project.image} end={baseAllocation} label={'Allocation'}/>
