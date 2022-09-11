@@ -88,19 +88,19 @@ export default function FarmsCardItem({liquidityMaker}) {
         if (wallet.status === "disconnected" && liquidityMaker.address) {
             const initWithoutWallet = async () => {
                 setRewardPerToken(
-                        await helper.web3.liquidityMaker.rewardPerToken(wallet, liquidityMaker.address,true)
+                        await helper.web3.liquidityMaker.rewardPerToken(wallet, liquidityMaker.address)
                 );
                 setLiquidityRewardPerToken(
-                        await helper.web3.liquidityMaker.liquidityRewardPerToken(wallet, liquidityMaker.address,true)
+                        await helper.web3.liquidityMaker.liquidityRewardPerToken(wallet, liquidityMaker.address)
                 );
 
-                let lockingPeriod = Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address,true));
+                let lockingPeriod = Number(await helper.web3.liquidityMaker.getLockingPeriod(wallet, liquidityMaker.address));
                 setLockingPeriod(lockingPeriod);
 
-                let maxTotalSupply = helper.formatting.web3Format((await helper.web3.liquidityMaker.maxTotalSupply(wallet, liquidityMaker.address,true)));
+                let maxTotalSupply = helper.formatting.web3Format((await helper.web3.liquidityMaker.maxTotalSupply(wallet, liquidityMaker.address)));
                 setMaxTotalSupply(maxTotalSupply);
 
-                let TVL = await helper.web3.liquidityMaker.totalSupply(wallet, liquidityMaker.address, true)
+                let TVL = await helper.web3.liquidityMaker.totalSupply(wallet, liquidityMaker.address)
                 setTotalSupply(helper.formatting.web3Format(TVL));
                 setLoading(false)
             };

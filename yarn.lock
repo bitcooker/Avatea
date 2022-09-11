@@ -8106,6 +8106,11 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-adobe-fonts@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-adobe-fonts/-/react-adobe-fonts-0.1.0.tgz#cd0a98c8571e6f754680602e54bb2b81061c5519"
+  integrity sha512-kaHL3x4ON588ILhD335uI6qNwwIUPyod7HFmHHe0JofWKinhyKeumJ10XXykVoVC9nVdfUJDya/fEjOfOrB7NQ==
+
 react-animated-numbers@^0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/react-animated-numbers/-/react-animated-numbers-0.14.0.tgz#cd47241c9e702b8eca3a322630eefe1a178f578c"

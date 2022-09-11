@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { UseWalletProvider } from "@albs1/use-wallet";
 import { Slide, ToastContainer } from "react-toastify";
 import Script from "next/script";
@@ -14,11 +14,24 @@ import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./core/Footer";
 import {AdminWrapper} from "../context/AdminContext";
+import { AdobeFonts } from 'react-adobe-fonts'
+
 
 const SidebarWithNoSSR = dynamic(() => import("./Sidebar"), { ssr: false });
 
 export default function Layout({ children }) {
   const [menu, setMenu] = React.useState(false);
+    const [isLoading, setIsLoading] = useState(false)
+    const [isActive, setIsActive] = useState(false)
+
+    const onLoading = React.useCallback(() => {
+        setIsLoading(true)
+    }, [])
+
+    const onActive = React.useCallback(() => {
+        setIsLoading(false)
+        setIsActive(true)
+    }, [])
 
   useEffect(() => {
       ReactGA.initialize("G-EJSWG081YY");
@@ -27,7 +40,8 @@ export default function Layout({ children }) {
   return (
     <>
       <Script src="https://kit.fontawesome.com/92468525cf.js"></Script>
-      <Head>
+        <AdobeFonts kitId="dpt0pba" />
+        <Head>
         <title>Avatea Base Demo</title>
       </Head>
       <UseWalletProvider

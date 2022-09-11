@@ -5,13 +5,35 @@ module.exports = {
   ],
   theme: {
     extend: {
+            backgroundSize: {
+                'size-200': '200% 200%',
+            },
+            backgroundPosition: {
+                'pos-0': '0% 0%',
+                'pos-100': '100% 100%',
+            },
       fontFamily: {
-        poppins: ["Poppins"],
+        bilo: ["bilo"],
+          sofiaPro:["sofia-pro"]
       },
       colors: {
         'indigo': {
-            500: '#334a6f'
-        }
+            500: '#292e42'
+        },
+          'avatea-blue-dark': {
+            500: "#5ea8b5"
+          },
+          'avatea-yellow-dark': {
+            500:'#c4b082'
+          },
+          'avatea-blue-light': {
+            500: "#6ee0ff"
+          },
+          'avatea-yellow-light': {
+            500:'#ffde99'
+          }
+
+
       },
       width: {
         25: "6.25rem",
