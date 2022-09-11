@@ -14,6 +14,8 @@ import {APIReference, ArchitectureGuide, Installation, Plugins} from "../src/com
 
 import {usePageTitleContext} from "../src/context/PageTitleContext";
 import {useRouter} from "next/router";
+import Head from "next/head";
+import {TITLE_PREFIX} from "../src/helpers/constants";
 
 export default function Home() {
 
@@ -26,6 +28,10 @@ export default function Home() {
 
     return (
         <HomeWrapper>
+            <Head>
+                <title>{ TITLE_PREFIX }</title>
+                <meta property="og:title" content={`${TITLE_PREFIX}`} key="title" />
+            </Head>
             {/* header */}
             <div className="grid grid-cols-1 md-lg:grid-cols-2 rounded-xl p-5 bg-white gap-5">
                 <div className="flex flex-col items-center justify-between gap-5 md-lg:p-10">

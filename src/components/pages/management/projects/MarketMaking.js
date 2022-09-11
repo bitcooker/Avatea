@@ -155,10 +155,10 @@ export default function MarketMaking({vault, wallet, project, marketMakingPool})
 
     return (
         <div className="grid md-lg:grid-cols-2 gap-7.5">
-        <Card title="Activity">
+        <Card title="Dashboard">
             {/* Card Header */}
             <div className="card-header">
-                <h1 className="text-2xl"><i className="fa-solid fa-wave-pulse"></i> Activity</h1>
+                <h1 className="text-2xl"><i className="fa-solid fa-wave-pulse"></i> Dashboard</h1>
 
                 <div className="py-5.5 space-y-4.5">
                     <div className="flex justify-between">

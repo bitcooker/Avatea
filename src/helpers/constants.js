@@ -1,3 +1,4 @@
+export const TITLE_PREFIX = "Avatea | DeFi Market Making";
 export const CLOUD_2_TOKEN_ADDRESS = "0xB991Da4310CdeE737DE53E1C700c363c9aF69631";
 export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const DEFAULT_CHAIN_ID = process.env.NEXT_PUBLIC_DEFAULT_CHAIN_ID;

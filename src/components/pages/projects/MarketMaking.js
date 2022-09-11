@@ -330,7 +330,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                 </Modal>
             }
             <div className="grid md-lg:grid-cols-1 gap-7.5 max-w-[700px] lg:max-w-[900px] mx-auto">
-                <Card title="Activity" className={''}>
+                <Card title="Dashboard" className={''}>
 
                     {/* Card Header */}
                     <div className="card-header">

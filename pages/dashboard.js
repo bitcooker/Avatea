@@ -8,8 +8,10 @@ import {useEffect, useState} from "react";
 import helpers from "../src/helpers";
 import { usePageTitleContext } from "../src/context/PageTitleContext";
 import TransactionWrapper from "../src/components/pages/myActivity/Transaction/TransactionWrapper";
+import Head from "next/head";
+import {TITLE_PREFIX} from "../src/helpers/constants";
 
-export default function Activity() {
+export default function Dashboard() {
     const { setTitle } = usePageTitleContext();
     const wallet = useWallet();
     const [loaded,setIsLoaded] = useState(false);
@@ -17,7 +19,7 @@ export default function Activity() {
     
     
     useEffect(() => {
-        setTitle("Activity")
+        setTitle("Dashboard")
         if(wallet.isConnected()) {
             (async () => {
                 setProjects(await helpers.user.userActivity(wallet))
@@ -28,6 +30,10 @@ export default function Activity() {
 
     return (
         <>
+            <Head>
+                <title>Dashboard | { TITLE_PREFIX }</title>
+                <meta property="og:title" content={`Dashboard ${TITLE_PREFIX}`} key="title" />
+            </Head>
             {
                 wallet.status === "connected" ? (
                     <>

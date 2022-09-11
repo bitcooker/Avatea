@@ -2,7 +2,7 @@ import * as React from "react";
 import useLocalStorage from "use-local-storage";
 import ReactFlagsSelect from "react-flags-select";
 import 'react-image-crop/dist/ReactCrop.css'
-import { SOCIALDATA } from "../../src/helpers/constants";
+import {SOCIALDATA, TITLE_PREFIX} from "../../src/helpers/constants";
 // core components
 import SuccessModal from '../../src/components/core/SuccessModal';
 import InputEmpty from "../../src/components/core/Input/InputEmpty";
@@ -27,6 +27,7 @@ import NoSsr from "../../src/components/NoSsr";
 import { usePageTitleContext } from "../../src/context/PageTitleContext";
 import RichEditor from "../../src/components/core/RichEditor/RichEditor";
 import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
+import Head from "next/head";
 
 export default function Linked(props) {
     const wallet = useWallet();
@@ -377,6 +378,10 @@ export default function Linked(props) {
 
     return (
         <>
+            <Head>
+                <title>Onboarding | { TITLE_PREFIX }</title>
+                <meta property="og:title" content={`Create New Project | ${TITLE_PREFIX}`} key="title" />
+            </Head>
             {
                 wallet.status === "connected" ?  <NoSsr>
                     {Loading}

@@ -112,7 +112,7 @@ export default function Deposit({wallet, project, marketMakingPool, setTab}) {
                 </KPIWrapper>
             </Card>
             <div className={'grid grid-cols-1 md-lg:grid-cols-2 gap-4'}>
-                <Card title="Activity">
+                <Card title="Dashboard">
                     {/* Card Header */}
                     <div className=" card-content space-y-5 ">
                         <div className="space-y-2.5">

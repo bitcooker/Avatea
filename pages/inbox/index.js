@@ -17,6 +17,8 @@ import {usePageTitleContext} from "../../src/context/PageTitleContext";
 import Projects from "../../src/components/pages/myActivity/Projects";
 import Act from "../../src/components/pages/myActivity/Transaction/TransactionWrapper";
 import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
+import Head from "next/head";
+import {TITLE_PREFIX} from "../../src/helpers/constants";
 
 export default function Inbox(props) {
     const wallet = useWallet();
@@ -106,6 +108,10 @@ export default function Inbox(props) {
 
     return (
         <>
+            <Head>
+                <title>Inbox | {TITLE_PREFIX}</title>
+                <meta property="og:title" content={`Inbox | ${TITLE_PREFIX}`} key="title" />
+            </Head>
         {
             wallet.status === "connected" ? (
                 <>

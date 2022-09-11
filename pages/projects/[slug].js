@@ -19,6 +19,8 @@ import Info from "../../src/components/pages/projects/Info";
 import {usePageTitleContext} from '../../src/context/PageTitleContext';
 import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
 import Deposit from "../../src/components/pages/projects/Deposit";
+import Head from "next/head";
+import {TITLE_PREFIX} from "../../src/helpers/constants";
 
 const tabItems = ["Info", "Deposit & Withdraw", "Sustainable Trading", "Liquidity", "Vault", "Vesting"];
 
@@ -76,6 +78,10 @@ export default function ProjectDetail(props) {
     return (
         <motion.div initial={{opacity: 0}} transition={{duration: .7}} animate={{opacity: 1}}
                     className="space-y-7.5 pb-10">
+            <Head>
+                <title>{project.name} | { TITLE_PREFIX }</title>
+                <meta property="og:title" content={`${project.name} | ${TITLE_PREFIX}`} key="title" />
+            </Head>
             <Banner {...project} />
             {/* Tab menu */}
             <div ref={tabRef} className="flex justify-center">

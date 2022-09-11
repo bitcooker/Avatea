@@ -25,6 +25,8 @@ import ManagementAuthentication from "../../../../src/components/pages/managemen
 import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
 import ButtonWithApproval from "../../../../src/components/core/Button/ButtonWithApproval";
 import useLocalStorage from "use-local-storage";
+import Head from "next/head";
+import {TITLE_PREFIX} from "../../../../src/helpers/constants";
 
 
 export default function VestingAdd(props) {
@@ -162,209 +164,217 @@ export default function VestingAdd(props) {
 
 
     return (
-        <ManagementAuthentication wallet={wallet} project={project}>
-            <div className="relative flex flex-col min-h-[70vh] md-lg:min-h-[85vh] space-y-7.5">
-                <div className="flex flex-row items-center justify-between">
-                    <h1 className="text-2xl">Vesting Overview</h1>
-                    {step === 1 &&
-                        <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
-                            <div className={'grid grid-cols-2 gap-2.5'}>
-                                <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
-
-                                <ButtonFit>
-                                    <a href={'/vesting-template.csv'} download={true}>
-                                        <i className={'fa-solid fa-cloud-arrow-up'}/> Download CSV Template
-                                    </a>
-                                </ButtonFit>
-
-                            </div>
-
-                        </div>
-                    }
-                </div>
-                <div className="flex flex-col grow p-5 space-y-3.75 bg-white rounded-2xl">
-                    <div className="grow">
+        <>
+            <Head>
+                <title>{project.name} | Add Vesting | Management</title>
+                <meta property="og:title" content={`${project.name} | Add Vesting | ${TITLE_PREFIX}`} key="title" />
+                <meta name="robots" content="noindex" />
+            </Head>
+            <ManagementAuthentication wallet={wallet} project={project}>
+                <div className="relative flex flex-col min-h-[70vh] md-lg:min-h-[85vh] space-y-7.5">
+                    <div className="flex flex-row items-center justify-between">
+                        <h1 className="text-2xl">Vesting Overview</h1>
                         {step === 1 &&
-                            <div className={'grid grid-cols-1 gap-2.5'}>
-                                <FileInput label="Upload vesting distribution" setValue={handleFileSelect} fileName={fileName} setFileName={setFileName}
-                                           type={[".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values"]}/>
-                                <div className="flex items-center rounded bg-blue-500 text-white text-sm font-bold px-4 py-3"
-                                     role="alert">
-                                    <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
-                                         viewBox="0 0 20 20">
-                                        <path
-                                            d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z"/>
-                                    </svg>
-                                    <p>Token amount should be entered in the CSV as whole amounts. For example; to receive 1.000 tokens. Enter 1000 as
-                                        amount.</p>
+                            <div className="absolute w-full -bottom-16 md-lg:w-fit md-lg:static">
+                                <div className={'grid grid-cols-2 gap-2.5'}>
+                                    <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()}/>
+
+                                    <ButtonFit>
+                                        <a href={'/vesting-template.csv'} download={true}>
+                                            <i className={'fa-solid fa-cloud-arrow-up'}/> Download CSV Template
+                                        </a>
+                                    </ButtonFit>
+
                                 </div>
-                            </div>
 
-                        }
-                        {step === 2 &&
-                            <div
-                                className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
-                                <AddressAndAmountTable tokenImage={project.image} addresses={addresses} amounts={amounts}/>
-                                Total: {totalAmount} {project.ticker}
                             </div>
                         }
-                        {step === 3 &&
-                            <div
-                                className="grow md-lg:p-7.5 bg-white overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 mb-5">
-                                    <div>
-                                        <div className={'flex flex-row'}>
-                                            <label className={'pr-2'} htmlFor="batchname">Batchname</label>
+                    </div>
+                    <div className="flex flex-col grow p-5 space-y-3.75 bg-white rounded-2xl">
+                        <div className="grow">
+                            {step === 1 &&
+                                <div className={'grid grid-cols-1 gap-2.5'}>
+                                    <FileInput label="Upload vesting distribution" setValue={handleFileSelect} fileName={fileName} setFileName={setFileName}
+                                               type={[".csv, text/csv, application/vnd.ms-excel, application/csv, text/x-csv, application/x-csv, text/comma-separated-values, text/x-comma-separated-values"]}/>
+                                    <div className="flex items-center rounded bg-blue-500 text-white text-sm font-bold px-4 py-3"
+                                         role="alert">
+                                        <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 20 20">
+                                            <path
+                                                d="M12.432 0c1.34 0 2.01.912 2.01 1.957 0 1.305-1.164 2.512-2.679 2.512-1.269 0-2.009-.75-1.974-1.99C9.789 1.436 10.67 0 12.432 0zM8.309 20c-1.058 0-1.833-.652-1.093-3.524l1.214-5.092c.211-.814.246-1.141 0-1.141-.317 0-1.689.562-2.502 1.117l-.528-.88c2.572-2.186 5.531-3.467 6.801-3.467 1.057 0 1.233 1.273.705 3.23l-1.391 5.352c-.246.945-.141 1.271.106 1.271.317 0 1.357-.392 2.379-1.207l.6.814C12.098 19.02 9.365 20 8.309 20z"/>
+                                        </svg>
+                                        <p>Token amount should be entered in the CSV as whole amounts. For example; to receive 1.000 tokens. Enter 1000 as
+                                            amount.</p>
+                                    </div>
+                                </div>
 
-                                            <span className="relative flex flex-col items-center justify-center group">
+                            }
+                            {step === 2 &&
+                                <div
+                                    className="grow p-7.5 bg-white rounded-2xl overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
+                                    <AddressAndAmountTable tokenImage={project.image} addresses={addresses} amounts={amounts}/>
+                                    Total: {totalAmount} {project.ticker}
+                                </div>
+                            }
+                            {step === 3 &&
+                                <div
+                                    className="grow md-lg:p-7.5 bg-white overflow-hidden hover:scrollbar-thin hover:scrollbar-thumb-gray-200">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 mb-5">
+                                        <div>
+                                            <div className={'flex flex-row'}>
+                                                <label className={'pr-2'} htmlFor="batchname">Batchname</label>
+
+                                                <span className="relative flex flex-col items-center justify-center group">
                                                 <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
                                                 <Tooltip title="This is test tooltip"/>
                                             </span>
+                                            </div>
+                                            <InputEmpty
+                                                id="batchname"
+                                                name="batchname"
+                                                type="text"
+                                                placeholder="Enter a batchname"
+                                                value={batchName}
+                                                classNames={'mt-3'}
+
+                                                setValue={setBatchName}
+                                            />
                                         </div>
-                                        <InputEmpty
-                                            id="batchname"
-                                            name="batchname"
-                                            type="text"
-                                            placeholder="Enter a batchname"
-                                            value={batchName}
-                                            classNames={'mt-3'}
 
-                                            setValue={setBatchName}
-                                        />
-                                    </div>
+                                        <div>
+                                            <div className={'flex flex-row'}>
+                                                <label className={'pr-2'} htmlFor="start">Start</label>
 
-                                    <div>
-                                        <div className={'flex flex-row'}>
-                                            <label className={'pr-2'} htmlFor="start">Start</label>
-
-                                            <span className="relative flex flex-col items-center justify-center group">
+                                                <span className="relative flex flex-col items-center justify-center group">
                                                 <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
                                                 <Tooltip title="This is test tooltip"/>
                                             </span>
+                                            </div>
+                                            <div className="mt-3">
+                                                <DateTimePicker value={startDate} onChange={setStartDate} />
+                                            </div>
                                         </div>
-                                        <div className="mt-3">
-                                            <DateTimePicker value={startDate} onChange={setStartDate} />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className={'flex flex-row'}>
-                                            <label className={'pr-2'} htmlFor="cliff">Cliff {cliffInDays}</label>
+                                        <div>
+                                            <div className={'flex flex-row'}>
+                                                <label className={'pr-2'} htmlFor="cliff">Cliff {cliffInDays}</label>
 
-                                            <span className="relative flex flex-col items-center justify-center group">
+                                                <span className="relative flex flex-col items-center justify-center group">
                                                 <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
                                                 <Tooltip title="This is test tooltip"/>
                                             </span>
+                                            </div>
+                                            <InputTime
+                                                id="cliff"
+                                                name="cliff"
+                                                classNames={'mt-3'}
+                                                placeholder="Enter a cliff period in seconds "
+                                                value={cliff}
+                                                setValue={setCliff}
+                                                hideButton={true}
+                                            />
                                         </div>
-                                        <InputTime
-                                            id="cliff"
-                                            name="cliff"
-                                            classNames={'mt-3'}
-                                            placeholder="Enter a cliff period in seconds "
-                                            value={cliff}
-                                            setValue={setCliff}
-                                            hideButton={true}
-                                        />
-                                    </div>
-                                    <div>
-                                        <div className={'flex flex-row'}>
-                                            <label className={'pr-2'} htmlFor="duration">Duration {durationInDays}</label>
+                                        <div>
+                                            <div className={'flex flex-row'}>
+                                                <label className={'pr-2'} htmlFor="duration">Duration {durationInDays}</label>
 
-                                            <span className="relative flex flex-col items-center justify-center group">
+                                                <span className="relative flex flex-col items-center justify-center group">
                                                 <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
                                                 <Tooltip title="This is test tooltip"/>
                                             </span>
+                                            </div>
+                                            <InputTime
+                                                id="duration"
+                                                name="duration"
+                                                classNames={'mt-3'}
+                                                placeholder="Enter the duration in seconds"
+                                                value={duration}
+                                                setValue={setDuration}
+                                                hideButton={true}
+                                            />
                                         </div>
-                                        <InputTime
-                                            id="duration"
-                                            name="duration"
-                                            classNames={'mt-3'}
-                                            placeholder="Enter the duration in seconds"
-                                            value={duration}
-                                            setValue={setDuration}
-                                            hideButton={true}
-                                        />
-                                    </div>
 
-                                    <div>
-                                        <div className={'flex flex-row'}>
-                                            <label className={'pr-2'} htmlFor="slicePeriodSeconds">Slice Period in seconds {slicePeriodSecondsInDays}</label>
+                                        <div>
+                                            <div className={'flex flex-row'}>
+                                                <label className={'pr-2'} htmlFor="slicePeriodSeconds">Slice Period in seconds {slicePeriodSecondsInDays}</label>
 
-                                            <span className="relative flex flex-col items-center justify-center group">
+                                                <span className="relative flex flex-col items-center justify-center group">
                                                 <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
                                                 <Tooltip title="This is test tooltip"/>
                                             </span>
+                                            </div>
+                                            <InputTime
+                                                id="slicePeriodSeconds"
+                                                name="slicePeriodSeconds"
+                                                classNames={'mt-3'}
+                                                placeholder="Enter the slice period in seconds"
+                                                value={slicePeriodSeconds}
+                                                setValue={setSlicePeriodSeconds}
+                                                hideButton={true}
+                                            />
                                         </div>
-                                        <InputTime
-                                            id="slicePeriodSeconds"
-                                            name="slicePeriodSeconds"
-                                            classNames={'mt-3'}
-                                            placeholder="Enter the slice period in seconds"
-                                            value={slicePeriodSeconds}
-                                            setValue={setSlicePeriodSeconds}
-                                            hideButton={true}
-                                        />
-                                    </div>
-                                    {
-                                        isRevocableContract ? 
-                                        <div className="flex h-12.5 self-end">
-                                            <div className="flex gap-2 items-center">
-                                                <Checkbox
-                                                    setValue={setRevocable}
-                                                    initialValue={revocable}/>
-                                                
-                                                <div className={'flex flex-row'}>
-                                                    <label className={'pr-2'}>Should this batch be revocable?</label>
-                                                    <span className="relative flex flex-col items-center justify-center group">
+                                        {
+                                            isRevocableContract ?
+                                                <div className="flex h-12.5 self-end">
+                                                    <div className="flex gap-2 items-center">
+                                                        <Checkbox
+                                                            setValue={setRevocable}
+                                                            initialValue={revocable}/>
+
+                                                        <div className={'flex flex-row'}>
+                                                            <label className={'pr-2'}>Should this batch be revocable?</label>
+                                                            <span className="relative flex flex-col items-center justify-center group">
                                                         <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
                                                         <Tooltip title="This is test tooltip"/>
                                                     </span>
-                                                </div>
-                                            </div>
+                                                        </div>
+                                                    </div>
 
-                                        </div> : ""
+                                                </div> : ""
 
-                                    }
+                                        }
 
+                                    </div>
+
+
+                                    <VestingChart
+                                        amountVested="100"
+                                        cliff={parseInt(cliff) + parseInt(start)}
+                                        start={start}
+
+                                        duration={duration}
+                                        slicePeriodSeconds={slicePeriodSeconds}
+                                        ticker="%"
+                                    />
                                 </div>
-
-
-                                <VestingChart
-                                    amountVested="100"
-                                    cliff={parseInt(cliff) + parseInt(start)}
-                                    start={start}
-
-                                    duration={duration}
-                                    slicePeriodSeconds={slicePeriodSeconds}
-                                    ticker="%"
+                            }
+                        </div>
+                        <div className="flex flex-row space-x-5">
+                            {step > 1 &&
+                                <Button
+                                    name="Previous"
+                                    disabled={isLoading}
+                                    handleClick={() => {
+                                        setStep(step - 1)
+                                    }}
                                 />
-                            </div>
-                        }
-                    </div>
-                    <div className="flex flex-row space-x-5">
-                        {step > 1 &&
-                            <Button
-                                name="Previous"
-                                disabled={isLoading}
-                                handleClick={() => {
-                                    setStep(step - 1)
-                                }}
-                            />
-                        }
-                        {step < 3 ?
-                            <Button
-                                name="Next"
-                                disabled={!(addresses.length > 0)}
-                                handleClick={() => {
-                                    setStep(step + 1)
-                                }}
-                            /> :
-                            <ButtonWithApproval disabled={isLoading} isLoading={isLoading} name="Create Vesting batch - " handleClick={createVesting} address={marketMakingPool.address}
-                                                token={project.token} amount={totalAmount} ticker={project.ticker}/>
-                        }
+                            }
+                            {step < 3 ?
+                                <Button
+                                    name="Next"
+                                    disabled={!(addresses.length > 0)}
+                                    handleClick={() => {
+                                        setStep(step + 1)
+                                    }}
+                                /> :
+                                <ButtonWithApproval disabled={isLoading} isLoading={isLoading} name="Create Vesting batch - " handleClick={createVesting} address={marketMakingPool.address}
+                                                    token={project.token} amount={totalAmount} ticker={project.ticker}/>
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-        </ManagementAuthentication>
+            </ManagementAuthentication>
+
+        </>
 
     );
 }

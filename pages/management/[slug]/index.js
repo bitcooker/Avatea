@@ -21,6 +21,8 @@ import LiquidityMakerCard from "../../../src/components/pages/management/Liquidi
 import ManagementAuthentication from "../../../src/components/pages/management/ManagementAuthentication";
 
 import { usePageTitleContext } from "../../../src/context/PageTitleContext";
+import Head from "next/head";
+import {TITLE_PREFIX} from "../../../src/helpers/constants";
 
 const tabItems = ["Manage Project", "Market Making Pool","Liquidity Marker","Vault"];
 
@@ -56,6 +58,12 @@ export default function ManagementIndex(props) {
     }, [props, setTitle, slug]);
 
     return (
+        <>
+            <Head>
+                <title>{project.name} | Management</title>
+                <meta property="og:title" content={`${project.name} | ${TITLE_PREFIX}`} key="title" />
+                <meta name="robots" content="noindex" />
+            </Head>
             <ManagementAuthentication wallet={wallet} project={project}>
                 <div className="space-y-7.5">
                     <Banner {...project} />
@@ -80,7 +88,7 @@ export default function ManagementIndex(props) {
                         </Card>
                     ) : (
                         <>
-                            {tab === 0 && 
+                            {tab === 0 &&
                                 <div className="min-h-[370px]">
                                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.5 }}>
                                         <ManageProjectCard project={project} vault={vault}/>
@@ -112,6 +120,8 @@ export default function ManagementIndex(props) {
                     )}
                 </div>
             </ManagementAuthentication>
+
+        </>
     );
 }
 

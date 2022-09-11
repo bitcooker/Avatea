@@ -11,6 +11,8 @@ import { usePageTitleContext } from "../../src/context/PageTitleContext";
 import {useEffect} from "react";
 import helper from "../../src/helpers";
 import {useWallet} from "@albs1/use-wallet";
+import Head from "next/head";
+import {TITLE_PREFIX} from "../../src/helpers/constants";
 
 const farms = [
     {
@@ -61,6 +63,10 @@ export default function Farms(props) {
     
     return (
         <div className="flex flex-col gap-5 divide-y divide-dashed">
+            <Head>
+                <title>Farms | {TITLE_PREFIX}</title>
+                <meta property="og:title" content={`Farms | ${TITLE_PREFIX}`} key="title" />
+            </Head>
             {/*<div className="flex flex-col items-center justify-center gap-3">*/}
             {/*    <label className="text-2xl text-center font-medium">Stake LP tokens</label>*/}
             {/*    <Toggle label="Staked only" />*/}

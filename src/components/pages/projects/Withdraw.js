@@ -105,7 +105,7 @@ export default function Withdraw({wallet, project, marketMakingPool, setTab}) {
                              label={'contract'}/>
                 </KPIWrapper>
             </Card>
-            <Card title="Activity">
+            <Card title="Dashboard">
                 {/* Card Header */}
                 <div className=" card-content space-y-5 ">
                     <div className="space-y-2.5">

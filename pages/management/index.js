@@ -6,6 +6,8 @@ import {useEffect, useState} from "react";
 import {useWallet} from "@albs1/use-wallet";
 import helpers from "../../src/helpers";
 import {useAdminContext} from "../../src/context/AdminContext";
+import Head from "next/head";
+import {TITLE_PREFIX} from "../../src/helpers/constants";
 
 
 export default function Management() {
@@ -34,6 +36,10 @@ export default function Management() {
 
     return (
         <div>
+            <Head>
+                <title>Manage Projects | { TITLE_PREFIX }</title>
+                <meta property="og:title" content={`Manage Projects | ${TITLE_PREFIX}`} key="title" />
+            </Head>
             <div className="index">
                 {
                     isAdmin ? (

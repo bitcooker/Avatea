@@ -8,6 +8,8 @@ import ManagementAuthentication from "../../../../../../src/components/pages/man
 import ButtonOutlineFit from "../../../../../../src/components/core/Button/ButtonOutlineFit";
 import TransactionWrapper from "../../../../../../src/components/pages/myActivity/Transaction/TransactionWrapper";
 import * as React from "react";
+import Head from "next/head";
+import {TITLE_PREFIX} from "../../../../../../src/helpers/constants";
 
 
 export default function ProjectDetail(props) {
@@ -60,28 +62,35 @@ export default function ProjectDetail(props) {
     }, [wallet, marketMakingPool,address]);
 
     return (
-        <ManagementAuthentication wallet={wallet} project={project}>
-            <div className="space-y-7.5 mb-5 flex flex-col">
-                <div className={'max-w-[300px] float-right m-5 self-end'}>
-                    <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()} />
-                </div>
-                <div>
-                    <Vesting
-                        wallet={wallet}
-                        marketMakingPool={marketMakingPool}
-                        project={project}
-                        holdersMapping={holdersMapping}
-                        setAction={'revoke'}
-                        userAddress={address}
-                    />
-                </div>
+        <>
+            <Head>
+                <title>{project.name} | Vesting Overview | Management</title>
+                <meta property="og:title" content={`${project.name} | Vesting Overview | ${TITLE_PREFIX}`} key="title" />
+                <meta name="robots" content="noindex" />
+            </Head>
+            <ManagementAuthentication wallet={wallet} project={project}>
+                <div className="space-y-7.5 mb-5 flex flex-col">
+                    <div className={'max-w-[300px] float-right m-5 self-end'}>
+                        <ButtonOutlineFit name="Back" icon="fa-regular fa-arrow-left" handleClick={() => router.back()} />
+                    </div>
+                    <div>
+                        <Vesting
+                            wallet={wallet}
+                            marketMakingPool={marketMakingPool}
+                            project={project}
+                            holdersMapping={holdersMapping}
+                            setAction={'revoke'}
+                            userAddress={address}
+                        />
+                    </div>
 
-                <div className="space-y-3.75 lg:space-y-0 lg:grid lg:grid-cols-1 lg:gap-5">
-                    {/*<Chart />*/}
-                    <TransactionWrapper userAddress={address} projectSlug={slug} />
+                    <div className="space-y-3.75 lg:space-y-0 lg:grid lg:grid-cols-1 lg:gap-5">
+                        {/*<Chart />*/}
+                        <TransactionWrapper userAddress={address} projectSlug={slug} />
+                    </div>
                 </div>
-            </div>
-        </ManagementAuthentication>
+            </ManagementAuthentication>
+        </>
     );
 }
 

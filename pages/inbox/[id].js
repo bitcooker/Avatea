@@ -9,6 +9,8 @@ import Swal from "sweetalert2";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import ConnectYourWallet from "../../src/components/core/ConnectYourWallet";
+import Head from "next/head";
+import {TITLE_PREFIX} from "../../src/helpers/constants";
 
 export default function InboxDetail() {
     const router = useRouter();
@@ -47,6 +49,11 @@ export default function InboxDetail() {
 
     return (
         <>
+            <Head>
+                <title>Inbox | Message | {TITLE_PREFIX}</title>
+                <meta property="og:title" content={`Inbox | Message | ${TITLE_PREFIX}`} key="title" />
+                <meta name="robots" content="noindex" />
+            </Head>
             {
                 wallet.status === "connected" ? (
                         <div className="flex flex-col gap-5 p-4 md:p-10 min-h-[65vh] bg-white rounded-2.5xl">
