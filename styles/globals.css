@@ -8,7 +8,8 @@ body {
   font-size: 14px;
   line-height: 1.7em;
   font-weight: 400;
-  background: #ebf3ff;
+  background: #fffff5;
+  /*background: #ebf3ff;*/
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
     background-image: url("/pattern-1.png");
