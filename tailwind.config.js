@@ -13,8 +13,9 @@ module.exports = {
                 'pos-100': '100% 100%',
             },
       fontFamily: {
-        bilo: ["bilo"],
-          sofiaPro:["sofia-pro"]
+            bilo: ["bilo"],
+            sofiaPro:["sofia-pro"],
+            poppins: ["Poppins"]
       },
       colors: {
         'indigo': {
