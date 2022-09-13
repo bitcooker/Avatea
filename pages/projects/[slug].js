@@ -76,6 +76,18 @@ export default function ProjectDetail(props) {
         }
     }, [wallet, project]);
 
+    useEffect(() => {
+        const onHashChangeStart = (url) => {
+            setTab(parseInt(url.split('#')[1]));
+        };
+
+        router.events.on("hashChangeStart", onHashChangeStart);
+
+        return () => {
+            router.events.off("hashChangeStart", onHashChangeStart);
+        };
+    }, [router.events]);
+
     return (
         <motion.div initial={{opacity: 0}} transition={{duration: .7}} animate={{opacity: 1}}
                     className="space-y-7.5 pb-10">
