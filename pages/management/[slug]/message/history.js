@@ -4,22 +4,24 @@ import Link from "next/link";
 import moment from "moment";
 import hashicon from "hashicon"
 import Image from "next/image";
-
-// core components
-import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
-import {useWallet} from "@albs1/use-wallet";
-import helper from "../../../../src/helpers";
+import dynamic from "next/dynamic";
 import parse from "html-react-parser";
 import DOMPurify from "dompurify";
 import {useRouter} from "next/router";
-import Tooltip from "../../../../src/components/core/Tooltip/Tooltip";
-import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
+import {useWallet} from "@albs1/use-wallet";
+
+import helper from "../../../../src/helpers";
+
+// core components
+import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
 import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
 import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 
 // page components
+import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
 import SkeletonInbox from "../../../../src/components/pages/inbox/SkeletonInbox";
 
+const ReactTooltip = dynamic(() => import('react-tooltip'), { ssr: false });
 
 export default function Inbox(props) {
     const wallet = useWallet();
@@ -90,13 +92,14 @@ export default function Inbox(props) {
         };
         fetchMessages();
 
-    }, [wallet, project]);
+    }, [wallet, project, slug]);
 
     const Messages = React.useMemo(() => {
         const currentMessages = messages.filter((message, index) => index >= (currentPage - 1) * 10 && index < currentPage * 10 )
         return currentMessages.length ? currentMessages.map((message, index) => (
             <Link href={{pathname: `/management/cloud-project/message/` + message.id}} key={index}>
             <div className="flex p-4 gap-5 items-center hover:bg-gray-100/50 hover:cursor-pointer transition">
+                <ReactTooltip />
                 <div className="flex items-center gap-1">
                     <Image
                     src={hashicon(
@@ -117,8 +120,7 @@ export default function Inbox(props) {
                     {message.read_at ?
 
                         <span className="relative  flex-row group">
-                            <i className="fa-solid fa-eye fa-xs text-slate-600"></i>
-                            <Tooltip className={'top-0 left-5 py-0.5'} title={moment(message.read_at).format("llll")}/>
+                            <i data-tip={moment(message.read_at).format("llll")} className="fa-solid fa-eye fa-xs text-slate-600"></i>
                         </span>
 
                         :
@@ -139,7 +141,6 @@ export default function Inbox(props) {
 
     return (
         <ManagementAuthentication wallet={wallet} project={project}>
-
             <div className="flex flex-row items-center justify-between mb-5">
                 <h1 className="text-2xl">History</h1>
                 <div className="hidden w-full -bottom-16 md-lg:w-fit md-lg:flex">

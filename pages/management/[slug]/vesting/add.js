@@ -6,9 +6,14 @@ import {useWallet} from "@albs1/use-wallet";
 import Swal from "sweetalert2";
 import {useRouter} from "next/router";
 import moment from 'moment';
+import useLocalStorage from "use-local-storage";
+import dynamic from "next/dynamic";
+import Head from "next/head";
 
 import helper from "../../../../src/helpers";
 import helpers from "../../../../src/helpers";
+import {TITLE_PREFIX} from "../../../../src/helpers/constants";
+
 // core components
 import ButtonFit from "../../../../src/components/core/Button/ButtonFit";
 import Button from "../../../../src/components/core/Button/Button";
@@ -16,18 +21,16 @@ import InputEmpty from "../../../../src/components/core/Input/InputEmpty";
 import InputTime from "../../../../src/components/core/Input/InputTime";
 import Checkbox from "../../../../src/components/core/Checkbox/Checkbox";
 import AddressAndAmountTable from "../../../../src/components/pages/management/vesting/Table/AddressAndAmountTable";
-import Tooltip from '../../../../src/components/core/Tooltip/Tooltip';
 import DateTimePicker from '../../../../src/components/core/DateTimePicker/DateTimePicker';
+import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
+import ButtonWithApproval from "../../../../src/components/core/Button/ButtonWithApproval";
+
 // page components
 import FileInput from "../../../../src/components/pages/Linked/fileInput";
 import {VestingChart} from "../../../../src/components/pages/projects/Charts/VestingChart";
 import ManagementAuthentication from "../../../../src/components/pages/management/ManagementAuthentication";
-import ButtonOutlineFit from "../../../../src/components/core/Button/ButtonOutlineFit";
-import ButtonWithApproval from "../../../../src/components/core/Button/ButtonWithApproval";
-import useLocalStorage from "use-local-storage";
-import Head from "next/head";
-import {TITLE_PREFIX} from "../../../../src/helpers/constants";
 
+const ReactTooltip = dynamic(() => import('react-tooltip'), { ssr: false });
 
 export default function VestingAdd(props) {
 
@@ -86,15 +89,15 @@ export default function VestingAdd(props) {
 
     useEffect(() => {
         setCliffInDays(helpers.formatting.secondFormat(cliff, true))
-    }, [cliff]);
+    }, [cliff, setCliffInDays]);
 
     useEffect(() => {
         setDurationInDays(helpers.formatting.secondFormat(duration, true))
-    }, [duration]);
+    }, [duration, setDurationInDays]);
 
     useEffect(() => {
         setSlicePeriodSecondsInDays(helpers.formatting.secondFormat(slicePeriodSeconds, true))
-    }, [slicePeriodSeconds]);
+    }, [setSlicePeriodSecondsInDays, slicePeriodSeconds]);
 
     const handleFileSelect = (event) => {
 
@@ -170,6 +173,7 @@ export default function VestingAdd(props) {
                 <meta property="og:title" content={`${project.name} | Add Vesting | ${TITLE_PREFIX}`} key="title" />
                 <meta name="robots" content="noindex" />
             </Head>
+            <ReactTooltip />
             <ManagementAuthentication wallet={wallet} project={project}>
                 <div className="relative flex flex-col min-h-[70vh] md-lg:min-h-[85vh] space-y-7.5">
                     <div className="flex flex-row items-center justify-between">
@@ -225,8 +229,7 @@ export default function VestingAdd(props) {
                                                 <label className={'pr-2'} htmlFor="batchname">Batchname</label>
 
                                                 <span className="relative flex flex-col items-center justify-center group">
-                                                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
-                                                <Tooltip title="This is test tooltip"/>
+                                                <i data-tip="Please enter the batchname" className="fa-regular fa-circle-info text-sky-500 text-base cursor-pointer"/>
                                             </span>
                                             </div>
                                             <InputEmpty
@@ -236,7 +239,6 @@ export default function VestingAdd(props) {
                                                 placeholder="Enter a batchname"
                                                 value={batchName}
                                                 classNames={'mt-3'}
-
                                                 setValue={setBatchName}
                                             />
                                         </div>
@@ -246,8 +248,7 @@ export default function VestingAdd(props) {
                                                 <label className={'pr-2'} htmlFor="start">Start</label>
 
                                                 <span className="relative flex flex-col items-center justify-center group">
-                                                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
-                                                <Tooltip title="This is test tooltip"/>
+                                                <i data-tip="Please select start date" className="fa-regular fa-circle-info text-sky-500 text-base cursor-pointer"/>
                                             </span>
                                             </div>
                                             <div className="mt-3">
@@ -259,8 +260,7 @@ export default function VestingAdd(props) {
                                                 <label className={'pr-2'} htmlFor="cliff">Cliff {cliffInDays}</label>
 
                                                 <span className="relative flex flex-col items-center justify-center group">
-                                                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
-                                                <Tooltip title="This is test tooltip"/>
+                                                <i data-tip="This is Cliff" className="fa-regular fa-circle-info text-sky-500 text-base cursor-pointer"/>
                                             </span>
                                             </div>
                                             <InputTime
@@ -278,8 +278,7 @@ export default function VestingAdd(props) {
                                                 <label className={'pr-2'} htmlFor="duration">Duration {durationInDays}</label>
 
                                                 <span className="relative flex flex-col items-center justify-center group">
-                                                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
-                                                <Tooltip title="This is test tooltip"/>
+                                                <i data-tip="This is duration" className="fa-regular fa-circle-info text-sky-500 text-base cursor-pointer"/>
                                             </span>
                                             </div>
                                             <InputTime
@@ -298,8 +297,7 @@ export default function VestingAdd(props) {
                                                 <label className={'pr-2'} htmlFor="slicePeriodSeconds">Slice Period in seconds {slicePeriodSecondsInDays}</label>
 
                                                 <span className="relative flex flex-col items-center justify-center group">
-                                                <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
-                                                <Tooltip title="This is test tooltip"/>
+                                                <i data-tip="This is slice period in seconds" className="fa-regular fa-circle-info text-sky-500 text-base cursor-pointer"/>
                                             </span>
                                             </div>
                                             <InputTime
@@ -323,8 +321,7 @@ export default function VestingAdd(props) {
                                                         <div className={'flex flex-row'}>
                                                             <label className={'pr-2'}>Should this batch be revocable?</label>
                                                             <span className="relative flex flex-col items-center justify-center group">
-                                                        <i className="fa-regular fa-circle-info text-sky-500 text-base mt-0.5"/>
-                                                        <Tooltip title="This is test tooltip"/>
+                                                        <i data-tip="test tooltip" className="fa-regular fa-circle-info text-sky-500 text-base cursor-pointer"/>
                                                     </span>
                                                         </div>
                                                     </div>

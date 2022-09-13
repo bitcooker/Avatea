@@ -1,6 +1,8 @@
 import * as React from "react";
 import {useEffect, useState} from "react";
 import Image from "next/image";
+import ReactGA from "react-ga4";
+import dynamic from "next/dynamic";
 
 import helper from "../../../helpers";
 
@@ -10,15 +12,15 @@ import RangeSlider from "../../core/RangeSlider/RangeSlider";
 import Radio from "../../core/Radio/Radio";
 import Button from "../../core/Button/Button";
 import Modal from "../../core/modal/Modal";
+import KPIWrapper from "../../core/KPIWrapper";
+import KPICard from "../../core/KPICard";
 
 // page components
 import Card from "../projectDetail/Card/Card";
 import SkeletonMarketMaking from "./Skeleton/SkeletonMarketMaking";
-import KPICard from "../../core/KPICard";
-import KPIWrapper from "../../core/KPIWrapper";
 import HomeCard from "../../pages/Home/HomeCard";
-import Tooltip from "../../core/Tooltip/Tooltip";
-import ReactGA from "react-ga4";
+
+const ReactTooltip = dynamic(() => import('react-tooltip'), { ssr: false });
 
 const questions = [
     "How to guide - Please make a selection",
@@ -109,6 +111,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             initWalletConnected();
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [wallet]);
 
 
@@ -138,6 +141,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             };
             initWalletConnected();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [wallet.status, project]);
 
     useEffect(() => {
@@ -158,6 +162,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mode, pressure, priceLimit])
 
     useEffect(() => {
@@ -189,6 +194,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
             clearTimeout(timeout)
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mode, pressure, amountBaseTokenBalance, amountPairTokenBalance, marketMakingPool]);
 
     useEffect(() => {
@@ -253,6 +259,7 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
 
     return !load ? <SkeletonMarketMaking/> : (
         <>
+            <ReactTooltip />
             {/* magic modal */}
             {visibleMagicModal &&
                 <Modal
@@ -498,11 +505,9 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                                 {
                                                     Number(priceLimit) >= Number(tokenPrice) ?
                                                         <span className="relative  flex-row group">
-                                                     <i className="fa-solid fa-check-circle fa-xs text-green-400 transition-all delay-300"></i>
-                                                    <Tooltip className={' py-0.5'} title={'Above Current Price'}/>
+                                                     <i data-tip="Above current price" className="fa-solid fa-check-circle fa-xs text-green-400 transition-all delay-300 cursor-pointer"></i>
                                                 </span> : <span className="relative  flex-row group">
-                                                     <i className="fa-solid fa-warning fa-xs text-amber-500 transition-all delay-300"></i>
-                                                    <Tooltip className={' py-0.5'} title={'Below Current Price'}/>
+                                                     <i data-tip="Below current price" className="fa-solid fa-warning fa-xs text-amber-500 transition-all delay-300 cursor-pointer"></i>
                                                 </span>
                                                 }
 
@@ -514,11 +519,9 @@ export default function MarketMaking({wallet, project, marketMakingPool}) {
                                                 {
                                                     Number(priceLimit) <= Number(tokenPrice) ?
                                                         <span className="relative  flex-row group">
-                                                     <i className="fa-solid fa-check-circle fa-xs text-green-400 transition-all delay-300"></i>
-                                                    <Tooltip className={' py-0.5'} title={'Below Current Price'}/>
+                                                     <i data-tip="Below current price" className="fa-solid fa-check-circle fa-xs text-green-400 transition-all delay-300 cursor-pointer"></i>
                                                 </span> : <span className="relative  flex-row group">
-                                                     <i className="fa-solid fa-warning fa-xs text-amber-500 transition-all delay-300"></i>
-                                                    <Tooltip className={' py-0.5'} title={'Above Current Price'}/>
+                                                     <i data-tip="Above current price" className="fa-solid fa-warning fa-xs text-amber-500 transition-all delay-300 cursor-pointer"></i>
                                                 </span>
                                                 }
                                         </span>
