@@ -71,6 +71,17 @@ export default function Insights(props) {
 
     }, [project, slug]);
 
+    useEffect(() => {
+        const onHashChangeStart = (url) => {
+            setTab(parseInt(url.split('#')[1]));
+        };
+
+        router.events.on("hashChangeStart", onHashChangeStart);
+
+        return () => {
+            router.events.off("hashChangeStart", onHashChangeStart);
+        };
+    }, [router.events]);
 
     return (
         <>

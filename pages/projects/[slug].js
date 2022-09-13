@@ -56,6 +56,7 @@ export default function ProjectDetail(props) {
         else {
             fetchProject();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props, slug, setTitle]);
 
     useEffect(() => {
@@ -63,6 +64,7 @@ export default function ProjectDetail(props) {
         if (Object.keys(project).length !== 0) {
             fetchProject();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [project]);
 
 
@@ -74,7 +76,7 @@ export default function ProjectDetail(props) {
             };
             initWalletConnected();
         }
-    }, [wallet, project]);
+    }, [wallet, project, slug]);
 
     useEffect(() => {
         const onHashChangeStart = (url) => {
