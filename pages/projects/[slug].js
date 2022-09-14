@@ -90,6 +90,10 @@ export default function ProjectDetail(props) {
         };
     }, [router.events]);
 
+    useEffect(() => {
+        setTab(parseInt(router.asPath.split('#')[1]));
+    }, [router.asPath])
+
     return (
         <motion.div initial={{opacity: 0}} transition={{duration: .7}} animate={{opacity: 1}}
                     className="space-y-7.5 pb-10">
