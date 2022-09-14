@@ -91,7 +91,7 @@ export default function ProjectDetail(props) {
     }, [router.events]);
 
     useEffect(() => {
-        setTab(parseInt(router.asPath.split('#')[1]));
+        setTab(parseInt(router.asPath.search('#') === -1 ? 0 : router.asPath.split('#')[1]));
     }, [router.asPath])
 
     return (

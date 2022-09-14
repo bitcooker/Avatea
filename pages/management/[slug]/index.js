@@ -69,6 +69,10 @@ export default function ManagementIndex(props) {
         };
     }, [router.events]);
 
+    useEffect(() => {
+        setTab(parseInt(router.asPath.search('#') === -1 ? 0 : router.asPath.split('#')[1]));
+    }, [router.asPath])
+    
     return (
         <>
             <Head>
