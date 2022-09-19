@@ -1,73 +1,74 @@
 import * as React from "react";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 
-const ChartWithNoSSR = dynamic(
-    () => import('react-apexcharts'),
-    { ssr: false }
-  )
+const ChartWithNoSSR = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const options = {
     chart: {
-        type: 'area',
+        type: "area",
         stacked: false,
         height: 350,
         zoom: {
-            enabled: false
+            enabled: false,
         },
         toolbar: {
-            show: false
-        }
+            show: false,
+        },
     },
-    colors: ['#06b6d4'],
+    colors: ["#06b6d4"],
     stroke: {
-        width: 2
+        width: 2,
     },
     dataLabels: {
-        enabled: false
+        enabled: false,
     },
     markers: {
         size: 0,
     },
     fill: {
-        opacity: 0.5
+        opacity: 0.5,
     },
     yaxis: {
-        show: true
+        show: true,
     },
     xaxis: {
-        type: 'datetime',
+        type: "datetime",
+        labels: {
+            format: "dd/MM/yy",
+        },
     },
     tooltip: {
-        shared: false
+        shared: false,
+        x: {
+            show: true,
+            format: "dd/MM/yy HH:mm:ss",
+        },
     },
-}
+};
 
 export default function PriceAreaChart(props) {
-    const [series, setSeries] = React.useState()
+    const [series, setSeries] = React.useState();
 
     React.useEffect(() => {
         let values = [];
 
+        console.log(props.tickerData);
+
         props.tickerData.forEach((ticker) => {
-            values.push([new Date(ticker.timestamp).getTime(), ticker.value])
-        })
+            values.push([new Date(ticker.timestamp).getTime(), ticker.value]);
+        });
 
         setSeries([
             {
                 name: "Price",
-                data: values
-            }
-        ])
-    }, [props])
+                data: values,
+            },
+        ]);
+    }, [props]);
 
     const PriceChartMemo = React.useMemo(() => {
-        return series && <ChartWithNoSSR options={options} series={series} type="area" width="100%" height={320} />
-    }, [series])
+        return series && <ChartWithNoSSR options={options} series={series} type="area" width="100%" height={320} />;
+    }, [series]);
 
-
-    return (
-        <>
-            {PriceChartMemo}
-        </>
-    )
+    return <>{PriceChartMemo}</>;
 }
